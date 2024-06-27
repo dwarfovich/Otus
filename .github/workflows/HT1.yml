@@ -16,8 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build
-        run: cmake --build .
-      - name: List files
-        run: ls -la
+      - name: Create out dir and cd
+        run: mkdir Out && cd Out
+      - name: Configure and Build
+        run: cmake .. && cmake --build .  
+      - name: Run
+        run: ./Debug/hello_project
     
