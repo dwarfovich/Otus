@@ -1,0 +1,18 @@
+name: 'HT1 action'
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HT1/**'
+      - '.github/workflows/HT1.yaml'
+
+permissions:
+  actions: write
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The first job is running"
+    
