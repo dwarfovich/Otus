@@ -14,5 +14,10 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The first job is running"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: cmake --build .
+      -name: List files
+        run: ls -la
     
