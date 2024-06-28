@@ -1,6 +1,7 @@
 name: 'HT1 action'
 
 on:
+  workflow_dispatch
   push:
     paths:
       - 'HT1/**'
@@ -15,9 +16,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build & run
+      - name: Build
         working-directory: ./HT1/HelloProject
-        run: |
-          mkdir Build && cd Build && cmake .. && cmake --build .
-          ./hello_project
+        run: mkdir Build && cd Build && cmake .. && cmake --build .
+      - name: Run
+          ./HT1/HelloProject/Build/hello_project
     
