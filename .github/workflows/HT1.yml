@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Configure and Build
-         run: "mkdir Build && cd Build && cmake .. && cmake --build ."
+        run: mkdir Build && cd Build && cmake .. && cmake --build .
       - name: Run
-         run: ./hello_project
+        run: ./hello_project
     
