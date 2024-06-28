@@ -16,12 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Cd to HT1
-        run: cd HT1
-      - name: List files
-        run: ls -la
-      - name: Configure and Build
-        run: 'mkdir Build && cd Build && cmake .. && cmake --build .'
-      - name: Run
-        run: ./hello_project
+      - name: Build & run
+        working-directory: ./HT1
+        run: |
+          ls -la
+          mkdir Build && cd Build && cmake .. && cmake --build .
+          ./hello_project
     
