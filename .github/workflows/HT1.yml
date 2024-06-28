@@ -20,5 +20,5 @@ jobs:
         working-directory: ./HT1/HelloProject
         run: mkdir Build && cd Build && cmake .. && cmake --build .
       - name: Run
-          ./HT1/HelloProject/Build/hello_project
+        run: ./HT1/HelloProject/Build/hello_project
     
