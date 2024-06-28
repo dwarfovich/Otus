@@ -1,7 +1,6 @@
 name: 'HT1 action'
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - 'HT1/**'
@@ -19,7 +18,6 @@ jobs:
       - name: Build & run
         working-directory: ./HT1/HelloProject
         run: |
-          ls -la
           mkdir Build && cd Build && cmake .. && cmake --build .
           ./hello_project
     
