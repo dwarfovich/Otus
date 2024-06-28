@@ -19,7 +19,7 @@ jobs:
       - name: Create out dir and cd
         run: mkdir Out && cd Out
       - name: Configure and Build
-        run: cmake .. && cmake --build .  
+        run: mkdir Build && cd Build && cmake .. && cmake --build .
       - name: Run
-        run: ./Debug/hello_project
+        run: .hello_project
     
