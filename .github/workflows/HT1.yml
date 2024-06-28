@@ -10,7 +10,7 @@ permissions:
   actions: write
 
 jobs:
-  test-job:
+  build-and-run-job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
