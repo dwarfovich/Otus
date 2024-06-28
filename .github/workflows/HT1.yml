@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build & run
-        working-directory: ./HT1
+        working-directory: ./HT1/HelloProject
         run: |
           ls -la
           mkdir Build && cd Build && cmake .. && cmake --build .
