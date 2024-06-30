@@ -23,7 +23,7 @@ jobs:
         working-directory: ./HT1/HelloProject
         run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON .. && cmake --build . && ls -la
       - name: Create .deb package
-        working-directory: ./HT1/HelloProject
+        working-directory: ./HT1/HelloProject/Build
         run: cpack -G DEB
       - name: Run
         run: ./HT1/HelloProject/Build/hello_project
@@ -39,6 +39,7 @@ jobs:
           prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
+        working-directory: ./HT1/HelloProject/Build
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
