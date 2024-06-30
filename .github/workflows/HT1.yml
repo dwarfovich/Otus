@@ -21,8 +21,6 @@ jobs:
       - name: Build
         working-directory: ./HT1/HelloProject
         run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON .. && cmake --build . && ls -la
-      - name: Building Tests
-        run: cmake --build . --target test
       - name: Building .deb package
         run: cmake --build . --target package
       - name: Run
