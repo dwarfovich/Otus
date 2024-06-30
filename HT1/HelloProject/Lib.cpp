@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "Lib.h"
 
 #include "version.h"
 

@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(SOURCE_FILES main.cpp)
 
 add_executable(hello_project ${SOURCE_FILES} "HelloClass.h" "HelloClass.cpp")
-add_library(hello_project_lib lib.cpp)
+add_library(hello_project_lib Lib.cpp)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
@@ -22,7 +22,7 @@ target_link_libraries(hello_project PRIVATE
 
 if(USE_BOOST_TEST)
     find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-    add_executable(test_version test_version.cpp)
+    add_executable(test_version TestVersion.cpp)
 
     set_target_properties(test_version PROPERTIES
         CXX_STANDARD 14
@@ -47,7 +47,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-install(TARGETS hello_world RUNTIME DESTINATION bin)
+#install(TARGETS hello_world RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
