@@ -22,12 +22,11 @@ jobs:
       - name: Build
         working-directory: ./HT1/HelloProject
         #run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON .. && cmake --build . && ls -la
-        run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DSETUP_DEB_PACKAGE=ON .. && cmake --build . && ls -la
+        run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DSETUP_DEB_PACKAGE=ON .. && cmake --build .
       - name: Create .deb package
         working-directory: ./HT1/HelloProject/Build
         run: cpack -G DEB
-      - run: pwd
-      - name: Run
+      - name: Run hello_project
         run: ./HT1/HelloProject/Build/hello_project
       - name: Create Release
         id: create_release
@@ -39,8 +38,7 @@ jobs:
           release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
-      - run: ls -la
-      - name: Upload Release Asset
+      - name: Upload Release package
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
@@ -49,5 +47,15 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: HT1/HelloProject/Build/HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
           asset_name: HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+      - name: Upload Release app
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: HT1/HelloProject/Build/hello_project
+          asset_name: hello_project
           asset_content_type: application/vnd.debian.binary-package
     
