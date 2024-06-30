@@ -14,7 +14,7 @@ add_library(hello_project_lib lib.cpp)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
-configure_file(version.h.in version.h)
+configure_file(Version.h.in version.h)
 
 target_link_libraries(hello_project PRIVATE
     hello_project_lib
