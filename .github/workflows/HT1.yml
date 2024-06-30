@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install Boost
+        run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - name: Build
         working-directory: ./HT1/HelloProject
         run: mkdir Build && cd Build && cmake .. && cmake --build .
