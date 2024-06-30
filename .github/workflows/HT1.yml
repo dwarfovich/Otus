@@ -23,4 +23,14 @@ jobs:
         run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON .. && cmake --build . && ls -la
       - name: Run
         run: ./HT1/HelloProject/Build/hello_project
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
     
