@@ -20,7 +20,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - name: Build
         working-directory: ./HT1/HelloProject
-        run: mkdir Build && cd Build && cmake .. && cmake --build .
+        run: mkdir Build && cd Build && cmake cmake . -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON .. && cmake --build .
       - name: Run
         run: ./HT1/HelloProject/Build/hello_project
     
