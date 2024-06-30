@@ -39,7 +39,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release package
-        id: upload-release-asset
+        id: upload-package-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,7 +49,7 @@ jobs:
           asset_name: HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload Release app
-        id: upload-release-asset
+        id: upload-app-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,5 +57,5 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: HT1/HelloProject/Build/hello_project
           asset_name: hello_project
-          asset_content_type: application/vnd.debian.binary-package
+          asset_content_type: application/octet-stream
     
