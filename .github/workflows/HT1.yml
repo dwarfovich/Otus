@@ -26,6 +26,9 @@ jobs:
       - name: Create .deb package
         working-directory: ./HT1/HelloProject/Build
         run: cpack -G DEB
+      - name: Run tests
+        working-directory: ./HT1/HelloProject/Build
+        run: ./test_version
       - name: Run hello_project
         run: ./HT1/HelloProject/Build/hello_project
       - name: Create Release
