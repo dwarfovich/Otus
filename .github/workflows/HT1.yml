@@ -23,8 +23,8 @@ jobs:
         working-directory: HT1
         run: |
           mkdir Build-Ubuntu
-          cmake -DPATCH_VERSION=${{ github.run_number }} -DNUILD_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON -BBuild-Ubuntu
-          && cmake --build Build-Ubuntu
+          cmake -DPATCH_VERSION=${{ github.run_number }} -DBUILD_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON -BBuild-Ubuntu
+          cmake --build Build-Ubuntu
         #run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DSETUP_DEB_PACKAGE=ON .. && cmake --build .
       - name: Create .deb package
         working-directory: ./HT1/Build-Ubuntu
