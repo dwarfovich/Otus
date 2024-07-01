@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 	cout << "Hello, world!\n";
-	cout << "Lib: " << version() << '\n';
+	cout << "Version: " << version() << '\n';
 
 	return 0;
 }
