@@ -11,20 +11,23 @@ string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPERCASE)
 
 set(CMAKE_CXX_STANDARD 20)
 set(SOURCE_FILES main.cpp)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/bin>)
 
 add_executable(hello_project ${SOURCE_FILES})
 add_library(hello_project_lib lib.cpp)
 
-include_directories("${PROJECT_BINARY_DIR}")
-
-configure_file(project_meta_data.h.in project_meta_data.h)
+include_directories("${PROJECT_BINARY_DIR}/configured_files")
+configure_file(project_meta_data.h.in configured_files/project_meta_data.h)
 
 target_link_libraries(hello_project PRIVATE
     hello_project_lib
 )
 
 if(USE_BOOST_TEST)
-    find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+    find_package(Boost COMPONENTS REQUIRED unit_test_framework)
+    target_link_libraries (Boost_Tests_run Boost::unit_test_framework)
     add_executable(test_version test_version.cpp)
 
     set_target_properties(test_version PROPERTIES

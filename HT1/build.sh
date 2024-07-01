@@ -1,8 +1,5 @@
 #!/bin/sh
 
-mkdir -p BuildWsl
-cd BuildWsl
-cmake -DPATCH_VERSION=9999 -DUSE_BOOST_TEST=ON ..
-cmake --build . 
+cmake -DPATCH_VERSION=9999 -DUSE_BOOST_TEST=ON -BBuild-Wsl
+cmake --build Build-Wsl
 cpack -G DEB
-cd ..

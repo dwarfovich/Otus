@@ -1,6 +1,6 @@
 #include "lib.h"
 
-#include "version.h"
+#include "project_meta_data.h"
 
 int version() {
 	return PATCH_VERSION;
