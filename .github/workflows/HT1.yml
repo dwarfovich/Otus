@@ -29,6 +29,12 @@ jobs:
       - name: Run tests
         working-directory: ./HT1/HelloProject/Build
         run: ./test_version
+      - name: Check tests results
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run hello_project
         run: ./HT1/HelloProject/Build/hello_project
       - name: Create Release
