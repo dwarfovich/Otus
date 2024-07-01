@@ -33,6 +33,7 @@ jobs:
         working-directory: ./HT1/Build-Ubuntu/bin
         run: ./test_version
       - name: Check tests results
+        if: '!success()'
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
