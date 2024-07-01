@@ -21,7 +21,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - name: Build
         working-directory: ./HT1/HelloProject
-        run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DUSE_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON .. && cmake --build . && ls -la
+        run: |
+          mkdir Build-Ubuntu
+          cmake -DPATCH_VERSION=${{ github.run_number }} -DNUILD_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON -BBuild-Ubuntu
+          && cmake --build Build-Ubuntu
         #run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DSETUP_DEB_PACKAGE=ON .. && cmake --build .
       - name: Create .deb package
         working-directory: ./HT1/HelloProject/Build
