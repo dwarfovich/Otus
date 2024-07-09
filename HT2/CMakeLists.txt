@@ -10,6 +10,8 @@ if (POLICY CMP0141)
 endif()
 
 project ("HT2")
-
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
 # Include sub-projects.
 add_subdirectory ("HT2")
+
+
