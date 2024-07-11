@@ -14,7 +14,7 @@
 Submodules/
 
 # Build results
-Build*/
+[Bb]uild*/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -23,6 +23,7 @@ x64/
 x86/
 bld/
 [Bb]in/
+[Oo]ut/
 [Oo]bj/
 [Ll]og/
 Output/

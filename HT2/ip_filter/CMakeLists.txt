@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : CMake project for HT2, include source and define
+﻿# CMakeList.txt : CMake project for ip_filter, include source and define
 # project specific logic here.
 #
 
@@ -11,6 +11,9 @@ endif()
 
 # Tests and install targets.
 include(FetchContent)
+if (POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip

@@ -11,7 +11,7 @@ constexpr inline size_t partsCount = 4;
 constexpr inline char   delimiter  = '.';
 
 class Ip
-{
+{ 
 public:
     friend std::ostream &operator<<(std::ostream &input, const Ip &ip);
     friend std::istream &operator>>(std::istream &input, Ip &ip);
