@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <array>
 #include <tuple>
+#include <cinttypes>
 
 namespace ip {
 

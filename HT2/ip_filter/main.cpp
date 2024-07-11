@@ -4,6 +4,7 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
+#include <limits>
 
 #include "ip.h"
 
@@ -14,23 +15,23 @@ int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
     std::ifstream stream { "../../../ip_filter.tsv" };
-#else
-    std::istream& stream = std::cin;
-#endif // _DEBUG
     if (!stream.is_open()) {
         std::cerr << "Failed to open input stream\n";
         return 1;
     }
+#else
+    std::istream& stream = std::cin;
+#endif // _DEBUG
 
 #ifdef _DEBUG
     std::ofstream outStream { "../../../result.tsv" };
-#else
-    std::ostream& outStream = std::cout;
-#endif // _DEBUG
     if (!outStream.is_open()) {
         std::cerr << "Failed to open output stream\n";
         return 1;
     }
+#else
+    std::ostream& outStream = std::cout;
+#endif // _DEBUG
 
     auto [ips, success] = readIps(stream);
     if (!success) {
@@ -41,22 +42,26 @@ int main(int argc, char* argv[])
     using IpsIterator = decltype(ips)::iterator;
     std::vector<std::function<void(IpsIterator begin, IpsIterator end)>> jobs;
     jobs.push_back([&outStream](IpsIterator begin, IpsIterator end) {
+        if(begin == end){
+            return;
+        }
         std::sort(begin, end, std::greater());
-        std::for_each(begin, end, [&outStream](const auto& ip) {
-            outStream << ip << '\n';
+        outStream << *begin;
+        std::for_each(begin + 1, end, [&outStream](const auto& ip) {
+            outStream << '\n' << ip;
         });
     });
     jobs.push_back([&outStream](IpsIterator begin, IpsIterator end) {
         std::for_each(begin, end, [&outStream](const auto& ip) {
             if (ip[0] == 1) {
-                outStream << ip << '\n';
+                outStream << '\n' << ip;
             }
         });
     });
     jobs.push_back([&outStream](IpsIterator begin, IpsIterator end) {
         std::for_each(begin, end, [&outStream](const auto& ip) {
             if (ip[0] == 46 && ip[1] == 70) {
-                outStream << ip << '\n';
+                outStream << '\n' << ip;
             }
         });
     });
@@ -64,7 +69,7 @@ int main(int argc, char* argv[])
     jobs.push_back([&outStream](IpsIterator begin, IpsIterator end) {
         std::for_each(begin, end, [&outStream](const auto& ip) {
             if (ip[0] == 46 || ip[1] == 46 || ip[2] == 46 || ip[3] == 46) {
-                outStream << ip << '\n';
+                outStream << '\n' << ip;
             }
         });
     });
@@ -73,6 +78,8 @@ int main(int argc, char* argv[])
         job(ips.begin(), ips.end());
     }
     
+    outStream << std::endl;
+
     return 0;
 }
 
@@ -85,7 +92,7 @@ std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream)
         constexpr auto noLimit = std::numeric_limits<std::streamsize>::max();
         stream.ignore(noLimit, '\n');
     }
-    result.second = stream.fail();
+    result.second = !stream.fail();
 
     return result;
 }

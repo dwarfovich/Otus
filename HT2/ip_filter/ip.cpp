@@ -1,6 +1,7 @@
 #include "ip.h"
 
 #include <iostream>
+#include <limits>
 
 namespace ip {
 
