@@ -1,30 +1,15 @@
-﻿#include <sstream>
+#include "ip.h"
+
 #include <iostream>
-#include <array>
-#include <vector>
-#include <limits>
 
 namespace ip {
-
-constexpr inline size_t partsCount = 4;
-constexpr inline char   delimiter  = '.';
-
-class Ip
-{
-public:
-    friend std::ostream &operator<<(std::ostream &input, const Ip &ip);
-    friend std::istream &operator>>(std::istream &input, Ip &ip);
-
-private:
-    std::array<uint8_t, partsCount> values_ = {};
-};
 
 std::ostream &operator<<(std::ostream &output, const ip::Ip &ip)
 {
     for (size_t i = 0; i < partsCount; ++i) {
         output << static_cast<uint16_t>(ip.values_[i]);
         if (i != partsCount - 1) {
-            output << '.';
+            output << delimiter;
         }
     }
 
@@ -41,7 +26,7 @@ std::istream &operator>>(std::istream &input, Ip &ip)
             input.setstate(std::ios_base::failbit);
             return input;
         }
-        if (i != 3) {
+        if (i != partsCount - 1) {
             [[likely]] if (input.peek() == delimiter) {
                 input.ignore();
             } else {
@@ -54,17 +39,4 @@ std::istream &operator>>(std::istream &input, Ip &ip)
     return input;
 }
 
-} // namespace ip
-
-int main()
-{
-    std::stringstream ss { "1.2.3.4 23 wd\n11a.22.33.44 43 452" };
-    ip::Ip            ip;
-    std::string       skip;
-    while (ss >> ip) {
-        std::getline(ss, skip);
-        std::cout << ip << '\n';
-    }
-
-    return 0;
 }

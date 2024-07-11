@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (HT2 "HT2.cpp" )
+add_executable (HT2 "main.cpp"  "ip.h" "ip.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET HT2 PROPERTY CXX_STANDARD 20)
