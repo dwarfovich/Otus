@@ -10,9 +10,7 @@ if (POLICY CMP0141)
 endif()
 
 project ("ip_filter")
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Include sub-projects.
 add_subdirectory ("ip_filter")
-
-

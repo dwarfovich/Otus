@@ -14,7 +14,7 @@ std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream);
 int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
-    std::ifstream stream { "../../../ip_filter.tsv" };
+    std::ifstream stream { "../../../ip_filter_test1.tsv" };
     if (!stream.is_open()) {
         std::cerr << "Failed to open input stream\n";
         return 1;
@@ -92,7 +92,7 @@ std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream)
         constexpr auto noLimit = std::numeric_limits<std::streamsize>::max();
         stream.ignore(noLimit, '\n');
     }
-    result.second = !stream.fail();
-
+    result.second = !stream.bad();
+    
     return result;
 }

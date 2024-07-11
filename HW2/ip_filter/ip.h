@@ -25,6 +25,10 @@ public:
     constexpr bool           operator>(const Ip &rhs) const { return values_ > rhs.values_; }
     constexpr bool           operator>=(const Ip &rhs) const { return values_ >= rhs.values_; }
 
+    constexpr bool is(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4) const { 
+        return p1 == values_[0] && p2 == values_[1] && p3 == values_[2] && p4 == values_[3];
+    }
+
 private:
     std::array<uint8_t, partsCount> values_ = {};
 };

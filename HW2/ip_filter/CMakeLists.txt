@@ -5,9 +5,7 @@
 # Source to this project's executable.
 add_executable (ip_filter "main.cpp"  "ip.h" "ip.cpp")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ip_filter PROPERTY CXX_STANDARD 20)
-endif()
+set_property(TARGET ip_filter PROPERTY CXX_STANDARD 20)
 
 # Tests and install targets.
 include(FetchContent)
@@ -24,13 +22,15 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(
-  hello_test
-  hello_test.cc
+  ip_read_operator_test
+  "tests/ip_read_operator_test.cpp"
+  "ip.h" "ip.cpp"
 )
+set_property(TARGET ip_read_operator_test PROPERTY CXX_STANDARD 20)
 target_link_libraries(
-  hello_test
+  ip_read_operator_test
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(ip_read_operator_test)

@@ -24,14 +24,16 @@ std::istream &operator>>(std::istream &input, Ip &ip)
         [[unlikely]] if ((input >> t) && t <= std::numeric_limits<uint8_t>::max()) {
             ip.values_[i] = static_cast<uint8_t>(t);
         } else {
-            input.setstate(std::ios_base::failbit);
+            if (!input.eof()) {
+                input.setstate(std::ios_base::badbit);
+            }
             return input;
         }
         if (i != partsCount - 1) {
             [[likely]] if (input.peek() == delimiter) {
                 input.ignore();
             } else {
-                input.setstate(std::ios_base::failbit);
+                input.setstate(std::ios_base::badbit);
                 return input;
             }
         }
@@ -40,4 +42,4 @@ std::istream &operator>>(std::istream &input, Ip &ip)
     return input;
 }
 
-}
+} // namespace ip
