@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     using IpsIterator = decltype(ips)::iterator;
     std::vector<std::function<void(IpsIterator begin, IpsIterator end)>> jobs;
     jobs.push_back([&outStream](IpsIterator begin, IpsIterator end) {
-        if(begin == end){
+        if (begin == end) {
             return;
         }
         std::sort(begin, end, std::greater());
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
     for (const auto& job : jobs) {
         job(ips.begin(), ips.end());
     }
-    
+
     outStream << std::endl;
 
     return 0;
@@ -85,14 +85,14 @@ int main(int argc, char* argv[])
 
 std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream)
 {
+    static constexpr auto                noLimit = std::numeric_limits<std::streamsize>::max();
     std::pair<std::vector<ip::Ip>, bool> result;
     ip::Ip                               ip;
     while (stream >> ip) {
         result.first.push_back(std::move(ip));
-        constexpr auto noLimit = std::numeric_limits<std::streamsize>::max();
         stream.ignore(noLimit, '\n');
     }
     result.second = !stream.bad();
-    
+
     return result;
 }
