@@ -2,6 +2,46 @@
     "version": 3,
     "configurePresets": [
         {
+            "name": "linux-base",
+            "hidden": true,
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/linux",
+            "installDir": "${sourceDir}/build/linux/install",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "displayName": "Linux x64 Debug",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux x64 Debug",
+            "inherits": "linux-base",
+            "binaryDir": "${sourceDir}/build/linux-x64-debug",
+            "installDir": "${sourceDir}/build/linux-x64-debug/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux x64 Release",
+            "inherits": "linux-base",
+            "binaryDir": "${sourceDir}/build/linux-x64-release",
+            "installDir": "${sourceDir}/build/linux-x64-release/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
             "name": "windows-base",
             "hidden": true,
             "generator": "Ninja",
@@ -37,5 +77,18 @@
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
-    ]
+    ],
+    "buildPresets": [
+    {
+        "name": "linux-build-base",
+        "hidden": true,
+        "configurePreset": "release"
+    },
+    {
+      "name": "linux-build-release",
+      "displayName": "Build Release",
+      "inherits": "linux-build-base",
+      "configurePreset": "linux-release"
+    }
+  ]
 }
