@@ -40,6 +40,16 @@ jobs:
       - name: Run ip_filter
         working-directory: HW2
         run: '[[ $(cat ip_filter.tsv | ./build/linux-x64-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
       - name: Upload package
         id: upload-package-asset
         uses: actions/upload-release-asset@v1
