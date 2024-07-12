@@ -1,0 +1,76 @@
+name: 'HW2 action'
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HW2/**'
+      - '.github/workflows/HW2.yml'
+
+permissions:
+  actions: write
+  contents: write 
+
+jobs:
+  build-and-run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update apt-get
+        run: sudo apt-get update
+      - name: Build
+        working-directory: HW2
+        run: |
+          cmake --preset linux-release
+          cmake --build --preset linux-build-release
+        #   mkdir Build-Ubuntu
+        #   cmake -DPATCH_VERSION=${{ github.run_number }} -DBUILD_BOOST_TEST=ON -DSETUP_DEB_PACKAGE=ON -BBuild-Ubuntu
+        #   cmake --build Build-Ubuntu
+        #   run: mkdir Build && cd Build && cmake -DPATCH_VERSION=${{ github.run_number }} -DSETUP_DEB_PACKAGE=ON .. && cmake --build .
+    #   - name: Create .deb package
+    #     working-directory: ./HT1/Build-Ubuntu
+    #     run: cpack -G DEB
+    #   - name: Run tests
+    #     working-directory: ./HT1/Build-Ubuntu/bin
+    #     run: ./test_version
+    #   - name: Check tests results
+    #     if: '!success()'
+    #     run: |
+    #       gh run cancel ${{ github.run_id }}
+    #       gh run watch ${{ github.run_id }}
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   - name: Run hello_project
+    #     run: ./HT1/Build-Ubuntu/bin/hello_project
+    #   - name: Create Release
+    #     id: create_release
+    #     uses: actions/create-release@v1
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     with:
+    #       tag_name: ${{ github.run_number }}
+    #       release_name: Release ${{ github.run_number }}
+    #       draft: false
+    #       prerelease: false
+    #   - name: Upload Release package
+    #     id: upload-package-asset
+    #     uses: actions/upload-release-asset@v1
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     with:
+    #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #       asset_path: HT1/Build-Ubuntu/deb/HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
+    #       asset_name: HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
+    #       asset_content_type: application/vnd.debian.binary-package
+    #   - name: Upload Release app
+    #     id: upload-app-asset
+    #     uses: actions/upload-release-asset@v1
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     with:
+    #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #       asset_path: HT1/Build-Ubuntu/bin/hello_project
+    #       asset_name: hello_project
+    #       asset_content_type: application/octet-stream
+    # 
