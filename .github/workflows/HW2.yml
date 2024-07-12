@@ -27,53 +27,36 @@ jobs:
       - name: Build package
         working-directory: HW2/build/linux-x64-release
         run: cpack -B deb
+      - name: Run tests
+        working-directory: HW2$/build/linux-x64-release/bin/
+        run: ./ip_read_operator_test
+      - name: Check tests results
+        if: '!success()'
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run ip_filter
         working-directory: HW2
         run: '[[ $(cat ip_filter.tsv | ./build/linux-x64-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
-
-    #   - name: Create .deb package
-    #     working-directory: ./HT1/Build-Ubuntu
-    #     run: cpack -G DEB
-    #   - name: Run tests
-    #     working-directory: ./HT1/Build-Ubuntu/bin
-    #     run: ./test_version
-    #   - name: Check tests results
-    #     if: '!success()'
-    #     run: |
-    #       gh run cancel ${{ github.run_id }}
-    #       gh run watch ${{ github.run_id }}
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   - name: Run hello_project
-    #     run: ./HT1/Build-Ubuntu/bin/hello_project
-    #   - name: Create Release
-    #     id: create_release
-    #     uses: actions/create-release@v1
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     with:
-    #       tag_name: ${{ github.run_number }}
-    #       release_name: Release ${{ github.run_number }}
-    #       draft: false
-    #       prerelease: false
-    #   - name: Upload Release package
-    #     id: upload-package-asset
-    #     uses: actions/upload-release-asset@v1
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     with:
-    #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-    #       asset_path: HT1/Build-Ubuntu/deb/HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
-    #       asset_name: HelloTestPackage-0.0.${{ github.run_number }}-Linux.deb
-    #       asset_content_type: application/vnd.debian.binary-package
-    #   - name: Upload Release app
-    #     id: upload-app-asset
-    #     uses: actions/upload-release-asset@v1
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     with:
-    #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-    #       asset_path: HT1/Build-Ubuntu/bin/hello_project
-    #       asset_name: hello_project
-    #       asset_content_type: application/octet-stream
-    # 
+      - name: Upload package
+        id: upload-package-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: HW2/build/linux-x64-release/deb/ip_filter-1.0.0-Linux.deb
+          asset_name: ip_filter-1.0.0-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+      - name: Upload packet
+        id: upload-app-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: HW2/build/linux-x64-release/bin/ip_filter
+          asset_name: ip_filter
+          asset_content_type: application/octet-stream
