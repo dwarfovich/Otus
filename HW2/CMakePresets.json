@@ -90,5 +90,5 @@
       "inherits": "linux-build-base",
       "configurePreset": "linux-release"
     }
-  ]
+    ]
 }
