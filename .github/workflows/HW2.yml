@@ -28,7 +28,7 @@ jobs:
         working-directory: HW2/build/linux-x64-release
         run: cpack -B deb
       - name: Run tests
-        working-directory: HW2$/build/linux-x64-release/bin/
+        working-directory: HW2/build/linux-x64-release/bin/
         run: ./ip_read_operator_test
       - name: Check tests results
         if: '!success()'
