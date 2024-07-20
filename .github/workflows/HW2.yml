@@ -17,7 +17,7 @@ jobs:
       cmake_preset: linux-release
       cmake_build_preset: linux-build-release
       build_folder: linux-release
-      bin_path: build/${{ env.build_folder }}/bin/
+      bin_path: build/${{ build_folder }}/bin/
 
     runs-on: ubuntu-latest
     steps:
