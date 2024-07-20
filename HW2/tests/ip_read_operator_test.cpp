@@ -2,7 +2,7 @@
 #include <limits>
 #include <gtest/gtest.h>
 
-#include "../ip.h"
+#include "../include/ip.h"
 
 TEST(IpTest, ValidReadOperatorTest)
 {

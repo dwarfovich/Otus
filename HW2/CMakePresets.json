@@ -16,9 +16,6 @@
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
-            },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -45,7 +42,7 @@
             "name": "windows-base",
             "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/msvc-${presetName}",
+            "binaryDir": "${sourceDir}/build/${presetName}",
             "installDir": "${sourceDir}/build/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl.exe",
@@ -58,8 +55,8 @@
             }
         },
         {
-            "name": "x64-debug",
-            "displayName": "x64 Debug",
+            "name": "msvc-debug",
+            "displayName": "MSVC Debug",
             "inherits": "windows-base",
             "architecture": {
                 "value": "x64",
@@ -70,25 +67,41 @@
             }
         },
         {
-            "name": "x64-release",
-            "displayName": "x64 Release",
-            "inherits": "x64-debug",
+            "name": "msvc-release",
+            "displayName": "MSVC Release",
+            "inherits": "windows-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],
     "buildPresets": [
-    {
-        "name": "linux-build-base",
-        "hidden": true,
-        "configurePreset": "release"
-    },
-    {
-      "name": "linux-build-release",
-      "displayName": "Build Release",
-      "inherits": "linux-build-base",
-      "configurePreset": "linux-release"
-    }
+        {
+            "name": "linux-build-base",
+            "hidden": true,
+            "configurePreset": "release"
+        },
+        {
+          "name": "linux-build-release",
+          "displayName": "Build Release",
+          "inherits": "linux-build-base",
+          "configurePreset": "linux-release"
+        },
+        {
+            "name": "msvc-build-base",
+            "hidden": true
+        },
+        {
+          "name": "msvc-build-release",
+          "displayName": "Build MSVC Release",
+          "inherits": "msvc-build-base",
+          "configurePreset": "msvc-release"
+        },
+        {
+          "name": "msvc-build-debug",
+          "displayName": "Build MSVC Debug",
+          "inherits": "msvc-build-base",
+          "configurePreset": "msvc-debug"
+        }
     ]
 }

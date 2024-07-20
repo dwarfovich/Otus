@@ -1,7 +1,12 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
-cmake_minimum_required (VERSION 3.12)
+﻿cmake_minimum_required (VERSION 3.12)
+
+option(BUILD_TESTS "BuildTests" OFF)
+
+project ("ip_filter")
+add_executable (ip_filter "src/main.cpp" "src/ip.cpp" "include/ip.h")
+include_directories("include")
+
+set_property(TARGET ip_filter PROPERTY CXX_STANDARD 20)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -9,8 +14,24 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("ip_filter")
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set_target_properties(ip_filter
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
 
-# Include sub-projects.
-add_subdirectory ("ip_filter")
+# deb-package.
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_NAME "ip_filter")
+set(CPACK_PACKAGE_VERSION_ "1.0.0")
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/deb")
+include(CPack)
+
+# Tests.
+if(BuildTests)
+    add_subdirectory(tests)
+endif()
