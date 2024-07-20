@@ -24,7 +24,7 @@ set_target_properties(ip_filter
 # deb-package.
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_NAME "ip_filter")
-set(CPACK_PACKAGE_VERSION_ "1.0.0")
+set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 set(CPACK_PACKAGE_ARCHITECTURE "amd64")
 set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)
