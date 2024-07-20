@@ -27,8 +27,8 @@ jobs:
     steps:
       - name: Initialize variables
         run: |
-          echo "build_path=${{hw_path}}/${{build_folder}}" >> $GITHUB_ENV
-          echo "bin_path=${{build_path}}/${{release_folder}}/bin" >> $GITHUB_ENV
+          echo "build_path=${{env.hw_path}}/${{env.build_folder}}" >> $GITHUB_ENV
+          echo "bin_path=${{env.build_path}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,10 +50,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build package
-        working-directory: ${{build_path}}
+        working-directory: ${{env.build_path}}
         run: cpack -B deb
       - name: Run ip_filter
-        run: '[[ $(cat ${{hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+        run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
