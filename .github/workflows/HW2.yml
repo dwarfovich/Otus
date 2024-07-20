@@ -1,5 +1,7 @@
 name: 'HW2 action'
 
+define: &cmake_preset 'linux-release'
+
 on:
   workflow_dispatch:
   push:
@@ -13,6 +15,9 @@ permissions:
 
 jobs:
   build-and-run-job:
+    env:
+      cmake_preset: linux-release
+      cmake_build_preset: build-linux-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,8 +27,8 @@ jobs:
       - name: Build ip_filter
         working-directory: HW2
         run: |
-          cmake -DBuildTests=On --preset linux-release
-          cmake --build --preset linux-build-release
+          cmake -DBuildTests=On --preset $cmake_preset
+          cmake --build --preset $cmake_build_preset
       - name: Run tests
         working-directory: HW2/build/linux-release/bin/
         run: ./ip_read_operator_test
