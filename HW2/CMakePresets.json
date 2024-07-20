@@ -32,8 +32,8 @@
             "name": "linux-release",
             "displayName": "Linux x64 Release",
             "inherits": "linux-base",
-            "binaryDir": "${sourceDir}/build/linux-x64-release",
-            "installDir": "${sourceDir}/build/linux-x64-release/install",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/build/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
