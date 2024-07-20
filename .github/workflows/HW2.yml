@@ -25,8 +25,8 @@ jobs:
       - name: Build ip_filter
         working-directory: HW2
         run: |
-          cmake -DBuildTests=On --preset $cmake_preset
-          cmake --build --preset $cmake_build_preset
+          cmake -DBuildTests=On --preset ${{ env.cmake_preset }}
+          cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
         working-directory: HW2/build/linux-release/bin/
         run: ./ip_read_operator_test
