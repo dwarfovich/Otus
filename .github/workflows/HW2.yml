@@ -18,7 +18,7 @@ jobs:
       cmake_build_preset: linux-build-release
       build_folder: linux-release
       build_path: HW2/build/linux-release 
-      bin_path: HW2/build/linux-release/bin/
+      bin_path: HW2/build/linux-release/bin
 
     runs-on: ubuntu-latest
     steps:
