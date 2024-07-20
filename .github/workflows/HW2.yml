@@ -17,7 +17,8 @@ jobs:
       cmake_preset: linux-release
       cmake_build_preset: linux-build-release
       build_folder: linux-release
-      bin_path: build/${{ build_folder }}/bin/
+      build_path: HW2/build/linux-release 
+      bin_path: HW2/build/linux-release/bin/
 
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +32,7 @@ jobs:
           cmake -DBuildTests=On --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
-        working-directory: HW2/${{ env.bin_path }}
+        working-directory: ${{ env.bin_path }}
         run: ./ip_read_operator_test
       - name: Check tests results
         if: '!success()'
@@ -44,8 +45,7 @@ jobs:
         working-directory: HW2/build/${{ env.build_folder }}
         run: cpack -B deb
       - name: Run ip_filter
-        working-directory: HW2
-        run: '[[ $(cat ip_filter.tsv | ./build/${{ env.build_folder }}/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+        run: '[[ $(cat ip_filter.tsv | ${{ build_path/ip_filter } | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
