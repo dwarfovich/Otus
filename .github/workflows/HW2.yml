@@ -16,6 +16,8 @@ jobs:
     env:
       cmake_preset: linux-release
       cmake_build_preset: linux-build-release
+      build_folder: linux-release
+      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,7 +30,7 @@ jobs:
           cmake -DBuildTests=On --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
-        working-directory: HW2/build/linux-release/bin/
+        working-directory: HW2/build/${{ env.linux-release }}/bin/
         run: ./ip_read_operator_test
       - name: Check tests results
         if: '!success()'
@@ -38,11 +40,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build package
-        working-directory: HW2/build/linux-release
+        working-directory: HW2/build/${{ env.linux-release }}
         run: cpack -B deb
       - name: Run ip_filter
         working-directory: HW2
-        run: '[[ $(cat ip_filter.tsv | ./build/linux-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+        run: '[[ $(cat ip_filter.tsv | ./build/${{ env.linux-release }}/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -60,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-release/deb/ip_filter-1.0.0-Linux.deb
+          asset_path: HW2/build/${{ env.linux-release }}/deb/ip_filter-1.0.0-Linux.deb
           asset_name: ip_filter-1.0.0-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
@@ -70,6 +72,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-release/bin/ip_filter
+          asset_path: HW2/build/${{ env.linux-release }}/bin/ip_filter
           asset_name: ip_filter
           asset_content_type: application/octet-stream
