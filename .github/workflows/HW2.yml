@@ -35,7 +35,7 @@ jobs:
       - name: Update apt-get
         run: sudo apt-get update
       - name: Build ip_filter
-        working-directory: ${{hw_path}}
+        working-directory: ${{env.hw_path}}
         run: |
           cmake -DBuildTests=On --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
