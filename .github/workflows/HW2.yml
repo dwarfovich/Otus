@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build package
         working-directory: ${{env.build_path}}
-        run: cpack -B deb
+        run: cpack -G deb
       - name: Run ip_filter
         run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
