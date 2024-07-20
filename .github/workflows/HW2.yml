@@ -57,7 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-x64-release/deb/ip_filter-1.0.0-Linux.deb
+          asset_path: HW2/build/linux-release/deb/ip_filter-1.0.0-Linux.deb
           asset_name: ip_filter-1.0.0-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
@@ -67,6 +67,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-x64-release/bin/ip_filter
+          asset_path: HW2/build/linux-release/bin/ip_filter
           asset_name: ip_filter
           asset_content_type: application/octet-stream
