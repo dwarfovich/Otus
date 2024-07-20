@@ -22,11 +22,8 @@ jobs:
       - name: Build ip_filter
         working-directory: HW2
         run: |
-          cmake --preset linux-release
+          cmake -DBuildTests=On --preset linux-release
           cmake --build --preset linux-build-release
-      - name: Build package
-        working-directory: HW2/build/linux-x64-release
-        run: cpack -B deb
       - name: Run tests
         working-directory: HW2/build/linux-x64-release/bin/
         run: ./ip_read_operator_test
@@ -37,6 +34,9 @@ jobs:
           gh run watch ${{ github.run_id }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build package
+        working-directory: HW2/build/linux-x64-release
+        run: cpack -B deb
       - name: Run ip_filter
         working-directory: HW2
         run: '[[ $(cat ip_filter.tsv | ./build/linux-x64-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
