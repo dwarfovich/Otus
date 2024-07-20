@@ -15,7 +15,7 @@ jobs:
   build-and-run-job:
     env:
       cmake_preset: linux-release
-      cmake_build_preset: build-linux-release
+      cmake_build_preset: linux-build-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
