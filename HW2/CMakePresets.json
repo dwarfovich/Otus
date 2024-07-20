@@ -22,8 +22,8 @@
             "name": "linux-debug",
             "displayName": "Linux x64 Debug",
             "inherits": "linux-base",
-            "binaryDir": "${sourceDir}/build/linux-x64-debug",
-            "installDir": "${sourceDir}/build/linux-x64-debug/install",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/build/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }

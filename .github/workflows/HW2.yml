@@ -25,7 +25,7 @@ jobs:
           cmake -DBuildTests=On --preset linux-release
           cmake --build --preset linux-build-release
       - name: Run tests
-        working-directory: HW2/build/linux-x64-release/bin/
+        working-directory: HW2/build/linux-release/bin/
         run: ./ip_read_operator_test
       - name: Check tests results
         if: '!success()'
@@ -35,11 +35,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build package
-        working-directory: HW2/build/linux-x64-release
+        working-directory: HW2/build/linux-release
         run: cpack -B deb
       - name: Run ip_filter
         working-directory: HW2
-        run: '[[ $(cat ip_filter.tsv | ./build/linux-x64-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+        run: '[[ $(cat ip_filter.tsv | ./build/linux-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
