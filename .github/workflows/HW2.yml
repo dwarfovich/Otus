@@ -1,7 +1,5 @@
 name: 'HW2 action'
 
-define: &cmake_preset 'linux-release'
-
 on:
   workflow_dispatch:
   push:
