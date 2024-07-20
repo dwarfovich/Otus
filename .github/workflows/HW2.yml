@@ -47,7 +47,7 @@ jobs:
         run: '[[ $(cat ip_filter.tsv | ./build/${{ env.build_folder }}/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
