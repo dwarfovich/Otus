@@ -53,8 +53,6 @@ jobs:
         run: ./ip_read_operator_test
       - name: Check tests results
         if: ${{ env.build_tests && !success()}}
-      # if: ' eq(${{ env.build_tests}} true) && !success()'
-        # if: ' eq(${{ env.build_tests}} true) && !success()'
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
