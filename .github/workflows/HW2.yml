@@ -14,6 +14,7 @@ permissions:
 jobs:
   build-and-run-job:
     env:
+      homework_label: HW2
       cmake_preset: linux-release
       cmake_build_preset: linux-build-release
       hw_path: ./HW2
@@ -21,7 +22,9 @@ jobs:
       release_folder: linux-release
       # Variables to ppopulate in "Initialize variables" step
       build_path: 
-        
+      bin_path: 
+      build_path: 
+
     runs-on: ubuntu-latest
     steps:
       - name: Initialize variables
@@ -59,8 +62,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: HW2_${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: ${{ env.homework_label }}_${{ github.run_number }}
+          release_name: ${{ env.homework_label }} release ${{ github.run_number }}
           draft: false
           prerelease: false
       - name: Upload package
