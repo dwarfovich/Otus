@@ -20,18 +20,22 @@ jobs:
       hw_path: ./HW2
       build_folder: build
       release_folder: linux-release
-      # Variables to ppopulate in "Initialize variables" step
+      version_base: '1.0'
+      # Variables to populate in "Initialize variables" step
       build_path: 
       bin_path: 
       build_path: 
+      version
 
     runs-on: ubuntu-latest
     steps:
       - name: Initialize variables
         run: |
-          echo "build_path=${{env.hw_path}}/${{env.build_folder}}" >> $GITHUB_ENV
-          echo "bin_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
-          echo "deb_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/deb" >> $GITHUB_ENV
+          echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}" >> $GITHUB_ENV
+          echo "bin_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/bin" >> $GITHUB_ENV
+          echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
+          echo "version=${{version_base}}.${{ github.run_number }}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
       - name: Update apt-get
@@ -39,7 +43,7 @@ jobs:
       - name: Build ip_filter
         working-directory: ${{env.hw_path}}
         run: |
-          cmake -DBuildTests=On --preset ${{ env.cmake_preset }}
+          cmake -DBuildTests=On -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
         working-directory: ${{ env.bin_path }}
@@ -73,8 +77,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.deb_path }}/ip_filter-1.0.0-Linux.deb
-          asset_name: ip_filter-1.0.0-Linux.deb
+          asset_path: ${{ env.deb_path }}/ip_filter-${{ env.version }}-Linux.deb
+          asset_name: ip_filter-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
         id: upload-app-asset
