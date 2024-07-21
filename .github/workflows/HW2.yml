@@ -20,18 +20,16 @@ jobs:
       build_folder: build
       release_folder: linux-release
 
-      build_path: ./HW2/build
-      bin_path: ./HW2/build/linux-release/bin
       # build_path: HW2/build
       # bin_path: HW2/build/linux-release/bin
 
     runs-on: ubuntu-latest
     steps:
-      # - name: Initialize variables
-      #   run: |
-      #     echo "build_path=${{env.hw_path}}/${{env.build_folder}}" >> $GITHUB_ENV
-      #     echo "bin_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
-
+      - name: Initialize variables
+        run: |
+          echo "build_path=${{env.hw_path}}/${{env.build_folder}}" >> $GITHUB_ENV
+          echo "bin_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
+          echo "deb_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/deb" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
       - name: Update apt-get
@@ -73,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.build_path }}/deb/ip_filter-1.0.0-Linux.deb
+          asset_path: ${{ env.deb_path }}/ip_filter-1.0.0-Linux.deb
           asset_name: ip_filter-1.0.0-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
