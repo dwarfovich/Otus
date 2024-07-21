@@ -24,7 +24,7 @@ jobs:
       # Variables to populate in "Initialize variables" step
       build_path: 
       bin_path: 
-      build_path: 
+      deb_path:
       version:
 
     runs-on: ubuntu-latest
