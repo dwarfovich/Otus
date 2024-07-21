@@ -52,7 +52,7 @@ jobs:
         working-directory: ${{ env.bin_path }}
         run: ./ip_read_operator_test
       - name: Check tests results
-        if: '${{ env.build_tests }} && !success()'
+        if: '${{ env.build_tests == true}} && !success()'
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
