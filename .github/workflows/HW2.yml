@@ -28,7 +28,8 @@ jobs:
       - name: Initialize variables
         run: |
           echo "build_path=${{env.hw_path}}/${{env.build_folder}}" >> $GITHUB_ENV
-          echo "bin_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
+          # echo "bin_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
+          echo "bin_path=${{env.build_path}}/${{env.release_folder}}/bin" >> $GITHUB_ENV
           echo "deb_path=${{env.hw_path}}/${{env.build_folder}}/${{env.release_folder}}/deb" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
