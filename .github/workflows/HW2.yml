@@ -22,7 +22,7 @@ jobs:
       build_folder: build
       release_folder: linux-release
       version_base: '1.0'
-      build_tests: true
+      build_tests: ${{ true }}
       # Variables to populate in "Initialize variables" step
       build_path: 
       bin_path: 
@@ -52,7 +52,9 @@ jobs:
         working-directory: ${{ env.bin_path }}
         run: ./ip_read_operator_test
       - name: Check tests results
-        if: '${{ env.build_tests == true}} && !success()'
+        if: ${{ env.build_tests && !success()}}
+      # if: ' eq(${{ env.build_tests}} true) && !success()'
+        # if: ' eq(${{ env.build_tests}} true) && !success()'
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
