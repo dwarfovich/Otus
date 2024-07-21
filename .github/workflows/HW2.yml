@@ -22,6 +22,7 @@ jobs:
       build_folder: build
       release_folder: linux-release
       version_base: '1.0'
+      build_tests: true
       # Variables to populate in "Initialize variables" step
       build_path: 
       bin_path: 
@@ -44,7 +45,7 @@ jobs:
       - name: Build ip_filter
         working-directory: ${{env.hw_path}}
         run: |
-          cmake -DBuildTests=On -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
+          cmake -DBuildTests=${{ env.build_tests }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
         working-directory: ${{ env.bin_path }}
