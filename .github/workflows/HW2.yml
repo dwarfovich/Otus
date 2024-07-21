@@ -60,7 +60,7 @@ jobs:
         working-directory: ${{env.build_path}}/${{env.release_folder}}
         run: cpack -G DEB
       - name: Run ip_filter
-        run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/${{target_name}} | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+        run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/${{ env.target_name }} | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -78,8 +78,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.deb_path }}/${{target_name}}-${{ env.version }}-Linux.deb
-          asset_name: ${{target_name}}-${{ env.version }}-Linux.deb
+          asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
         id: upload-app-asset
@@ -88,6 +88,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.bin_path }}/${{target_name}}
-          asset_name: ${{target_name}}
+          asset_path: ${{ env.bin_path }}/${{ env.target_name }}
+          asset_name: ${{ env.target_name }}
           asset_content_type: application/octet-stream
