@@ -1,73 +1,78 @@
 ﻿#include <iostream>
-#include <vector>
+#include <map>
+#include <array>
 
 int allocsCounter = 0;
 
 template<class T>
-struct LinearAllocator
+struct ContiguousAllocator
 {
 public:
     using value_type = T;
 
-    LinearAllocator() noexcept{}
-    template<class U>
-    LinearAllocator(const LinearAllocator<U>&) noexcept
-    {}
+    ContiguousAllocator() noexcept {}
+    template<class T>
+    ContiguousAllocator(const ContiguousAllocator<T>&) noexcept
+    {
+    }
 
     T*   allocate(std::size_t n);
+    
     void deallocate(T* p, std::size_t n);
+
+private:
+    std::array<T, 10> memory;
+    size_t currentPos = 0;
 };
 
 int main(int argc, char* argv[])
 {
-    std::vector<int, LinearAllocator<int>> v (5, 7);
-    v.push_back(8);
-    v.push_back(8);
-    v.push_back(8);
-    v.push_back(8);
-    v.push_back(8);
-    v.push_back(8);
-    v.push_back(8);
-
-    for(auto i : v){
-        std::cout << i << std::endl;
+    std::map<int,int,std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
+    for (int i : {0, 9}){
+        map[i] = i;
     }
+
+    std::cout << "Map contents: \n";
+    for (const auto& [key, value] : map){
+        std::cout << key << " - " << value << '\n';
+    }
+
     std::cout << "Allocs count: " << allocsCounter << '\n';
 
     return 0;
 }
 
 template<class T, class U>
-constexpr bool operator==(const LinearAllocator<T>&, const LinearAllocator<U>&) noexcept
+constexpr bool operator==(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
 {
     return true;
 }
 
 template<class T, class U>
-constexpr bool operator!=(const LinearAllocator<T>&, const LinearAllocator<U>&) noexcept
+constexpr bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
 {
     return false;
 }
 
 template<typename T>
-T* LinearAllocator<T>::allocate(size_t size)
+T* ContiguousAllocator<T>::allocate(size_t size)
 {
     if (size == 0) {
         return nullptr;
     }
 
     ++allocsCounter;
-    return static_cast<T*>(std::malloc(size * sizeof(T)));
+    return &memory[currentPos++];
 }
 
 template<typename T>
-void LinearAllocator<T>::deallocate(T* ptr, size_t size)
+void ContiguousAllocator<T>::deallocate(T* ptr, size_t size)
 {
     (void)size;
 
     if (!ptr) {
         return;
     }
-
+return;
     std::free(ptr);
 }
