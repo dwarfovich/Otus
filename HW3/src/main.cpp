@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <map>
 #include <array>
+#include <utility>
+#include <vector>
 
 int allocsCounter = 0;
 
@@ -11,8 +13,8 @@ public:
     using value_type = T;
 
     ContiguousAllocator() noexcept {}
-    template<class T>
-    ContiguousAllocator(const ContiguousAllocator<T>&) noexcept
+    template<class U>
+    ContiguousAllocator(const ContiguousAllocator<U>&) noexcept
     {
     }
 
