@@ -59,7 +59,6 @@
             "name": "msvc-debug",
             "displayName": "MSVC Debug",
             "inherits": "windows-base",
-            
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -77,7 +76,7 @@
         {
             "name": "linux-build-base",
             "hidden": true,
-            "configurePreset": "release"
+            "configurePreset": "linux-release"
         },
         {
           "name": "linux-build-release",
