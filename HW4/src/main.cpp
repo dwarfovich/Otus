@@ -13,7 +13,7 @@ int main() {
     print_ip(v);
     std::list<int> l { 77, 88, 99, 909 };
     print_ip(l);
-    std::tuple<int, int> t;
+    std::tuple t {9,8,7,6,5};
     print_ip(t);
     std::pair<int, int> p;
     print_ip(p);
