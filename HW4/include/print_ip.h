@@ -27,3 +27,9 @@ void print_ip(const T& c)
     }
     std::cout << std::endl;
 }
+
+template<typename T, std::enable_if_t<(std::tuple_size<T>{} > 0), bool> = false>
+void print_ip(const T& t)
+{
+    std::cout << "tuple" << std::endl;
+}
