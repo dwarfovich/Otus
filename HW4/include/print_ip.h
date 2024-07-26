@@ -17,48 +17,43 @@ void print_ip(const T& str)
 template<typename T, std::enable_if_t<(sizeof(T::const_iterator) > 0) && !std::is_same_v<std::string, T>, bool> = false>
 void print_ip(const T& c)
 {
-    if(c.empty()){
+    if (c.empty()) {
         return;
     }
 
     std::cout << *c.cbegin();
-    for (auto i = ++c.cbegin(); i != c.cend(); ++i){
+    for (auto i = ++c.cbegin(); i != c.cend(); ++i) {
         std::cout << '.' << *i;
     }
     std::cout << std::endl;
 }
 
-//template<typename T, typename ... Ts>
-//void print_tuple_except_first(T head, Ts... args, bool ignore = true)
-//{
-//
-//    std::cout << std::get<i>(t);
-//}
+namespace details {
 
-template<std::size_t I, std::enable_if<I == 0, bool> = false, typename... Ts>
-void print(Ts ... ts)
+template<size_t I = 0, typename... Ts, typename std::enable_if_t<I == 0, bool>  = false>
+void printTuple(const std::tuple<Ts...>& tuple)
 {
-    std::cout << std::get<0>(ts);
-    print<1>(ts)
+    std::cout << std::get<0>(tuple);
+    printTupleAfter0<I + 1>(tuple);
 }
 
-template<std::size_t I, std::enable_if<(I > 0), bool> = false, typename T, typename... Ts>
-void print(T head, Ts... ts)
+template<size_t I, typename... Ts, typename std::enable_if_t<I == sizeof...(Ts), bool> = false>
+void printTupleAfter0(const std::tuple<Ts...>& tuple)
 {
-    std::cout << '.' << std::get<0>(ts);
-    constexpr if (I < std::tuple_size<T> {}){
-
-    }
+    return;
 }
 
-template<typename T, std::enable_if_t<(std::tuple_size<T>{} > 0), bool> = false>
+template<size_t I, typename... Ts, typename std::enable_if_t<(I < sizeof...(Ts)), bool> = false>
+void printTupleAfter0(const std::tuple<Ts...>& tuple)
+{
+    std::cout << '.' << get<I>(tuple);
+    printTupleAfter0<I + 1>(tuple);
+}
+
+} // namespace details
+
+template<typename T, std::enable_if_t<(std::tuple_size<T> {} > 0), bool> = false>
 void print_ip(const T& t)
 {
-    std::cout << "tuple" << std::endl;
-    std::cout << 
-    std::apply(
-        [](auto&&... args) {
-            ((std::cout << args << '\n'), ...);
-        },
-        t);
+    details::    printTuple(t);
 }

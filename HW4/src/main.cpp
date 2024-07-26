@@ -15,8 +15,8 @@ int main() {
     print_ip(l);
     std::tuple t {9,8,7,6,5};
     print_ip(t);
-    std::pair<int, int> p;
-    print_ip(p);
+    std::tuple t2 { 9, true };
+    print_ip(t2);
 
     return 0;
 }
