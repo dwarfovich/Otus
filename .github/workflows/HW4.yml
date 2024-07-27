@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'HW2/**'
-      - '.github/workflows/HW2.yml'
+      - 'HW4/**'
+      - '.github/workflows/HW4.yml'
 
 permissions:
   actions: write
