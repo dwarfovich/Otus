@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.12)
 
-option(BUILD_TESTS "BuildTests" OFF)
+option(BUILD_TESTS "BuildTests" ON)
 set(TARGET_NAME print_ip CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.4" CACHE INTERNAL "Version")
 
@@ -23,6 +23,7 @@ set_target_properties(${TARGET_NAME}
 )
 
 # Tests.
-if(BuildTests)
-    add_subdirectory(tests)
-endif()
+#if(BuildTests)
+#    add_subdirectory(tests)
+#endif()
+add_subdirectory(tests)
