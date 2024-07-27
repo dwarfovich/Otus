@@ -1,8 +1,9 @@
 ﻿cmake_minimum_required (VERSION 3.12)
 
 option(BUILD_TESTS "BuildTests" OFF)
+set(PROJECT_VERSION "0.0.3" CACHE INTERNAL "Version")
 
-project ("ip_filter")
+project ("ip_filter" VERSION ${PROJECT_VERSION})
 add_executable (ip_filter "src/main.cpp" "src/ip.cpp" "include/ip.h")
 include_directories("include")
 
@@ -24,7 +25,7 @@ set_target_properties(ip_filter
 # deb-package.
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_NAME "ip_filter")
-set(CPACK_PACKAGE_VERSION "1.0.0")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 set(CPACK_PACKAGE_ARCHITECTURE "amd64")
 set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)

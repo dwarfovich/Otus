@@ -13,41 +13,64 @@ permissions:
 
 jobs:
   build-and-run-job:
+    env:
+      target_name: ip_filter
+      homework_label: HW2
+      cmake_preset: linux-release
+      cmake_build_preset: linux-build-release
+      hw_path: ./HW2
+      build_folder: build
+      release_folder: linux-release
+      version_base: '1.0'
+      build_tests: ${{ true }}
+      # Variables to populate in "Initialize variables" step
+      build_path: 
+      bin_path: 
+      deb_path:
+      version:
+
     runs-on: ubuntu-latest
     steps:
+      - name: Initialize variables
+        run: |
+          echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}" >> $GITHUB_ENV
+          echo "bin_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/bin" >> $GITHUB_ENV
+          echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
+          echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
       - name: Update apt-get
         run: sudo apt-get update
       - name: Build ip_filter
-        working-directory: HW2
+        working-directory: ${{env.hw_path}}
         run: |
-          cmake -DBuildTests=On --preset linux-release
-          cmake --build --preset linux-build-release
+          cmake -DBuildTests=${{ env.build_tests }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
+          cmake --build --preset ${{ env.cmake_build_preset }}
       - name: Run tests
-        working-directory: HW2/build/linux-release/bin/
+        if: ${{ env.build_tests }}
+        working-directory: ${{ env.bin_path }}
         run: ./ip_read_operator_test
       - name: Check tests results
-        if: '!success()'
+        if: ${{ env.build_tests && !success()}}
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build package
-        working-directory: HW2/build/linux-release
-        run: cpack -B deb
+        working-directory: ${{env.build_path}}/${{env.release_folder}}
+        run: cpack -G DEB
       - name: Run ip_filter
-        working-directory: HW2
-        run: '[[ $(cat ip_filter.tsv | ./build/linux-release/bin/ip_filter | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
-      - name: Create release
+        run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/${{ env.target_name }} | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: ${{ env.homework_label }}_${{ github.run_number }}
+          release_name: ${{ env.homework_label }} release ${{ github.run_number }}
           draft: false
           prerelease: false
       - name: Upload package
@@ -57,8 +80,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-release/deb/ip_filter-1.0.0-Linux.deb
-          asset_name: ip_filter-1.0.0-Linux.deb
+          asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload packet
         id: upload-app-asset
@@ -67,6 +90,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: HW2/build/linux-release/bin/ip_filter
-          asset_name: ip_filter
+          asset_path: ${{ env.bin_path }}/${{ env.target_name }}
+          asset_name: ${{ env.target_name }}
           asset_content_type: application/octet-stream
