@@ -15,6 +15,7 @@ void print_ip_with_endl(const T& v)
 int main() {
     print_ip_with_endl(2130706433);
     print_ip_with_endl(char(1));
+    print_ip_with_endl(int64_t { 8875824491850138409 });
     using namespace std::string_literals;
     print_ip_with_endl("Hello, world!"s);
     std::vector<int> v {44,55,66};
