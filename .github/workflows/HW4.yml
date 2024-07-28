@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Initialize variables
         run: |
-          echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}" >> $GITHUB_ENV
+          echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}" >> $GITHUB_ENV
           echo "bin_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/bin" >> $GITHUB_ENV
           echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
           echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
@@ -53,7 +53,7 @@ jobs:
       - name: Run tests
         if: ${{ env.build_tests }}
         working-directory: ${{ env.bin_path }}
-        run: ctest --test-folder .
+        run: ctest --test-dir .
 
       - name: Check tests results
         if: ${{ env.build_tests && !success()}}
