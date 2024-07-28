@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Update apt-get
         run: sudo apt-get update
-      - name: Build ip_filter
+      - name: Build package ${{ env.target_name }}
         working-directory: ${{env.hw_path}}
         run: |
           cmake -DBuildTests=${{ env.build_tests }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
@@ -61,8 +61,8 @@ jobs:
       - name: Build package
         working-directory: ${{env.build_path}}/${{env.release_folder}}
         run: cpack -G DEB
-      - name: Run ip_filter
-        run: '[[ $(cat ${{env.hw_path}}/ip_filter.tsv | ${{ env.bin_path }}/${{ env.target_name }} | md5sum) == "24e7a7b2270daee89c64d3ca5fb3da1a  -" ]] && echo "MD5 are equal"'
+      - name: Run package ${{ env.target_name }}
+        run: '${{ env.bin_path }}/${{ env.target_name }}'
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
