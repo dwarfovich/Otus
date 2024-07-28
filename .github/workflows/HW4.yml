@@ -41,8 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update apt-get
-        run: sudo apt-get update
+      #- name: Update apt-get
+      #  run: sudo apt-get update
 
       - name: Build package ${{ env.target_name }}
         working-directory: ${{env.hw_path}}
@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         if: ${{ env.build_tests }}
-        working-directory: ${{ env.bin_path }}
+        working-directory: ${{ env.build_path }}
         run: ctest --test-dir .
 
       - name: Check tests results
