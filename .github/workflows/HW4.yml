@@ -104,7 +104,7 @@ jobs:
           asset_content_type: application/vnd.debian.binary-package
 
       - name: Create Doxygen
-        working-directory: ${{ env.hw_path }}
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
           doxyfile-path: ./Doxyfile
+          working-directory: ${{ env.hw_path }}
