@@ -23,6 +23,7 @@ set_target_properties(${TARGET_NAME}
 )
 
 # Tests.
-if(BuildTests)
-   add_subdirectory(tests)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif()

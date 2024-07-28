@@ -28,6 +28,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 Output/
+[Tt]esting
 
 # Vcpkg
 vcpkg_installed/
