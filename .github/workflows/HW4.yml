@@ -102,3 +102,9 @@ jobs:
           asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
+
+      - name: Create Doxygen
+        working-directory: ${{ env.hw_path }}
+        uses: mattnotmitt/doxygen-action@v1.1.0
+        with:
+          doxyfile-path: ./Doxyfile
