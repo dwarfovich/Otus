@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <tuple>
+#include <vector>
 #include <climits>
 
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = false>
@@ -25,7 +26,7 @@ void print_ip(const T& str)
     std::cout << str;
 }
 
-template<typename T, std::enable_if_t<(sizeof(T::const_iterator) > 0) && !std::is_same_v<std::string, T>, bool> = false>
+template<typename T, std::enable_if_t<(sizeof(typename T::const_iterator) > 0) && !std::is_same_v<std::string, T>, bool> = false>
 void print_ip(const T& c)
 {
     if (c.empty()) {
@@ -46,13 +47,6 @@ constexpr bool tuple_has_equal_types()
     return (std::is_same_v<Head, Tail> && ...);
 }
 
-template<size_t I = 0, typename... Ts, std::enable_if_t<I == 0, bool> = false>
-void print_tuple(const std::tuple<Ts...>& tuple)
-{
-    std::cout << std::get<0>(tuple);
-    print_tuple_except_first_element<I + 1>(tuple);
-}
-
 template<size_t I, typename... Ts, std::enable_if_t<I == sizeof...(Ts), bool> = false>
 void print_tuple_except_first_element(const std::tuple<Ts...>& tuple)
 {
@@ -63,6 +57,13 @@ template<size_t I, typename... Ts, std::enable_if_t<(I < sizeof...(Ts)), bool> =
 void print_tuple_except_first_element(const std::tuple<Ts...>& tuple)
 {
     std::cout << '.' << get<I>(tuple);
+    print_tuple_except_first_element<I + 1>(tuple);
+}
+
+template<size_t I = 0, typename... Ts, std::enable_if_t<I == 0, bool> = false>
+void print_tuple(const std::tuple<Ts...>& tuple)
+{
+    std::cout << std::get<0>(tuple);
     print_tuple_except_first_element<I + 1>(tuple);
 }
 

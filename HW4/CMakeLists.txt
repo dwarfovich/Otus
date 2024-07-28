@@ -6,7 +6,7 @@ set(PROJECT_VERSION "0.0.4" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 add_executable (${TARGET_NAME} "src/main.cpp" "include/print_ip.h")
-include_directories("include")
+include_directories("include/")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -23,7 +23,6 @@ set_target_properties(${TARGET_NAME}
 )
 
 # Tests.
-#if(BuildTests)
-#    add_subdirectory(tests)
-#endif()
-add_subdirectory(tests)
+if(BuildTests)
+   add_subdirectory(tests)
+endif()
