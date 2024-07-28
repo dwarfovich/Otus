@@ -1,4 +1,4 @@
-name: 'HW4 action'
+name: 'HW4 action 2'
 
 on:
   workflow_dispatch:

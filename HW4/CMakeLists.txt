@@ -22,6 +22,16 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
+# deb-package.
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_NAME "print_ip")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}/deb")
+include(CPack)
+
 # Tests.
 if(BUILD_TESTS)
     enable_testing()
