@@ -62,11 +62,14 @@ jobs:
           gh run watch ${{ github.run_id }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build package
-        working-directory: ${{env.build_path}}/${{env.release_folder}}
-        run: cpack -G DEB
-      - name: Run package ${{ env.target_name }}
+
+      - name: Run packet ${{ env.target_name }}
         run: '${{ env.bin_path }}/${{ env.target_name }}'
+
+      - name: Build package
+        working-directory: ${{env.build_path}}
+        run: cpack -G DEB
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -77,16 +80,7 @@ jobs:
           release_name: ${{ env.homework_label }} release ${{ github.run_number }}
           draft: false
           prerelease: false
-      - name: Upload package
-        id: upload-package-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
-          asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
-          asset_content_type: application/vnd.debian.binary-package
+
       - name: Upload packet
         id: upload-app-asset
         uses: actions/upload-release-asset@v1
@@ -97,3 +91,14 @@ jobs:
           asset_path: ${{ env.bin_path }}/${{ env.target_name }}
           asset_name: ${{ env.target_name }}
           asset_content_type: application/octet-stream
+
+      - name: Upload package
+        id: upload-package-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
