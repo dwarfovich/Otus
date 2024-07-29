@@ -4,7 +4,7 @@
 
 #include "print_ip.h"
 
-TEST(IpTest, ValidReadOperatorTest)
+TEST(Test, TestTest)
 {
     
 }

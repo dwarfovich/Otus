@@ -1,12 +1,12 @@
 ﻿cmake_minimum_required (VERSION 3.12)
 
-option(BUILD_TESTS "BuildTests" ON)
-set(TARGET_NAME print_ip CACHE INTERNAL "Target name")
-set(PROJECT_VERSION "0.0.4" CACHE INTERNAL "Version")
+option(BUILD_TESTS "BuildTests" OFF)
+set(TARGET_NAME allocator CACHE INTERNAL "Target name")
+set(PROJECT_VERSION "0.0.3" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
-add_executable (${TARGET_NAME} "src/main.cpp" "include/print_ip.h")
-include_directories("include/")
+add_executable (${TARGET_NAME} "src/main.cpp")
+# include_directories("include")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -22,18 +22,7 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
-# deb-package.
-set(CPACK_GENERATOR DEB)
-set(CPACK_PACKAGE_NAME "print_ip")
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
-set(CPACK_PACKAGE_ARCHITECTURE "amd64")
-set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)
-set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}/deb")
-include(CPack)
-
 # Tests.
-if(BUILD_TESTS)
-    enable_testing()
+if(BuildTests)
     add_subdirectory(tests)
 endif()

@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - 'HW4/**'
-      - '.github/workflows/HW4.yml'
+      - '.github/workflows/HW4.yml' 
 
 permissions:
   actions: write
@@ -102,3 +102,19 @@ jobs:
           asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
+
+      - name: Create Doxygen
+        uses: mattnotmitt/doxygen-action@v1.1.0
+        with:
+          doxyfile-path: ./Doxyfile
+          working-directory: ${{ env.hw_path }}
+
+      - name: GitHub Pages Deployment
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/html/
+          enable_jekyll: false
+          allow_empty_commit: false
+          force_orphan: true
+          publish_branch: gh-pages
