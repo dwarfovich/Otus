@@ -42,4 +42,18 @@ std::istream &operator>>(std::istream &input, Ip &ip)
     return input;
 }
 
+std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream)
+{
+    static constexpr auto                noLimit = std::numeric_limits<std::streamsize>::max();
+    std::pair<std::vector<ip::Ip>, bool> result;
+    ip::Ip                               ip;
+    while (stream >> ip) {
+        result.first.push_back(std::move(ip));
+        stream.ignore(noLimit, '\n');
+    }
+    result.second = !stream.bad();
+
+    return result;
+}
+
 } // namespace ip

@@ -1,14 +1,13 @@
-﻿cmake_minimum_required (VERSION 3.12)
+﻿add_library(ip STATIC
+   src/ip.cpp
+   include/ip_lib/ip.h
+)
 
-option(BUILD_TESTS "BuildTests" ON)
-set(PROJECT_VERSION "0.0.3" CACHE INTERNAL "Version")
-project (ip_filter_project VERSION ${PROJECT_VERSION})
+target_include_directories(ip
+    PUBLIC include
+    PRIVATE src include/ip_lib)
 
-add_subdirectory(ip_filter)
-add_subdirectory(ip_lib)
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+set_property(TARGET ip PROPERTY CXX_STANDARD 17)
 
 # cmake_minimum_required (VERSION 3.12)
 

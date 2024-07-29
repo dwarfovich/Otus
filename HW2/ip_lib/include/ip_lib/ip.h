@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <array>
 #include <tuple>
+#include <vector>
 #include <cinttypes>
 
 namespace ip {
@@ -18,12 +19,12 @@ public:
 
     constexpr uint8_t       &operator[](size_t i) { return values_[i]; }
     constexpr const uint8_t &operator[](size_t i) const { return values_[i]; }
-    constexpr bool           operator==(const Ip &rhs) const { return values_ == rhs.values_; }
-    constexpr bool           operator!=(const Ip &rhs) const { return values_ != rhs.values_; }
-    constexpr bool           operator<(const Ip &rhs) const { return values_ < rhs.values_; }
-    constexpr bool           operator<=(const Ip &rhs) const { return values_ <= rhs.values_; }
-    constexpr bool           operator>(const Ip &rhs) const { return values_ > rhs.values_; }
-    constexpr bool           operator>=(const Ip &rhs) const { return values_ >= rhs.values_; }
+    bool           operator==(const Ip &rhs) const { return values_ == rhs.values_; }
+    bool           operator!=(const Ip &rhs) const { return values_ != rhs.values_; }
+    bool           operator<(const Ip &rhs) const { return values_ < rhs.values_; }
+    bool           operator<=(const Ip &rhs) const { return values_ <= rhs.values_; }
+    bool           operator>(const Ip &rhs) const { return values_ > rhs.values_; }
+    bool           operator>=(const Ip &rhs) const { return values_ >= rhs.values_; }
 
     constexpr bool is(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4) const { 
         return p1 == values_[0] && p2 == values_[1] && p3 == values_[2] && p4 == values_[3];
@@ -32,5 +33,8 @@ public:
 private:
     std::array<uint8_t, partsCount> values_ = {};
 };
+
+// Returns vector of IPs and flag, that is true if some errors occured while reading stream.
+std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream);
 
 } // namespace ip
