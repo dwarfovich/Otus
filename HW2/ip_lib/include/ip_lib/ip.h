@@ -34,7 +34,7 @@ private:
     std::array<uint8_t, partsCount> values_ = {};
 };
 
-// Returns vector of IPs and flag, that is true if some errors occured while reading stream.
+// Returns vector of read IPs and flag, that is true if reading performed without errors.
 std::pair<std::vector<ip::Ip>, bool> readIps(std::istream& stream);
 
 } // namespace ip
