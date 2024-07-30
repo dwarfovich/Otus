@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
 add_executable(UnitTests 
-    ip_read_operator_test.cpp
+    ip_stream_operators_test.cpp
     test_ip_reading.cpp
 )
 target_link_libraries(UnitTests PUBLIC GTest::gtest_main ip)

@@ -16,8 +16,15 @@ TEST(IpTest, ValidReadOperatorTest)
         return ip.is(p1, p2, p3, p4);
     };
 
-    EXPECT_TRUE(isCorrectReadIp("1.1.1.1", 1,1,1,1));
     EXPECT_TRUE(isCorrectReadIp("0.0.0.0", 0, 0, 0, 0));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n1", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\na", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n2.2.2.2", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n ", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n 1", 1, 1, 1, 1));
+    EXPECT_TRUE(isCorrectReadIp("1.1.1.1\n 2.2.2.2", 1, 1, 1, 1));
     EXPECT_TRUE(isCorrectReadIp("255.255.255.255", 255, 255, 255, 255));
     EXPECT_TRUE(isCorrectReadIp("255.0.1.255", 255, 0, 1, 255));
     EXPECT_TRUE(isCorrectReadIp("0.255.255.0", 0, 255, 255, 0));
@@ -35,7 +42,7 @@ TEST(IpTest, InvalidReadOperatorTest)
         s.clear();
         s.str(std::move(ipStr));
         s >> ip;
-        return s.fail();
+        return s.fail() || s.bad();
     };
 
     EXPECT_TRUE(readFailed(""));
@@ -44,6 +51,13 @@ TEST(IpTest, InvalidReadOperatorTest)
     EXPECT_TRUE(readFailed("255.1"));
     EXPECT_TRUE(readFailed("255.255.255"));
     EXPECT_TRUE(readFailed("255.255.255."));
+    EXPECT_TRUE(readFailed("1. 1.1.1"));
+    EXPECT_TRUE(readFailed("1.\n1.1.1"));
+    EXPECT_TRUE(readFailed("1.1 . 1.1"));
+    EXPECT_TRUE(readFailed("1.1.1. 1"));
+    EXPECT_TRUE(readFailed("255.255.255.\n1"));
+    EXPECT_TRUE(readFailed("1\n1.1.1"));
+    EXPECT_TRUE(readFailed("1\n2.3.4.5"));
     EXPECT_TRUE(readFailed("0..0.1"));
     EXPECT_TRUE(readFailed("1...0"));
     EXPECT_TRUE(readFailed("256.0.0.1"));
@@ -59,4 +73,17 @@ TEST(IpTest, InvalidReadOperatorTest)
     EXPECT_TRUE(readFailed("1.1.1:1"));
     EXPECT_TRUE(readFailed("65535.1.1.1"));
     EXPECT_TRUE(readFailed("0.65536.1.1"));
+}
+
+TEST(IpTest, WriteOperatorTest)
+{
+    auto isIpWrittenCorrectly = [](ip::Ip ip, std::string expected){
+        std::stringstream ss {};
+        ss << ip;
+        return ss.str() == expected;
+    };
+
+    EXPECT_TRUE(isIpWrittenCorrectly({0, 0, 0, 0}, "0.0.0.0"));
+    EXPECT_TRUE(isIpWrittenCorrectly({ 1, 1, 1, 1 }, "1.1.1.1"));
+    EXPECT_TRUE(isIpWrittenCorrectly({ 255, 255, 255, 255 }, "255.255.255.255"));
 }
