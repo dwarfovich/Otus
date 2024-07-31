@@ -5,7 +5,7 @@
 #include <vector>
 #include <climits>
 
-/// Function print_ip prints a single value.
+/// @brief Function print_ip prints a single value.
 /// 
 /// This is an overloaded function that prints value of integral types.
 /// @param v Integer value to print.
@@ -24,7 +24,7 @@ void print_ip(const T& v)
     }
 }
 
-/// Function print_ip prints a single value.
+/// @brief Function print_ip prints a single value.
 ///
 /// This is an overloaded function that prints value of std::string.
 /// @param str String to print.
@@ -34,7 +34,7 @@ void print_ip(const T& str)
     std::cout << str;
 }
 
-/// Function print_ip prints a single value.
+/// @brief Function print_ip prints a single value.
 ///
 /// This is an overloaded function that prints value stored in container that supports one-directional const iterator
 /// (for example, std::list and std::vector).
@@ -82,7 +82,7 @@ void print_tuple(const std::tuple<Ts...>& tuple)
 
 } // namespace details
 
-/// Function print_ip prints a single value.
+/// @brief Function print_ip prints a single value.
 ///
 /// This is an overloaded function that prints value stored in tuple. Note: tuple has to has elements of the single type.
 /// @param tuple Tuple to print.

@@ -5,11 +5,11 @@
 
 #include "print_ip.h"
 
-/*! \mainpage Otus Homework 4 documentation
+/*! @mainpage Otus Homework 4 documentation
  *
- * \section intro_sec Introduction
+ * @section intro_sec Introduction
  *
- * This is the introduction.
+ * This is the best introduction to the best documentation ever.
  *
  */
 
