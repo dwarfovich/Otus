@@ -8,7 +8,7 @@
 /// Function print_ip prints a single value.
 /// 
 /// This is an overloaded function that prints value of integral types.
-/// @param v Integer value to print
+/// @param v Integer value to print.
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = false>
 void print_ip(const T& v)
 {
@@ -24,12 +24,21 @@ void print_ip(const T& v)
     }
 }
 
+/// Function print_ip prints a single value.
+///
+/// This is an overloaded function that prints value of std::string.
+/// @param str String to print.
 template<typename T, std::enable_if_t<std::is_same_v<std::string, T>, bool> = false>
 void print_ip(const T& str)
 {
     std::cout << str;
 }
 
+/// Function print_ip prints a single value.
+///
+/// This is an overloaded function that prints value stored in container that supports one-directional const iterator
+/// (for example, std::list and std::vector).
+/// @param c Container to print.
 template<typename T, std::enable_if_t<(sizeof(typename T::const_iterator) > 0) && !std::is_same_v<std::string, T>, bool> = false>
 void print_ip(const T& c)
 {
@@ -73,6 +82,10 @@ void print_tuple(const std::tuple<Ts...>& tuple)
 
 } // namespace details
 
+/// Function print_ip prints a single value.
+///
+/// This is an overloaded function that prints value stored in tuple. Note: tuple has to has elements of the single type.
+/// @param tuple Tuple to print.
 template<typename... Ts, std::enable_if_t<(sizeof...(Ts) > 0), bool> = false>
 void print_ip(const std::tuple<Ts...>& tuple)
 {
