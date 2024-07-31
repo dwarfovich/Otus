@@ -27,6 +27,7 @@ jobs:
       build_path: 
       bin_path: 
       deb_path:
+      tests_path:
       version:
 
     runs-on: ubuntu-latest
@@ -36,6 +37,7 @@ jobs:
           echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}" >> $GITHUB_ENV
           echo "bin_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/bin" >> $GITHUB_ENV
           echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
+          echo "tests_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/tests" >> $GITHUB_ENV
           echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Checkout
@@ -50,7 +52,7 @@ jobs:
       - name: Run tests
         if: ${{ env.build_tests }}
         working-directory: ${{ env.bin_path }}
-        run: ./ip_read_operator_test
+        run: ctest .
       - name: Check tests results
         if: ${{ env.build_tests && !success()}}
         run: |
