@@ -13,7 +13,6 @@
 #Submodules
 Submodules/
 
-[Dd]oc/
 .vscode
 # Build results
 [Bb]uild*/
