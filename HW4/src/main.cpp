@@ -5,6 +5,14 @@
 
 #include "print_ip.h"
 
+/*! \mainpage Otus Homework 4 documentation
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction.
+ *
+ */
+
 template<typename T>
 void print_ip_with_endl(const T& v)
 {
