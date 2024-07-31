@@ -5,6 +5,10 @@
 #include <vector>
 #include <climits>
 
+/// Function print_ip prints a single value.
+/// 
+/// This is an overloaded function that prints value of integral types.
+/// @param v Integer value to print
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = false>
 void print_ip(const T& v)
 {
