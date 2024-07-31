@@ -14,7 +14,7 @@ include(GoogleTest)
 add_executable(UnitTests 
     ip_stream_operators_test.cpp
     test_ip_reading.cpp
-)
+    test_filters.cpp)
 target_link_libraries(UnitTests PUBLIC GTest::gtest_main ip)
 
 gtest_discover_tests(UnitTests)

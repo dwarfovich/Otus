@@ -52,15 +52,44 @@ std::pair<std::vector<ip::Ip>, bool> readIps(std::istream &stream)
     static constexpr auto                noLimit = std::numeric_limits<std::streamsize>::max();
     std::pair<std::vector<ip::Ip>, bool> result;
     ip::Ip                               ip;
-    bool                                 he = false;
-    while (stream >> ip) {
-        he = stream.bad();
-        result.first.push_back(std::move(ip));
-        stream.ignore(noLimit, '\n');
+    try {
+        while (stream >> ip) {
+            result.first.push_back(std::move(ip));
+            stream.ignore(noLimit, '\n');
+        }
+    } catch (...) {
+        result.second = true;
     }
     result.second = !stream.bad();
 
     return result;
+}
+
+void filterPart0Is1(IpsConstIterator begin, IpsConstIterator end, std::ostream &outStream)
+{
+    std::for_each(begin, end, [&outStream](const auto &ip) {
+        if (ip[0] == 1) {
+            outStream << ip << '\n';
+        }
+    });
+}
+
+void filterPart0Is46AndPart1Is70(IpsConstIterator begin, IpsConstIterator end, std::ostream &outStream)
+{
+    std::for_each(begin, end, [&outStream](const auto &ip) {
+        if (ip[0] == 46 && ip[1] == 70) {
+            outStream << ip << '\n';
+        }
+    });
+}
+
+void filterAnyPartIs46(IpsConstIterator begin, IpsConstIterator end, std::ostream &outStream)
+{
+    std::for_each(begin, end, [&outStream](const auto &ip) {
+        if (ip[0] == 46 || ip[1] == 46 || ip[2] == 46 || ip[3] == 46) {
+            outStream << ip << '\n';
+        }
+    });
 }
 
 } // namespace ip

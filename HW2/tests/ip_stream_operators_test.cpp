@@ -77,13 +77,13 @@ TEST(IpTest, InvalidReadOperatorTest)
 
 TEST(IpTest, WriteOperatorTest)
 {
-    auto isIpWrittenCorrectly = [](ip::Ip ip, std::string expected){
+    auto isIpWrittenCorrectly = [](ip::Ip ip, std::string expected) {
         std::stringstream ss {};
         ss << ip;
         return ss.str() == expected;
     };
 
-    EXPECT_TRUE(isIpWrittenCorrectly({0, 0, 0, 0}, "0.0.0.0"));
+    EXPECT_TRUE(isIpWrittenCorrectly({ 0, 0, 0, 0 }, "0.0.0.0"));
     EXPECT_TRUE(isIpWrittenCorrectly({ 1, 1, 1, 1 }, "1.1.1.1"));
     EXPECT_TRUE(isIpWrittenCorrectly({ 255, 255, 255, 255 }, "255.255.255.255"));
 }
