@@ -123,6 +123,7 @@ jobs:
 
       # Build the HTML documentation
       - name: Doxygen Action
+        working-directory: ${{env.build_path}}
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
           doxyfile-path: ./Doxyfile
@@ -130,6 +131,7 @@ jobs:
     
       # Deploy the HTML documentation to GitHub Pages
       - name: GH Pages Deployment
+        working-directory: ${{env.build_path}}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
