@@ -3,8 +3,6 @@ name: 'HW4 action'
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     paths:
       - 'HW4/**'
       - '.github/workflows/HW4.yml' 
