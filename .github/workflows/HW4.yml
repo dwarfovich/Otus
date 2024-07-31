@@ -118,3 +118,8 @@ jobs:
           allow_empty_commit: false
           force_orphan: true
           publish_branch: gh-pages
+
+      - name: Publish Doxygen documentation
+        uses: DenverCoder1/doxygen-github-pages-action@v1.3.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
