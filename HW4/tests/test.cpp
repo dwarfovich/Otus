@@ -190,6 +190,9 @@ TEST(PrintIpTest, CheckUint64)
     print_ip(uint64_t(-281'474'976'710'656));
     ASSERT_EQ(outStream.str(), "255.255.0.0.0.0.0.0");
     outStream.str("");
+    print_ip(uint64_t(-281'474'976'645'121));
+    ASSERT_EQ(outStream.str(), "255.255.0.0.0.0.255.255");
+    outStream.str("");
 
     std::cout.rdbuf(oldbuf);
 }
