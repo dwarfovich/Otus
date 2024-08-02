@@ -12,7 +12,7 @@
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = false>
 void print_ip(const T& v)
 {
-    std::cout << +std::make_unsigned_t<T>(v >> (sizeof(v) - 1) * CHAR_BIT);
+    std::cout << +static_cast<uint8_t>(v >> (sizeof(v) - 1) * CHAR_BIT);
     if (sizeof(v) == 1) {
         return;
     }
