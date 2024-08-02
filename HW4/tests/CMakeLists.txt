@@ -9,19 +9,19 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest) 
 
-add_executable(sanity_check "sanity_check.cpp" "../include/print_ip.h")
+add_executable(tests "test.cpp" "../include/print_ip.h")
 
-set_target_properties(sanity_check
+set_target_properties(tests
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
-set_property(TARGET sanity_check PROPERTY CXX_STANDARD 20)
+set_property(TARGET tests PROPERTY CXX_STANDARD 20)
 target_link_libraries(
-  sanity_check
+  tests
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(sanity_check)
+gtest_discover_tests(tests)
