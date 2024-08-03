@@ -1,6 +1,7 @@
 #include <sstream>
 #include <limits>
 #include <vector>
+#include <list>
 
 #include <gtest/gtest.h>
 

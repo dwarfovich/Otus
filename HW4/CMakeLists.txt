@@ -6,6 +6,7 @@ set(PROJECT_VERSION "0.0.4" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 add_executable (${TARGET_NAME} "src/main.cpp" "include/print_ip.h")
+install(TARGETS ${TARGET_NAME} DESTINATION bin)
 include_directories("include/")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 
