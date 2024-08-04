@@ -3,6 +3,7 @@
 #include <array>
 #include <utility>
 #include <vector>
+#include <memory>
 
 int allocsCounter = 0;
 
@@ -19,13 +20,12 @@ public:
     }
     ~ContiguousAllocator() noexcept
     {
-        if (memory) {
+        if (mem) {
             for (size_t i = 0; i < currentPos; i += sizeof(T)) {
-                std::cout << "dctor at: " << (void*)&memory[i] << '\n';
-                (reinterpret_cast<T*>(&memory[i]))->~T();
+                std::cout << "dctor at: " << (void*)&(mem[i]) << '\n';
+                reinterpret_cast<T*>(&(mem[i]))->~T();
             }
         }
-        delete [] memory;
     }
 
     T* allocate(std::size_t n)
@@ -35,14 +35,14 @@ public:
         }
 
         ++allocsCounter;
-        if (!memory) {
-            memory = new char[1000];
-            std::cout << "Alloc at: " << (void*)memory << std::endl;
+        if (!mem) {
+            mem = std::make_unique<char[]>(1000);
+            std::cout << "Alloc at: " << (void*)mem.get() << std::endl;
             std::cout << "sizeof pair: " << sizeof(std::pair<int, int>) << std::endl;
             std::cout << "sizeof T: " << sizeof(T) << std::endl;
         }
         std::cout << "allocate for " << n << std::endl;
-        auto prevPos = (T*)&memory[currentPos];
+        auto prevPos = (T*)&mem[currentPos];
         currentPos += sizeof(T) * n;
         std::cout << (void*)prevPos << std::endl;
         return prevPos;
@@ -51,7 +51,7 @@ public:
     void deallocate(T* p, std::size_t n) {}
 
 private:
-    char*  memory     = nullptr;
+    std::unique_ptr<char[]> mem = nullptr;
     size_t currentPos = 0;
 };
 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
     std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
     map[0] = 0;
 
-    for (int i : { 0, 4 }) {
+    for (int i : { 0,1,2,3, 4 }) {
         map[i] = i;
     }
 
