@@ -13,6 +13,7 @@
 #Submodules
 Submodules/
 
+.vscode
 # Build results
 [Bb]uild*/
 [Dd]ebug/
@@ -27,6 +28,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 Output/
+[Tt]esting/
 
 # Vcpkg
 vcpkg_installed/
