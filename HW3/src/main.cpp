@@ -17,25 +17,55 @@ public:
     ContiguousAllocator(const ContiguousAllocator<U>&) noexcept
     {
     }
+    ~ContiguousAllocator() noexcept
+    {
+        if (memory) {
+            for (size_t i = 0; i < currentPos; i += sizeof(T)) {
+                std::cout << "dctor at: " << (void*)&memory[i] << '\n';
+                (reinterpret_cast<T*>(&memory[i]))->~T();
+            }
+        }
+        delete [] memory;
+    }
 
-    T*   allocate(std::size_t n);
-    
-    void deallocate(T* p, std::size_t n);
+    T* allocate(std::size_t n)
+    {
+        if (n == 0) {
+            return nullptr;
+        }
+
+        ++allocsCounter;
+        if (!memory) {
+            memory = new char[1000];
+            std::cout << "Alloc at: " << (void*)memory << std::endl;
+            std::cout << "sizeof pair: " << sizeof(std::pair<int, int>) << std::endl;
+            std::cout << "sizeof T: " << sizeof(T) << std::endl;
+        }
+        std::cout << "allocate for " << n << std::endl;
+        auto prevPos = (T*)&memory[currentPos];
+        currentPos += sizeof(T) * n;
+        std::cout << (void*)prevPos << std::endl;
+        return prevPos;
+    }
+
+    void deallocate(T* p, std::size_t n) {}
 
 private:
-    std::array<T, 10> memory;
+    char*  memory     = nullptr;
     size_t currentPos = 0;
 };
 
 int main(int argc, char* argv[])
 {
-    std::map<int,int,std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
-    for (int i : {0, 9}){
+    std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
+    map[0] = 0;
+
+    for (int i : { 0, 4 }) {
         map[i] = i;
     }
 
     std::cout << "Map contents: \n";
-    for (const auto& [key, value] : map){
+    for (const auto& [key, value] : map) {
         std::cout << key << " - " << value << '\n';
     }
 
@@ -47,34 +77,11 @@ int main(int argc, char* argv[])
 template<class T, class U>
 constexpr bool operator==(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
 {
-    return true;
+    return false;
 }
 
 template<class T, class U>
 constexpr bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
 {
     return false;
-}
-
-template<typename T>
-T* ContiguousAllocator<T>::allocate(size_t size)
-{
-    if (size == 0) {
-        return nullptr;
-    }
-
-    ++allocsCounter;
-    return &memory[currentPos++];
-}
-
-template<typename T>
-void ContiguousAllocator<T>::deallocate(T* ptr, size_t size)
-{
-    (void)size;
-
-    if (!ptr) {
-        return;
-    }
-return;
-    std::free(ptr);
 }
