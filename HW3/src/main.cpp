@@ -14,16 +14,17 @@ public:
     using value_type = T;
 
     ContiguousAllocator() noexcept {}
-    template<class U>
+   /* template<class U>
     ContiguousAllocator(const ContiguousAllocator<U>&) noexcept
     {
-    }
+        int t = 34;
+    }*/
     ~ContiguousAllocator() noexcept
     {
         if (mem) {
             for (size_t i = 0; i < currentPos; i += sizeof(T)) {
-                std::cout << "dctor at: " << (void*)&(mem[i]) << '\n';
-                reinterpret_cast<T*>(&(mem[i]))->~T();
+                std::cout << "dctor at: " << (void*)&mem[i] << '\n';
+                reinterpret_cast<T*>(&mem[i])->~T();
             }
         }
     }
@@ -83,5 +84,5 @@ constexpr bool operator==(const ContiguousAllocator<T>&, const ContiguousAllocat
 template<class T, class U>
 constexpr bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
 {
-    return false;
+    return true;
 }
