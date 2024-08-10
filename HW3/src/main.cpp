@@ -1,88 +1,101 @@
-﻿#include <iostream>
-#include <map>
-#include <array>
-#include <utility>
+﻿#include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <new>
 #include <vector>
-#include <memory>
+#include <map>
 
-int allocsCounter = 0;
+inline static int allocatorsCount = 0;
 
 template<class T>
-struct ContiguousAllocator
+struct Mallocator
 {
-public:
-    using value_type = T;
+    int       allocatorIndex = 0;
+    typedef T value_type;
+    const size_t    size = 1000;
 
-    ContiguousAllocator() noexcept {}
-   /* template<class U>
-    ContiguousAllocator(const ContiguousAllocator<U>&) noexcept
+    Mallocator()
     {
-        int t = 34;
-    }*/
-    ~ContiguousAllocator() noexcept
-    {
-        if (mem) {
-            for (size_t i = 0; i < currentPos; i += sizeof(T)) {
-                std::cout << "dctor at: " << (void*)&mem[i] << '\n';
-                reinterpret_cast<T*>(&mem[i])->~T();
-            }
-        }
+        allocatorIndex = ++allocatorsCount;
+        memory         = (char*)malloc(size);
     }
 
-    T* allocate(std::size_t n)
-    {
-        if (n == 0) {
-            return nullptr;
-        }
+    Mallocator(const Mallocator& rhs){
+        allocatorIndex = ++allocatorsCount;
+        memory         = (char*)malloc(size);
+    }
+    Mallocator& operator=(const Mallocator&){
+        
+    }
+    Mallocator(const Mallocator&&)     {}
+    Mallocator& operator=(const Mallocator&&) {}
 
-        ++allocsCounter;
-        if (!mem) {
-            mem = std::make_unique<char[]>(1000);
-            std::cout << "Alloc at: " << (void*)mem.get() << std::endl;
-            std::cout << "sizeof pair: " << sizeof(std::pair<int, int>) << std::endl;
-            std::cout << "sizeof T: " << sizeof(T) << std::endl;
-        }
-        std::cout << "allocate for " << n << std::endl;
-        auto prevPos = (T*)&mem[currentPos];
-        currentPos += sizeof(T) * n;
-        std::cout << (void*)prevPos << std::endl;
-        return prevPos;
+    template<class U>
+    constexpr Mallocator(const Mallocator<U>&) noexcept
+    {
+        // number = ++counter;
     }
 
-    void deallocate(T* p, std::size_t n) {}
+    ~Mallocator()
+    {
+        if (!memory) {
+            return;
+        }
+        for (size_t i = 0; i < currentPos; i += sizeof(T)) {
+            ((T*)&memory[i])->~T();
+        }
+
+        free(memory);
+    }
+
+    [[nodiscard]] T* allocate(std::size_t n)
+    {
+        if (n > std::numeric_limits<std::size_t>::max() / sizeof(T))
+            throw std::bad_array_new_length();
+
+        const size_t tSize   = n * sizeof(T);
+        const auto   lastPos = currentPos;
+        report((T*)&memory[lastPos], n);
+        currentPos += tSize;
+        return reinterpret_cast<T*>(&memory[lastPos]);
+    }
+
+    void deallocate(T* p, std::size_t n) noexcept
+    {
+        report(p, n, 0);
+        //std::free(p);
+    }
 
 private:
-    std::unique_ptr<char[]> mem = nullptr;
+    void report(T* p, std::size_t n, bool alloc = true) const
+    {
+        std::cout << allocatorIndex << ": " << (alloc ? "Alloc: " : "Dealloc: ") << sizeof(T) * n << " bytes at "
+                  << std::hex << std::showbase << reinterpret_cast<void*>(p) << std::dec << '\n';
+    }
+
+    char*  memory     = nullptr;
     size_t currentPos = 0;
 };
 
-int main(int argc, char* argv[])
+template<class T, class U>
+bool operator==(const Mallocator<T>&, const Mallocator<U>&)
 {
-    std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
-    map[0] = 0;
-
-    for (int i : { 0,1,2,3, 4 }) {
-        map[i] = i;
-    }
-
-    std::cout << "Map contents: \n";
-    for (const auto& [key, value] : map) {
-        std::cout << key << " - " << value << '\n';
-    }
-
-    std::cout << "Allocs count: " << allocsCounter << '\n';
-
-    return 0;
+    return true;
 }
 
 template<class T, class U>
-constexpr bool operator==(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
+bool operator!=(const Mallocator<T>&, const Mallocator<U>&)
 {
     return false;
 }
 
-template<class T, class U>
-constexpr bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&) noexcept
+int main()
 {
-    return true;
+    std::vector<int, Mallocator<int>> v(8);
+    v.push_back(42);
+   /* std::map<int, int, std::greater<int>, Mallocator<std::pair<const int, int>>> map;
+    map[0] = 0;
+    map[1] = 1;*/
+
+    return 0;
 }
