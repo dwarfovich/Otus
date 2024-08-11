@@ -7,14 +7,16 @@
 #include <memory>
 #include <cstring>
 
-inline static int allocatorsCount = 0;
+int allocatorsCount = 0;
+int deallocCount    = 0;
+int dctorCount    = 0;
 
 template<class T>
 struct ContiguousAllocator
 {
-    int       allocatorIndex = 0;
-    typedef T value_type;
-    const size_t    size = 1000;
+    int allocatorIndex = 0;
+    using value_type   = T;
+    const size_t size  = 1000;
 
     ContiguousAllocator()
     {
@@ -22,19 +24,18 @@ struct ContiguousAllocator
         memory         = std::make_unique<char[]>(size);
     }
 
-    ContiguousAllocator(const ContiguousAllocator& rhs){
+    ContiguousAllocator(const ContiguousAllocator& rhs)
+    {
         allocatorIndex = ++allocatorsCount;
-        //memory         = (char*)malloc(size);
-        //memory = std::make_unique<char[]>(*rhs.memory.get());
-        //std::memcpy(memory.get(), rhs.memory.get(), size);
-        memory     = std::make_unique<char[]>(*(rhs.memory.get()));
-        currentPos = rhs.currentPos;
+        memory         = std::make_unique<char[]>(*(rhs.memory.get()));
+        currentPos     = rhs.currentPos;
     }
-    ContiguousAllocator& operator=(const ContiguousAllocator& rhs){
+    ContiguousAllocator& operator=(const ContiguousAllocator& rhs)
+    {
         std::memcpy(memory.get(), rhs.get(), memory, size);
         currentPos = rhs.currentPos;
     }
-    ContiguousAllocator(const ContiguousAllocator&&)     = delete;
+    ContiguousAllocator(const ContiguousAllocator&&)            = delete;
     ContiguousAllocator& operator=(const ContiguousAllocator&&) = delete;
 
     template<class U>
@@ -43,10 +44,7 @@ struct ContiguousAllocator
         // number = ++counter;
     }
 
-    ~ContiguousAllocator()
-    {
-        
-    }
+    ~ContiguousAllocator() {}
 
     [[nodiscard]] T* allocate(std::size_t n)
     {
@@ -63,11 +61,13 @@ struct ContiguousAllocator
     void deallocate(T* p, std::size_t n) noexcept
     {
         report(p, n, 0);
-        for (int i = 0; i < n; ++i){
+        for (int i = 0; i < n; ++i) {
             p->~T();
             ++p;
+            ++dctorCount;
         }
-        //std::free(p);
+            ++deallocCount;
+        // std::free(p);
     }
 
 private:
@@ -78,7 +78,7 @@ private:
     }
 
     std::unique_ptr<char[]> memory;
-    size_t currentPos = 0;
+    size_t                  currentPos = 0;
 };
 
 template<class T, class U>
@@ -95,18 +95,23 @@ bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&)
 
 int main()
 {
-    std::vector<int, ContiguousAllocator<int>> v{};
+    std::vector<int, ContiguousAllocator<int>> v {};
     v.push_back(42);
     v.push_back(43);
     v.push_back(44);
-    std::vector<int, ContiguousAllocator<int>> v2 = v;
-    //std::cout << v2.size() << '\n';
+    // std::vector<int, ContiguousAllocator<int>> v2 = v;
+    // std::cout << v2.size() << '\n';
     /*std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
     map[0] = 0;
     map[1] = 1;
 
     std::vector<int, ContiguousAllocator<int>> v2 = v;
     v2.push_back(5);*/
+
+    v.clear();
+    v.shrink_to_fit();
+    std::cout << "Deallocation count: " << deallocCount << '\n';
+    std::cout << "Destructors count: " << dctorCount << '\n';
 
     return 0;
 }
