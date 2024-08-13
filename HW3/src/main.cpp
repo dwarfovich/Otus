@@ -11,6 +11,10 @@ int allocatorsCount = 0;
 int deallocCount    = 0;
 int dctorCount    = 0;
 
+class MemoryManager{
+public:
+};
+
 template<class T>
 struct ContiguousAllocator
 {
