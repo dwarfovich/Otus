@@ -9,9 +9,10 @@
 
 int allocatorsCount = 0;
 int deallocCount    = 0;
-int dctorCount    = 0;
+int dctorCount      = 0;
 
-class MemoryManager{
+class MemoryManager
+{
 public:
 };
 
@@ -31,12 +32,13 @@ struct ContiguousAllocator
     ContiguousAllocator(const ContiguousAllocator& rhs)
     {
         allocatorIndex = ++allocatorsCount;
-        memory         = std::make_unique<char[]>(*(rhs.memory.get()));
+        memory         = std::make_unique<char[]>(1000);
+        std::memcpy(memory.get(), rhs.memory.get(), size);
         currentPos     = rhs.currentPos;
     }
     ContiguousAllocator& operator=(const ContiguousAllocator& rhs)
     {
-        std::memcpy(memory.get(), rhs.get(), memory, size);
+        std::memcpy(memory.get(), rhs.memory.get(), size);
         currentPos = rhs.currentPos;
     }
     ContiguousAllocator(const ContiguousAllocator&&)            = delete;
@@ -70,7 +72,7 @@ struct ContiguousAllocator
             ++p;
             ++dctorCount;
         }
-            ++deallocCount;
+        ++deallocCount;
         // std::free(p);
     }
 
@@ -103,6 +105,10 @@ int main()
     v.push_back(42);
     v.push_back(43);
     v.push_back(44);
+    auto v2 = v;
+    for (auto i : v2){
+        std::cout << i << '\n';
+    }
     // std::vector<int, ContiguousAllocator<int>> v2 = v;
     // std::cout << v2.size() << '\n';
     /*std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
