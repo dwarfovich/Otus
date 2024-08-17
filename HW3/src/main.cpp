@@ -21,7 +21,7 @@ struct ContiguousAllocator
 {
     int allocatorIndex = 0;
     using value_type   = T;
-    const size_t size  = 1000;
+    const size_t size  = 10;
 
     ContiguousAllocator()
     {
@@ -32,7 +32,7 @@ struct ContiguousAllocator
     ContiguousAllocator(const ContiguousAllocator& rhs)
     {
         allocatorIndex = ++allocatorsCount;
-        memory         = std::make_unique<char[]>(1000);
+        memory         = std::make_unique<char[]>(size);
         std::memcpy(memory.get(), rhs.memory.get(), size);
         currentPos     = rhs.currentPos;
     }
@@ -59,9 +59,13 @@ struct ContiguousAllocator
 
         const size_t tSize   = n * sizeof(T);
         const auto   lastPos = currentPos;
-        report((T*)&memory[lastPos], n);
-        currentPos += tSize;
-        return reinterpret_cast<T*>(&memory[lastPos]);
+        if (n * sizeof(T) < size - lastPos) {
+            report((T*)&memory[lastPos], n);
+            currentPos += tSize;
+            return reinterpret_cast<T*>(&memory[lastPos]);
+        } else{
+
+        }
     }
 
     void deallocate(T* p, std::size_t n) noexcept
@@ -102,13 +106,17 @@ bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&)
 int main()
 {
     std::vector<int, ContiguousAllocator<int>> v {};
-    v.push_back(42);
+    v.push_back(5);
+    v.reserve(10);
+   /* v.push_back(42);
     v.push_back(43);
     v.push_back(44);
-    auto v2 = v;
+    v.push_back(45);
+    v.push_back(46);*/
+    /*auto v2 = v;
     for (auto i : v2){
         std::cout << i << '\n';
-    }
+    }*/
     // std::vector<int, ContiguousAllocator<int>> v2 = v;
     // std::cout << v2.size() << '\n';
     /*std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
