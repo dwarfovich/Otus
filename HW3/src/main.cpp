@@ -38,23 +38,24 @@ public:
     {
         for (auto& chunk : chunks) {
             auto& slots = chunk.freeSlots;
-            auto  previousIter = slots.end();
+            auto  previousIter = slots.before_begin();
+            const auto  lastEnd      = slots.cend();
             for (auto iter = slots.begin(); iter != slots.end(); previousIter = iter, ++iter) {
                 if (iter->second > bytes) {
                     std::size_t newSlotStart = iter->first + bytes;
                     //std::size_t newSlotFreeBytesCount = iter->first + bytes;
                     auto nextSlot = iter;
                     ++nextSlot;
-                    if(nextSlot == slots.cend()){
+                    if (nextSlot == lastEnd) {
                         slots.emplace_after(iter, newSlotStart, ChunkSize - newSlotStart - 1);
                     } else{
                         slots.emplace_after(iter, newSlotStart, nextSlot->first - newSlotStart - 1);
                     }
-                    if (previousIter != slots.cend()) {
+                    char* t = &(chunk.memory[iter->first]);
+                    if (previousIter != lastEnd) {
                         slots.erase_after(previousIter);
                     }
-                    char* t = &(chunk.memory[iter->first]);
-                    return &(chunk.memory[iter->first]);
+                    return t;
                 }
             }
         }
@@ -62,7 +63,7 @@ public:
         throw std::bad_alloc {};
     }
 
-private:
+public:
     struct Chunck
     {
         //std::unique_ptr<char[ChunkSize]>             memory;
@@ -154,27 +155,12 @@ public:
             auto t = e.what();
             throw std::bad_alloc {};
         }
-        /*const size_t tSize   = n * sizeof(T);
-        const auto   lastPos = currentPos;
-        if (n * sizeof(T) < size - lastPos) {
-            report((T*)&memory[lastPos], n);
-            currentPos += tSize;
-            return reinterpret_cast<T*>(&memory[lastPos]);
-        } else{
-            throw std::bad_alloc{};
-        }*/
+        
     }
 
     void deallocate(T* p, std::size_t n) noexcept
     {
-        // report(p, n, 0);
-        // for (int i = 0; i < n; ++i) {
-        //     p->~T();
-        //     ++p;
-        //     ++dctorCount;
-        // }
-        //++deallocCount;
-        //// std::free(p);
+        
     }
 
 private:
@@ -209,16 +195,27 @@ bool operator!=(const ContiguousAllocator<T>&, const ContiguousAllocator<U>&)
 
 int main()
 {
-   // auto mm = new ChunkMemoryManager<1000>();
-   // std::vector<int, ContiguousAllocator<int>> v(0, ContiguousAllocator<int>(mm));
-   // v.push_back(5);
-   // v.reserve(10);
-   // v.push_back(6);
-   // for (auto i : v) {
-   //     std::cout << i << '\n';
-   //}
+    ChunkMemoryManager m;
+    //std::vector<void*> vp;
+    //vp.push_back(m.allocate(1));
+    //vp.push_back(m.allocate(1));
+    //vp.push_back(m.allocate(2));
+    //vp.push_back(m.allocate(2));
+    //for (const auto& p : vp){
+    //    std::cout << p << '\n';
+    //}
 
-    //auto mm2 = std::make_unique<ChunkMemoryManager<1000>>();
+
+    auto mm = new ChunkMemoryManager<1000>();
+    std::vector<int, ContiguousAllocator<int>> v(0, ContiguousAllocator<int>(mm));
+    v.push_back(5);
+    v.reserve(10);
+    v.push_back(6);
+    for (auto i : v) {
+        std::cout << i << '\n';
+   }
+
+    auto mm2 = std::make_unique<ChunkMemoryManager<1000>>();
     std::map<int, int, std::greater<int>, ContiguousAllocator<std::pair<const int, int>>> map;
     map[0] = 0;
     map[1] = 1;
