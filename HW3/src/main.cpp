@@ -6,6 +6,52 @@
 #include <forward_list>
 #include <array>
 
+template<class T>
+class CAllocator
+{
+public:
+    using value_type = T;
+
+    int allocatorIndex = 0;
+
+    template<typename U>
+    struct rebind
+    {
+        using other = CAllocator<U>;
+    };
+
+    CAllocator()
+    {
+        ++allocatorIndex;
+        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
+    }
+    CAllocator(const CAllocator& other)
+    {
+        ++allocatorIndex;
+        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
+    }
+
+    CAllocator& operator=(const CAllocator& rhs) {}
+
+    CAllocator(CAllocator&&)
+    {
+        ++allocatorIndex;
+        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
+    }
+    CAllocator& operator=(CAllocator&&) = default;
+
+    template<class U>
+    constexpr CAllocator(const CAllocator<U>& u) noexcept
+    {
+        ++allocatorIndex;
+        std::cout << "Created CAllocator from U #" << allocatorIndex << '\n';
+    }
+
+    [[nodiscard]] T* allocate(std::size_t n) { return (T*)calloc(n, sizeof(T)); }
+
+    void deallocate(T* p, std::size_t n) noexcept { free(p); }
+};
+
 class MemoryManager
 {
 public:
@@ -17,9 +63,7 @@ template<std::size_t ChunkSize = 1024>
 class ChunkMemoryManager : public MemoryManager
 {
 public:
-    ChunkMemoryManager(){
-        std::cout << "ChunkMemoryManager()\n";
-    }
+    ChunkMemoryManager() { std::cout << "ChunkMemoryManager()\n"; }
     char* allocate(size_t bytes)
     {
         for (auto& chunk : chunks) {
@@ -62,6 +106,8 @@ private:
     std::vector<Chunk> chunks = { {} };
 };
 
+int memoryManagerAllocatorIndex = 0;
+
 template<class T, std::size_t DefaultAllocationSize = 1024>
 class MemoryManagerAllocator
 {
@@ -76,35 +122,46 @@ public:
         using other = MemoryManagerAllocator<U, DefaultAllocationSize>;
     };
 
-    MemoryManagerAllocator() : memory_manager { std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>() } {
-        std::cout << "MemoryManagerAllocator()\n";
+    MemoryManagerAllocator() : memory_manager { std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>() }
+    {
+        allocatorIndex = ++memoryManagerAllocatorIndex;
+        std::cout << "Created MemoryManagerAllocator (ctor) #" << allocatorIndex << '\n';
     }
     MemoryManagerAllocator(const std::shared_ptr<MemoryManager>& memoryManager) : memory_manager { memoryManager }
     {
-        std::cout << "MemoryManagerAllocator(memoryManager)\n";
+        allocatorIndex = ++memoryManagerAllocatorIndex;
+        std::cout << "Created MemoryManagerAllocator (ctor(mm))#" << allocatorIndex << '\n';
         if (!memory_manager) {
-            throw std::invalid_argument("memoryManager must have a velue");
+            throw std::invalid_argument("memoryManager must have a value");
         }
     }
 
     MemoryManagerAllocator(const MemoryManagerAllocator& rhs)
     {
-        std::cout << "MemoryManagerAllocator copy ctor\n";
+        allocatorIndex = ++memoryManagerAllocatorIndex;
+        std::cout << "Created MemoryManagerAllocator (copy ctor) #" << allocatorIndex << '\n';
         if (!rhs.memory_manager) {
             memory_manager = std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>();
         }
     }
-    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) { memory_manager = rhs.memory_manager;
+    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs)
+    {
+        memory_manager = rhs.memory_manager;
         std::cout << "MemoryManagerAllocator copy assignment\n";
     }
 
-    MemoryManagerAllocator(MemoryManagerAllocator&&)            = default;
+    MemoryManagerAllocator(MemoryManagerAllocator&&)
+    {
+        allocatorIndex = ++memoryManagerAllocatorIndex;
+        std::cout << "Created MemoryManagerAllocator (move ctor) #" << allocatorIndex << '\n';
+    }
     MemoryManagerAllocator& operator=(MemoryManagerAllocator&&) = default;
 
     template<class U>
     constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U>& u) noexcept
     {
-        std::cout << "MemoryManagerAllocator template ctor\n";
+        allocatorIndex = ++memoryManagerAllocatorIndex;
+        std::cout << "Created MemoryManagerAllocator from U #" << allocatorIndex << '\n';
         memory_manager = u.memoryManager();
     }
 
@@ -143,12 +200,21 @@ bool operator!=(const MemoryManagerAllocator<T>&, const MemoryManagerAllocator<U
 
 int main()
 {
-    auto                                          mm = std::make_shared<ChunkMemoryManager<333>>();
-    std::vector<int, MemoryManagerAllocator<int, 333>> v(0, MemoryManagerAllocator<int>(mm));
+    std::vector<int, CAllocator<int>> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
     v.push_back(5);
-    v.reserve(10);
-    v.push_back(6);
     for (auto i : v) {
+        std::cout << i << '\n';
+    }
+
+    auto                                               mm = std::make_shared<ChunkMemoryManager<333>>();
+    std::vector<int, MemoryManagerAllocator<int, 333>> vv;
+    vv.push_back(10);
+    vv.push_back(11);
+    for (auto i : vv) {
         std::cout << i << '\n';
     }
 
