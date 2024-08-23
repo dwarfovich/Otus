@@ -6,6 +6,8 @@
 #include <forward_list>
 #include <array>
 
+int cAllocatorIndex =0;
+
 template<class T>
 class CAllocator
 {
@@ -21,13 +23,12 @@ public:
     };
 
     CAllocator()
-    {
-        ++allocatorIndex;
+    { allocatorIndex = ++cAllocatorIndex;
         std::cout << "Created CAllocator #" << allocatorIndex << '\n';
     }
     CAllocator(const CAllocator& other)
     {
-        ++allocatorIndex;
+        allocatorIndex = ++cAllocatorIndex;
         std::cout << "Created CAllocator #" << allocatorIndex << '\n';
     }
 
@@ -35,7 +36,7 @@ public:
 
     CAllocator(CAllocator&&)
     {
-        ++allocatorIndex;
+        allocatorIndex = ++cAllocatorIndex;
         std::cout << "Created CAllocator #" << allocatorIndex << '\n';
     }
     CAllocator& operator=(CAllocator&&) = default;
@@ -43,7 +44,7 @@ public:
     template<class U>
     constexpr CAllocator(const CAllocator<U>& u) noexcept
     {
-        ++allocatorIndex;
+        allocatorIndex = ++cAllocatorIndex;
         std::cout << "Created CAllocator from U #" << allocatorIndex << '\n';
     }
 
@@ -108,18 +109,18 @@ private:
 
 int memoryManagerAllocatorIndex = 0;
 
-template<class T, std::size_t DefaultAllocationSize = 1024>
+template<class T>
 class MemoryManagerAllocator
 {
 public:
     using value_type = T;
-
+    static constexpr std::size_t DefaultAllocationSize = 1024;
     int allocatorIndex = 0;
 
     template<typename U>
     struct rebind
     {
-        using other = MemoryManagerAllocator<U, DefaultAllocationSize>;
+        using other = MemoryManagerAllocator<U>;
     };
 
     MemoryManagerAllocator() : memory_manager { std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>() }
@@ -200,6 +201,7 @@ bool operator!=(const MemoryManagerAllocator<T>&, const MemoryManagerAllocator<U
 
 int main()
 {
+    
     std::vector<int, CAllocator<int>> v;
     v.push_back(1);
     v.push_back(2);
@@ -210,8 +212,7 @@ int main()
         std::cout << i << '\n';
     }
 
-    auto                                               mm = std::make_shared<ChunkMemoryManager<333>>();
-    std::vector<int, MemoryManagerAllocator<int, 333>> vv;
+    std::vector<int, MemoryManagerAllocator<int> > vv;
     vv.push_back(10);
     vv.push_back(11);
     for (auto i : vv) {
