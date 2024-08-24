@@ -6,13 +6,22 @@
 #include <forward_list>
 #include <array>
 
-int cAllocatorIndex =0;
+int cAllocatorIndex = 0;
 
 template<class T>
 class CAllocator
 {
 public:
-    using value_type = T;
+    using value_type                             = T;
+    using size_type                              = std::size_t;
+    using difference_type                        = std::ptrdiff_t;
+    using propagate_on_container_copy_assignment       = std::false_type;
+    using propagate_on_container_move_assignment = std::true_type;
+    using propagate_on_container_swap = std::true_type;
+
+    CAllocator select_on_container_copy_construction(){
+        return *this;
+    }
 
     int allocatorIndex = 0;
 
@@ -23,7 +32,8 @@ public:
     };
 
     CAllocator()
-    { allocatorIndex = ++cAllocatorIndex;
+    {
+        allocatorIndex = ++cAllocatorIndex;
         std::cout << "Created CAllocator #" << allocatorIndex << '\n';
     }
     CAllocator(const CAllocator& other)
@@ -48,7 +58,7 @@ public:
         std::cout << "Created CAllocator from U #" << allocatorIndex << '\n';
     }
 
-    [[nodiscard]] T* allocate(std::size_t n) { return (T*)calloc(n, sizeof(T)); }
+    [[nodiscard]] T* allocate(std::size_t n) { return (T*)malloc(n * sizeof(T)); }
 
     void deallocate(T* p, std::size_t n) noexcept { free(p); }
 };
@@ -113,9 +123,9 @@ template<class T>
 class MemoryManagerAllocator
 {
 public:
-    using value_type = T;
+    using value_type                                   = T;
     static constexpr std::size_t DefaultAllocationSize = 1024;
-    int allocatorIndex = 0;
+    int                          allocatorIndex        = 0;
 
     template<typename U>
     struct rebind
@@ -201,23 +211,32 @@ bool operator!=(const MemoryManagerAllocator<T>&, const MemoryManagerAllocator<U
 
 int main()
 {
-    
-    std::vector<int, CAllocator<int>> v;
+    MemoryManagerAllocator<int> mm;
+    std::vector<int, MemoryManagerAllocator<int>> v { mm };
     v.push_back(1);
     v.push_back(2);
-    v.push_back(3);
-    v.push_back(4);
-    v.push_back(5);
-    for (auto i : v) {
-        std::cout << i << '\n';
+    for (const auto& i : v) {
+        std::cout << i << " " << &i << '\n';
+    }
+    auto v2 {v};
+    v2.push_back(3);
+    v2.push_back(4);
+    for (const auto& i : v2) {
+        std::cout << i << " " << &i << '\n';
     }
 
-    std::vector<int, MemoryManagerAllocator<int> > vv;
-    vv.push_back(10);
-    vv.push_back(11);
-    for (auto i : vv) {
-        std::cout << i << '\n';
+    std::cout << '\n';
+    v.push_back(10);
+    for (const auto& i : v) {
+        std::cout << i << " " << &i << '\n';
     }
+
+    //std::vector<int, MemoryManagerAllocator<int>> vv;
+    //vv.push_back(10);
+    //vv.push_back(11);
+    //for (auto i : vv) {
+    //    std::cout << i << '\n';
+    //}
 
     // std::map<int, int, std::greater<int>, ManagedAllocator<std::pair<const int, int>>> map {};
     // map[0] = 0;
