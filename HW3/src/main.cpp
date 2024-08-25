@@ -1,6 +1,7 @@
 ﻿#include <cinttypes>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <forward_list>
 #include <array>
 #include <map>
@@ -17,46 +18,69 @@ class ChunkMemoryManager
 {
 public:
     ChunkMemoryManager() { std::cout << "ChunkMemoryManager()\n"; }
-    char* allocate(size_t bytes)
+    char* allocate(std::size_t bytes)
     {
+        if (bytes > ChunkSize) [[unlikely]] {
+            throw std::runtime_error { "Requested memory is larger than ChunkSize" };
+        }
+
         for (auto& chunk : chunks) {
-            auto&      slots        = chunk.freeSlots;
-            auto       previousIter = slots.before_begin();
-            const auto lastEnd      = slots.cend();
-            for (auto iter = slots.begin(); iter != slots.end(); previousIter = iter++) {
-                if (iter->second > bytes) {
-                    std::size_t newSlotStart = iter->first + bytes;
-                    auto        nextSlot     = iter;
-                    ++nextSlot;
-                    if (nextSlot == lastEnd) {
-                        slots.emplace_after(iter, newSlotStart, ChunkSize - newSlotStart - 1);
-                    } else {
-                        slots.emplace_after(iter, newSlotStart, nextSlot->first - newSlotStart - 1);
-                    }
-                    auto* address = &(chunk.memory[iter->first]);
-                    if (previousIter != lastEnd) {
-                        slots.erase_after(previousIter);
-                    }
-                    return address;
-                }
+            auto* allocatedMemory = allocateInChunk(chunk, bytes);
+            if (allocatedMemory) {
+                return allocatedMemory;
             }
         }
 
-        throw std::bad_alloc {};
+        chunks.push_back({});
+        auto* allocatedMemory = allocateInChunk(chunks.back(), bytes);
+        if (allocatedMemory) {
+            return allocatedMemory;
+        } else {
+            throw std::bad_alloc {};
+        }
     }
 
-private:
+private: // types
     struct Chunk
     {
         Chunk()
         {
-            memory.resize(ChunkSize);
             freeSlots.emplace_front(0, ChunkSize);
         }
-        std::vector<char>                            memory;
-        std::forward_list<std::pair<size_t, size_t>> freeSlots;
+
+        std::array<char, ChunkSize>                                      memory;
+        std::forward_list<std::pair<std::size_t, std::size_t>> freeSlots;
     };
-    std::vector<Chunk> chunks = { {} };
+
+private: // methods
+    char* allocateInChunk(Chunk& chunk, std::size_t bytes)
+    {
+        auto&      slots        = chunk.freeSlots;
+        auto       previousIter = slots.before_begin();
+        const auto lastEnd      = slots.cend();
+        for (auto iter = slots.begin(); iter != slots.end(); previousIter = iter++) {
+            if (iter->second > bytes) {
+                std::size_t newSlotStart = iter->first + bytes;
+                auto        nextSlot     = iter;
+                ++nextSlot;
+                if (nextSlot == lastEnd) {
+                    slots.emplace_after(iter, newSlotStart, ChunkSize - newSlotStart - 1);
+                } else {
+                    slots.emplace_after(iter, newSlotStart, nextSlot->first - newSlotStart - 1);
+                }
+                auto* address = &(chunk.memory[iter->first]);
+                if (previousIter != lastEnd) {
+                    slots.erase_after(previousIter);
+                }
+                return address;
+            }
+        }
+
+        return nullptr;
+    }
+
+private: // data
+    std::list<Chunk> chunks = { {} };
 };
 
 template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
@@ -80,7 +104,7 @@ public:
     {
     }
 
-    [[nodiscard]] T* allocate(std::size_t n) { return (T*)memoryManager.allocate(n * sizeof(T)); }
+    [[nodiscard]] T* allocate(std::size_t n) { return reinterpret_cast<T*>(memoryManager.allocate(n * sizeof(T))); }
 
     void deallocate(T* p, std::size_t n) noexcept
     {
@@ -111,8 +135,8 @@ int main()
     map[0] = 0;
     map[1] = 1;
 
-    for(const auto& [key, value] : map){
-        std::cout<< key << ' '<< value << '\n';
+    for (const auto& [key, value] : map) {
+        std::cout << key << ' ' << value << '\n';
     }
 
     std::cout << "Hello World!\n";
