@@ -59,15 +59,8 @@ private:
     std::vector<Chunk> chunks = { {} };
 };
 
-//template<MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-//struct AllocatorBase
-//{
-//protected:
-//    //static MemoryManager memoryManager;
-//};
-
 template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-class MemoryManagerAllocator //: protected AllocatorBase<bank, MemoryManager>
+class MemoryManagerAllocator
 {
 public:
     using value_type = T;
@@ -78,7 +71,7 @@ public:
         using other = MemoryManagerAllocator<U, bank, MemoryManager>;
     };
 
-    MemoryManagerAllocator()                 = default;
+    MemoryManagerAllocator()                              = default;
     MemoryManagerAllocator(const MemoryManagerAllocator&) = default;
     MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) {}
 
@@ -87,13 +80,14 @@ public:
     {
     }
 
-    [[nodiscard]] T* allocate(std::size_t n) {
-        return (T*)memoryManager.allocate(n * sizeof(T));
+    [[nodiscard]] T* allocate(std::size_t n) { return (T*)memoryManager.allocate(n * sizeof(T)); }
+
+    void deallocate(T* p, std::size_t n) noexcept
+    {
+        // memoryManager.deallocate(p)
     }
 
-    void deallocate(T* p, std::size_t n) noexcept { free(p); }
-
-    private:
+private:
     inline static MemoryManager memoryManager;
 };
 
@@ -112,7 +106,14 @@ int main()
         std::cout << i << ' ' << &i << '\n';
     }
 
-    using MapValueType = std::map < int, int>::value_type;
+    using MapValueType = std::map<int, int>::value_type;
     std::map<int, int, std::greater<int>, MemoryManagerAllocator<MapValueType>> map;
+    map[0] = 0;
+    map[1] = 1;
+
+    for(const auto& [key, value] : map){
+        std::cout<< key << ' '<< value << '\n';
+    }
+
     std::cout << "Hello World!\n";
 }
