@@ -11,11 +11,6 @@ enum class MemoryBank : std::uint8_t
     Video
 };
 
-struct MemoryManagerBase
-{
-    inline static int t = 0;
-};
-
 template<std::size_t ChunkSize = 1024>
 class ChunkMemoryManager
 {
@@ -66,26 +61,26 @@ private:
 template<MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
 struct AllocatorBase
 {
-    static MemoryManager mm;
+    static MemoryManager memoryManager;
 };
 
 template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-struct Allocator : protected AllocatorBase<bank, MemoryManager>
+struct MemoryManagerAllocator : protected AllocatorBase<bank, MemoryManager>
 {
     using value_type = T;
 
     template<typename U>
     struct rebind
     {
-        using other = Allocator<U, bank, MemoryManager>;
+        using other = MemoryManagerAllocator<U, bank, MemoryManager>;
     };
 
-    Allocator()                 = default;
-    Allocator(const Allocator&) = default;
-    Allocator& operator=(const Allocator& rhs) {}
+    MemoryManagerAllocator()                 = default;
+    MemoryManagerAllocator(const MemoryManagerAllocator&) = default;
+    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) {}
 
     template<class U, MemoryBank UMemoryBank, typename UMemoeyManager>
-    constexpr Allocator(const Allocator<U, UMemoryBank, UMemoeyManager>& u) noexcept
+    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoeyManager>& u) noexcept
     {
     }
 
@@ -96,7 +91,7 @@ struct Allocator : protected AllocatorBase<bank, MemoryManager>
 
 int main()
 {
-    using GAllocator = Allocator<int>;
+    using GAllocator = MemoryManagerAllocator<int>;
     std::vector<int, GAllocator> v;
     v.push_back(1);
     auto v2 = v;
