@@ -80,7 +80,7 @@ private: // methods
     }
 
 private: // data
-    std::list<Chunk> chunks = { {} };
+    std::list<Chunk> chunks;
 };
 
 template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
