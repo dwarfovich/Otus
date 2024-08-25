@@ -1,77 +1,23 @@
-﻿#include <iostream>
-#include <limits>
-#include <memory>
+﻿#include <cinttypes>
+#include <iostream>
 #include <vector>
-#include <map>
 #include <forward_list>
 #include <array>
 
-int cAllocatorIndex = 0;
-
-template<class T>
-class CAllocator
+enum class MemoryBank : std::uint8_t
 {
-public:
-    using value_type                             = T;
-    using size_type                              = std::size_t;
-    using difference_type                        = std::ptrdiff_t;
-    using propagate_on_container_copy_assignment       = std::false_type;
-    using propagate_on_container_move_assignment = std::true_type;
-    using propagate_on_container_swap = std::true_type;
-
-    CAllocator select_on_container_copy_construction(){
-        return *this;
-    }
-
-    int allocatorIndex = 0;
-
-    template<typename U>
-    struct rebind
-    {
-        using other = CAllocator<U>;
-    };
-
-    CAllocator()
-    {
-        allocatorIndex = ++cAllocatorIndex;
-        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
-    }
-    CAllocator(const CAllocator& other)
-    {
-        allocatorIndex = ++cAllocatorIndex;
-        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
-    }
-
-    CAllocator& operator=(const CAllocator& rhs) {}
-
-    CAllocator(CAllocator&&)
-    {
-        allocatorIndex = ++cAllocatorIndex;
-        std::cout << "Created CAllocator #" << allocatorIndex << '\n';
-    }
-    CAllocator& operator=(CAllocator&&) = default;
-
-    template<class U>
-    constexpr CAllocator(const CAllocator<U>& u) noexcept
-    {
-        allocatorIndex = ++cAllocatorIndex;
-        std::cout << "Created CAllocator from U #" << allocatorIndex << '\n';
-    }
-
-    [[nodiscard]] T* allocate(std::size_t n) { return (T*)malloc(n * sizeof(T)); }
-
-    void deallocate(T* p, std::size_t n) noexcept { free(p); }
+    General,
+    Audio,
+    Video
 };
 
-class MemoryManager
+struct MemoryManagerBase
 {
-public:
-    virtual ~MemoryManager()             = default;
-    virtual char* allocate(size_t bytes) = 0;
+    inline static int t = 0;
 };
 
 template<std::size_t ChunkSize = 1024>
-class ChunkMemoryManager : public MemoryManager
+class ChunkMemoryManager
 {
 public:
     ChunkMemoryManager() { std::cout << "ChunkMemoryManager()\n"; }
@@ -117,143 +63,51 @@ private:
     std::vector<Chunk> chunks = { {} };
 };
 
-int memoryManagerAllocatorIndex = 0;
-
-template<class T>
-class MemoryManagerAllocator
+template<MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
+struct AllocatorBase
 {
-public:
-    using value_type                                   = T;
-    static constexpr std::size_t DefaultAllocationSize = 1024;
-    int                          allocatorIndex        = 0;
+    static MemoryManager mm;
+};
+
+template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
+struct Allocator : protected AllocatorBase<bank, MemoryManager>
+{
+    using value_type = T;
 
     template<typename U>
     struct rebind
     {
-        using other = MemoryManagerAllocator<U>;
+        using other = Allocator<U, bank, MemoryManager>;
     };
 
-    MemoryManagerAllocator() : memory_manager { std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>() }
+    Allocator()                 = default;
+    Allocator(const Allocator&) = default;
+    Allocator& operator=(const Allocator& rhs) {}
+
+    template<class U, MemoryBank UMemoryBank, typename UMemoeyManager>
+    constexpr Allocator(const Allocator<U, UMemoryBank, UMemoeyManager>& u) noexcept
     {
-        allocatorIndex = ++memoryManagerAllocatorIndex;
-        std::cout << "Created MemoryManagerAllocator (ctor) #" << allocatorIndex << '\n';
-    }
-    MemoryManagerAllocator(const std::shared_ptr<MemoryManager>& memoryManager) : memory_manager { memoryManager }
-    {
-        allocatorIndex = ++memoryManagerAllocatorIndex;
-        std::cout << "Created MemoryManagerAllocator (ctor(mm))#" << allocatorIndex << '\n';
-        if (!memory_manager) {
-            throw std::invalid_argument("memoryManager must have a value");
-        }
     }
 
-    MemoryManagerAllocator(const MemoryManagerAllocator& rhs)
-    {
-        allocatorIndex = ++memoryManagerAllocatorIndex;
-        std::cout << "Created MemoryManagerAllocator (copy ctor) #" << allocatorIndex << '\n';
-        if (!rhs.memory_manager) {
-            memory_manager = std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>();
-        }
-    }
-    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs)
-    {
-        memory_manager = rhs.memory_manager;
-        std::cout << "MemoryManagerAllocator copy assignment\n";
-    }
+    [[nodiscard]] T* allocate(std::size_t n) { return (T*)malloc(n * sizeof(T)); }
 
-    MemoryManagerAllocator(MemoryManagerAllocator&&)
-    {
-        allocatorIndex = ++memoryManagerAllocatorIndex;
-        std::cout << "Created MemoryManagerAllocator (move ctor) #" << allocatorIndex << '\n';
-    }
-    MemoryManagerAllocator& operator=(MemoryManagerAllocator&&) = default;
-
-    template<class U>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U>& u) noexcept
-    {
-        allocatorIndex = ++memoryManagerAllocatorIndex;
-        std::cout << "Created MemoryManagerAllocator from U #" << allocatorIndex << '\n';
-        memory_manager = u.memoryManager();
-    }
-
-    const std::shared_ptr<MemoryManager>& memoryManager() const noexcept { return memory_manager; };
-
-    [[nodiscard]] T* allocate(std::size_t n)
-    {
-        if (n > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
-            throw std::bad_array_new_length();
-        }
-
-        const size_t requiredeSize = n * sizeof(T);
-        if (!memory_manager) {
-            memory_manager = std::make_shared<ChunkMemoryManager<DefaultAllocationSize>>();
-        }
-        return (T*)memory_manager->allocate(requiredeSize);
-    }
-
-    void deallocate(T* p, std::size_t n) noexcept {}
-
-private:
-    std::shared_ptr<MemoryManager> memory_manager = nullptr;
+    void deallocate(T* p, std::size_t n) noexcept { free(p); }
 };
-
-template<class T, class U>
-bool operator==(const MemoryManagerAllocator<T>&, const MemoryManagerAllocator<U>&)
-{
-    return true;
-}
-
-template<class T, class U>
-bool operator!=(const MemoryManagerAllocator<T>&, const MemoryManagerAllocator<U>&)
-{
-    return false;
-}
 
 int main()
 {
-    MemoryManagerAllocator<int> mm;
-    std::vector<int, MemoryManagerAllocator<int>> v { mm };
+    using GAllocator = Allocator<int>;
+    std::vector<int, GAllocator> v;
     v.push_back(1);
-    v.push_back(2);
+    auto v2 = v;
+    v2.push_back(2);
     for (const auto& i : v) {
-        std::cout << i << " " << &i << '\n';
+        std::cout << i << ' ' << &i << '\n';
     }
-    auto v2 {v};
-    v2.push_back(3);
-    v2.push_back(4);
+
     for (const auto& i : v2) {
-        std::cout << i << " " << &i << '\n';
+        std::cout << i << ' ' << &i << '\n';
     }
 
-    std::cout << '\n';
-    v.push_back(10);
-    for (const auto& i : v) {
-        std::cout << i << " " << &i << '\n';
-    }
-
-    //std::vector<int, MemoryManagerAllocator<int>> vv;
-    //vv.push_back(10);
-    //vv.push_back(11);
-    //for (auto i : vv) {
-    //    std::cout << i << '\n';
-    //}
-
-    // std::map<int, int, std::greater<int>, ManagedAllocator<std::pair<const int, int>>> map {};
-    // map[0] = 0;
-    // map[1] = 1;
-    // map[2] = 2;
-    // for (const auto& [key, value] : map) {
-    //     std::cout << key << " - " << value << '\n';
-    // }
-    // auto v2 = v;
-    // v2.push_back(777);
-    // for (auto i : v2) {
-    //     std::cout << i << '\n';
-    // }
-
-    // for (auto i : v) {
-    //     std::cout << i << '\n';
-    // }
-
-    return 0;
+    std::cout << "Hello World!\n";
 }
