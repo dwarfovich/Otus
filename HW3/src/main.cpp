@@ -3,6 +3,7 @@
 #include <vector>
 #include <forward_list>
 #include <array>
+#include <map>
 
 enum class MemoryBank : std::uint8_t
 {
@@ -58,15 +59,17 @@ private:
     std::vector<Chunk> chunks = { {} };
 };
 
-template<MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-struct AllocatorBase
-{
-    static MemoryManager memoryManager;
-};
+//template<MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
+//struct AllocatorBase
+//{
+//protected:
+//    //static MemoryManager memoryManager;
+//};
 
 template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-struct MemoryManagerAllocator : protected AllocatorBase<bank, MemoryManager>
+class MemoryManagerAllocator //: protected AllocatorBase<bank, MemoryManager>
 {
+public:
     using value_type = T;
 
     template<typename U>
@@ -79,20 +82,25 @@ struct MemoryManagerAllocator : protected AllocatorBase<bank, MemoryManager>
     MemoryManagerAllocator(const MemoryManagerAllocator&) = default;
     MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) {}
 
-    template<class U, MemoryBank UMemoryBank, typename UMemoeyManager>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoeyManager>& u) noexcept
+    template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
+    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>& u) noexcept
     {
     }
 
-    [[nodiscard]] T* allocate(std::size_t n) { return (T*)malloc(n * sizeof(T)); }
+    [[nodiscard]] T* allocate(std::size_t n) {
+        return (T*)memoryManager.allocate(n * sizeof(T));
+    }
 
     void deallocate(T* p, std::size_t n) noexcept { free(p); }
+
+    private:
+    inline static MemoryManager memoryManager;
 };
 
 int main()
 {
-    using GAllocator = MemoryManagerAllocator<int>;
-    std::vector<int, GAllocator> v;
+    using MMAllocator = MemoryManagerAllocator<int>;
+    std::vector<int, MMAllocator> v;
     v.push_back(1);
     auto v2 = v;
     v2.push_back(2);
@@ -104,5 +112,7 @@ int main()
         std::cout << i << ' ' << &i << '\n';
     }
 
+    using MapValueType = std::map < int, int>::value_type;
+    std::map<int, int, std::greater<int>, MemoryManagerAllocator<MapValueType>> map;
     std::cout << "Hello World!\n";
 }
