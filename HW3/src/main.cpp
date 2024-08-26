@@ -53,7 +53,7 @@ private: // types
     {
         Chunk() { freeSlots.emplace_front(0, ChunkSize); }
 
-        std::array<char, ChunkSize>                            memory;
+        std::array<char, ChunkSize>                            memory {};
         std::forward_list<std::pair<std::size_t, std::size_t>> freeSlots;
     };
 
@@ -93,7 +93,7 @@ class MemoryManagerAllocator
 {
 public:
     using value_type                  = T;
-    using propagate_on_container_swap = std::true_type();
+    using propagate_on_container_swap = std::true_type;
     
     template<typename U>
     struct rebind
@@ -137,8 +137,8 @@ int main()
 {
     using MMAllocator = MemoryManagerAllocator<int>;
     std::vector<int, MMAllocator> v;
-    //v.push_back(1);
-    //v.resize(0);
+    v.push_back(1);
+    v.resize(0);
     v.shrink_to_fit();
 
     /*auto v2 = v;
