@@ -93,7 +93,6 @@ class MemoryManagerAllocator
 {
 public:
     using value_type                  = T;
-    using propagate_on_container_swap = std::true_type;
     
     template<typename U>
     struct rebind
@@ -104,6 +103,8 @@ public:
     MemoryManagerAllocator()                                             = default;
     MemoryManagerAllocator(const MemoryManagerAllocator&)                = default;
     MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) = default;
+    MemoryManagerAllocator(MemoryManagerAllocator&&)                = default;
+    MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs) = default;
 
     template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
     constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {};
@@ -112,13 +113,14 @@ public:
 
     void deallocate(T* p, std::size_t n) noexcept
     {
-        // memoryManager.deallocate(reinterpret_cast<char*>(p), n * sizeof(T));
+        memoryManager.deallocate(reinterpret_cast<char*>(p), n * sizeof(T));
     }
 
 private:
     inline static MemoryManager memoryManager;
 };
 
+// TODO: reconcider return value.
 template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
 bool operator==(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
                 const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
