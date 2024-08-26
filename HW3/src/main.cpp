@@ -1,5 +1,6 @@
 ﻿#include <cinttypes>
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <list>
 #include <forward_list>
@@ -40,15 +41,19 @@ public:
         }
     }
 
+    void deallocate(char* address, size_t size)
+    {
+        /* auto firstChunk = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk){
+             return &chunk.memory[0] <= address && &chunk.memory.back() <= address;
+             });*/
+    }
+
 private: // types
     struct Chunk
     {
-        Chunk()
-        {
-            freeSlots.emplace_front(0, ChunkSize);
-        }
+        Chunk() { freeSlots.emplace_front(0, ChunkSize); }
 
-        std::array<char, ChunkSize>                                      memory;
+        std::array<char, ChunkSize>                            memory;
         std::forward_list<std::pair<std::size_t, std::size_t>> freeSlots;
     };
 
@@ -87,40 +92,56 @@ template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManag
 class MemoryManagerAllocator
 {
 public:
-    using value_type = T;
-
+    using value_type                  = T;
+    using propagate_on_container_swap = std::true_type();
+    
     template<typename U>
     struct rebind
     {
         using other = MemoryManagerAllocator<U, bank, MemoryManager>;
     };
 
-    MemoryManagerAllocator()                              = default;
-    MemoryManagerAllocator(const MemoryManagerAllocator&) = default;
-    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) {}
+    MemoryManagerAllocator()                                             = default;
+    MemoryManagerAllocator(const MemoryManagerAllocator&)                = default;
+    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) = default;
 
     template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>& u) noexcept
-    {
-    }
+    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {};
 
     [[nodiscard]] T* allocate(std::size_t n) { return reinterpret_cast<T*>(memoryManager.allocate(n * sizeof(T))); }
 
     void deallocate(T* p, std::size_t n) noexcept
     {
-        // memoryManager.deallocate(p)
+        // memoryManager.deallocate(reinterpret_cast<char*>(p), n * sizeof(T));
     }
 
 private:
     inline static MemoryManager memoryManager;
 };
 
+template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
+bool operator==(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
+                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
+{
+    return true;
+}
+
+template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
+bool operator!=(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
+                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
+{
+    return false;
+}
+
 int main()
 {
     using MMAllocator = MemoryManagerAllocator<int>;
     std::vector<int, MMAllocator> v;
-    v.push_back(1);
-    auto v2 = v;
+    //v.push_back(1);
+    //v.resize(0);
+    v.shrink_to_fit();
+
+    /*auto v2 = v;
     v2.push_back(2);
     for (const auto& i : v) {
         std::cout << i << ' ' << &i << '\n';
@@ -137,7 +158,7 @@ int main()
 
     for (const auto& [key, value] : map) {
         std::cout << key << ' ' << value << '\n';
-    }
+    }*/
 
     std::cout << "Hello World!\n";
 }
