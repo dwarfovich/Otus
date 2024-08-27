@@ -43,43 +43,70 @@ public:
 
     void deallocate(char* address, size_t size)
     {
-        /* auto firstChunk = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk){
-             return &chunk.memory[0] <= address && &chunk.memory.back() <= address;
-             });*/
+        auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
+            return &chunk.memory[0] <= address && &chunk.memory.back() <= address;
+        });
+        if (chunkIter == chunks.cend()) [[unlikely]] {
+            throw std::runtime_error("Wrong address provided for deallocation");
+        }
+
     }
 
 private: // types
+    struct Block
+    {
+        std::size_t startPosition = 0;
+        std::size_t freeBytes     = 0;
+    };
     struct Chunk
     {
-        Chunk() { freeSlots.emplace_front(0, ChunkSize); }
+        // Chunk() { allocatedBlocks.emplace_front(0, ChunkSize); }
 
-        std::array<char, ChunkSize>                            memory {};
-        std::forward_list<std::pair<std::size_t, std::size_t>> freeSlots;
+        std::array<char, ChunkSize> memory {};
+        std::forward_list<Block>    allocatedBlocks;
     };
 
 private: // methods
     char* allocateInChunk(Chunk& chunk, std::size_t bytes)
     {
-        auto&      slots        = chunk.freeSlots;
-        auto       previousIter = slots.before_begin();
-        const auto lastEnd      = slots.cend();
-        for (auto iter = slots.begin(); iter != slots.end(); previousIter = iter++) {
-            if (iter->second > bytes) {
-                std::size_t newSlotStart = iter->first + bytes;
-                auto        nextSlot     = iter;
-                ++nextSlot;
-                if (nextSlot == lastEnd) {
-                    slots.emplace_after(iter, newSlotStart, ChunkSize - newSlotStart - 1);
+        auto&       blocks        = chunk.allocatedBlocks;
+        auto        firstBlock    = blocks.before_begin();
+        std::size_t firstPosition = 0;
+        auto        secondBlock   = std::next(firstBlock);
+        while (secondBlock != blocks.cend() && secondBlock->startPosition - firstPosition < bytes) {
+            ++firstBlock;
+            ++secondBlock;
+            firstPosition = firstBlock->startPosition;
+        }
+        std::size_t secondPosition =
+            secondBlock == blocks.cend() ? ChunkSize : secondBlock->startPosition - 1;
+        std::size_t freeBlocks = secondPosition - firstPosition;
+        if(freeBlocks >= bytes){
+            chunk.allocatedBlocks.insert_after(firstBlock, {firstPosition, bytes});
+            return &chunk.memory[firstPosition];
+        } else{
+            return nullptr;
+        }
+        /*auto&      blocks       = chunk.freeBlocks;
+        auto       previousIter = blocks.before_begin();
+        const auto lastEnd      = blocks.cend();
+        for (auto iter = blocks.begin(); iter != blocks.end(); previousIter = iter++) {
+            if (iter->freeBytes > bytes) {
+                std::size_t newBlockStart = iter->startPosition + bytes;
+                auto        nextBlock     = iter;
+                ++nextBlock;
+                if (nextBlock == lastEnd) {
+                    blocks.emplace_after(iter, newBlockStart, ChunkSize - newBlockStart - 1);
                 } else {
-                    slots.emplace_after(iter, newSlotStart, nextSlot->first - newSlotStart - 1);
+                    blocks.emplace_after(iter, newBlockStart, nextBlock->startPosition - newBlockStart - 1);
                 }
-                auto* address = &(chunk.memory[iter->first]);
+                auto* address = &(chunk.memory[iter->startPosition]);
                 if (previousIter != lastEnd) {
-                    slots.erase_after(previousIter);
+                    blocks.erase_after(previousIter);
                 }
                 return address;
             }
-        }
+        }*/
 
         return nullptr;
     }
@@ -92,8 +119,8 @@ template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManag
 class MemoryManagerAllocator
 {
 public:
-    using value_type                  = T;
-    
+    using value_type = T;
+
     template<typename U>
     struct rebind
     {
@@ -103,8 +130,8 @@ public:
     MemoryManagerAllocator()                                             = default;
     MemoryManagerAllocator(const MemoryManagerAllocator&)                = default;
     MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) = default;
-    MemoryManagerAllocator(MemoryManagerAllocator&&)                = default;
-    MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs) = default;
+    MemoryManagerAllocator(MemoryManagerAllocator&&)                     = default;
+    MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs)      = default;
 
     template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
     constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {};
@@ -140,8 +167,19 @@ int main()
     using MMAllocator = MemoryManagerAllocator<int>;
     std::vector<int, MMAllocator> v;
     v.push_back(1);
-    v.resize(0);
-    v.shrink_to_fit();
+    v.push_back(2);
+    v.push_back(3);
+
+    for (const auto& i : v) {
+        std::cout << i << ' ' << &i << '\n';
+    }
+
+    v.erase(v.cbegin() + 1);
+    for (const auto& i : v) {
+        std::cout << i << ' ' << &i << '\n';
+    }
+    //v.resize(0);
+    //v.shrink_to_fit();
 
     /*auto v2 = v;
     v2.push_back(2);
