@@ -25,9 +25,11 @@ public:
             throw std::runtime_error { "Requested memory is larger than ChunkSize" };
         }
 
+        std::cout << "Requested to allocate " << bytes << " bytes\n";
         for (auto& chunk : chunks) {
             auto* allocatedMemory = allocateInChunk(chunk, bytes);
             if (allocatedMemory) {
+                std::cout << "Allocated at " << std::hex << (int*)allocatedMemory << '\n';
                 return allocatedMemory;
             }
         }
@@ -35,6 +37,7 @@ public:
         chunks.push_back({});
         auto* allocatedMemory = allocateInChunk(chunks.back(), bytes);
         if (allocatedMemory) {
+            std::cout << "Allocated at " << std::hex << (int*)allocatedMemory << '\n';
             return allocatedMemory;
         } else {
             throw std::bad_alloc {};
@@ -43,20 +46,44 @@ public:
 
     void deallocate(char* address, size_t size)
     {
+        std::cout << "Requested to deallocate " << size << " bytes at " << std::hex << (int*)address << '\n';
         auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
-            return &chunk.memory[0] <= address && &chunk.memory.back() <= address;
+            std::cout << (int*)&chunk.memory[0] << ' ' << (int*)&chunk.memory.back() << '\n';
+            return (&chunk.memory[0] <= address) && (&chunk.memory.back() >= address);
         });
         if (chunkIter == chunks.cend()) [[unlikely]] {
             throw std::runtime_error("Wrong address provided for deallocation");
         }
+        auto& blocks = chunkIter->allocatedBlocks;
+        for (auto iter = blocks.begin(), iterBefore = blocks.before_begin(); iter != blocks.cend() && size != 0;) {
+            if (iter->size <= size) {
+                size -= iter->size;
+                iter = blocks.erase_after(iterBefore);
+            } else {
+                iter->startPosition += size;
+                size = 0;
+            }
+        }
+    }
 
+    void dump() const {
+        std::cout << "Chunks count: " << chunks.size() << '\n';
+        int count  = 0;
+        for (const auto& chunk : chunks){
+            std::cout << "Chunk " << ++count << ":\n";
+            //std::cout << "    Blocks count " << chunk.allocatedBlocks.size() << ":\n";
+            int blockNumber = 0;
+            for (const auto& block : chunk.allocatedBlocks){
+                std::cout << "    Block " << ++blockNumber << ": size = " << block.size << '\n';
+            }
+        }
     }
 
 private: // types
     struct Block
     {
         std::size_t startPosition = 0;
-        std::size_t freeBytes     = 0;
+        std::size_t size          = 0;
     };
     struct Chunk
     {
@@ -76,37 +103,16 @@ private: // methods
         while (secondBlock != blocks.cend() && secondBlock->startPosition - firstPosition < bytes) {
             ++firstBlock;
             ++secondBlock;
-            firstPosition = firstBlock->startPosition;
+            firstPosition = firstBlock->startPosition + firstBlock->size;
         }
-        std::size_t secondPosition =
-            secondBlock == blocks.cend() ? ChunkSize : secondBlock->startPosition - 1;
-        std::size_t freeBlocks = secondPosition - firstPosition;
-        if(freeBlocks >= bytes){
-            chunk.allocatedBlocks.insert_after(firstBlock, {firstPosition, bytes});
+        std::size_t secondPosition = secondBlock == blocks.cend() ? ChunkSize : secondBlock->startPosition - 1;
+        std::size_t freeBytes      = secondPosition - firstPosition;
+        if (freeBytes >= bytes) {
+            chunk.allocatedBlocks.insert_after(firstBlock, { firstPosition, bytes });
             return &chunk.memory[firstPosition];
-        } else{
+        } else {
             return nullptr;
         }
-        /*auto&      blocks       = chunk.freeBlocks;
-        auto       previousIter = blocks.before_begin();
-        const auto lastEnd      = blocks.cend();
-        for (auto iter = blocks.begin(); iter != blocks.end(); previousIter = iter++) {
-            if (iter->freeBytes > bytes) {
-                std::size_t newBlockStart = iter->startPosition + bytes;
-                auto        nextBlock     = iter;
-                ++nextBlock;
-                if (nextBlock == lastEnd) {
-                    blocks.emplace_after(iter, newBlockStart, ChunkSize - newBlockStart - 1);
-                } else {
-                    blocks.emplace_after(iter, newBlockStart, nextBlock->startPosition - newBlockStart - 1);
-                }
-                auto* address = &(chunk.memory[iter->startPosition]);
-                if (previousIter != lastEnd) {
-                    blocks.erase_after(previousIter);
-                }
-                return address;
-            }
-        }*/
 
         return nullptr;
     }
@@ -143,6 +149,9 @@ public:
         memoryManager.deallocate(reinterpret_cast<char*>(p), n * sizeof(T));
     }
 
+    const MemoryManager& getMemoryManager() const{
+        return memoryManager;
+        };
 private:
     inline static MemoryManager memoryManager;
 };
@@ -178,8 +187,16 @@ int main()
     for (const auto& i : v) {
         std::cout << i << ' ' << &i << '\n';
     }
-    //v.resize(0);
-    //v.shrink_to_fit();
+    std::cout << "Capacity: " << v.capacity() << std::endl;
+
+    v.clear();
+    v.shrink_to_fit();
+
+    const auto& mm = v.get_allocator();
+    MMAllocator mma;
+    mma.getMemoryManager().dump();
+    // v.resize(0);
+    // v.shrink_to_fit();
 
     /*auto v2 = v;
     v2.push_back(2);
