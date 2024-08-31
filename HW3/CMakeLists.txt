@@ -1,13 +1,13 @@
 ﻿cmake_minimum_required (VERSION 3.12)
 
-option(BUILD_TESTS "BuildTests" OFF)
-set(TARGET_NAME allocator CACHE INTERNAL "Target name")
+option(BUILD_TESTS "BuildTests" ON)
 set(PROJECT_VERSION "0.0.3" CACHE INTERNAL "Version")
+project (allocator VERSION ${PROJECT_VERSION})
 
-project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
-add_executable (${TARGET_NAME} "src/main.cpp")
-# include_directories("include")
-set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
+
+# project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
+# add_executable (${TARGET_NAME} "src/main.cpp")
+# set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -19,7 +19,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib")
 
+add_subdirectory(allocator_driver)
+add_subdirectory(allocator_lib)
+
 # Tests.
 if(BuildTests)
-    add_subdirectory(tests)
 endif()
+    enable_testing()
+    add_subdirectory(tests)

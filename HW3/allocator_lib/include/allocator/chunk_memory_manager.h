@@ -1,18 +1,11 @@
-﻿#include <cinttypes>
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <list>
-#include <forward_list>
-#include <array>
-#include <map>
+#pragma once
 
-enum class MemoryBank : std::uint8_t
-{
-    General,
-    Audio,
-    Video
-};
+#include <cinttypes>
+#include <forward_list>
+#include <list>
+#include <array>
+#include <algorithm>
+#include <iostream>
 
 template<std::size_t ChunkSize = 1024>
 class ChunkMemoryManager
@@ -44,7 +37,7 @@ public:
         }
     }
 
-    void deallocate(char* address, size_t size)
+    void deallocate(char* address, std::size_t size)
     {
         std::cout << "Requested to deallocate " << size << " bytes at " << std::hex << (int*)address << '\n';
         auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
@@ -66,14 +59,14 @@ public:
         }
     }
 
-    void dump() const {
+    void dump() const
+    {
         std::cout << "Chunks count: " << chunks.size() << '\n';
-        int count  = 0;
-        for (const auto& chunk : chunks){
+        int count = 0;
+        for (const auto& chunk : chunks) {
             std::cout << "Chunk " << ++count << ":\n";
-            //std::cout << "    Blocks count " << chunk.allocatedBlocks.size() << ":\n";
             int blockNumber = 0;
-            for (const auto& block : chunk.allocatedBlocks){
+            for (const auto& block : chunk.allocatedBlocks) {
                 std::cout << "    Block " << ++blockNumber << ": size = " << block.size << '\n';
             }
         }
@@ -120,102 +113,3 @@ private: // methods
 private: // data
     std::list<Chunk> chunks;
 };
-
-template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
-class MemoryManagerAllocator
-{
-public:
-    using value_type = T;
-
-    template<typename U>
-    struct rebind
-    {
-        using other = MemoryManagerAllocator<U, bank, MemoryManager>;
-    };
-
-    MemoryManagerAllocator()                                             = default;
-    MemoryManagerAllocator(const MemoryManagerAllocator&)                = default;
-    MemoryManagerAllocator& operator=(const MemoryManagerAllocator& rhs) = default;
-    MemoryManagerAllocator(MemoryManagerAllocator&&)                     = default;
-    MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs)      = default;
-
-    template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {};
-
-    [[nodiscard]] T* allocate(std::size_t n) { return reinterpret_cast<T*>(memoryManager.allocate(n * sizeof(T))); }
-
-    void deallocate(T* p, std::size_t n) noexcept
-    {
-        memoryManager.deallocate(reinterpret_cast<char*>(p), n * sizeof(T));
-    }
-
-    const MemoryManager& getMemoryManager() const{
-        return memoryManager;
-        };
-private:
-    inline static MemoryManager memoryManager;
-};
-
-// TODO: reconcider return value.
-template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
-bool operator==(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
-                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
-{
-    return true;
-}
-
-template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
-bool operator!=(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
-                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
-{
-    return false;
-}
-
-int main()
-{
-    using MMAllocator = MemoryManagerAllocator<int>;
-    std::vector<int, MMAllocator> v;
-    v.push_back(1);
-    v.push_back(2);
-    v.push_back(3);
-
-    for (const auto& i : v) {
-        std::cout << i << ' ' << &i << '\n';
-    }
-
-    v.erase(v.cbegin() + 1);
-    for (const auto& i : v) {
-        std::cout << i << ' ' << &i << '\n';
-    }
-    std::cout << "Capacity: " << v.capacity() << std::endl;
-
-    v.clear();
-    v.shrink_to_fit();
-
-    const auto& mm = v.get_allocator();
-    MMAllocator mma;
-    mma.getMemoryManager().dump();
-    // v.resize(0);
-    // v.shrink_to_fit();
-
-    /*auto v2 = v;
-    v2.push_back(2);
-    for (const auto& i : v) {
-        std::cout << i << ' ' << &i << '\n';
-    }
-
-    for (const auto& i : v2) {
-        std::cout << i << ' ' << &i << '\n';
-    }
-
-    using MapValueType = std::map<int, int>::value_type;
-    std::map<int, int, std::greater<int>, MemoryManagerAllocator<MapValueType>> map;
-    map[0] = 0;
-    map[1] = 1;
-
-    for (const auto& [key, value] : map) {
-        std::cout << key << ' ' << value << '\n';
-    }*/
-
-    std::cout << "Hello World!\n";
-}
