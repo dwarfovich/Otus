@@ -1,9 +1,9 @@
+#include "allocator/chunk_memory_manager.h"
+
 #include <gtest/gtest.h>
 
-#include <sstream>
-#include <limits>
-
-
-TEST(IpTest, ValidReadOperatorTest)
+TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty)
 {
-   }
+    ChunkMemoryManager mm;
+    EXPECT_TRUE(mm.chunks.empty());
+}

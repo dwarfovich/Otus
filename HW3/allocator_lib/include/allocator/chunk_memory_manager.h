@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gtest/gtest_prod.h>
+
 #include <cinttypes>
 #include <forward_list>
 #include <list>
@@ -10,8 +12,9 @@
 template<std::size_t ChunkSize = 1024>
 class ChunkMemoryManager
 {
+    FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty);
+
 public:
-    ChunkMemoryManager() { std::cout << "ChunkMemoryManager()\n"; }
     char* allocate(std::size_t bytes)
     {
         if (bytes > ChunkSize) [[unlikely]] {
