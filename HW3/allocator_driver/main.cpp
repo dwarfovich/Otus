@@ -5,8 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-   
- using MMAllocator = MemoryManagerAllocator<int>;
+    using MMAllocator = MemoryManagerAllocator<int>;
     std::vector<int, MMAllocator> v;
     v.push_back(1);
     v.push_back(2);

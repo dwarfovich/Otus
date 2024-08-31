@@ -23,7 +23,7 @@ add_subdirectory(allocator_driver)
 add_subdirectory(allocator_lib)
 
 # Tests.
-if(BuildTests)
-endif()
+#if(BuildTests)
     enable_testing()
     add_subdirectory(tests)
+#endif()
