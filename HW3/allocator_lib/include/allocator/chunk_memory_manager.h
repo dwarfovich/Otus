@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 template<std::size_t ChunkSize = 1024, std::size_t InitialReservedBlocks = 10>
 class ChunkMemoryManager
@@ -18,6 +19,7 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest);
+
 public:
     char* allocate(std::size_t bytes)
     {
@@ -29,25 +31,19 @@ public:
         return allocateInChunk(suitableChunk, bytes);
     }
 
-    void deallocate(char* address, std::size_t size)
+    void deallocate(char* address, std::size_t size) noexcept
     {
-        /*auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
-            std::cout << (int*)&chunk.memory[0] << ' ' << (int*)&chunk.memory.back() << '\n';
-            return (&chunk.memory[0] <= address) && (&chunk.memory.back() >= address);
+        auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
+            return (&chunk.memory.front() <= address) && (&chunk.memory.back() >= address);
         });
-        if (chunkIter == chunks.cend()) [[unlikely]] {
-            throw std::runtime_error("Wrong address provided for deallocation");
+
+        if (chunkIter == chunks.cend()) {
+            assert(false && "Something went wrong, this block should be executed by all means.");
+            return;
         }
-        auto& blocks = chunkIter->allocatedBlocks;
-        for (auto iter = blocks.begin(), iterBefore = blocks.before_begin(); iter != blocks.cend() && size != 0;) {
-            if (iter->size <= size) {
-                size -= iter->size;
-                iter = blocks.erase_after(iterBefore);
-            } else {
-                iter->startPosition += size;
-                size = 0;
-            }
-        }*/
+
+        while (size != 0) {
+        }
     }
 
     void dump() const
@@ -86,6 +82,7 @@ private: // types
         Chunk&        chunk;
         BlockIterator freeBlock;
     };
+    using SurroundingBlocks = std::pair<BlockIterator, BlockIterator>;
 
 private: // methods
     SuitableChunkData getSuitableChunk(std::size_t bytesRequired)
@@ -106,8 +103,6 @@ private: // methods
 
     char* allocateInChunk(SuitableChunkData& suitableChunk, std::size_t bytes)
     {
-        auto  tt     = suitableChunk.freeBlock;
-        auto  t      = suitableChunk.freeBlock->startPosition;
         auto* memory = &suitableChunk.chunk.memory[suitableChunk.freeBlock->startPosition];
         if (suitableChunk.freeBlock->size == bytes) {
             suitableChunk.chunk.freeBlocks.erase(suitableChunk.freeBlock);
@@ -117,6 +112,13 @@ private: // methods
         }
 
         return memory;
+    }
+
+    SurroundingBlocks findSurroundingFreeBlocks(char* address, BlockIterator first, BlockIterator end)
+    {
+        while (first != end) {
+
+        }
     }
 
 private: // data

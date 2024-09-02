@@ -115,3 +115,11 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
     EXPECT_EQ(mm.chunks.size(), 3);
     EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
 }
+
+TEST(ChunkMemoryManagerTest, AllocationExceptionTest)
+{
+    const std::size_t             bytes = 1;
+    ChunkMemoryManager<10> mm;
+
+    EXPECT_THROW(mm.allocate(11), std::exception);
+}
