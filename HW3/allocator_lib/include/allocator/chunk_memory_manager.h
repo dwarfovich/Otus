@@ -15,9 +15,9 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest);
-    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1ByteTest);
-    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2ByteTest);
-
+    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest);
 public:
     char* allocate(std::size_t bytes)
     {

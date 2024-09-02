@@ -48,7 +48,7 @@ TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest)
     EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
 }
 
-TEST(ChunkMemoryManagerTest, NewChunkAllocation1ByteTest)
+TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest)
 {
     const std::size_t                          bytes          = 1;
     ChunkMemoryManager<bytes> mm;
@@ -64,7 +64,7 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation1ByteTest)
     EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
 }
 
-TEST(ChunkMemoryManagerTest, NewChunkAllocation2ByteTest)
+TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest)
 {
     const std::size_t     bytes          = 2;
     ChunkMemoryManager<bytes> mm;
@@ -78,4 +78,40 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation2ByteTest)
     mm.allocate(bytes);
     EXPECT_EQ(mm.chunks.size(), 3);
     EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
+}
+
+TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
+{
+    const std::size_t         bytes = 1;
+    ChunkMemoryManager<bytes * 3> mm;
+
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 1);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 1);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 1);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
+
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 2);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 2);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 2);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
+    
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 3);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 3);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+    mm.allocate(bytes);
+    EXPECT_EQ(mm.chunks.size(), 3);
+    EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
 }
