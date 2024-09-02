@@ -12,18 +12,38 @@ TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty)
 
 TEST(ChunkMemoryManagerTest, ConsequtiveAllocation1ByteTest)
 {
-    const std::size_t maxAllocations = 4;
-    ChunkMemoryManager<maxAllocations> mm;
-    const std::size_t bytes = 1;
-    for(size_t i = 0; i < maxAllocations; ++i){
-        mm.allocate(bytes);
+    const std::size_t                          maxAllocations = 4;
+    const std::size_t                          bytes          = 1;
+    ChunkMemoryManager<maxAllocations * bytes> mm;
+
+    char* previousAddress = 0;
+    for (size_t i = 0; i < maxAllocations; ++i) {
+        auto* address = mm.allocate(bytes);
+        if (i != 0) {
+            EXPECT_EQ(previousAddress + bytes, address);
+        }
+        previousAddress = address;
     }
 
     EXPECT_EQ(mm.chunks.size(), 1);
     EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
-    const auto& chunk = mm.chunks.front();
-    for (size_t i = 1; i < maxAllocations; ++i) {
-        EXPECT_EQ(&chunk.memory[i], &chunk.memory[i - 1] + 1);
+}
+
+TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest)
+{
+    const std::size_t                  maxAllocations = 4;
+    const std::size_t                  bytes = 2;
+    ChunkMemoryManager<maxAllocations * bytes> mm;
+
+    char* previousAddress = 0;
+    for (size_t i = 0; i < maxAllocations; ++i) {
+        auto* address = mm.allocate(bytes);
+        if (i!=0){
+            EXPECT_EQ(previousAddress + bytes, address);
+        }
+        previousAddress = address;
     }
 
+    EXPECT_EQ(mm.chunks.size(), 1);
+    EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
 }
