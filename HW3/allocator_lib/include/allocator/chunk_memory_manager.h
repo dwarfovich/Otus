@@ -5,14 +5,15 @@
 #include <cinttypes>
 #include <forward_list>
 #include <list>
-#include <array>
+#include <vector>
 #include <algorithm>
 #include <iostream>
 
-template<std::size_t ChunkSize = 1024>
+template<std::size_t ChunkSize = 1024, std::size_t InitialReservedBlocks = 10>
 class ChunkMemoryManager
 {
     FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty);
+    FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation1ByteTest);
 
 public:
     char* allocate(std::size_t bytes)
@@ -21,29 +22,13 @@ public:
             throw std::runtime_error { "Requested memory is larger than ChunkSize" };
         }
 
-        std::cout << "Requested to allocate " << bytes << " bytes\n";
-        for (auto& chunk : chunks) {
-            auto* allocatedMemory = allocateInChunk(chunk, bytes);
-            if (allocatedMemory) {
-                std::cout << "Allocated at " << std::hex << (int*)allocatedMemory << '\n';
-                return allocatedMemory;
-            }
-        }
-
-        chunks.push_back({});
-        auto* allocatedMemory = allocateInChunk(chunks.back(), bytes);
-        if (allocatedMemory) {
-            std::cout << "Allocated at " << std::hex << (int*)allocatedMemory << '\n';
-            return allocatedMemory;
-        } else {
-            throw std::bad_alloc {};
-        }
+        auto suitableChunk = getSuitableChunk(bytes);
+        return allocateInChunk(suitableChunk, bytes);
     }
 
     void deallocate(char* address, std::size_t size)
     {
-        std::cout << "Requested to deallocate " << size << " bytes at " << std::hex << (int*)address << '\n';
-        auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
+        /*auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
             std::cout << (int*)&chunk.memory[0] << ' ' << (int*)&chunk.memory.back() << '\n';
             return (&chunk.memory[0] <= address) && (&chunk.memory.back() >= address);
         });
@@ -59,7 +44,7 @@ public:
                 iter->startPosition += size;
                 size = 0;
             }
-        }
+        }*/
     }
 
     void dump() const
@@ -83,34 +68,50 @@ private: // types
     };
     struct Chunk
     {
-        // Chunk() { allocatedBlocks.emplace_front(0, ChunkSize); }
+        Chunk() : memory(ChunkSize)
+        {
+            freeBlocks.reserve(InitialReservedBlocks);
+            freeBlocks.emplace_back(0, ChunkSize);
+        }
 
-        std::array<char, ChunkSize> memory {};
-        std::forward_list<Block>    allocatedBlocks;
+        std::vector<char>  memory {};
+        std::vector<Block> freeBlocks;
+    };
+    using BlockIterator = decltype(Chunk::freeBlocks)::iterator;
+    struct SuitableChunkData
+    {
+        Chunk&        chunk;
+        BlockIterator freeBlock;
     };
 
 private: // methods
-    char* allocateInChunk(Chunk& chunk, std::size_t bytes)
+    SuitableChunkData getSuitableChunk(std::size_t bytesRequired)
     {
-        auto&       blocks        = chunk.allocatedBlocks;
-        auto        firstBlock    = blocks.before_begin();
-        std::size_t firstPosition = 0;
-        auto        secondBlock   = std::next(firstBlock);
-        while (secondBlock != blocks.cend() && secondBlock->startPosition - firstPosition < bytes) {
-            ++firstBlock;
-            ++secondBlock;
-            firstPosition = firstBlock->startPosition + firstBlock->size;
-        }
-        std::size_t secondPosition = secondBlock == blocks.cend() ? ChunkSize : secondBlock->startPosition - 1;
-        std::size_t freeBytes      = secondPosition - firstPosition;
-        if (freeBytes >= bytes) {
-            chunk.allocatedBlocks.insert_after(firstBlock, { firstPosition, bytes });
-            return &chunk.memory[firstPosition];
-        } else {
-            return nullptr;
+        for (auto& chunk : chunks) {
+            std::size_t freeBytes = 0;
+            auto&       blocks    = chunk.freeBlocks;
+            for (auto firstBlockIter = blocks.begin(); firstBlockIter != blocks.cend(); ++firstBlockIter) {
+                if (firstBlockIter->size >= bytesRequired) {
+                    return { chunk, firstBlockIter };
+                }
+            }
         }
 
-        return nullptr;
+        chunks.push_back({});
+        return { chunks.front(), chunks.front().freeBlocks.begin() };
+    }
+
+    char* allocateInChunk(SuitableChunkData& suitableChunk, std::size_t bytes)
+    {
+        auto* memory = &suitableChunk.chunk.memory[suitableChunk.freeBlock->startPosition];
+        if (suitableChunk.freeBlock->size == bytes) {
+            suitableChunk.chunk.freeBlocks.erase(suitableChunk.freeBlock);
+        } else{
+            suitableChunk.freeBlock->startPosition += bytes;
+            suitableChunk.freeBlock->size -= bytes;
+        }
+        
+        return memory;
     }
 
 private: // data
