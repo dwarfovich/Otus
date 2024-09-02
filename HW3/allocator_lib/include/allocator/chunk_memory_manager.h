@@ -15,6 +15,8 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2ByteTest);
 
 public:
     char* allocate(std::size_t bytes)
@@ -99,19 +101,21 @@ private: // methods
         }
 
         chunks.push_back({});
-        return { chunks.front(), chunks.front().freeBlocks.begin() };
+        return { chunks.back(), chunks.back().freeBlocks.begin() };
     }
 
     char* allocateInChunk(SuitableChunkData& suitableChunk, std::size_t bytes)
     {
+        auto  tt     = suitableChunk.freeBlock;
+        auto  t      = suitableChunk.freeBlock->startPosition;
         auto* memory = &suitableChunk.chunk.memory[suitableChunk.freeBlock->startPosition];
         if (suitableChunk.freeBlock->size == bytes) {
             suitableChunk.chunk.freeBlocks.erase(suitableChunk.freeBlock);
-        } else{
+        } else {
             suitableChunk.freeBlock->startPosition += bytes;
             suitableChunk.freeBlock->size -= bytes;
         }
-        
+
         return memory;
     }
 
