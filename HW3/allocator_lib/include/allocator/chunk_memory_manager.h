@@ -19,7 +19,8 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest);
-
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy1ByteTest);
+    
 public:
     char* allocate(std::size_t bytes)
     {
@@ -56,7 +57,7 @@ public:
             //                               ? size
             //                               : &chunkIter->memory[0] + ChunkSize - address;
             Block newBlock = { (size_t)(address - &chunkIter->memory[0]), sizeInBlock };
-            std::cout << "Deallocating " << size << " at " << (size_t)address << std::endl;
+            //std::cout << "Deallocating " << size << " at " << (size_t)address << std::endl;
             insertFreeBlock(chunk, newBlock);
             ++chunkIter;
             if (chunkIter == chunks.cend()) {
@@ -131,7 +132,7 @@ private: // methods
             suitableChunk.freeBlock->startPosition += bytes;
             suitableChunk.freeBlock->size -= bytes;
         }
-        std::cout << "Allocated " << bytes << " bytes at " << (size_t)memory << std::endl;
+        //std::cout << "Allocated " << bytes << " bytes at " << (size_t)memory << std::endl;
         return memory;
     }
 

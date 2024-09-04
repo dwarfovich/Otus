@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <algorithm>
+#include <array>
 
 TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty)
 {
@@ -50,7 +50,7 @@ TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest)
 
 TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest)
 {
-    const std::size_t                          bytes          = 1;
+    const std::size_t         bytes = 1;
     ChunkMemoryManager<bytes> mm;
 
     mm.allocate(bytes);
@@ -66,7 +66,7 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest)
 
 TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest)
 {
-    const std::size_t     bytes          = 2;
+    const std::size_t         bytes = 2;
     ChunkMemoryManager<bytes> mm;
 
     mm.allocate(bytes);
@@ -82,7 +82,7 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest)
 
 TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
 {
-    const std::size_t         bytes = 1;
+    const std::size_t             bytes = 1;
     ChunkMemoryManager<bytes * 3> mm;
 
     mm.allocate(bytes);
@@ -104,7 +104,7 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
     mm.allocate(bytes);
     EXPECT_EQ(mm.chunks.size(), 2);
     EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
-    
+
     mm.allocate(bytes);
     EXPECT_EQ(mm.chunks.size(), 3);
     EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
@@ -118,8 +118,26 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
 
 TEST(ChunkMemoryManagerTest, AllocationExceptionTest)
 {
-    const std::size_t             bytes = 1;
-    ChunkMemoryManager<10> mm;
+    const std::size_t             chunkSize = 10;
+    ChunkMemoryManager<chunkSize> mm;
 
-    EXPECT_THROW(mm.allocate(11), std::exception);
+    EXPECT_THROW(mm.allocate(chunkSize + 1), std::exception);
+}
+
+TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy1ByteTest)
+{
+    const std::size_t             chunkSize = 4;
+    ChunkMemoryManager<chunkSize> mm;
+    
+    const std::size_t             allocations = 4;
+    std::array<char*, allocations> addresses;
+    for (std::size_t i = 0; i < allocations; ++i){
+        addresses[i] = mm.allocate(1);
+    }
+
+    for (std::size_t i = allocations - 1; i < allocations; --i) {
+        mm.deallocate(addresses[i], 1);
+        EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
+//        EXPECT_EQ(mm.chunks.back().freeBlocks.back().startPosition, i);
+    }
 }
