@@ -6,6 +6,14 @@
 int main(int argc, char* argv[])
 {
     using MMAllocator = MemoryManagerAllocator<int>;
+    MMAllocator a;
+    auto p1 = a.allocate(1);
+    auto        p2 = a.allocate(1);
+    a.deallocate(p2, 1);
+
+    /*std::vector<int, MMAllocator> v;
+    v.push_back(4);*/
+    /*using MMAllocator = MemoryManagerAllocator<int>;
     std::vector<int, MMAllocator> v;
     v.push_back(1);
     v.push_back(2);
@@ -26,7 +34,7 @@ int main(int argc, char* argv[])
 
     const auto& mm = v.get_allocator();
     MMAllocator mma;
-    mma.getMemoryManager().dump();
+    mma.getMemoryManager().dump();*/
     // v.resize(0);
     // v.shrink_to_fit();
 

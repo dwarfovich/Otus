@@ -38,11 +38,32 @@ public:
         });
 
         if (chunkIter == chunks.cend()) {
-            assert(false && "Something went wrong, this block should be executed by all means.");
+            assert(false && "Something went wrong, this block should not be executed by all means.");
             return;
         }
 
         while (size != 0) {
+            auto&       chunk       = *chunkIter;
+            auto        t           = &chunkIter->memory[0] + ChunkSize;
+            auto        tt          = address + size;
+            std::size_t sizeInBlock = 0;
+            if (size_t(address - &chunkIter->memory[0]) + size <= ChunkSize) {
+                sizeInBlock = size;
+            } else {
+                sizeInBlock = ChunkSize - size_t(address - &chunkIter->memory[0]);
+            }
+            // std::size_t sizeInBlock = (&chunkIter->memory[0] + ChunkSize <= address + size)
+            //                               ? size
+            //                               : &chunkIter->memory[0] + ChunkSize - address;
+            Block newBlock = { (size_t)(address - &chunkIter->memory[0]), sizeInBlock };
+            std::cout << "Deallocating " << size << " at " << (size_t)address << std::endl;
+            insertFreeBlock(chunk, newBlock);
+            ++chunkIter;
+            if (chunkIter == chunks.cend()) {
+                break;
+            }
+            size -= sizeInBlock;
+            address = &chunkIter->memory[0];
         }
     }
 
@@ -110,14 +131,26 @@ private: // methods
             suitableChunk.freeBlock->startPosition += bytes;
             suitableChunk.freeBlock->size -= bytes;
         }
-
+        std::cout << "Allocated " << bytes << " bytes at " << (size_t)memory << std::endl;
         return memory;
     }
 
-    SurroundingBlocks findSurroundingFreeBlocks(char* address, BlockIterator first, BlockIterator end)
-    {
-        while (first != end) {
+    void insertFreeBlock(Chunk& chunk, Block block) {}
 
+    SurroundingBlocks findSurroundingFreeBlocks(
+        char* startAddress, char* targetAddress, std::size_t targetSize, BlockIterator first, BlockIterator end)
+    {
+        auto previousBlock = end;
+        while (first != end) {
+            if (startAddress + first->startPosition + first->size == targetAddress) {
+                previousBlock = first;
+                break;
+            } else {
+                break;
+            }
+        }
+        auto nextBlock = previousBlock + 1;
+        while (nextBlock != end) {
         }
     }
 
