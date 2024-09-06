@@ -411,3 +411,17 @@ TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest)
         EXPECT_EQ(mm.chunks.size(), (i + 2)/2);
     }
 }
+
+TEST(ChunkMemoryManagerTest, MultiChunkDeallocation1ByteTest)
+{
+    const std::size_t             allocationSize = 1;
+    const std::size_t             chunkSize      = 1;
+    ChunkMemoryManager<chunkSize> mm;
+
+    const std::size_t              allocations = 8;
+    std::array<char*, allocations> addresses;
+    for (std::size_t i = 0; i < allocations; ++i) {
+        addresses[i] = mm.allocate(allocationSize);
+        EXPECT_EQ(mm.chunks.size(), (i + 2) / 2);
+    }
+}
