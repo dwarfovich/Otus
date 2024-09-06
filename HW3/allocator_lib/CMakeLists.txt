@@ -1,6 +1,6 @@
 ﻿add_library(allocator_lib STATIC
-   "src/chunk_memory_manager.cpp"
-   "src/memory_manager_allocator.cpp"
+   
+   
    "include/allocator/chunk_memory_manager.h"
    "include/allocator/memory_bank.h"
    "include/allocator/memory_manager_allocator.h")

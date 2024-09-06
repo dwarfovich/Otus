@@ -37,17 +37,9 @@ private:
     inline static MemoryManager memoryManager;
 };
 
-// TODO: reconcider return value.
 template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
 bool operator==(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
-                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
+                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept
 {
-    return true;
-}
-
-template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
-bool operator!=(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
-                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&)
-{
-    return false;
+    return std::is_same(T, U) && TMemoryBank == UMemoryBank && std::is_same(TMemoryManager, UMemoryManager);
 }

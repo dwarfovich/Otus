@@ -4,7 +4,7 @@
 
 #include <array>
 
-TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty)
+TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmptyTest)
 {
     ChunkMemoryManager mm;
     EXPECT_TRUE(mm.chunks.empty());

@@ -13,9 +13,9 @@ template<std::size_t ChunkSize = 1024, std::size_t InitialReservedBlocks = 10>
 class ChunkMemoryManager
 {
 public:
-    char* allocate(std::size_t bytes);
-    void  deallocate(char* address, std::size_t size) noexcept;
-    void  removeEmptyChunks();
+    [[nodiscard]] char* allocate(std::size_t bytes);
+    void                deallocate(char* address, std::size_t size) noexcept;
+    void                removeEmptyChunks();
 
 private: // types
     struct Block
@@ -49,7 +49,7 @@ private: // data
     std::list<Chunk> chunks;
 
 private: // test friends
-    FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmpty);
+    FRIEND_TEST(ChunkMemoryManagerTest, ChunkMemoryManagerConstructedEmptyTest);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest);
@@ -125,9 +125,9 @@ auto ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::getSuitableChunk(std:
 {
     for (auto& chunk : chunks) {
         auto& blocks = chunk.freeBlocks;
-        for (auto firstBlockIter = blocks.begin(); firstBlockIter != blocks.cend(); ++firstBlockIter) {
-            if (firstBlockIter->size >= bytesRequired) {
-                return { chunk, firstBlockIter };
+        for (auto iter = blocks.begin(); iter != blocks.cend(); ++iter) {
+            if (iter->size >= bytesRequired) {
+                return { chunk, iter };
             }
         }
     }
@@ -189,8 +189,7 @@ void ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Chunk::insertFreeBloc
 
     if (!previousBlockIsEnd) {
         const auto rightBlock = std::next(previousBlock);
-        if (rightBlock != blocks.cend()
-            && (rightBlock->startPosition == previousBlock->endPosition())) {
+        if (rightBlock != blocks.cend() && (rightBlock->startPosition == previousBlock->endPosition())) {
             previousBlock->size += rightBlock->size;
             blocks.erase(rightBlock);
         }
@@ -198,7 +197,7 @@ void ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Chunk::insertFreeBloc
 }
 
 template<std::size_t ChunkSize, std::size_t InitialReservedBlocks>
-inline std::size_t ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Block::endPosition() const
+std::size_t ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Block::endPosition() const
 {
     return startPosition + size;
 }
