@@ -35,6 +35,8 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkDeallocation1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkCrossDeallocationTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, RemoveEmptyChunksTest);
 
 public:
     char* allocate(std::size_t bytes)
@@ -79,6 +81,15 @@ public:
         }
     }
 
+    void removeEmptyChunks()
+    {
+        std::erase_if(chunks, [](const auto& chunk) {
+            return chunk.freeBlocks.size() == 1 && chunk.freeBlocks.back().size == ChunkSize;
+        });
+
+
+    }
+
     void dump() const
     {
         std::cout << "Chunks count: " << chunks.size() << '\n';
@@ -115,7 +126,6 @@ private: // types
         Chunk&        chunk;
         BlockIterator freeBlock;
     };
-    using SurroundingBlocks = std::pair<BlockIterator, BlockIterator>;
 
 private: // methods
     SuitableChunkData getSuitableChunk(std::size_t bytesRequired)
@@ -149,19 +159,18 @@ private: // methods
 
     void insertFreeBlock(Chunk& chunk, Block block)
     {
-        bool isRight = false;
-        auto& blocks = chunk.freeBlocks;
-        auto  prev   = blocks.begin();
+        bool  isRight = false;
+        auto& blocks  = chunk.freeBlocks;
+        auto  prev    = blocks.begin();
         for (auto left = blocks.begin(); left != blocks.end(); ++left) {
             if (left->startPosition + left->size < block.startPosition) {
-
                 prev = left;
             } else {
                 break;
             }
         }
 
-        if(prev == blocks.cend()){
+        if (prev == blocks.cend()) {
             blocks.insert(prev, std::move(block));
             return;
         }
@@ -190,7 +199,6 @@ private: // methods
                 blocks.erase(right);
             }
         }
-
     }
 
 private: // data
