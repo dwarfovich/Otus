@@ -27,6 +27,11 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromLeftInMiddleBy2ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightInMiddleBy1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightInMiddleBy2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromLeft1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromLeft2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromRight1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromRight2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, MergingBlocksAfterSparseDeallocationTest);
     
 
 public:
@@ -142,28 +147,48 @@ private: // methods
 
     void insertFreeBlock(Chunk& chunk, Block block)
     {
+        bool isRight = false;
         auto& blocks = chunk.freeBlocks;
         auto  prev   = blocks.begin();
         for (auto left = blocks.begin(); left != blocks.end(); ++left) {
             if (left->startPosition + left->size < block.startPosition) {
+
                 prev = left;
             } else {
                 break;
             }
         }
+
+        if(prev == blocks.cend()){
+            blocks.insert(prev, std::move(block));
+            return;
+        }
+
+        /*if ( blocks.size() == 1){
+            isRight = true;
+        }*/
+        if (prev->startPosition >= block.startPosition) {
+            isRight = true;
+        }
+        int t = 354;
         if (prev != blocks.cend() && (prev->startPosition + prev->size == block.startPosition)) {
             prev->size += block.size;
         } else {
-            prev = blocks.insert(prev, std::move(block));
+            if (isRight) {
+                prev = blocks.insert(prev, std::move(block));
+            } else {
+                prev = blocks.insert(prev + 1, std::move(block));
+            }
         }
 
-        if (prev != blocks.cend()){
+        if (prev != blocks.cend()) {
             auto right = std::next(prev);
             if (right != blocks.cend() && (right->startPosition == prev->startPosition + prev->size)) {
                 prev->size += right->size;
                 blocks.erase(right);
             }
         }
+
     }
 
     SurroundingBlocks findSurroundingFreeBlocks(

@@ -5,14 +5,17 @@
 
 int main(int argc, char* argv[])
 {
-    using MMAllocator = ChunkMemoryManager<3>;
+    using MMAllocator = ChunkMemoryManager<6>;
     MMAllocator a;
     auto p1 = a.allocate(1);
     auto        p2 = a.allocate(1);
     auto        p3 = a.allocate(1);
-    a.deallocate(p3, 1);
-    a.deallocate(p2, 1);
+    auto        p4 = a.allocate(1);
+    auto        p5 = a.allocate(1);
+    auto        p6 = a.allocate(1);
     a.deallocate(p1, 1);
+    a.deallocate(p3, 1);
+    a.deallocate(p5, 1);
     int t = 34;
     /*std::vector<int, MMAllocator> v;
     v.push_back(4);*/
