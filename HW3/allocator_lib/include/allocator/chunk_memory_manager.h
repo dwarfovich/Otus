@@ -20,7 +20,15 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation2By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromLeftToEndBy1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromLeftToEndBy2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromLeftInMiddleBy1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromLeftInMiddleBy2ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightInMiddleBy1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, DeallocateFromRightInMiddleBy2ByteTest);
     
+
 public:
     char* allocate(std::size_t bytes)
     {
@@ -53,11 +61,7 @@ public:
             } else {
                 sizeInBlock = ChunkSize - size_t(address - &chunkIter->memory[0]);
             }
-            // std::size_t sizeInBlock = (&chunkIter->memory[0] + ChunkSize <= address + size)
-            //                               ? size
-            //                               : &chunkIter->memory[0] + ChunkSize - address;
             Block newBlock = { (size_t)(address - &chunkIter->memory[0]), sizeInBlock };
-            //std::cout << "Deallocating " << size << " at " << (size_t)address << std::endl;
             insertFreeBlock(chunk, newBlock);
             ++chunkIter;
             if (chunkIter == chunks.cend()) {
@@ -132,11 +136,35 @@ private: // methods
             suitableChunk.freeBlock->startPosition += bytes;
             suitableChunk.freeBlock->size -= bytes;
         }
-        //std::cout << "Allocated " << bytes << " bytes at " << (size_t)memory << std::endl;
+        // std::cout << "Allocated " << bytes << " bytes at " << (size_t)memory << std::endl;
         return memory;
     }
 
-    void insertFreeBlock(Chunk& chunk, Block block) {}
+    void insertFreeBlock(Chunk& chunk, Block block)
+    {
+        auto& blocks = chunk.freeBlocks;
+        auto  prev   = blocks.begin();
+        for (auto left = blocks.begin(); left != blocks.end(); ++left) {
+            if (left->startPosition + left->size < block.startPosition) {
+                prev = left;
+            } else {
+                break;
+            }
+        }
+        if (prev != blocks.cend() && (prev->startPosition + prev->size == block.startPosition)) {
+            prev->size += block.size;
+        } else {
+            prev = blocks.insert(prev, std::move(block));
+        }
+
+        if (prev != blocks.cend()){
+            auto right = std::next(prev);
+            if (right != blocks.cend() && (right->startPosition == prev->startPosition + prev->size)) {
+                prev->size += right->size;
+                blocks.erase(right);
+            }
+        }
+    }
 
     SurroundingBlocks findSurroundingFreeBlocks(
         char* startAddress, char* targetAddress, std::size_t targetSize, BlockIterator first, BlockIterator end)
