@@ -22,7 +22,7 @@ public:
     MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs)      = default;
 
     template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {};
+    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {}
 
     [[nodiscard]] T* allocate(std::size_t n) { return reinterpret_cast<T*>(memoryManager.allocate(n * sizeof(T))); }
 

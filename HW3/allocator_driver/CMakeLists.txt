@@ -7,6 +7,12 @@ ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+#string(REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+if(MSVC)
+  target_compile_options(allocator_driver PRIVATE /W4 /WX)
+else()
+  target_compile_options(allocator_driver PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 
 # deb-package.
 # set(CPACK_GENERATOR DEB)

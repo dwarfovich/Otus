@@ -4,11 +4,6 @@ option(BUILD_TESTS "BuildTests" ON)
 set(PROJECT_VERSION "0.0.3" CACHE INTERNAL "Version")
 project (allocator VERSION ${PROJECT_VERSION})
 
-
-# project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
-# add_executable (${TARGET_NAME} "src/main.cpp")
-# set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
-
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
