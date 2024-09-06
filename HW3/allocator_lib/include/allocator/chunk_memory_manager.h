@@ -32,7 +32,9 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromRight1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, SparseDeallocationFromRight2ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, MergingBlocksAfterSparseDeallocationTest);
-    
+    FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation1ByteTest);
+    FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest);
+
 
 public:
     char* allocate(std::size_t bytes)
@@ -189,23 +191,6 @@ private: // methods
             }
         }
 
-    }
-
-    SurroundingBlocks findSurroundingFreeBlocks(
-        char* startAddress, char* targetAddress, std::size_t targetSize, BlockIterator first, BlockIterator end)
-    {
-        auto previousBlock = end;
-        while (first != end) {
-            if (startAddress + first->startPosition + first->size == targetAddress) {
-                previousBlock = first;
-                break;
-            } else {
-                break;
-            }
-        }
-        auto nextBlock = previousBlock + 1;
-        while (nextBlock != end) {
-        }
     }
 
 private: // data

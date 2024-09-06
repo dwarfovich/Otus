@@ -383,3 +383,31 @@ TEST(ChunkMemoryManagerTest, MergingBlocksAfterSparseDeallocationTest)
     EXPECT_EQ(mm.chunks.back().freeBlocks.front().startPosition, 0);
     EXPECT_EQ(mm.chunks.back().freeBlocks.front().size, 8);
 }
+
+TEST(ChunkMemoryManagerTest, MultiChunkAllocation1ByteTest)
+{
+    const std::size_t             allocationSize = 1;
+    const std::size_t             chunkSize      = 1;
+    ChunkMemoryManager<chunkSize> mm;
+
+    const std::size_t              allocations = 8;
+    std::array<char*, allocations> addresses;
+    for (std::size_t i = 0; i < allocations; ++i) {
+        addresses[i] = mm.allocate(allocationSize);
+        EXPECT_EQ(mm.chunks.size(), i + 1);
+    }
+}
+
+TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest)
+{
+    const std::size_t             allocationSize = 1;
+    const std::size_t             chunkSize      = 2;
+    ChunkMemoryManager<chunkSize> mm;
+
+    const std::size_t              allocations = 8;
+    std::array<char*, allocations> addresses;
+    for (std::size_t i = 0; i < allocations; ++i) {
+        addresses[i] = mm.allocate(allocationSize);
+        EXPECT_EQ(mm.chunks.size(), (i + 2)/2);
+    }
+}
