@@ -34,7 +34,7 @@ class ChunkMemoryManager
     FRIEND_TEST(ChunkMemoryManagerTest, MergingBlocksAfterSparseDeallocationTest);
     FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation1ByteTest);
     FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest);
-
+    FRIEND_TEST(ChunkMemoryManagerTest, MultiChunkDeallocation1ByteTest);
 
 public:
     char* allocate(std::size_t bytes)
