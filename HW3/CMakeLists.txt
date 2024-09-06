@@ -16,6 +16,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib")
 
 add_subdirectory(allocator_driver)
 add_subdirectory(allocator_lib)
+add_subdirectory(benchmark)
 
 # Tests.
 #if(BuildTests)
