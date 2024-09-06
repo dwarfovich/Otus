@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
 add_executable(unit_tests 
-    chunk_memory_manager_tests.cpp)
+    chunk_memory_manager_tests.cpp "memory_manager_allocator_tests.cpp")
 target_link_libraries(unit_tests PUBLIC GTest::gtest_main allocator_lib)
 
 gtest_discover_tests(unit_tests)
