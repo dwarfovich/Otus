@@ -33,7 +33,7 @@ private: // types
     };
     struct Chunk
     {
-        Chunk(std::size_t size = ChunkSize);
+        Chunk(std::size_t size = DefaultChunkSize);
 
         void insertFreeBlock(Block block);
 
@@ -167,6 +167,7 @@ char* ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::allocateInChu
         suitableChunk.freeBlock->size -= bytes;
     }
 
+    //std::cout << "Allocating " << bytes << " at " << std::hex << (int*)(memory) << '\n';
     return memory;
 }
 

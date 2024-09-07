@@ -4,9 +4,11 @@
 
 #include <vector>
 #include <list>
+#include <map>
+#include <unordered_map>
 #include <iostream>
 
-inline constexpr std::size_t vectorPuchBacks = 10'000'000;
+inline constexpr std::size_t vectorPuchBacks = 1'000'000;
 
 void BM_StdVectorPushBack(benchmark::State& state)
 {
@@ -52,12 +54,76 @@ void BM_StdMapInsertion(benchmark::State& state)
 void BM_MMMapInsertion(benchmark::State& state)
 {
     using MMA = MemoryManagerAllocator<std::pair<const std::size_t, std::size_t>, ChunkMemoryManager<10'000'000>>;
-    std::map<std::size_t, std::size_t, std::greater<std::size_t>, MMA> map;
+    std::map<std::size_t, std::size_t, std::less<std::size_t>, MMA> map;
     for (auto _ : state) {
         state.PauseTiming();
         map.clear();
         state.ResumeTiming();
         for (std::size_t i = 0; i < vectorPuchBacks; ++i) {
+            map[i] = i;
+        }
+    }
+}
+
+inline const std::size_t mapInsertionElements = 1'000;
+
+void BM_StdMapIteration(benchmark::State& state)
+{
+    std::map<std::size_t, std::size_t> map;
+    for (std::size_t i = 0; i < mapInsertionElements; ++i){
+        map[i] = 1;
+    }
+    std::size_t sum = 0; 
+    for (auto _ : state) {
+        state.PauseTiming();
+        map.clear();
+        state.ResumeTiming();
+        for (std::size_t i = 0; i < mapInsertionElements; ++i) {
+            sum += map[i];
+        }
+    }
+}
+
+void BM_MMMapIteration(benchmark::State& state)
+{
+    using MMA = MemoryManagerAllocator<std::pair<const std::size_t, std::size_t>, ChunkMemoryManager<10'000'000>>;
+    std::map<std::size_t, std::size_t, std::less<>, MMA> map;
+    for (std::size_t i = 0; i < mapInsertionElements; ++i) {
+        map[i] = 1;
+    }
+    std::size_t sum = 0; 
+    for (auto _ : state) {
+        state.PauseTiming();
+        map.clear();
+        state.ResumeTiming();
+        for (std::size_t i = 0; i < mapInsertionElements; ++i) {
+            sum += map[i];
+        }
+    }
+}
+
+void BM_StdUMapInsertion(benchmark::State& state)
+{
+    std::unordered_map<std::size_t, std::size_t> map;
+    for (auto _ : state) {
+        state.PauseTiming();
+        map.clear();
+        state.ResumeTiming();
+        for (std::size_t i = 0; i < mapInsertionElements; ++i) {
+            map[i] = i;
+        }
+    }
+}
+
+void BM_MMUMapInsertion(benchmark::State& state)
+{
+    using MMA = MemoryManagerAllocator<std::pair<const std::size_t, std::size_t>, ChunkMemoryManager<10'000'000>>;
+    std::unordered_map<std::size_t, std::size_t, std::hash<std::size_t>, std::less<std::size_t>, MMA> map;
+    for (auto _ : state) {
+        state.PauseTiming();
+        map.clear();
+        state.ResumeTiming();
+        for (std::size_t i = 0; i < mapInsertionElements; ++i) {
             map[i] = i;
         }
     }
@@ -95,6 +161,12 @@ BENCHMARK(BM_StdVectorPushBack);
 BENCHMARK(BM_MMVectorPushBack);
 BENCHMARK(BM_StdMapInsertion);
 BENCHMARK(BM_MMMapInsertion);
+BENCHMARK(BM_StdMapIteration);
+BENCHMARK(BM_MMMapIteration);
+BENCHMARK(BM_StdUMapInsertion);
+BENCHMARK(BM_MMUMapInsertion);
+
+
 BENCHMARK(BM_StdListInsertion);
 BENCHMARK(BM_MMListInsertion);
 // Run the benchmark

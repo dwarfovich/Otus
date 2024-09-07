@@ -39,9 +39,9 @@ private:
     inline static MemoryManager memoryManager;
 };
 
-template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
+template<class T, class TMemoryManager, MemoryBank TMemoryBank, class U, class UMemoryManager, MemoryBank UMemoryBank>
 bool operator==(const MemoryManagerAllocator<T, TMemoryManager, TMemoryBank>&,
                 const MemoryManagerAllocator<U, UMemoryManager, UMemoryBank>&) noexcept
 {
-    return std::is_same(T, U) && TMemoryBank == UMemoryBank && std::is_same(TMemoryManager, UMemoryManager);
+    return std::is_same<T, U>() && TMemoryBank == UMemoryBank && std::is_same<TMemoryManager, UMemoryManager>();
 }
