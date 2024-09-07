@@ -48,6 +48,17 @@ TEST(ChunkMemoryManagerTest, ConsequtiveAllocation2ByteTest)
     EXPECT_EQ(mm.chunks.front().freeBlocks.size(), 0);
 }
 
+TEST(ChunkMemoryManagerTest, IncreasingChunkSizeTest)
+{
+    const std::size_t     allocations = 10;
+    ChunkMemoryManager<1> mm;
+
+    for (std::size_t i = 1; i < allocations + 1; ++i) {
+        mm.allocate(i);
+        EXPECT_EQ(mm.chunks.back().memory.size(), i);
+    }
+}
+
 TEST(ChunkMemoryManagerTest, NewChunkAllocation1By1ByteTest)
 {
     const std::size_t         bytes = 1;
@@ -116,22 +127,14 @@ TEST(ChunkMemoryManagerTest, NewChunkAllocation3By1ByteTest)
     EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 0);
 }
 
-TEST(ChunkMemoryManagerTest, AllocationExceptionTest)
-{
-    const std::size_t             chunkSize = 10;
-    ChunkMemoryManager<chunkSize> mm;
-
-    EXPECT_THROW(mm.allocate(chunkSize + 1), std::exception);
-}
-
 TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy1ByteTest)
 {
     const std::size_t             chunkSize = 4;
     ChunkMemoryManager<chunkSize> mm;
-    
-    const std::size_t             allocations = 4;
+
+    const std::size_t              allocations = 4;
     std::array<char*, allocations> addresses;
-    for (std::size_t i = 0; i < allocations; ++i){
+    for (std::size_t i = 0; i < allocations; ++i) {
         addresses[i] = mm.allocate(1);
     }
 
@@ -144,8 +147,8 @@ TEST(ChunkMemoryManagerTest, DeallocateFromRightToBeginningBy1ByteTest)
 
 TEST(ChunkMemoryManagerTest, DeallocateFromLeftToEndBy1ByteTest)
 {
-    const std::size_t allocationSize = 1;             
-    const std::size_t             chunkSize = 4 * allocationSize;
+    const std::size_t             allocationSize = 1;
+    const std::size_t             chunkSize      = 4 * allocationSize;
     ChunkMemoryManager<chunkSize> mm;
 
     const std::size_t              allocations = 4;
@@ -158,7 +161,7 @@ TEST(ChunkMemoryManagerTest, DeallocateFromLeftToEndBy1ByteTest)
         mm.deallocate(addresses[i], allocationSize);
         EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
         EXPECT_EQ(mm.chunks.back().freeBlocks.back().startPosition, 0);
-        EXPECT_EQ(mm.chunks.back().freeBlocks.back().size, i*allocationSize + allocationSize);
+        EXPECT_EQ(mm.chunks.back().freeBlocks.back().size, i * allocationSize + allocationSize);
     }
 }
 
@@ -198,7 +201,7 @@ TEST(ChunkMemoryManagerTest, DeallocateFromLeftInMiddleBy1ByteTest)
         mm.deallocate(addresses[i], allocationSize);
         EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1);
         EXPECT_EQ(mm.chunks.back().freeBlocks.back().startPosition, 3);
-        EXPECT_EQ(mm.chunks.back().freeBlocks.back().size, i * allocationSize + allocationSize - allocationSize*3);
+        EXPECT_EQ(mm.chunks.back().freeBlocks.back().size, i * allocationSize + allocationSize - allocationSize * 3);
     }
 }
 
@@ -233,7 +236,6 @@ TEST(ChunkMemoryManagerTest, DeallocateFromRightInMiddleBy1ByteTest)
     for (std::size_t i = 0; i < allocations; ++i) {
         addresses[i] = mm.allocate(allocationSize);
     }
-
 
     for (std::size_t i = 6, freeSize = allocationSize; i < allocations; --i, ++freeSize) {
         mm.deallocate(addresses[i], allocationSize);
@@ -275,9 +277,9 @@ TEST(ChunkMemoryManagerTest, SparseDeallocationFromLeft1ByteTest)
         addresses[i] = mm.allocate(allocationSize);
     }
 
-    for (std::size_t i = 0, freeSize = allocationSize; i < allocations; i+=2, freeSize += 1) {
+    for (std::size_t i = 0, freeSize = allocationSize; i < allocations; i += 2, freeSize += 1) {
         mm.deallocate(addresses[i], allocationSize);
-        EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1 + i/2);
+        EXPECT_EQ(mm.chunks.back().freeBlocks.size(), 1 + i / 2);
         EXPECT_EQ(mm.chunks.back().freeBlocks.back().startPosition, i * allocationSize);
         EXPECT_EQ(mm.chunks.back().freeBlocks.back().size, 1);
     }
@@ -408,7 +410,7 @@ TEST(ChunkMemoryManagerTest, MultiChunkAllocation2ByteTest)
     std::array<char*, allocations> addresses;
     for (std::size_t i = 0; i < allocations; ++i) {
         addresses[i] = mm.allocate(allocationSize);
-        EXPECT_EQ(mm.chunks.size(), (i + 2)/2);
+        EXPECT_EQ(mm.chunks.size(), (i + 2) / 2);
     }
 }
 
@@ -429,7 +431,7 @@ TEST(ChunkMemoryManagerTest, MultiChunkDeallocation1ByteTest)
     }
 
     std::size_t counter = 0;
-    for (const auto& chunk : mm.chunks){
+    for (const auto& chunk : mm.chunks) {
         EXPECT_EQ(chunk.freeBlocks.size(), 1);
         EXPECT_EQ(chunk.freeBlocks.back().startPosition, 0);
         EXPECT_EQ(chunk.freeBlocks.back().size, 1);

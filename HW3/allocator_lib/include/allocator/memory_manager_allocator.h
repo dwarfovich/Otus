@@ -3,7 +3,7 @@
 #include "memory_bank.h"
 #include "chunk_memory_manager.h"
 
-template<typename T, MemoryBank bank = MemoryBank::General, typename MemoryManager = ChunkMemoryManager<1024>>
+template<typename T, typename MemoryManager = ChunkMemoryManager<1024>, MemoryBank bank = MemoryBank::General>
 class MemoryManagerAllocator
 {
 public:
@@ -12,7 +12,7 @@ public:
     template<typename U>
     struct rebind
     {
-        using other = MemoryManagerAllocator<U, bank, MemoryManager>;
+        using other = MemoryManagerAllocator<U, MemoryManager, bank>;
     };
 
     MemoryManagerAllocator()                                             = default;
@@ -21,8 +21,10 @@ public:
     MemoryManagerAllocator(MemoryManagerAllocator&&)                     = default;
     MemoryManagerAllocator& operator=(MemoryManagerAllocator&& rhs)      = default;
 
-    template<class U, MemoryBank UMemoryBank, typename UMemoryManager>
-    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept {}
+    template<class U, typename UMemoryManager, MemoryBank UMemoryBank>
+    constexpr MemoryManagerAllocator(const MemoryManagerAllocator<U, UMemoryManager, UMemoryBank>&) noexcept
+    {
+    }
 
     [[nodiscard]] T* allocate(std::size_t n) { return reinterpret_cast<T*>(memoryManager.allocate(n * sizeof(T))); }
 
@@ -38,8 +40,8 @@ private:
 };
 
 template<class T, MemoryBank TMemoryBank, class TMemoryManager, class U, MemoryBank UMemoryBank, class UMemoryManager>
-bool operator==(const MemoryManagerAllocator<T, TMemoryBank, TMemoryManager>&,
-                const MemoryManagerAllocator<U, UMemoryBank, UMemoryManager>&) noexcept
+bool operator==(const MemoryManagerAllocator<T, TMemoryManager, TMemoryBank>&,
+                const MemoryManagerAllocator<U, UMemoryManager, UMemoryBank>&) noexcept
 {
     return std::is_same(T, U) && TMemoryBank == UMemoryBank && std::is_same(TMemoryManager, UMemoryManager);
 }

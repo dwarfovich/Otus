@@ -1,9 +1,9 @@
 ﻿add_library(allocator_lib STATIC
-   
-   
+   "src/lib.cpp"
    "include/allocator/chunk_memory_manager.h"
    "include/allocator/memory_bank.h"
-   "include/allocator/memory_manager_allocator.h")
+   "include/allocator/memory_manager_allocator.h"
+)
 
 target_include_directories(allocator_lib
     PUBLIC include
@@ -22,31 +22,5 @@ elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   # Update if necessary
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
 endif()
-#if(MSVC)
-#  target_compile_options(allocator_lib PRIVATE /W4 /WX)
-#else()
-#  target_compile_options(allocator_lib PRIVATE -Wall -Wextra -Wpedantic)
-#endif()
-
-#target_compile_options(
-#    allocator_lib
-#    PRIVATE
-#        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<NOT:$<CUDA_COMPILER_ID:NVIDIA>>,$<NOT:$<CUDA_COMPILER_ID:Clang>>>:
-#            -Werror
-#            -Wall
-#            -Wextra
-#            -Wpedantic
-#        >
-#)
-#target_compile_options(
-#    allocator_lib
-#    PRIVATE
-#        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<NOT:$<CUDA_COMPILER_ID:NVIDIA>>,$<NOT:$<CUDA_COMPILER_ID:Clang>>>:
-#            -Werror
-#            -Wall
-#            -Wextra
-#            -Wpedantic
-#        >
-#)
 
 target_link_libraries(allocator_lib PUBLIC GTest::gtest_main)

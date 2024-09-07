@@ -17,6 +17,18 @@ TEST(MemoryManagerAllocatorTest, SanityCheckWithVector)
     EXPECT_EQ(v.size(), static_cast<std::size_t>(elementsCount));
 }
 
+TEST(MemoryManagerAllocatorTest, SanityCheckWithIncreasingVector)
+{
+    using Allocator = MemoryManagerAllocator<std::size_t, ChunkMemoryManager<1>>;
+    std::vector<std::size_t, Allocator> v;
+
+    const std::size_t elementsCount = 100;
+    for (std::size_t i = 0; i < elementsCount; ++i) {
+        v.push_back(i);
+    }
+    EXPECT_EQ(v.size(), elementsCount);
+}
+
 TEST(MemoryManagerAllocatorTest, SanityCheckWithMap)
 {
     using MapElementType = std::map<int, int>::value_type;
