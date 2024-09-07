@@ -123,6 +123,7 @@ void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::removeEmptyChu
     });
 }
 
+#ifndef NDEBUG
 template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
 void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::dump() const
 {
@@ -134,6 +135,7 @@ void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::dump() const
         std::cout << "    Free blocks: " << chunk.freeBlocks.size() << '\n';
     }
 }
+#endif // !NDEBUG
 
 // methods
 template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
