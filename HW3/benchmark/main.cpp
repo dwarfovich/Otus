@@ -25,7 +25,7 @@ void BM_StdVectorPushBack(benchmark::State& state)
 
 void BM_MMVectorPushBack(benchmark::State& state)
 {
-    using MMA = MemoryManagerAllocator<std::size_t,  ChunkMemoryManager<30'000'000>>;
+    using MMA = MemoryManagerAllocator<std::size_t,  ChunkMemoryManager<vectorPuchBacks * sizeof(std::size_t)>>;
     std::vector<std::size_t, MMA> v;
     for (auto _ : state) {
         state.PauseTiming();
