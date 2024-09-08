@@ -165,8 +165,6 @@ BENCHMARK(BM_StdMapIteration);
 BENCHMARK(BM_MMMapIteration);
 BENCHMARK(BM_StdUMapInsertion);
 BENCHMARK(BM_MMUMapInsertion);
-
-
 BENCHMARK(BM_StdListInsertion);
 BENCHMARK(BM_MMListInsertion);
 // Run the benchmark
