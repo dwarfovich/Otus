@@ -73,5 +73,34 @@
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "linux-build-base",
+            "hidden": true,
+            "configurePreset": "linux-release"
+        },
+        {
+            "name": "linux-build-release",
+            "displayName": "Build Release",
+            "inherits": "linux-build-base",
+            "configurePreset": "linux-release"
+        },
+        {
+            "name": "msvc-build-base",
+            "hidden": true
+        },
+        {
+            "name": "msvc-build-release",
+            "displayName": "Build MSVC Release",
+            "inherits": "msvc-build-base",
+            "configurePreset": "msvc-release"
+        },
+        {
+            "name": "msvc-build-debug",
+            "displayName": "Build MSVC Debug",
+            "inherits": "msvc-build-base",
+            "configurePreset": "msvc-debug"
+        }
     ]
 }
