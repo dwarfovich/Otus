@@ -14,7 +14,7 @@ permissions:
 jobs:
   build-and-run-job:
     env:
-      target_name: allocator
+      target_name: allocator_driver
       homework_label: HW3
       cmake_preset: linux-release
       cmake_build_preset: linux-build-release
@@ -40,9 +40,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
-      #- name: Update apt-get
-      #  run: sudo apt-get update
 
       - name: Build package ${{ env.target_name }}
         working-directory: ${{env.hw_path}}
@@ -102,37 +99,3 @@ jobs:
           asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
-
-      - name: Create Doxygen
-        uses: mattnotmitt/doxygen-action@v1.1.0
-        with:
-          doxyfile-path: ./Doxyfile
-          working-directory: ${{ env.hw_path }}
-
-      - name: GitHub Pages Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/html/
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: true
-          publish_branch: gh-pages
-
-      # Build the HTML documentation
-      - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@v1.1.0
-        with:
-          doxyfile-path: ${{ env.hw_path }}/Doxyfile
-          working-directory: .
-    
-      # Deploy the HTML documentation to GitHub Pages
-      - name: GH Pages Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.hw_path }}/doc/html/
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: true
-          publish_branch: gh-pages
