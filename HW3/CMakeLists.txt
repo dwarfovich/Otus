@@ -18,6 +18,16 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib")
 add_subdirectory(allocator_driver)
 add_subdirectory(allocator_lib)
 
+# deb-package.
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_NAME "allocator_driver")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_PACKAGE_CONTACT ouncetim@gmail.com)
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}/deb")
+include(CPack)
+
 # Tests.
 enable_testing()
 add_subdirectory(tests)
