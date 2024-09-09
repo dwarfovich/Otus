@@ -64,7 +64,7 @@ jobs:
         run: /home/runner/work/Otus/Otus/./HW3/build-linux-release/bin/allocator_driver
 
       - name: Build package
-        working-directory: ${{env.build_path}}
+        working-directory: /home/runner/work/Otus/Otus/./HW3/build-linux-release
         run: cpack -G DEB
 
       - name: Create Release
