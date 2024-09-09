@@ -49,7 +49,7 @@ jobs:
 
       - name: Run tests
         if: ${{ env.build_tests }}
-        working-directory: ${{ env.build_path }}
+        working-directory: /home/runner/work/Otus/Otus/./HW3/linux-build-release
         run: ctest --test-dir .
 
       - name: Check tests results
