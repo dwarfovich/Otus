@@ -1,5 +1,5 @@
 add_executable(allocator_driver main.cpp)
-target_link_libraries(allocator_driver PUBLIC allocator_lib)
+target_link_libraries(allocator_driver PUBLIC allocator_lib cc_lib)
 
 set_target_properties(allocator_driver
 PROPERTIES

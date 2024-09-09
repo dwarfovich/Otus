@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.12)
+﻿cmake_minimum_required(VERSION 3.12)
 
 option(BUILD_TESTS "BuildTests" ON)
 option(BUILD_BENCHMARK "BuildBenchmark" OFF)
@@ -17,6 +17,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib")
 
 add_subdirectory(allocator_driver)
 add_subdirectory(allocator_lib)
+add_subdirectory(cc_lib)
 
 # deb-package.
 set(CPACK_GENERATOR DEB)
