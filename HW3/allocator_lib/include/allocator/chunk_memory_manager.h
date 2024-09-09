@@ -12,7 +12,7 @@
     #include <iostream>
 #endif // !NDEBUG
 
-template<std::size_t DefaultChunkSize = 1024, std::size_t InitialReservedBlocks = 10>
+template<std::size_t DefaultChunkSize = 1024>
 class ChunkMemoryManager
 {
 public:
@@ -38,7 +38,7 @@ private: // types
         void insertFreeBlock(Block block);
 
         std::vector<char>  memory;
-        std::vector<Block> freeBlocks;
+        std::list<Block> freeBlocks;
     };
     using BlockIterator = decltype(Chunk::freeBlocks)::iterator;
     struct SuitableChunkData
@@ -82,15 +82,15 @@ private: // test friends
     FRIEND_TEST(ChunkMemoryManagerTest, IncreasingChunkSizeTest);
 };
 
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-char* ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::allocate(std::size_t bytes)
+template<std::size_t DefaultChunkSize>
+char* ChunkMemoryManager<DefaultChunkSize>::allocate(std::size_t bytes)
 {
     auto suitableChunk = getSuitableChunk(bytes);
     return allocateInChunk(suitableChunk, bytes);
 }
 
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::deallocate(char* address, std::size_t size) noexcept
+template<std::size_t DefaultChunkSize>
+void ChunkMemoryManager<DefaultChunkSize>::deallocate(char* address, std::size_t size) noexcept
 {
     auto chunkIter = std::find_if(chunks.begin(), chunks.end(), [address](const auto& chunk) {
         return (&chunk.memory.front() <= address) && (&chunk.memory.back() >= address);
@@ -115,8 +115,8 @@ void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::deallocate(cha
     }
 }
 
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::removeEmptyChunks()
+template<std::size_t DefaultChunkSize>
+void ChunkMemoryManager<DefaultChunkSize>::removeEmptyChunks()
 {
     std::erase_if(chunks, [](const auto& chunk) {
         return chunk.freeBlocks.size() == 1 && chunk.freeBlocks.back().size == chunk.memory.size();
@@ -124,8 +124,8 @@ void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::removeEmptyChu
 }
 
 #ifndef NDEBUG
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::dump() const
+template<std::size_t DefaultChunkSize>
+void ChunkMemoryManager<DefaultChunkSize>::dump() const
 {
     std::cout << "Chunks " << chunks.size() << ":\n";
     int counter = 0;
@@ -138,8 +138,8 @@ void ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::dump() const
 #endif // !NDEBUG
 
 // methods
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-auto ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::getSuitableChunk(std::size_t bytesRequired)
+template<std::size_t DefaultChunkSize>
+auto ChunkMemoryManager<DefaultChunkSize>::getSuitableChunk(std::size_t bytesRequired)
     -> SuitableChunkData
 {
     for (auto& chunk : chunks) {
@@ -155,8 +155,8 @@ auto ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::getSuitableChu
     return { chunks.back(), chunks.back().freeBlocks.begin() };
 }
 
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-char* ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::allocateInChunk(SuitableChunkData& suitableChunk,
+template<std::size_t DefaultChunkSize>
+char* ChunkMemoryManager<DefaultChunkSize>::allocateInChunk(SuitableChunkData& suitableChunk,
                                                                                    std::size_t        bytes)
 {
     auto* memory = &suitableChunk.chunk.memory[suitableChunk.freeBlock->startPosition];
@@ -167,19 +167,17 @@ char* ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::allocateInChu
         suitableChunk.freeBlock->size -= bytes;
     }
 
-    //std::cout << "Allocating " << bytes << " at " << std::hex << (int*)(memory) << '\n';
     return memory;
 }
 
-template<std::size_t DefaultChunkSize, std::size_t InitialReservedBlocks>
-ChunkMemoryManager<DefaultChunkSize, InitialReservedBlocks>::Chunk::Chunk(std::size_t size) : memory(size)
+template<std::size_t DefaultChunkSize>
+ChunkMemoryManager<DefaultChunkSize>::Chunk::Chunk(std::size_t size) : memory(size)
 {
-    freeBlocks.reserve(InitialReservedBlocks);
     freeBlocks.emplace_back(0, size);
 }
 
-template<std::size_t ChunkSize, std::size_t InitialReservedBlocks>
-void ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Chunk::insertFreeBlock(Block block)
+template<std::size_t ChunkSize>
+void ChunkMemoryManager<ChunkSize>::Chunk::insertFreeBlock(Block block)
 {
     auto& blocks        = freeBlocks;
     auto  previousBlock = blocks.begin();
@@ -203,7 +201,7 @@ void ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Chunk::insertFreeBloc
         if (previousBlock->startPosition >= block.startPosition) { // previousBlock actually is after target block.
             previousBlock = blocks.insert(previousBlock, std::move(block));
         } else {
-            previousBlock = blocks.insert(previousBlock + 1, std::move(block));
+            previousBlock = blocks.insert(std::next(previousBlock), std::move(block));
         }
     }
 
@@ -216,8 +214,8 @@ void ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Chunk::insertFreeBloc
     }
 }
 
-template<std::size_t ChunkSize, std::size_t InitialReservedBlocks>
-std::size_t ChunkMemoryManager<ChunkSize, InitialReservedBlocks>::Block::endPosition() const
+template<std::size_t ChunkSize>
+std::size_t ChunkMemoryManager<ChunkSize>::Block::endPosition() const
 {
     return startPosition + size;
 }

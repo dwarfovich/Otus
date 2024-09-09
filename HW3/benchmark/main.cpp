@@ -202,7 +202,7 @@ void BM_MM_UMapInsertion(benchmark::State& state)
 {
     using Valuetype = std::unordered_map<std::size_t, std::size_t>::value_type;
     using MMA       = MemoryManagerAllocator<Valuetype, ChunkMemoryManager<>>;
-    std::unordered_map<std::size_t, std::size_t, std::hash<std::size_t>, std::less<std::size_t>, MMA> map;
+    std::unordered_map<std::size_t, std::size_t, std::hash<std::size_t>, std::equal_to<std::size_t>, MMA> map;
     for (auto _ : state) {
         state.PauseTiming();
         map.clear();
@@ -216,7 +216,7 @@ void BM_MM_UMapInsertion(benchmark::State& state)
 void BM_Std_UMapIteration(benchmark::State& state)
 {
     std::unordered_map<std::size_t, std::size_t> map;
-    for (std::size_t i = 0; i < mapInsertions; ++i) {
+    for (std::size_t i = 0; i < mapIterations; ++i) {
         map[i] = i;
     }
 
@@ -224,8 +224,8 @@ void BM_Std_UMapIteration(benchmark::State& state)
         state.PauseTiming();
         std::size_t sum = 0;
         state.ResumeTiming();
-        for (std::size_t i = 0; i < mapInsertions; ++i) {
-            sum += map[i];
+        for (std::size_t i = 0; i < mapIterations; ++i) {
+            benchmark::DoNotOptimize(sum += map[i]);
         }
     }
 }
@@ -233,9 +233,9 @@ void BM_Std_UMapIteration(benchmark::State& state)
 void BM_MM_UMapIteration(benchmark::State& state)
 {
     using Valuetype = std::unordered_map<std::size_t, std::size_t>::value_type;
-    using MMA       = MemoryManagerAllocator<Valuetype, ChunkMemoryManager<mapInsertions * sizeof(Valuetype)>>;
-    std::unordered_map<std::size_t, std::size_t, std::hash<std::size_t>, std::less<std::size_t>, MMA> map;
-    for (std::size_t i = 0; i < mapInsertions; ++i) {
+    using MMA       = MemoryManagerAllocator<Valuetype, ChunkMemoryManager<mapIterations * sizeof(Valuetype)>>;
+    std::unordered_map<std::size_t, std::size_t, std::hash<std::size_t>, std::equal_to<std::size_t>, MMA> map;
+    for (std::size_t i = 0; i < mapIterations; ++i) {
         map[i] = i;
     }
 
@@ -243,8 +243,8 @@ void BM_MM_UMapIteration(benchmark::State& state)
         state.PauseTiming();
         std::size_t sum = 0;
         state.ResumeTiming();
-        for (std::size_t i = 0; i < mapInsertions; ++i) {
-            sum += map[i];
+        for (std::size_t i = 0; i < mapIterations; ++i) {
+            benchmark::DoNotOptimize(sum += map[i]);
         }
     }
 }
