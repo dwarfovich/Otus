@@ -61,7 +61,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run packet ${{ env.target_name }}
-        run: '${{ env.bin_path }}/${{ env.target_name }}'
+        run: /home/runner/work/Otus/Otus/./HW3/build-linux-release/bin/allocator_driver
 
       - name: Build package
         working-directory: ${{env.build_path}}
