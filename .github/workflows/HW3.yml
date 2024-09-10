@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - 'HW3/**'
-      - '.github/workflows/HW3.yml' 
+      #- '.github/workflows/HW3.yml' 
 
 permissions:
   actions: write

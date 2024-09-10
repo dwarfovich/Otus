@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 
+#include <forward_list>
+
 template<typename T>
 T factorial(T n){
     if(n < 0){
@@ -44,5 +46,8 @@ int main()
         std::cout << key << ": " << value << '\n';
     }
 
+    cc::ForwardList<int> list;
+    cc::ForwardList<int>::iterator iter;
+    list.f();
     return 0;
 }
