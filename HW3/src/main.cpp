@@ -48,6 +48,9 @@ int main()
 
     cc::ForwardList<int> list;
     cc::ForwardList<int>::iterator iter;
-    list.f();
+    *iter;
+
+    std::forward_list<int>::iterator iter2;
+    *iter2;
     return 0;
 }
