@@ -61,7 +61,9 @@ public: // types
 
 public: // methods
     iterator begin() const;
+    const_iterator cbegin() const;
     iterator end() const;
+    const_iterator cend() const;
     iterator insert_after(iterator position, const value_type& value);
     bool     empty() const noexcept;
 
@@ -115,9 +117,15 @@ auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type
     auto*         newNode       = nodeAllocator.allocate(1);
     using NodeAllocatorTraits   = std::allocator_traits<decltype(nodeAllocator)>;
     NodeAllocatorTraits::construct(nodeAllocator, newNode, value, next.getNode());
+
+    if(!firstNode){
+        firstNode = newNode;
+    } else{
+        position.getNode()->nextNode = newNode;
+    }
     ++size;
 
-    return next;
+    return {this, newNode};
 }
 
 template<typename T, typename Allocator>
@@ -127,9 +135,21 @@ auto ForwardList<T, Allocator>::begin() const -> iterator
 }
 
 template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::cbegin() const -> const_iterator
+{
+    return this->begin();
+}
+
+template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::end() const -> iterator
 {
     return { this };
+}
+
+template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::cend() const -> const_iterator
+{
+    return this->end();
 }
 
 template<typename T, typename Allocator>
