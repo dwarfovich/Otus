@@ -10,11 +10,19 @@ namespace cc {
 
 namespace details {
 
-template<typename T>
 struct Node
 {
-    T     data;
     Node* nextNode = nullptr;
+};
+
+template<typename T>
+struct DataNode : Node
+{
+    DataNode() = default;
+
+    DataNode(const T& aData, Node* nextNode) : Node { nextNode }, data { aData } {}
+
+    T data;
 };
 
 } // namespace details
@@ -30,20 +38,20 @@ public: // types
 public: // methods
     ForwardListIterator() = default;
     ForwardListIterator(const ForwardList* list);
-    ForwardListIterator(const ForwardList* list, details::Node<value_type>* node);
+    ForwardListIterator(const ForwardList* list, details::Node* node);
 
-    bool                 operator==(const ForwardListIterator& rhs) const;
-    auto                 operator<=>(const ForwardListIterator&) const = default;
-    const value_type&    operator*() const { return *this; }
-    value_type&          operator*() { return node->data; }
+    bool              operator==(const ForwardListIterator& rhs) const;
+    auto              operator<=>(const ForwardListIterator&) const = default;
+    const value_type& operator*() const { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
+    value_type&       operator*() { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
     ForwardListIterator& operator++();
     ForwardListIterator  operator++(int);
 
-    details::Node<value_type>* getNode() const noexcept { return node; }
+    details::Node* getNode() const noexcept { return node; }
 
 private:
-    details::Node<value_type>* node = nullptr;
-    const ForwardList*         list = nullptr;
+    details::Node*     node = nullptr;
+    const ForwardList* list = nullptr;
 };
 
 template<typename T, typename Allocator = std::allocator<T>>
@@ -60,24 +68,29 @@ public: // types
     using const_iterator  = ForwardListIterator<const ForwardList<T, Allocator>>;
 
 public: // methods
-    iterator begin() const;
+    ForwardList();
+
+    allocator_type get_allocator() const noexcept;
+    iterator       before_begin() const;
+    const_iterator cbefore_begin() const;
+    iterator       begin() const;
     const_iterator cbegin() const;
-    iterator end() const;
+    iterator       end() const;
     const_iterator cend() const;
-    iterator insert_after(iterator position, const value_type& value);
-    bool     empty() const noexcept;
+    iterator       insert_after(iterator position, const value_type& value);
+    bool           empty() const noexcept;
+    std::size_t    size();
 
 private: // data
-    Allocator         allocator;
-    details::Node<T>* firstNode = nullptr;
-    std::size_t       size      = 0;
+    Allocator     allocator;
+    details::Node head;
+    std::size_t   listSize = 0;
 };
 
 template<class ForwardList>
 ForwardListIterator<ForwardList>& ForwardListIterator<ForwardList>::operator++()
 {
-    if (node)
-        node = node->nextNode;
+    node = node->nextNode;
     return *this;
 }
 
@@ -95,7 +108,7 @@ ForwardListIterator<ForwardList>::ForwardListIterator(const ForwardList* aList) 
 }
 
 template<class ForwardList>
-ForwardListIterator<ForwardList>::ForwardListIterator(const ForwardList* aList, details::Node<value_type>* aNode)
+ForwardListIterator<ForwardList>::ForwardListIterator(const ForwardList* aList, details::Node* aNode)
     : list { aList }, node { aNode }
 {
 }
@@ -107,31 +120,52 @@ bool ForwardListIterator<ForwardList>::operator==(const ForwardListIterator& rhs
 }
 
 template<typename T, typename Allocator>
+ForwardList<T, Allocator>::ForwardList()
+{
+}
+
+template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type& value) -> iterator
 {
-    auto next             = std::next(position);
     using AllocatorTraits = std::allocator_traits<Allocator>;
 
-    using NodeAllcoator         = typename std::allocator_traits<Allocator>::template rebind_alloc<details::Node<T>>;
+    using NodeAllcoator = typename std::allocator_traits<Allocator>::template rebind_alloc<details::DataNode<T>>;
     NodeAllcoator nodeAllocator = allocator;
     auto*         newNode       = nodeAllocator.allocate(1);
     using NodeAllocatorTraits   = std::allocator_traits<decltype(nodeAllocator)>;
-    NodeAllocatorTraits::construct(nodeAllocator, newNode, value, next.getNode());
-
-    if(!firstNode){
-        firstNode = newNode;
+    // NodeAllocatorTraits::construct(nodeAllocator, newNode, value);
+    if(position == begin()){
+        NodeAllocatorTraits::construct(nodeAllocator, newNode, value, nullptr);
     } else{
+        auto next             = std::next(position);
+        NodeAllocatorTraits::construct(nodeAllocator, newNode, value, next.getNode());
+    }
+
+    if (empty()) {
+        head.nextNode = newNode;
+    } else {
         position.getNode()->nextNode = newNode;
     }
-    ++size;
 
     return {this, newNode};
 }
 
 template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::before_begin() const -> iterator
+{
+    return { this, const_cast<details::Node*>(&head) };
+}
+
+template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::cbefore_begin() const -> const_iterator
+{
+    return { this, &head };
+}
+
+template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::begin() const -> iterator
 {
-    return { this, firstNode };
+    return std::next(before_begin());
 }
 
 template<typename T, typename Allocator>
@@ -155,7 +189,19 @@ auto ForwardList<T, Allocator>::cend() const -> const_iterator
 template<typename T, typename Allocator>
 bool ForwardList<T, Allocator>::empty() const noexcept
 {
-    return size == 0;
+    return listSize == 0;
+}
+
+template<typename T, typename Allocator>
+std::size_t ForwardList<T, Allocator>::size()
+{
+    return listSize;
+}
+
+template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::get_allocator() const noexcept -> allocator_type
+{
+    return allocator;
 }
 
 } // namespace cc
