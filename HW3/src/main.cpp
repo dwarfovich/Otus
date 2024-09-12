@@ -47,10 +47,8 @@ int main()
     }
 
     cc::ForwardList<int> list;
-    cc::ForwardList<int>::iterator iter;
-    *iter;
-
-    std::forward_list<int>::iterator iter2;
-    *iter2;
+    auto iter = list.begin();
+    list.insert_after(iter, 77);
+    
     return 0;
 }
