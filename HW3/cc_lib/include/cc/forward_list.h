@@ -71,11 +71,11 @@ public: // methods
     ForwardList();
 
     allocator_type get_allocator() const noexcept;
-    iterator       before_begin() const;
+    iterator       before_begin();
     const_iterator cbefore_begin() const;
-    iterator       begin() const;
+    iterator       begin();
     const_iterator cbegin() const;
-    iterator       end() const;
+    iterator       end();
     const_iterator cend() const;
     iterator       insert_after(iterator position, const value_type& value);
     bool           empty() const noexcept;
@@ -146,9 +146,9 @@ auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::before_begin() const -> iterator
+auto ForwardList<T, Allocator>::before_begin() -> iterator
 {
-    return { this, const_cast<details::Node*>(&head) };
+    return { this, &head };
 }
 
 template<typename T, typename Allocator>
@@ -158,7 +158,7 @@ auto ForwardList<T, Allocator>::cbefore_begin() const -> const_iterator
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::begin() const -> iterator
+auto ForwardList<T, Allocator>::begin() -> iterator
 {
     return std::next(before_begin());
 }
@@ -166,11 +166,11 @@ auto ForwardList<T, Allocator>::begin() const -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cbegin() const -> const_iterator
 {
-    return this->begin();
+    return begin();
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::end() const -> iterator
+auto ForwardList<T, Allocator>::end() -> iterator
 {
     return { this };
 }
@@ -178,7 +178,7 @@ auto ForwardList<T, Allocator>::end() const -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cend() const -> const_iterator
 {
-    return this->end();
+    return end();
 }
 
 template<typename T, typename Allocator>
