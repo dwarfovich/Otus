@@ -47,14 +47,11 @@ int main()
     }
 
     cc::ForwardList<int> list;
-    auto iter = list.begin();
-    list.insert_after(iter, 77);
+    //auto iter = list.begin();
+    //list.insert_after(iter, 77);
 
     std::forward_list<short> l;
-    auto it1 = l.cbefore_begin();
-    auto                   it2 = l.cbegin();
-    //++it2;
-    auto                   it3 = l.cend();
+    l.insert_after(l.before_begin(), 88);
     /*std::cout << std::boolalpha << (l.cbegin() == l.cbefore_begin()) << '\n';
     std::cout << sizeof(list) << ' ' << sizeof(l) << '\n';
     std::forward_list<int> l2;

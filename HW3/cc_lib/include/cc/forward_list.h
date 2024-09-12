@@ -19,7 +19,7 @@ template<typename T>
 struct DataNode : Node
 {
     DataNode() = default;
-
+    DataNode(const T& aData) : data { aData } {}
     DataNode(const T& aData, Node* nextNode) : Node { nextNode }, data { aData } {}
 
     T data;
@@ -127,27 +127,22 @@ ForwardList<T, Allocator>::ForwardList()
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type& value) -> iterator
 {
-    using AllocatorTraits = std::allocator_traits<Allocator>;
-
-    using NodeAllcoator = typename std::allocator_traits<Allocator>::template rebind_alloc<details::DataNode<T>>;
+    using namespace details;
+    using NodeAllcoator         = typename std::allocator_traits<Allocator>::template rebind_alloc<DataNode<T>>;
     NodeAllcoator nodeAllocator = allocator;
     auto*         newNode       = nodeAllocator.allocate(1);
-    using NodeAllocatorTraits   = std::allocator_traits<decltype(nodeAllocator)>;
-    // NodeAllocatorTraits::construct(nodeAllocator, newNode, value);
-    if(position == begin()){
-        NodeAllocatorTraits::construct(nodeAllocator, newNode, value, nullptr);
-    } else{
-        auto next             = std::next(position);
-        NodeAllocatorTraits::construct(nodeAllocator, newNode, value, next.getNode());
-    }
 
+    using NodeAllocatorTraits = std::allocator_traits<NodeAllcoator>;
+    NodeAllocatorTraits::construct(nodeAllocator, newNode, value);
     if (empty()) {
         head.nextNode = newNode;
     } else {
+        newNode->nextNode            = position.getNode()->nextNode;
         position.getNode()->nextNode = newNode;
     }
+    ++listSize;
 
-    return {this, newNode};
+    return { this, newNode };
 }
 
 template<typename T, typename Allocator>

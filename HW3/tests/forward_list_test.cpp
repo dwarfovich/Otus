@@ -8,7 +8,20 @@ TEST(ForwardListTest, ConstructingEmpty)
     EXPECT_TRUE(list.empty());
 }
 
-TEST(ForwardListTest, InsertionAfterInBeginning)
+TEST(ForwardListTest, InsertionBeforeBegin)
+{
+    cc::ForwardList<int> list;
+    list.insert_after(list.before_begin(), 1);
+    EXPECT_EQ(*list.begin(), 1);
+
+    list.insert_after(list.before_begin(), 2);
+    EXPECT_EQ(*list.begin(), 2);
+
+    list.insert_after(list.before_begin(), 3);
+    EXPECT_EQ(*list.begin(), 3);
+}
+
+TEST(ForwardListTest, InsertionAfterBegin)
 {
     cc::ForwardList<int> list;
     list.insert_after(list.begin(), 1);
@@ -23,7 +36,7 @@ TEST(ForwardListTest, InsertionAfterInBeginning)
 
 TEST(ForwardListTest, ConsequtiveInsertion)
 {
-    const int inserts = 4;
+    const int inserts = 5;
     
     cc::ForwardList<int> list;
     auto iter = list.begin();
