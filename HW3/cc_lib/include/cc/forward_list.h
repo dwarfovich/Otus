@@ -71,15 +71,16 @@ public: // methods
     ForwardList();
 
     allocator_type get_allocator() const noexcept;
-    iterator       before_begin();
-    const_iterator cbefore_begin() const;
-    iterator       begin();
-    const_iterator cbegin() const;
-    iterator       end();
-    const_iterator cend() const;
-    iterator       insert_after(iterator position, const value_type& value);
+    iterator       before_begin() noexcept;
+    const_iterator cbefore_begin() const noexcept;
+    iterator       begin() noexcept;
+    const_iterator cbegin() const noexcept;
+    iterator       end() noexcept;
+    const_iterator cend() const noexcept;
     bool           empty() const noexcept;
-    std::size_t    size();
+    std::size_t    size() noexcept;
+    iterator       insert_after(iterator position, const value_type& value);
+    iterator       erase_after(iterator position);
 
 private: // data
     Allocator     allocator;
@@ -146,37 +147,59 @@ auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::before_begin() -> iterator
+auto ForwardList<T, Allocator>::erase_after(iterator position) -> iterator
+{
+    auto iterToErase             = std::next(position);
+    auto nextIter                = std::next(iterToErase);
+    using namespace details;
+    using NodeAllcoator          = typename std::allocator_traits<Allocator>::template rebind_alloc<DataNode<T>>;
+    using NodeAllocatorTraits    = std::allocator_traits<NodeAllcoator>;
+    NodeAllcoator nodeAllocator  = allocator;
+    auto*         addressToErase = static_cast<DataNode<T>*>(iterToErase.getNode());
+    NodeAllocatorTraits::destroy(nodeAllocator, addressToErase);
+    nodeAllocator.deallocate(addressToErase, 1);
+    if (nextIter == end()) {
+        position.getNode()->nextNode = nullptr;
+    } else {
+        position.getNode()->nextNode = nextIter.getNode();
+    }
+    --listSize;
+
+    return { this, position.getNode()->nextNode };
+}
+
+template<typename T, typename Allocator>
+auto ForwardList<T, Allocator>::before_begin() noexcept -> iterator
 {
     return { this, &head };
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::cbefore_begin() const -> const_iterator
+auto ForwardList<T, Allocator>::cbefore_begin() const noexcept -> const_iterator
 {
     return { this, &head };
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::begin() -> iterator
+auto ForwardList<T, Allocator>::begin() noexcept -> iterator
 {
     return std::next(before_begin());
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::cbegin() const -> const_iterator
+auto ForwardList<T, Allocator>::cbegin() const noexcept -> const_iterator
 {
     return begin();
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::end() -> iterator
+auto ForwardList<T, Allocator>::end() noexcept -> iterator
 {
     return { this };
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::cend() const -> const_iterator
+auto ForwardList<T, Allocator>::cend() const noexcept -> const_iterator
 {
     return end();
 }
@@ -188,7 +211,7 @@ bool ForwardList<T, Allocator>::empty() const noexcept
 }
 
 template<typename T, typename Allocator>
-std::size_t ForwardList<T, Allocator>::size()
+std::size_t ForwardList<T, Allocator>::size() noexcept
 {
     return listSize;
 }
