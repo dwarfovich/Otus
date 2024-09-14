@@ -4,8 +4,6 @@
 #include <type_traits>
 #include <cinttypes>
 
-#include <list>
-
 namespace cc {
 
 namespace details {
@@ -34,37 +32,25 @@ public: // types
     using iterator_category = std::forward_iterator_tag;
     using difference_type   = std::ptrdiff_t;
     using value_type        = typename ForwardList::value_type;
-    using pointer = typename ForwardList::pointer;
-using reference = typename ForwardList::reference;
+    using pointer           = typename ForwardList::pointer;
+    using reference         = typename ForwardList::reference;
 
 public: // methods
     ForwardListIterator() = default;
     ForwardListIterator(const ForwardList* list);
     ForwardListIterator(const ForwardList* list, details::Node* node);
-   //ForwardListIterator(ForwardList* list, details::Node* node);
 
-    operator ForwardListIterator<const ForwardList>() const
-    {
-        return {list, node};
-    }
-    
+    operator ForwardListIterator<const ForwardList>() const;
 
-    const ForwardList* getList() const{
-        return list;
-    }
-    bool operator==(const ForwardListIterator<const ForwardList>& rhs) const
-    {
-        return node == rhs.getNode() && list == rhs.getList();
-    }
-    //bool operator==(const ForwardListIterator<ForwardList>& rhs) { return node == rhs.node && list == rhs.list; }
-
-    //auto              operator<=>(const ForwardListIterator&) const = default;
-    const value_type& operator*() const { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
-    value_type&       operator*() { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
+    bool                 operator==(const ForwardListIterator<const ForwardList>& rhs) const;
+    auto                 operator<=>(const ForwardListIterator&) const = default;
+    const value_type&    operator*() const;
+    value_type&          operator*();
     ForwardListIterator& operator++();
     ForwardListIterator  operator++(int);
 
-    details::Node* getNode() const noexcept { return node; }
+    const ForwardList* getList() const noexcept;
+    details::Node*     getNode() const noexcept;
 
 private:
     details::Node*     node = nullptr;
@@ -96,8 +82,8 @@ public: // methods
     const_iterator cend() const noexcept;
     bool           empty() const noexcept;
     std::size_t    size() noexcept;
-    iterator       insert_after(iterator position, const value_type& value);
-    iterator       erase_after(iterator position);
+    iterator       insert_after(const_iterator position, const value_type& value);
+    iterator       erase_after(const_iterator position);
 
 private: // data
     Allocator     allocator;
@@ -105,18 +91,11 @@ private: // data
     std::size_t   listSize = 0;
 };
 
-//template<typename T, typename U>
-//bool operator==(const ForwardListIterator<ForwardList<T>>& lhs, const ForwardListIterator<ForwardList<U>>& rhs)
-//{
-//    return lhs.node == rhs.node && lhs.list == rhs.list;
-//}
-
-//template<typename T, typename U>
-//bool operator==(const ForwardListIterator<const ForwardList<T>>& lhs,
-//                const ForwardListIterator<const ForwardList<U>>& rhs)
-//{
-//    return lhs.node == rhs.node && lhs.list == rhs.list;
-//}
+template<class ForwardList>
+bool operator==(const ForwardListIterator<ForwardList>& lhs, const ForwardListIterator<ForwardList>& rhs)
+{
+    return lhs.getNode() == rhs.getNode() && lhs.getList() == rhs.getList();
+}
 
 template<class ForwardList>
 ForwardListIterator<ForwardList>& ForwardListIterator<ForwardList>::operator++()
@@ -144,7 +123,41 @@ ForwardListIterator<ForwardList>::ForwardListIterator(const ForwardList* aList, 
 {
 }
 
+template<class ForwardList>
+bool ForwardListIterator<ForwardList>::operator==(const ForwardListIterator<const ForwardList>& rhs) const
+{
+    return node == rhs.getNode() && list == rhs.getList();
+}
 
+template<class ForwardList>
+auto ForwardListIterator<ForwardList>::operator*() const -> const value_type&
+{
+    return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data;
+}
+
+template<class ForwardList>
+auto ForwardListIterator<ForwardList>::operator*() -> value_type&
+{
+    return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data;
+}
+
+template<class ForwardList>
+ForwardListIterator<ForwardList>::operator ForwardListIterator<const ForwardList>() const
+{
+    return { list, node };
+}
+
+template<class ForwardList>
+const ForwardList* ForwardListIterator<ForwardList>::getList() const noexcept
+{
+    return list;
+}
+
+template<class ForwardList>
+details::Node* ForwardListIterator<ForwardList>::getNode() const noexcept
+{
+    return node;
+}
 
 template<typename T, typename Allocator>
 ForwardList<T, Allocator>::ForwardList()
@@ -152,7 +165,7 @@ ForwardList<T, Allocator>::ForwardList()
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type& value) -> iterator
+auto ForwardList<T, Allocator>::insert_after(const_iterator position, const value_type& value) -> iterator
 {
     using namespace details;
     using NodeAllcoator         = typename std::allocator_traits<Allocator>::template rebind_alloc<DataNode<T>>;
@@ -173,10 +186,10 @@ auto ForwardList<T, Allocator>::insert_after(iterator position, const value_type
 }
 
 template<typename T, typename Allocator>
-auto ForwardList<T, Allocator>::erase_after(iterator position) -> iterator
+auto ForwardList<T, Allocator>::erase_after(const_iterator position) -> iterator
 {
-    auto iterToErase             = std::next(position);
-    auto nextIter                = std::next(iterToErase);
+    auto iterToErase = std::next(position);
+    auto nextIter    = std::next(iterToErase);
     using namespace details;
     using NodeAllcoator          = typename std::allocator_traits<Allocator>::template rebind_alloc<DataNode<T>>;
     using NodeAllocatorTraits    = std::allocator_traits<NodeAllcoator>;
@@ -203,10 +216,7 @@ auto ForwardList<T, Allocator>::before_begin() noexcept -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cbefore_begin() const noexcept -> const_iterator
 {
-    return {};
-//    return { this, &head };
-    //return ForwardListIterator<decltype(this)>{ this, &head };
-    //return { this, &head };
+    return { this, const_cast<details::Node*>(&head) };
 }
 
 template<typename T, typename Allocator>
@@ -230,7 +240,7 @@ auto ForwardList<T, Allocator>::end() noexcept -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cend() const noexcept -> const_iterator
 {
-    return end();
+    return { this };
 }
 
 template<typename T, typename Allocator>
