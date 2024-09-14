@@ -132,13 +132,13 @@ bool ForwardListIterator<ForwardList>::operator==(const ForwardListIterator<cons
 template<class ForwardList>
 auto ForwardListIterator<ForwardList>::operator*() const -> const value_type&
 {
-    return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data;
+    return static_cast<details::DataNode<typename ForwardList::value_type>*>(node)->data;
 }
 
 template<class ForwardList>
 auto ForwardListIterator<ForwardList>::operator*() -> value_type&
 {
-    return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data;
+    return static_cast<details::DataNode<typename ForwardList::value_type>*>(node)->data;
 }
 
 template<class ForwardList>
