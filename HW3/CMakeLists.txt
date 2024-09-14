@@ -17,9 +17,9 @@ add_executable (${TARGET_NAME} "src/main.cpp")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 set_target_properties(${TARGET_NAME}
     PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
+    ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib"
-    RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
 target_link_libraries(${TARGET_NAME} allocator_lib cc_lib)
