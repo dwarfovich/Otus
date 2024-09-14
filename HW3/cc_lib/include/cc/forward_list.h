@@ -34,14 +34,31 @@ public: // types
     using iterator_category = std::forward_iterator_tag;
     using difference_type   = std::ptrdiff_t;
     using value_type        = typename ForwardList::value_type;
+    using pointer = typename ForwardList::pointer;
+using reference = typename ForwardList::reference;
 
 public: // methods
     ForwardListIterator() = default;
     ForwardListIterator(const ForwardList* list);
     ForwardListIterator(const ForwardList* list, details::Node* node);
+   //ForwardListIterator(ForwardList* list, details::Node* node);
 
-    bool              operator==(const ForwardListIterator& rhs) const;
-    auto              operator<=>(const ForwardListIterator&) const = default;
+    operator ForwardListIterator<const ForwardList>() const
+    {
+        return {list, node};
+    }
+    
+
+    const ForwardList* getList() const{
+        return list;
+    }
+    bool operator==(const ForwardListIterator<const ForwardList>& rhs) const
+    {
+        return node == rhs.getNode() && list == rhs.getList();
+    }
+    //bool operator==(const ForwardListIterator<ForwardList>& rhs) { return node == rhs.node && list == rhs.list; }
+
+    //auto              operator<=>(const ForwardListIterator&) const = default;
     const value_type& operator*() const { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
     value_type&       operator*() { return static_cast<details::DataNode<ForwardList::value_type>*>(node)->data; }
     ForwardListIterator& operator++();
@@ -88,6 +105,19 @@ private: // data
     std::size_t   listSize = 0;
 };
 
+//template<typename T, typename U>
+//bool operator==(const ForwardListIterator<ForwardList<T>>& lhs, const ForwardListIterator<ForwardList<U>>& rhs)
+//{
+//    return lhs.node == rhs.node && lhs.list == rhs.list;
+//}
+
+//template<typename T, typename U>
+//bool operator==(const ForwardListIterator<const ForwardList<T>>& lhs,
+//                const ForwardListIterator<const ForwardList<U>>& rhs)
+//{
+//    return lhs.node == rhs.node && lhs.list == rhs.list;
+//}
+
 template<class ForwardList>
 ForwardListIterator<ForwardList>& ForwardListIterator<ForwardList>::operator++()
 {
@@ -114,11 +144,7 @@ ForwardListIterator<ForwardList>::ForwardListIterator(const ForwardList* aList, 
 {
 }
 
-template<class ForwardList>
-bool ForwardListIterator<ForwardList>::operator==(const ForwardListIterator& rhs) const
-{
-    return node == rhs.node && list == rhs.list;
-}
+
 
 template<typename T, typename Allocator>
 ForwardList<T, Allocator>::ForwardList()
@@ -177,7 +203,10 @@ auto ForwardList<T, Allocator>::before_begin() noexcept -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cbefore_begin() const noexcept -> const_iterator
 {
-    return { this, &head };
+    return {};
+//    return { this, &head };
+    //return ForwardListIterator<decltype(this)>{ this, &head };
+    //return { this, &head };
 }
 
 template<typename T, typename Allocator>
@@ -189,7 +218,7 @@ auto ForwardList<T, Allocator>::begin() noexcept -> iterator
 template<typename T, typename Allocator>
 auto ForwardList<T, Allocator>::cbegin() const noexcept -> const_iterator
 {
-    return begin();
+    return std::next(cbefore_begin());
 }
 
 template<typename T, typename Allocator>

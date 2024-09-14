@@ -47,6 +47,9 @@ int main()
     }
 
     cc::ForwardList<int> list;
+    if (list.cbegin() == list.begin() && list.begin() == list.cbegin()){
+        std::cout << "Yes\n";
+    }
     //auto iter = list.begin();
     //list.insert_after(iter, 77);
 

@@ -96,4 +96,7 @@ TEST(ForwardListTest, EraseInMiddle)
         EXPECT_EQ(*std::next(iter), i );
         list.erase_after(iter);
     }
+
+    auto t = list.cbegin();
+    iter == t;
 }
