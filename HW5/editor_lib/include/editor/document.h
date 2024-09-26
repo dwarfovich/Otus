@@ -1,10 +1,9 @@
 #pragma once
 
-#include "graphics_primitive.h"
+#include "graphics_item.h"
 
 class Document
 {
 public:
 
-    GraphicsPrimitive gp;
 };
