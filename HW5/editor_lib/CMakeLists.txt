@@ -1,7 +1,7 @@
 ﻿add_library(editor_lib STATIC
    "src/lib.cpp"
-   "include/editor/forward_list.h"
-)
+   "include/editor/document.h"
+ "include/editor/graphics_primitive.h" "include/editor/color.h" "include/editor/point.h" "include/editor/rect.h")
 
 target_include_directories(editor_lib
     PUBLIC include
