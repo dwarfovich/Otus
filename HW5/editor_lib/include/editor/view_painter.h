@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-class ViewPainter : public Painter
+class ViewPainter : public Painter<>
 {
     void setForegroundColor(const Color& color) { std::cout << "ViewPainter is setting foreground color\n"; }
     void setBackgroundColor(const Color& color) { std::cout << "ViewPainter is setting background color\n"; }
