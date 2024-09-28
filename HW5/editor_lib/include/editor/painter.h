@@ -1,5 +1,7 @@
 #pragma once
 
+#include "dummy_converter.h"
+
 #include <string>
 
 class Color;
@@ -7,7 +9,7 @@ class Point;
 class Font;
 class Rect;
 
-template<typename StringType, class StringConverter>
+template<typename StringType = std::string, class StringConverter = DummyConverter>
 class Painter
 {
 public:
@@ -25,9 +27,11 @@ public:
     }
 
 protected: // methods
-    virtual void drawUtf8Text(const StringType& text,
-                          const Point&      topLeft,
-                          const Point&      bottomRight,
-                          const Font&       font = {}) = 0;
-    
+    virtual void drawUtf8Text(const std::string& text,
+                              const Point&      topLeft,
+                              const Point&      bottomRight,
+                              const Font&       font) = 0;
+
+protected: // possible inner compononents
+           // PaintDevice& paintDevice; // A class representing a paintable canvas - a screen, a printer, etc.
 };

@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+class View;
+
 class ViewPainter : public Painter<>
 {
     void setForegroundColor(const Color& color) { std::cout << "ViewPainter is setting foreground color\n"; }
@@ -18,19 +20,17 @@ class ViewPainter : public Painter<>
         std::cout << "ViewPainter is drawing ellipse\n";
     }
 
-protected:
-    void drawUtf8Char(const std::string& utf8Char, const Rect& charRect, const Font& font)
+    void drawEllipse(const Point& topLeft, const Point& bottomRight) = 0;
+    void drawText(const std::string& text, const Point& topLeft, const Point& bottomRight, const Font& font = {})
     {
-        std::cout << "ViewPainter is drawing UTF-8 char: " << utf8Char << '\n';
-    }
-    
-    const Rect& utf8CharRect(const std::string& utf8Char,
-                             const Point&       textTopLeft,
-                             const Point&       textBottomRight,
-                             const Font&        font) const
-    {
-        return tempUtf8CharRect;
+        drawUtf8Text(text, topLeft, bottomRight, font);
     }
 
-
+protected: // methods
+    void drawUtf8Text(const std::string& text,
+                              const Point&      topLeft,
+                              const Point&      bottomRight,
+                              const Font&       font) {
+        std::cout << "ViewPainter is drawing text: " + text + '\n';
+    }
 };
