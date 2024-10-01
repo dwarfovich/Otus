@@ -1,7 +1,7 @@
 ﻿add_library(editor_lib STATIC
    "src/lib.cpp"
    "include/editor/document.h"
- "include/editor/graphics_item.h" "include/editor/color.h" "include/editor/point.h" "include/editor/rect.h"  "include/editor/view.h" "include/editor/view_painter.h" "include/editor/primitive_items.h"  "include/editor/dummy_converter.h"   "include/editor/controller.h" "include/editor/command.h" "include/editor/widget.h" "include/editor/push_button.h" "include/editor/add_graphics_item_command.h" "include/editor/main_window.h" "include/editor/remove_graphics_item_command.h")
+ "include/editor/graphics_item.h" "include/editor/color.h" "include/editor/point.h" "include/editor/rect.h"  "include/editor/view.h" "include/editor/view_painter.h" "include/editor/primitive_items.h"  "include/editor/dummy_converter.h"   "include/editor/controller.h" "include/editor/command.h" "include/editor/widget.h" "include/editor/push_button.h" "include/editor/add_graphics_item_command.h" "include/editor/main_window.h" "include/editor/remove_graphics_item_command.h"  "include/editor/graphics_items_prototype_collection.h" "include/editor/serializable.h")
 
 target_include_directories(editor_lib
     PUBLIC include

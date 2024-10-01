@@ -6,19 +6,18 @@
 #include "editor/primitive_items.h"
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <vector>
 
 int main()
 {
-    std::vector<std::shared_ptr<GraphicsItem>> items;
     auto       doc = std::make_shared<Document>();
     MainWindow mainWindow;
     mainWindow.addChild(std::make_shared<View>(doc));
 
-    auto createAddGraphicsItemCommand = [&doc, &items]<typename GraphicsItemType>() {
-        items.push_back(std::make_shared<GraphicsItemType>());
-        return std::make_shared<AddGraphicsItemCommand>(doc, items.back());
+    auto createAddGraphicsItemCommand = [&doc]<typename GraphicsItemType>() {
+        return std::make_shared<AddGraphicsItemCommand>(doc, std::make_shared<GraphicsItemType>());
     };
 
     auto addLineButton =
@@ -32,12 +31,17 @@ int main()
     mainWindow.addChild(addTextButton);
 
     // Run commands.
+    std::ifstream istream;
+    doc->read(istream);
+
     addLineButton->activate();
     addRectButton->activate();
     addTextButton->activate();
 
-    doc->removeItem(items.back());
+    doc->removeItem(*doc->firstItem());
 
+    std::ofstream ostream;
+    doc->write(ostream);
 
     return 0;
 }
