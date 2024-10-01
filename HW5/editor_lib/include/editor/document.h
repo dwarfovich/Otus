@@ -19,7 +19,10 @@ public:
 
     using DocumentObserver = std::function<void(ItemChangeType changeType, const GraphicsItem* item)>;
 
-    virtual void addObserver(const DocumentObserver& observer) { observers.push_back(observer); }
+    virtual void addObserver(const std::function<void(ItemChangeType changeType, const GraphicsItem* item)>& observer)
+    {
+        observers.push_back(observer);
+    }
     virtual void addItem(const std::shared_ptr<GraphicsItem>& item)
     {
         graphicsItems.insert(item);
