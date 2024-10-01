@@ -26,7 +26,7 @@ protected: // methods
     {
         switch (changeType) {
             case Document::ItemChangeType::Added: std::cout << "New item added\n"; break;
-            case Document::ItemChangeType::Removed: std::cout << "Item added\n"; break;
+            case Document::ItemChangeType::Removed: std::cout << "Item removed\n"; break;
             case Document::ItemChangeType::Modified: std::cout << "Item modified\n"; break;
         }
     }
