@@ -1,13 +1,17 @@
 #pragma once
 
+#include "widget.h"
+
+#include <memory>
+
 class Document;
 
-class View
+class View : public Widget
 {
 public:
-    virtual int width() const = 0;
-    virtual int height() const = 0;
+    virtual void update() = 0;
+    virtual void setDocument(const std::shared_ptr<Document>& aDocument) { document = aDocument; }
 
-    protected:
-
+protected:
+    std::shared_ptr<Document> document;
 };
