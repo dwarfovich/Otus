@@ -105,14 +105,14 @@ jobs:
       - name: Create Doxygen
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
-          doxyfile-path: ./Doxyfile
+          doxyfile-path: ./doxygen.cfg
           working-directory: ${{ env.hw_path }}
 
       - name: GitHub Pages Deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/html/
+          publish_dir: ./Documentation/html/
           enable_jekyll: false
           allow_empty_commit: false
           force_orphan: true
@@ -122,7 +122,7 @@ jobs:
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
-          doxyfile-path: ${{ env.hw_path }}/Doxyfile
+          doxyfile-path: ${{ env.hw_path }}/doxygen.cfg
           working-directory: .
     
       # Deploy the HTML documentation to GitHub Pages
@@ -130,7 +130,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.hw_path }}/doc/html/
+          publish_dir: ${{ env.hw_path }}/Documentation/html/
           enable_jekyll: false
           allow_empty_commit: false
           force_orphan: true
