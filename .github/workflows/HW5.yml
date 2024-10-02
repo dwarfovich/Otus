@@ -15,14 +15,15 @@ jobs:
   build-and-run-job:
     env:
       target_name: editor
-      homework_label: HW5
       cmake_preset: linux-release
       cmake_build_preset: build-linux-release
+      package_preset: deb-package-release
       hw_path: ./HW5
       build_folder: build
       release_folder: linux-release
       version_base: '1.0'
-      build_tests: ${{ false }}
+      build_tests: ${{ true }}
+      build_package: ${{ true }}
       # Variables to populate in "Initialize variables" step
       build_path: 
       bin_path: 
@@ -41,13 +42,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      #- name: Update apt-get
-      #  run: sudo apt-get update
-
-      - name: Build package ${{ env.target_name }}
+      - name: Build packet ${{ env.target_name }}
         working-directory: ${{env.hw_path}}
         run: |
-          cmake -DBuildTests=${{ env.build_tests }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
+          cmake -DBUILD_TESTS=${{ env.build_tests }} -DCONFIGURE_DEB_PACKAGE=${{ env.build_package }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
 
       - name: Run tests
@@ -67,8 +65,9 @@ jobs:
         run: '${{ env.bin_path }}/${{ env.target_name }}'
 
       - name: Build package
-        working-directory: ${{env.build_path}}
-        run: cpack -G DEB
+        if: ${{ env.build_package }}
+        working-directory: ${{ env.hw_path }}
+        run: cpack -G DEB --preset ${{ env.package_preset }}
 
       - name: Create Release
         id: create_release
@@ -102,37 +101,3 @@ jobs:
           asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
-
-      - name: Create Doxygen
-        uses: mattnotmitt/doxygen-action@v1.1.0
-        with:
-          doxyfile-path: ./Doxyfile
-          working-directory: ${{ env.hw_path }}
-
-      - name: GitHub Pages Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/html/
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: true
-          publish_branch: gh-pages
-
-      # Build the HTML documentation
-      - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@v1.1.0
-        with:
-          doxyfile-path: ${{ env.hw_path }}/Doxyfile
-          working-directory: .
-    
-      # Deploy the HTML documentation to GitHub Pages
-      - name: GH Pages Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.hw_path }}/doc/html/
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: true
-          publish_branch: gh-pages
