@@ -17,7 +17,7 @@ jobs:
       target_name: editor
       homework_label: HW5
       cmake_preset: linux-release
-      cmake_build_preset: linux-build-release
+      cmake_build_preset: build-linux-release
       hw_path: ./HW5
       build_folder: build
       release_folder: linux-release
