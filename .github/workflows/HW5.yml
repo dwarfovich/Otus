@@ -117,21 +117,3 @@ jobs:
           allow_empty_commit: false
           force_orphan: true
           publish_branch: gh-pages
-
-      # Build the HTML documentation
-      - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@v1.1.0
-        with:
-          doxyfile-path: ${{ env.hw_path }}/doxygen.cfg
-          working-directory: .
-    
-      # Deploy the HTML documentation to GitHub Pages
-      - name: GH Pages Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.hw_path }}/Documentation/html/
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: true
-          publish_branch: gh-pages
