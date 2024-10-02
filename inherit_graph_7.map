@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$df/d4d/classSerializeble.html" title=" " alt="" coords="5,56,93,82"/>
+<area shape="rect" id="Node000001" href="$d1/d67/classDocument.html" title=" " alt="" coords="150,31,230,56"/>
+<area shape="poly" id="edge4_Node000000_Node000001" title=" " alt="" coords="108,56,149,48,150,53,108,61"/>
+<area shape="rect" id="Node000002" href="$d8/d48/classGraphicsItem.html" title=" " alt="" coords="141,80,240,106"/>
+<area shape="poly" id="edge5_Node000000_Node000002" title=" " alt="" coords="108,76,141,82,140,87,107,81"/>
+<area shape="rect" id="Node000003" href="$d6/db0/classGraphicsEllipseItem.html" title=" " alt="" coords="288,5,425,31"/>
+<area shape="poly" id="edge6_Node000002_Node000003" title=" " alt="" coords="232,70,239,66,287,40,313,29,315,34,289,45,241,71,234,75"/>
+<area shape="rect" id="Node000004" href="$d2/de4/classGraphicsLineItem.html" title=" " alt="" coords="294,55,419,80"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="255,80,294,74,295,80,256,86"/>
+<area shape="rect" id="Node000005" href="$df/d70/classGraphicsRectItem.html" title=" " alt="" coords="294,104,420,130"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="256,100,294,105,293,110,255,105"/>
+<area shape="rect" id="Node000006" href="$da/dc2/classGraphicsTextItem.html" title=" " alt="" coords="294,153,419,179"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="230,111,289,140,316,150,314,155,287,145,228,116"/>
+</map>

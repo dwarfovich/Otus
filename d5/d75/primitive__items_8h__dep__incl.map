@@ -1,0 +1,15 @@
+<map id="editor_lib/include/editor/primitive_items.h" name="editor_lib/include/editor/primitive_items.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,5,378,46"/>
+<area shape="rect" id="Node000002" href="$d7/d8d/graphics__items__prototype__collection_8h.html" title=" " alt="" coords="164,94,318,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,61,260,95,256,92,277,58"/>
+<area shape="rect" id="Node000005" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="134,390,229,416"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="326,57,366,114,385,150,402,189,413,229,417,269,411,308,393,344,366,362,324,377,230,397,229,392,323,372,364,357,388,340,406,306,412,269,408,230,397,191,380,153,361,117,322,60"/>
+<area shape="rect" id="Node000003" href="$db/df5/document_8h.html" title=" " alt="" coords="146,198,275,238"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,166,219,198,214,197,225,164"/>
+<area shape="rect" id="Node000004" href="$da/de3/add__graphics__item__command_8h.html" title=" " alt="" coords="5,286,144,342"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="172,249,115,288,112,283,169,245"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="208,254,186,390,180,389,202,253"/>
+<area shape="rect" id="Node000006" href="$d9/d02/remove__graphics__item__command_8h.html" title=" " alt="" coords="218,286,379,342"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="241,248,275,284,271,288,237,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="121,350,168,387,164,391,118,354"/>
+</map>

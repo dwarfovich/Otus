@@ -1,0 +1,21 @@
+<map id="editor_lib/include/editor/serializable.h" name="editor_lib/include/editor/serializable.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="122,5,257,46"/>
+<area shape="rect" id="Node000002" href="$db/df5/document_8h.html" title=" " alt="" coords="118,375,247,416"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,60,161,95,155,134,153,175,157,255,168,324,180,374,174,375,163,325,152,255,147,175,150,134,156,93,168,59"/>
+<area shape="rect" id="Node000006" href="$d8/d38/graphics__item_8h.html" title=" " alt="" coords="170,94,323,135"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="213,57,236,92,231,95,208,60"/>
+<area shape="rect" id="Node000003" href="$da/de3/add__graphics__item__command_8h.html" title=" " alt="" coords="5,464,144,519"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="150,428,108,465,104,461,147,424"/>
+<area shape="rect" id="Node000004" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="134,567,229,593"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="185,431,184,567,179,567,180,431"/>
+<area shape="rect" id="Node000005" href="$d9/d02/remove__graphics__item__command_8h.html" title=" " alt="" coords="218,464,379,519"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="220,423,266,461,263,465,217,428"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="121,527,168,565,164,569,118,531"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="228,149,212,184,198,237,190,290,185,375,180,375,185,290,193,236,207,182,223,147"/>
+<area shape="rect" id="Node000007" href="$d3/d24/primitive__items_8h.html" title=" " alt="" coords="222,183,381,223"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="269,147,291,181,287,184,265,149"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="355,230,376,248,391,270,422,338,431,369,436,399,435,429,428,458,414,489,392,521,366,539,324,554,230,575,229,569,323,549,364,535,389,517,409,486,423,456,430,428,431,399,426,371,417,340,387,273,372,251,352,234"/>
+<area shape="rect" id="Node000008" href="$d7/d8d/graphics__items__prototype__collection_8h.html" title=" " alt="" coords="223,271,376,327"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="303,239,303,271,298,271,298,239"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="256,339,209,377,205,372,252,335"/>
+</map>

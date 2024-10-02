@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$d9/d71/classCommand.html" title=" " alt="" coords="5,31,86,56"/>
+<area shape="rect" id="Node000001" href="$d7/d0a/classAddGraphicsItemCommand.html" title=" " alt="" coords="146,5,328,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="101,34,146,28,146,33,101,39"/>
+<area shape="rect" id="Node000002" href="$d1/dc0/classRemoveGraphicsItemCommand.html" title=" " alt="" coords="134,55,340,80"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="101,48,134,52,133,57,100,53"/>
+</map>
