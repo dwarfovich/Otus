@@ -4,60 +4,47 @@
 #include <unordered_map>
 #include <array>
 
-// template<typename ElementType>
-// class ElementProxyRef
-//{
-//     template<typename ElementType, std::size_t Dimension, ElementType DefaultElement>
-//     friend class Matrix;
-//
-// public:
-//
-// private:
-//     ElementType* element_ = nullptr;
-//     Matrix<ElementType>& matrix_;
-// };
-//
-// template<typename ElementType, std::size_t Dimension = 2>
-// class ElementProxy
-//{
-//     template<typename ElementType, std::size_t Dimension, ElementType DefaultElement>
-//     friend class Matrix;
-//
-// public:
-// private:
-//     ElementType element_;
-// };
-
-template<typename ElementType, std::size_t Dimension = 2, ElementType DefaultElement = ElementType()>
+template<typename ElementType, std::size_t Dimension = 2>
 class Matrix
 {
 public:
     class ElementProxyRef
     {
     public:
-        ElementProxyRef(Matrix<ElementType, Dimension, DefaultElement>& matrix) : matrix_{matrix}{}
+        ElementProxyRef(Matrix<ElementType, Dimension>& matrix, ElementType* element = nullptr)
+            : matrix_ { matrix }, element_ { element }
+        {
+        }
+
     private:
-        ElementType*                                    element_ = nullptr;
-        Matrix<ElementType, Dimension, DefaultElement>& matrix_;
+        ElementType*                    element_ = nullptr;
+        Matrix<ElementType, Dimension>& matrix_;
     };
 
     using Position = std::array<std::size_t, Dimension>;
 
+    Matrix(const ElementType& defaultElement = {}) : defaultElement_ { defaultElement } {}
+    
+    const ElementType& defaultElement() const noexcept{ return defaultElement_;}
     ElementProxyRef refAt(const Position& position) const noexcept;
+    void               set(const Position& position, const ElementType& element){
+        elements_[position] = element;
+    }
+    void               set(const Position& position, ElementType&& element) { elements_[position] = element; }
 
 private:
     std::unordered_map<Position, ElementType> elements_;
+    ElementType                        defaultElement_;
 };
 
-template<typename ElementType, std::size_t Dimension, ElementType DefaultElement>
-auto Matrix<ElementType, Dimension, DefaultElement>::refAt(const Position& position) const noexcept -> ElementProxyRef
+template<typename ElementType, std::size_t Dimension>
+auto Matrix<ElementType, Dimension>::refAt(const Position& position) const noexcept -> ElementProxyRef
 {
-    auto iter = elements_.find(position);
+    ElementProxyRef element { *this };
+    auto            iter = elements_.find(position);
     if (iter == elements_.cend()) {
-        //cachedElement_.element_ = &DefaultElement;
+        ElementProxyRef element { *this, &defaultElement_ };
     } else {
-        //cachedElement_.element = &iter->second;
+        ElementProxyRef element { *this, &iter->second };
     }
-
-    return {};
 }
