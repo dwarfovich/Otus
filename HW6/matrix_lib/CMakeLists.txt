@@ -1,6 +1,6 @@
 ﻿add_library(matrix_lib STATIC
    "src/lib.cpp"
- "include/matrix/matrix.h" "src/matrix.cpp" "include/matrix/array_hasher.h")
+ "include/matrix/matrix.h" "src/matrix.cpp" "include/matrix/matrix_position_hasher.h")
 
 target_include_directories(matrix_lib
     PUBLIC include
