@@ -6,23 +6,28 @@
 #include <unordered_map>
 #include <array>
 #include <stdexcept>
+#include <iostream>
 
-inline constexpr std::size_t invalidOrdinal = static_cast<std::size_t>(-1);
-
-template<typename ElementType, std::size_t Dimension = 2, typename Hasher = MatrixPositionHasher<Dimension>>
-    requires(Dimension != 0 && Dimension != invalidOrdinal)
+template<typename ElementType,
+         std::size_t Dimension      = 2,
+         typename Hasher            = MatrixPositionHasher<Dimension>,
+         std::size_t InvalidOrdinal = static_cast<std::size_t>(-1)>
+    requires(Dimension != 0 && Dimension != InvalidOrdinal && Dimension < InvalidOrdinal)
 class SparseMatrix
 {
 public: // types
+    using Position = std::array<std::size_t, Dimension>;
+    using Element  = ElementType;
+
     class ElementProxy
     {
     public: // types
-        using MatrixType = SparseMatrix<ElementType, Dimension, Hasher>;
+        using MatrixType = SparseMatrix<Element, Dimension, Hasher>;
 
     public: // methods
         ElementProxy(MatrixType& matrix, std::size_t firstIndex) : currentOrdinal_ { 1 }, matrix_ { matrix }
         {
-            position_.back() = invalidOrdinal;
+            position_.back()  = InvalidOrdinal;
             position_.front() = firstIndex;
         }
         ElementProxy(MatrixType& matrix, const MatrixType::Position& position)
@@ -31,7 +36,12 @@ public: // types
             currentOrdinal_ = Dimension;
         }
         ElementProxy(const ElementProxy& rhs)
-            : currentOrdinal_ { invalidOrdinal }, position_ { rhs.position_ }, matrix_ { rhs.matrix_ }
+            : currentOrdinal_ { InvalidOrdinal }
+            , position_ { rhs.hasValidPosition()
+                              ? rhs.position_
+                              : throw std::
+                                  logic_error { "Trying to copy-construct from proxy with invalid Position." } }
+            , matrix_ { rhs.matrix_ }
         {
         }
 
@@ -40,12 +50,13 @@ public: // types
         ElementProxy& operator[](std::size_t index)
         {
             throwIfOrdinalIsOutOfRange(Dimension);
+
             position_[currentOrdinal_++] = index;
 
             return *this;
         }
 
-        ElementProxy& operator=(const ElementType& element)
+        ElementProxy& operator=(const Element& element)
         {
             throwIfOrdinalIsOutOfRange(Dimension + 1);
             throwIfPositionIsInvalid();
@@ -55,8 +66,11 @@ public: // types
             return *this;
         }
 
-        ElementType  element() const noexcept { return matrix_.copyElement(position_); }
-        ElementType& elementRef() const noexcept { return matrix_.trueRef(position_); }
+        bool operator==(const Element& rhs) const noexcept { return rhs == matrix_.trueRef(position_); }
+
+        Element  element() const noexcept { return matrix_.copyElement(position_); }
+        Element& elementRef() const noexcept { return matrix_.trueRef(position_); }
+        bool     hasValidPosition() const noexcept { return position_.back() != InvalidOrdinal; }
 
     private: // methods
         void throwIfOrdinalIsOutOfRange(std::size_t criticalValue)
@@ -68,74 +82,65 @@ public: // types
         }
         void throwIfPositionIsInvalid()
         {
-            if (position_.back() == invalidOrdinal) {
+            if (!hasValidPosition()) {
                 throw std::logic_error("Position is invalid.");
             }
         }
 
     private: // data
-        size_t                                     currentOrdinal_ = 0;
-        MatrixType&                                matrix_;
-        mutable std::array<std::size_t, Dimension> position_ = {};
+        size_t           currentOrdinal_ = 0;
+        MatrixType&      matrix_;
+        mutable Position position_ = {};
     };
 
-    using Position = std::array<std::size_t, Dimension>;
-
-    class Iterator 
+    class Iterator
     {
     public: // types
-        using MatrixType = SparseMatrix<ElementType, Dimension, Hasher>;
+        using MatrixType                   = SparseMatrix<Element, Dimension, Hasher>;
+        using ElementData                  = std::pair<Position, Element>;
+        using ElementDataWithConstPosition = std::pair<const Position, Element>;
 
     public: // methods
         Iterator() = default;
         Iterator(const MatrixType::ElementsContainer::iterator& iterator) : iterator_ { iterator } {}
 
-        bool operator==(const Iterator& rhs) const noexcept{
-            return iterator_ == rhs.iterator_;
-        }
-
-        Iterator& operator++(){ 
+        operator std::tuple<Position&, Element&>() { return { iterator_.first, iterator_.second }; }
+        const ElementData&            operator*() const { return *iterator_; }
+        ElementDataWithConstPosition& operator*() { return *iterator_; }
+        bool      operator==(const Iterator& rhs) const noexcept { return iterator_ == rhs.iterator_; }
+        Iterator& operator++()
+        {
             ++iterator_;
 
             return *this;
         }
-        const ElementType& operator*() const {
-            return iterator_->second;
-        }
-
-        const ElementType& operator*() { return iterator_->second; }
 
     private:
         MatrixType::ElementsContainer::iterator iterator_;
     };
 
 public: // methods
-    SparseMatrix(const ElementType& defaultElement = -1) : defaultElement_ { defaultElement }
-    {
-    }
+    SparseMatrix(const Element& defaultElement = -1) : defaultElement_ { defaultElement } {}
 
     ElementProxy operator[](std::size_t index) { return { *this, index }; }
 
-    Iterator begin() const noexcept {
-        auto& t = const_cast<SparseMatrix*>(this)->elements_;
-        auto  tt = const_cast<SparseMatrix*>(this)->removeConstness(t,
-                                  elements_.begin());
-        return {tt};
-    }
-    Iterator end() const noexcept { 
-        auto& t  = const_cast<SparseMatrix*>(this)->elements_;
-        auto  tt = const_cast<SparseMatrix*>(this)->removeConstness(t, elements_.end());
-        return { tt };
+    Iterator begin() const noexcept
+    {
+        return { const_cast<SparseMatrix*>(this)->removeIteratorConstness(elements_.cbegin()) };
     }
 
-    std::size_t        size() const noexcept { return elements_.size(); }
-    bool               empty() const noexcept { return size() == 0; }
-    const ElementType& defaultElement() const noexcept { return defaultElement_; }
-    // ElementProxy       proxyAt(const Position& position) const noexcept;
-    void set(const Position& position, const ElementType& element) { elements_[position] = element; }
-    void set(const Position& position, ElementType&& element) { elements_[position] = element; }
+    Iterator end() const noexcept
+    {
+        return { const_cast<SparseMatrix*>(this)->removeIteratorConstness(elements_.cend()) };
+    }
 
-    ElementType& trueRef(const Position& position) const noexcept
+    std::size_t    size() const noexcept { return elements_.size(); }
+    bool           empty() const noexcept { return size() == 0; }
+    const Element& defaultElement() const noexcept { return defaultElement_; }
+    void           set(const Position& position, const Element& element) { elements_[position] = element; }
+    void           set(const Position& position, Element&& element) { elements_[position] = element; }
+
+    const Element& trueRef(const Position& position) const noexcept
     {
         auto iter = elements_.find(position);
         if (iter == elements_.cend()) {
@@ -144,42 +149,28 @@ public: // methods
             return iter->second;
         }
     }
-    ElementType copyElement(const Position& position) const noexcept { return trueRef(position); }
+    Element copyElement(const Position& position) const noexcept { return trueRef(position); }
 
-    private:
-    /*template<typename Container, typename ConstIterator>
-    typename Container::iterator remove_constness(Container& c, ConstIterator it)
+private: // types
+    using ElementsContainer = std::unordered_map<Position, Element, Hasher>;
+
+private: // methods
+    ElementsContainer::iterator removeIteratorConstness(ElementsContainer::const_iterator&& it)
     {
-        return c.erase(it, it);
-    }*/
-        
-        template<typename Container, typename ConstIterator>
-        typename Container::iterator removeConstness(Container& c, ConstIterator it)
-        {
-            return c.erase(it, it);
-        }
+        return elements_.erase(it, it);
+    }
 
-    private:
-    using ElementsContainer = std::unordered_map<Position, ElementType, Hasher>;
-
+private: // data
     ElementsContainer elements_;
-    ElementType       defaultElement_;
+    Element           defaultElement_;
 };
 
-// template<typename ElementType, std::size_t Dimension, typename Hasher>
-// auto SparseMatrix<ElementType, Dimension, Hasher>::proxyAt(const Position& position) const noexcept -> ElementProxy
-//{
-//     ElementProxy element { *this };
-//     auto         iter = elements_.find(position);
-//     if (iter == elements_.cend()) {
-//         return { *this, &defaultElement_ };
-//     } else {
-//         return { *this, &iter->second };
-//     }
-// }
-
-//std::unordered_map<std::array<std::size_t, >, ElementType, Hasher>::iterator removeIteratorConstness(
-//    std::unordered_map<Position, ElementType, Hasher>::const_iterator it) const
-//{
-//    return elements_.erase(it, it);
-//}
+template<std::size_t ArraySize>
+void printPosition(std::ostream& stream, const std::array<std::size_t, ArraySize>& array)
+{
+    stream << '{';
+    for (std::size_t i = 0; i < ArraySize - 1; ++i) {
+        stream << array[i] << ", ";
+    }
+    stream << array.back() << '}';
+}
