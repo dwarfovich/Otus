@@ -22,11 +22,13 @@ int main()
         std::cout << "Exception! " << e.what() << '\n';
     }
 
+    m[55][5344] = 25;
+   m[55][534] = 888;
+
+   std::cout << "\nIterating:" << std::endl;
+    for(const auto& c : m){
+        std::cout << c << std::endl;
+    }
     
-
-    //t = 5;
-   //m[0][1] = 45;
-   //int tint = m[0][0];
-
     return 0;
 }
