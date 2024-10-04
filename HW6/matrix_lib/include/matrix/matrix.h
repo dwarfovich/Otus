@@ -109,8 +109,6 @@ public: // types
         MatrixType::ElementsContainer::iterator iterator_;
     };
 
-    
-
 public: // methods
     SparseMatrix(const ElementType& defaultElement = -1) : defaultElement_ { defaultElement }
     {
