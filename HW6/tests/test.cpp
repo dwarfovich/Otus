@@ -9,10 +9,10 @@ TEST(MatrixTest, CompilationCheck)
     auto t = m[4][432][1212][12300];
     ASSERT_EQ(t, m.defaultElement());
     ASSERT_EQ(m.defaultElement(), t);
-    /*const auto ct = m[4][432][1212][12300];
+    const auto ct = m[4][432][1212][12300];
     ASSERT_EQ(ct, m.defaultElement());
     ASSERT_EQ(m.defaultElement(), ct);
-    const auto& crt = m[4][432][1212][12300];
+    /*const auto& crt = m[4][432][1212][12300];
     ASSERT_EQ(crt, m.defaultElement());
     ASSERT_EQ(m.defaultElement(), crt);*/
 
