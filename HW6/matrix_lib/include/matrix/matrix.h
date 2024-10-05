@@ -137,8 +137,22 @@ public: // methods
     std::size_t    size() const noexcept { return elements_.size(); }
     bool           empty() const noexcept { return size() == 0; }
     const Element& defaultElement() const noexcept { return defaultElement_; }
-    void           set(const Position& position, const Element& element) { elements_[position] = element; }
-    void           set(const Position& position, Element&& element) { elements_[position] = element; }
+    void           set(const Position& position, const Element& element)
+    {
+        if (element == defaultElement_) {
+            elements_.erase(position);
+        } else {
+            elements_[position] = element;
+        }
+    }
+    void set(const Position& position, Element&& element)
+    {
+        if (element == defaultElement_) {
+            elements_.erase(position);
+        } else {
+            elements_[position] = element;
+        }
+    }
 
     const Element& trueRef(const Position& position) const noexcept
     {
