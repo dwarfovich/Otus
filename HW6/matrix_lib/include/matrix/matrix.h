@@ -68,6 +68,13 @@ public: // types
 
         bool operator==(const Element& rhs) const noexcept { return rhs == matrix_.trueRef(position_); }
 
+        std::ostream operator<<(std::ostream& stream) const
+        {
+            stream << elementRef();
+
+            return stream;
+        }
+
         Element  element() const noexcept { return matrix_.copyElement(position_); }
         Element& elementRef() const noexcept { return matrix_.trueRef(position_); }
         bool     hasValidPosition() const noexcept { return position_.back() != InvalidOrdinal; }

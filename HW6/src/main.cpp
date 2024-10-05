@@ -9,6 +9,8 @@ int main()
     SparseMatrix<int, 2> m(-1);
 
     auto t = m[0][3];
+
+    std::cout << t << '\n';
     try {
         t = 5;
     } catch (const std::exception& e) {
