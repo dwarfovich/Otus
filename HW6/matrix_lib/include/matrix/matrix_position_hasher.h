@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <array>
+#include <unordered_set>
 
 template<std::size_t Size>
 struct MatrixPositionHasher
