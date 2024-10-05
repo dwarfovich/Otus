@@ -17,7 +17,6 @@ TEST(MatrixTest, CompilationCheck)
     ASSERT_EQ(m.defaultElement(), crt.element());
 
     m[55][3663][23][2323]           = 25;
-    m[55][534][22][0]               = 888;
 
     for (const auto& c : m) {
         decltype(m)::Position position;

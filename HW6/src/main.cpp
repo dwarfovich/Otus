@@ -9,8 +9,9 @@ int main()
     SparseMatrix<int, 2> m(-1);
 
     auto t = m[0][3];
-
     std::cout << t << '\n';
+
+    // It's forbidden to change matrix' element through Proxy variable.
     try {
         t = 5;
     } catch (const std::exception& e) {
@@ -18,7 +19,7 @@ int main()
         std::cout << "Exception! " << e.what() << '\n';
     }
     const auto ct = m[4][432];
-    // ct = 5;
+    // ct = 5; Compilation error.
 
     try {
         m[123] = 43;
