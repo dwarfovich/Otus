@@ -4,19 +4,19 @@
 
 #include <cstddef>
 #include <unordered_map>
-#include <array>
+#include <vector>
 #include <stdexcept>
 #include <iostream>
 
 template<typename ElementType,
          std::size_t Dimension      = 2,
-         typename Hasher            = MatrixPositionHasher<Dimension>,
+         typename Hasher            = MatrixPositionHasher,
          std::size_t InvalidOrdinal = static_cast<std::size_t>(-1)>
     requires(Dimension != 0 && Dimension != InvalidOrdinal && Dimension < InvalidOrdinal)
 class SparseMatrix
 {
 public: // types
-    using Position = std::array<std::size_t, Dimension>;
+    using Position = std::vector<std::size_t>;
     using Element  = ElementType;
 
     class ElementProxy
@@ -25,7 +25,8 @@ public: // types
         using MatrixType = SparseMatrix<Element, Dimension, Hasher>;
 
     public: // methods
-        ElementProxy(MatrixType& matrix, std::size_t firstIndex) : currentOrdinal_ { 1 }, matrix_ { matrix }
+        ElementProxy(MatrixType& matrix, std::size_t firstIndex)
+            : currentOrdinal_ { 1 }, matrix_ { matrix }, position_ { Position(Dimension) }
         {
             position_.back()  = InvalidOrdinal;
             position_.front() = firstIndex;
@@ -45,18 +46,27 @@ public: // types
         {
         }
 
+        ElementProxy(ElementProxy&& rhs)
+            : currentOrdinal_ { rhs.currentOrdinal_ }
+            , position_ { 
+                               std::move(rhs.position_)
+                              }
+            , matrix_ { rhs.matrix_ }
+        {
+        }
+
         operator ElementType() { return matrix_.copyElement(position_); }
 
-        ElementProxy& operator[](std::size_t index)
+        ElementProxy operator[](std::size_t index)
         {
             throwIfOrdinalIsOutOfRange(Dimension);
 
             position_[currentOrdinal_++] = index;
 
-            return *this;
+            return std::move(*this);
         }
 
-        ElementProxy& operator=(const Element& element)
+        ElementProxy& operator=(const Element& element) &&
         {
             throwIfOrdinalIsOutOfRange(Dimension + 1);
             throwIfPositionIsInvalid();
@@ -64,6 +74,14 @@ public: // types
             matrix_.set(position_, element);
 
             return *this;
+        }
+
+        ElementProxy& operator=(const Element& element) &
+        {
+            throw std::logic_error
+            {
+                "Trying to assign to standalone Proxy."
+            };
         }
 
         bool operator==(const Element& rhs) const noexcept { return rhs == matrix_.trueRef(position_); }
@@ -127,10 +145,7 @@ public: // types
     };
 
 public: // methods
-    SparseMatrix(const Element& defaultElement = -1) : defaultElement_ { defaultElement } {
-        std::cout << this << '\n';
-        std::cout <<"Assigned defaultElement_ " << defaultElement_ << '\n';
-    }
+    SparseMatrix(const Element& defaultElement = -1) : defaultElement_ { defaultElement } {}
 
     ElementProxy operator[](std::size_t index) { return { *this, index }; }
 
@@ -173,14 +188,15 @@ public: // methods
             return iter->second;
         }
     }
-    Element copyElement(const Position& position) const noexcept { auto iter = elements_.find(position);
+    Element copyElement(const Position& position) const noexcept
+    {
+        auto iter = elements_.find(position);
         if (iter == elements_.cend()) {
-            std::cout << this << '\n';
-            std::cout << "Returning default element: " << defaultElement_ << '\n';
             return defaultElement_;
         } else {
             return iter->second;
-        } }
+        }
+    }
 
 private: // types
     using ElementsContainer = std::unordered_map<Position, Element, Hasher>;
@@ -196,12 +212,11 @@ private: // data
     Element           defaultElement_ = -1;
 };
 
-template<std::size_t ArraySize>
-void printPosition(std::ostream& stream, const std::array<std::size_t, ArraySize>& array)
+void printPosition(std::ostream& stream, const std::vector<std::size_t>& vector)
 {
     stream << '{';
-    for (std::size_t i = 0; i < ArraySize - 1; ++i) {
-        stream << array[i] << ", ";
+    for (std::size_t i = 0; i < vector.size() - 1; ++i) {
+        stream << vector[i] << ", ";
     }
-    stream << array.back() << '}';
+    stream << vector.back() << '}';
 }

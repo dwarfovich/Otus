@@ -29,7 +29,6 @@ int main()
 
     m[55][3663] = 25;
     m[55][534]  = 888;
-    ((m[100][100] = 314) = 0) = 217;
 
     std::cout << "\nIterating:" << std::endl;
     for (const auto& c : m) {

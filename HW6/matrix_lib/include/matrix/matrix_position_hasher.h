@@ -1,17 +1,16 @@
 #pragma once
 
 #include <cstddef>
-#include <array>
+#include <vector>
 #include <unordered_set>
 
-template<std::size_t Size>
 struct MatrixPositionHasher
 {
-    constexpr std::size_t operator()(const std::array<std::size_t, Size>& array) const {
+    constexpr std::size_t operator()(const std::vector<std::size_t>& vector) const {
         std::hash<std::size_t> elementHasher;
         std::size_t hash = 0;
-        for(std::size_t i = 0; i < Size; ++i){
-            hash = (hash << 1) ^ elementHasher(array[i]);
+        for(std::size_t i = 0; i < vector.size(); ++i){
+            hash = (hash << 1) ^ elementHasher(vector[i]);
         }
         return 0;
     }
