@@ -127,7 +127,10 @@ public: // types
     };
 
 public: // methods
-    SparseMatrix(const Element& defaultElement = -1) : defaultElement_ { defaultElement } {}
+    SparseMatrix(const Element& defaultElement = -1) : defaultElement_ { defaultElement } {
+        std::cout << this << '\n';
+        std::cout <<"Assigned defaultElement_ " << defaultElement_ << '\n';
+    }
 
     ElementProxy operator[](std::size_t index) { return { *this, index }; }
 
@@ -170,7 +173,14 @@ public: // methods
             return iter->second;
         }
     }
-    Element copyElement(const Position& position) const noexcept { return trueRef(position); }
+    Element copyElement(const Position& position) const noexcept { auto iter = elements_.find(position);
+        if (iter == elements_.cend()) {
+            std::cout << this << '\n';
+            std::cout << "Returning default element: " << defaultElement_ << '\n';
+            return defaultElement_;
+        } else {
+            return iter->second;
+        } }
 
 private: // types
     using ElementsContainer = std::unordered_map<Position, Element, Hasher>;
