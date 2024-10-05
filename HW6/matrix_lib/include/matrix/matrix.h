@@ -183,7 +183,7 @@ private: // methods
 
 private: // data
     ElementsContainer elements_;
-    Element           defaultElement_;
+    Element            = -1;
 };
 
 template<std::size_t ArraySize>
