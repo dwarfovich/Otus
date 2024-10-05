@@ -13,7 +13,7 @@ TEST(MatrixTest, CompilationCheck)
     ASSERT_EQ(ct, m.defaultElement());
     ASSERT_EQ(m.defaultElement(), ct);*/
     const auto& crt = m[4][432][1212][12300];
-    ASSERT_EQ(m[4][432][1212][12300].element(), m.defaultElement());
+    ASSERT_EQ(crt.element(), m.defaultElement());
     //ASSERT_EQ(m.defaultElement(), crt.element());
 
     /*m[55][3663][23][2323]           = 25;
