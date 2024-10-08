@@ -5,6 +5,8 @@
 class CommandIdentifier
 {
 public:
+    CommandIdentifier(const std::string& id) : id_{id}{}
+
     const std::string& identifier() const noexcept {
         return id_;
     }

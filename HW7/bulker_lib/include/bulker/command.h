@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iosfwd>
+
 class Command
 {
 public:

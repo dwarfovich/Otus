@@ -2,11 +2,7 @@
 
 #include <vector>
 #include <functional>
-
-namespace std {
-class istream;
-}
-
+#include <iosfwd>
 class CommandBlock;
 
 class CommandParser
