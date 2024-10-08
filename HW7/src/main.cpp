@@ -1,5 +1,4 @@
-﻿//#include "bulker/bulker_command_factory.h"
-#include "bulker/bulker_logger.h"
+﻿#include "bulker/bulker_logger.h"
 #include "bulker/bulker_command_parser.h"
 #include "bulker/bulker_command_executor.h"
 

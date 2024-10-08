@@ -10,7 +10,7 @@ class CommandBlock
 public:
     void setTimestamp(const std::time_t& timestamp) { timestamp_ = timestamp; }
     void addCommandIdentifier(CommandIdentifier&& id) { identifiers_.push_back(std::move(id)); }
-
+    void clear() {identifiers_.clear();}
     const std::vector<CommandIdentifier>& identifiers() const { return identifiers_; }
 
 private:

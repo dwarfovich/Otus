@@ -4,6 +4,8 @@
 #include "command_block.h"
 #include "command_identifier.h"
 
+#include <iostream>
+
 class BulkerCommandParser : public CommandParser
 {
 public:
@@ -11,9 +13,12 @@ public:
 
     void readCommands(std::istream& stream) override {
         std::string id;
-        stream >> id;
-        readCommands_.addCommandIdentifier( std::move(id) );
-        notifier_(readCommands_);
+        while (std::getline(stream, id)) {
+            readCommands_.addCommandIdentifier( std::move(id) );
+            notifier_(readCommands_);
+            id.clear();
+            readCommands_.clear();
+        }
     }
     void setReadyNotifier(const ReadyNotifier& notifier) override { notifier_ = notifier; }
 
