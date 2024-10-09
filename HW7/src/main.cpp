@@ -4,9 +4,14 @@
 
 #include <iostream>
 #include <functional>
+#include <charconv>
 
-int main()
+int main(int argc, char* argv[])
 {
+    std::size_t staticBlockSize = 3;
+    //if(argc == 2){
+    //    const auto& result = std::from_chars(argv[1], argv[1] + std::strlen(argv[1]), staticBlockSize);
+    //}
     auto logger = std::make_shared<BulkerLogger>(std::cout);
     BulkerCommandExecutor executor {logger};
     BulkerCommandParser parser {std::cin};

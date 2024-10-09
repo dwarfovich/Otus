@@ -9,7 +9,10 @@
 class BulkerCommandParser : public CommandParser
 {
 public:
-    BulkerCommandParser(std::istream& stream) : stream_{stream}{}
+    BulkerCommandParser(std::istream& stream, std::size_t staticBlockSize = 3)
+        : stream_ { stream }, staticBlockSize_ { staticBlockSize }
+    {
+    }
 
     void readCommands(std::istream& stream) override {
         std::string id;
@@ -26,4 +29,5 @@ private:
     std::istream& stream_;
     CommandBlock  readCommands_;
     ReadyNotifier notifier_;
+    std::size_t staticBlockSize_ = 3;
 };
