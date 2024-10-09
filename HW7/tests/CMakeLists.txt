@@ -10,7 +10,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest) 
 
 add_executable(tests "test.cpp")
-target_include_directories(tests PRIVATE "../matrix_lib/include")
+target_include_directories(tests PRIVATE "../bulker_lib/include")
 
 set_target_properties(tests
     PROPERTIES
@@ -22,6 +22,7 @@ set_property(TARGET tests PROPERTY CXX_STANDARD 20)
 target_link_libraries(
   tests
   GTest::gtest_main
+  bulker_lib
 )
 
 include(GoogleTest)

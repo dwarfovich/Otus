@@ -5,6 +5,7 @@
 #include <iostream>
 #include <functional>
 #include <charconv>
+#include <sstream>
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +18,9 @@ int main(int argc, char* argv[])
     BulkerCommandParser parser {std::cin};
     parser.setReadyNotifier(std::bind(&BulkerCommandExecutor::onGotCommandBlock, &executor, std::placeholders::_1));
 
-    parser.readCommands(std::cin);
+    std::stringstream stream {"cmd1\ncmd2\ncmd3\n{\ncmd4"};
+    parser.readCommands(stream);
+    //parser.readCommands(std::cin);
 
     return 0;
 }

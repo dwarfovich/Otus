@@ -6,7 +6,7 @@
 class BulkerCommandExecutor
 {
 public:
-    BulkerCommandExecutor(const std::shared_ptr<Logger>& logger = nullptr) : factory_{logger}{
+    BulkerCommandExecutor(std::ostream& stream, const std::shared_ptr<Logger>& logger = nullptr) : factory_ {stream, logger } {
     }
     
     void onGotCommandBlock(const CommandBlock& block) {
