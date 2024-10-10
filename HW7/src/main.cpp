@@ -14,8 +14,10 @@ int main(int argc, char* argv[])
     //    const auto& result = std::from_chars(argv[1], argv[1] + std::strlen(argv[1]), staticBlockSize);
     //}
     auto logger = std::make_shared<BulkerLogger>(std::cout);
-    BulkerCommandExecutor executor {logger};
-    BulkerCommandParser parser {std::cin};
+    BulkerCommandExecutor executor {
+        std::cerr, logger
+    };
+    BulkerCommandParser parser {};
     parser.setReadyNotifier(std::bind(&BulkerCommandExecutor::onGotCommandBlock, &executor, std::placeholders::_1));
 
     std::stringstream stream {"cmd1\ncmd2\ncmd3\n{\ncmd4"};

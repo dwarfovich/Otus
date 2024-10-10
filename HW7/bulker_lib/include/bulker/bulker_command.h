@@ -18,7 +18,7 @@ public:
 
     void execute() override
     {
-        stream_ << id_.identifier() << '\n';
+        stream_ << id_.identifier();
         if (logger_) {
             log(id_.identifier());
         }
