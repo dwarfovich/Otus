@@ -78,17 +78,17 @@ TEST(BulkerParser, StartDynamicBlockNested)
 
 TEST(BulkerParser, StartDynamicBlockNested_2)
 {
-    ASSERT_OUTPUT(1, "{\n{\ncmd1\n}\n{\ncmd2\n}\n}", "Bulk: cmd1\nBulk: cmd2\n");
+    ASSERT_OUTPUT(1, "{\n{\ncmd1\n}\n{\ncmd2\n}\n}", "Bulk: cmd1, cmd2\n");
 }
 
 TEST(BulkerParser, StartDynamicBlockNested_3)
 {
-    ASSERT_OUTPUT(1, "{\n{\ncmd1\n{\ncmd3\n}\n}\n{\ncmd2\n}\n}", "Bulk: cmd1, cmd3\nBulk: cmd2\n");
+    ASSERT_OUTPUT(1, "{\n{\ncmd1\n{\ncmd3\n}\n}\n{\ncmd2\n}\n}", "Bulk: cmd1, cmd3, cmd2\n");
 }
 
 TEST(BulkerParser, StartDynamicBlockNested_4)
 {
-    ASSERT_OUTPUT(1, "{\n{\ncmd1\n{\ncmd3\n}\n}\n{\ncmd2\n{\ncmd4\n{\ncmd5\n}\n}\n}\n}", "Bulk: cmd1, cmd3\nBulk: cmd2, cmd4, cmd5\n");
+    ASSERT_OUTPUT(1, "{\n{\ncmd1\n{\ncmd3\n}\n}\n{\ncmd2\n{\ncmd4\n{\ncmd5\n}\n}\n}\n}", "Bulk: cmd1, cmd3, cmd2, cmd4, cmd5\n");
 }
 
 TEST(BulkerParser, MixedBlocks)
