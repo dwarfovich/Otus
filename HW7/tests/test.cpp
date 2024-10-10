@@ -26,6 +26,11 @@ struct TestExecutor
     executor.readCommands(stream);               \
     ASSERT_EQ(executor.result(), std::string{(expected)});
 
+#define ASSERT_THROWS(blockSize, input) \
+{ TestExecutor       executor { (blockSize) }; \
+std::istringstream stream { (input) }; \
+ASSERT_ANY_THROW(executor.readCommands(stream));}
+
 TEST(BulkerParser, StaticBlockSize1)
 {
     ASSERT_OUTPUT(1, "cmd1", "Bulk: cmd1\n");
@@ -119,4 +124,15 @@ TEST(BulkerParser, DynamicBlockInterrupted)
 TEST(BulkerParser, DynamicBlockInterrupted_2)
 {
     ASSERT_OUTPUT(3, "{\ncmd1\n{\ncmd2", "");
+}
+
+TEST(BulkerParser, ThrowsOnWrongBlockClosing)
+{
+    ASSERT_THROWS(1, "}");
+    ASSERT_THROWS(2, "}");
+    ASSERT_THROWS(1, "\n}");
+    ASSERT_THROWS(2, "\n}");
+    ASSERT_THROWS(2, "cmd1\n}");
+    ASSERT_THROWS(2, "{\ncmd1\n}\n}");
+    ASSERT_THROWS(2, "cmd1\n{\ncmd1\n}\n}");
 }

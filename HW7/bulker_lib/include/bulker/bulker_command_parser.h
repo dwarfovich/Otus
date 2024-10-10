@@ -26,7 +26,7 @@ public:
             if (!command.empty()) {
                 auto blockToSend = processCommand(std::move(command), stream.eof());
                 if (blockToSend.has_value()) {
-                    sendBlock(blockToSend.value());
+                    sendBlock(std::move(blockToSend.value()));
                 }
             }
         }
@@ -81,10 +81,9 @@ private: // methods
 
         return {};
     }
-    void sendBlock(CommandBlock block)
+    void sendBlock(CommandBlock&& block)
     {
         notifier_(std::move(block));
-        // readCommands_.clear();
     }
 
 private: // data
@@ -92,7 +91,6 @@ private: // data
     static constexpr char closeBlockChar = '}';
 
     std::vector<CommandBlock> blocks_;
-    // CommandBlock  readCommands_;
     ReadyNotifier notifier_;
     std::size_t   staticBlockSize_ = 3;
     std::size_t   blockDepth_      = 0;
