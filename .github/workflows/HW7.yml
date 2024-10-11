@@ -18,6 +18,7 @@ jobs:
       cmake_preset: linux-release
       cmake_build_preset: build-linux-release
       package_preset: deb-package-release
+      homework_label: HW7
       hw_path: ./HW7
       build_folder: build
       release_folder: linux-release
