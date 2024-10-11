@@ -53,7 +53,6 @@ jobs:
         working-directory: ${{ env.build_path }}
         run: |
           ctest --test-dir .
-          cat /home/runner/work/Otus/Otus/HW6/build/linux-release/Testing/Temporary/LastTest.log
 
       - name: Check tests results
         if: ${{ env.build_tests && !success()}}
