@@ -5,7 +5,7 @@
 
 #include <ostream>
 #include <fstream>
-#include <iostream>
+#include <functional>
 
 class BulkerLogger : public Logger
 {
