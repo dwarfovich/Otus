@@ -5,19 +5,21 @@
 
 struct TestExecutor
 {
-    TestExecutor(std::size_t blockSize) : executor { outStream }, parser { blockSize }
+    TestExecutor(std::size_t blockSize) : logger_{std::make_shared<BulkerLogger>(outStream_, std::ref(dummyStream_))}, executor_ { dummyStream_, logger_ }, parser_ { blockSize }
     {
-        parser.setReadyNotifier(std::bind(&BulkerCommandExecutor::onGotCommandBlock, &executor, std::placeholders::_1));
+        parser_.setReadyNotifier(std::bind(&BulkerCommandExecutor::onGotCommandBlock, &executor_, std::placeholders::_1));
     }
 
-    void readCommands(std::istream& inStream) { parser.readCommands(inStream);
+    void readCommands(std::istream& inStream) { parser_.readCommands(inStream);
 }
 
-    std::string result() const { return outStream.str(); }
+    std::string result() const { return outStream_.str(); }
 
-    std::ostringstream    outStream;
-    BulkerCommandExecutor executor;
-    BulkerCommandParser   parser;
+    std::ostringstream    outStream_;
+    std::shared_ptr<BulkerLogger> logger_;
+    BulkerCommandExecutor executor_;
+    BulkerCommandParser   parser_;
+    DummyStream dummyStream_;
 };
 
 #define ASSERT_OUTPUT(blockSize, input, expected)          \
