@@ -1,0 +1,105 @@
+name: 'HW7 action'
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HW7/**'
+      - '.github/workflows/HW7.yml' 
+
+permissions:
+  actions: write
+  contents: write 
+
+jobs:
+  build-and-run-job:
+    env:
+      target_name: bulk
+      cmake_preset: linux-release
+      cmake_build_preset: build-linux-release
+      package_preset: deb-package-release
+      hw_path: ./HW7
+      build_folder: build
+      release_folder: linux-release
+      version_base: '1.0'
+      build_tests: ${{ true }}
+      build_package: ${{ true }}
+      # Variables to populate in "Initialize variables" step
+      build_path: 
+      bin_path: 
+      deb_path:
+      version:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize variables
+        run: |
+          echo "build_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}" >> $GITHUB_ENV
+          echo "bin_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/bin" >> $GITHUB_ENV
+          echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
+          echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build packet ${{ env.target_name }}
+        working-directory: ${{ env.hw_path }}
+        run: |
+          cmake -DBUILD_TESTS=${{ env.build_tests }} -DCONFIGURE_DEB_PACKAGE=${{ env.build_package }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
+          cmake --build --preset ${{ env.cmake_build_preset }}
+
+      - name: Run tests
+        if: ${{ env.build_tests }}
+        working-directory: ${{ env.build_path }}
+        run: |
+          ctest --rerun-failed --output-on-failure --test-dir .
+          cat /home/runner/work/Otus/Otus/HW6/build/linux-release/Testing/Temporary/LastTest.log
+
+      - name: Check tests results
+        if: ${{ env.build_tests && !success()}}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Run packet ${{ env.target_name }}
+      #  run: '${{ env.bin_path }}/${{ env.target_name }}'
+
+      - name: Build package
+        if: ${{ env.build_package }}
+        working-directory: ${{ env.hw_path }}
+        run: cpack -G DEB --preset ${{ env.package_preset }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.homework_label }}_${{ github.run_number }}
+          release_name: ${{ env.homework_label }} release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload packet
+        id: upload-app-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.bin_path }}/${{ env.target_name }}
+          asset_name: ${{ env.target_name }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload package
+        id: upload-package-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.deb_path }}/${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_name: ${{ env.target_name }}-${{ env.version }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
