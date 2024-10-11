@@ -1,6 +1,6 @@
 ﻿set(LIB_NAME bulker_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
-   "src/lib.cpp" "include/bulker/command_factory.h" "include/bulker/command_identifier.h" "include/bulker/command.h" "include/bulker/command_parser.h" "include/bulker/bulker_command_factory.h" "include/bulker/bulker_command_parser.h" "include/bulker/bulker_command_executor.h"  "include/bulker/command_block.h" "include/bulker/bulker_command.h" "include/bulker/loggable.h" "include/bulker/logger.h" "include/bulker/bulker_logger.h")
+   "src/lib.cpp" "include/bulker/command_factory.h" "include/bulker/command_identifier.h" "include/bulker/command.h" "include/bulker/command_parser.h" "include/bulker/bulker_command_factory.h" "include/bulker/bulker_command_parser.h" "include/bulker/bulker_command_executor.h"  "include/bulker/command_block.h" "include/bulker/bulker_command.h" "include/bulker/loggable.h" "include/bulker/logger.h" "include/bulker/bulker_logger.h" "include/bulker/bulker_dummy_logger.h" "include/bulker/dummy_stream.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include

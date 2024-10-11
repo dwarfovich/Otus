@@ -55,6 +55,7 @@ private: // methods
                 }
             } else {
                 block_.addCommandIdentifier(std::move(str));
+                block_.setTimestampIfAbcent(std::time(nullptr));
                 if ((blockDepth_ == 0 && block_.identifiers().size() == staticBlockSize_) || endOfFile) {
                     return takeBlock();
                 }

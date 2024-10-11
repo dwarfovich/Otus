@@ -13,9 +13,9 @@ int main(int argc, char* argv[])
     //if(argc == 2){
     //    const auto& result = std::from_chars(argv[1], argv[1] + std::strlen(argv[1]), staticBlockSize);
     //}
-    auto logger = std::make_shared<BulkerLogger>(std::cout);
-    BulkerCommandExecutor executor {
-        std::cerr, logger
+    DummyStream dummyStream;
+    auto                  logger = std::make_shared<BulkerLogger>(std::cout, std::ref(dummyStream));
+    BulkerCommandExecutor executor { dummyStream, logger
     };
     BulkerCommandParser parser {};
     parser.setReadyNotifier(std::bind(&BulkerCommandExecutor::onGotCommandBlock, &executor, std::placeholders::_1));
