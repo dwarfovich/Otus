@@ -21,7 +21,10 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
-target_link_libraries(${TARGET_NAME} duplicate_finder_lib)
+SET(Boost_DEBUG ON)
+find_package(Boost 1.83 COMPONENTS program_options REQUIRED)
+
+target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options)
 add_subdirectory(duplicate_finder_lib)
 
 # .deb package.
