@@ -22,7 +22,7 @@ set_target_properties(${TARGET_NAME}
 )
 
 SET(Boost_DEBUG ON)
-find_package(Boost 1.83 COMPONENTS program_options REQUIRED)
+find_package(Boost 1.74 COMPONENTS program_options REQUIRED)
 
 target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options)
 add_subdirectory(duplicate_finder_lib)

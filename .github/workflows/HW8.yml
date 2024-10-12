@@ -52,6 +52,9 @@ jobs:
           cmake -DBUILD_TESTS=${{ env.build_tests }} -DCONFIGURE_DEB_PACKAGE=${{ env.build_package }} -DPROJECT_VERSION=${{ env.version }} --preset ${{ env.cmake_preset }}
           cmake --build --preset ${{ env.cmake_build_preset }}
 
+     - name: Run packet ${{ env.target_name }}
+       run: '${{ env.bin_path }}/${{ env.target_name }}'
+
       # - name: Run tests
       #   if: ${{ env.build_tests }}
       #   working-directory: ${{ env.build_path }}
