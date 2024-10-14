@@ -1,11 +1,11 @@
 name: 'HW8 action'
 
-# on:
-#   workflow_dispatch:
-#   push:
-#     paths:
-#       - 'HW8/**'
-#       - '.github/workflows/HW8.yml' 
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HW8/**'
+      - '.github/workflows/HW8.yml' 
 
 permissions:
   actions: write
