@@ -43,7 +43,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.CI_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           submodules: true
 
       - name: Install Boost
