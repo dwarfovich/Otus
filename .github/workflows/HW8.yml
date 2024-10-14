@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'HW8/**'
-      - '.github/workflows/HW8.yml' 
+      #- 'HW8/**'
+      #- '.github/workflows/HW8.yml' 
 
 permissions:
   actions: write
