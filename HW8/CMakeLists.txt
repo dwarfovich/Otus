@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.25)
+﻿cmake_minimum_required (VERSION 3.12)
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -21,11 +21,11 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
-SET(Boost_DEBUG ON)
 find_package(Boost 1.74 COMPONENTS program_options REQUIRED)
 
-target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options)
+target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options cryptopp)
 add_subdirectory(duplicate_finder_lib)
+add_subdirectory("submodules/CryptoPP-CMake")
 
 # .deb package.
 if(CONFIGURE_DEB_PACKAGE)

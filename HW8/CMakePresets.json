@@ -60,7 +60,8 @@
             "inherits": "windows-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
-            }
+            },
+            "warnings": {"dev":  false}
         },
         {
             "name": "msvc-release",
