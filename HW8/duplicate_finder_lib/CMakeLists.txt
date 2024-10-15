@@ -1,6 +1,6 @@
 ﻿set(LIB_NAME duplicate_finder_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
-   "src/lib.cpp" "include/duplicate_finder/duplicate_finder.h" "include/duplicate_finder/task.h")
+   "src/lib.cpp" "include/duplicate_finder/duplicate_finder.h" "include/duplicate_finder/finder_task.h" "include/duplicate_finder/paths_vector.h" "include/duplicate_finder/strings_vector.h" "include/duplicate_finder/digester.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
