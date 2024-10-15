@@ -3,4 +3,4 @@
 #include <vector>
 #include <filesystem>
 
-using PathsVector = std::vector<std::filesystem::path>;
+using PathVector = std::vector<std::filesystem::path>;

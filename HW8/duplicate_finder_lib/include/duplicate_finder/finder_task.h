@@ -1,7 +1,7 @@
 #pragma once
 
-#include "paths_vector.h"
-#include "strings_vector.h"
+#include "path_vector.h"
+#include "string_vector.h"
 #include "digester.h"
 
 #include <string>
@@ -10,10 +10,10 @@
 struct FinderTask
 {
     std::shared_ptr<Digester> digester = nullptr;
-    PathsVector targets;
-    PathsVector blackList;
+    PathVector targets;
+    PathVector blackList;
     bool recursiveSearch = false;
     std::size_t minimalFileSize = 1;
-    StringsVector extensionsMasks;
+    StringVector extensionsMasks;
     std::size_t blockSize = 1024;
 };

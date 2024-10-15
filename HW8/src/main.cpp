@@ -1,5 +1,7 @@
 ﻿#include "duplicate_finder/digester.h"
-#include "duplicate_finder/task.h"
+#include "duplicate_finder/finder_task.h"
+#include "duplicate_finder/string_vector_hasher.h"
+#include "duplicate_finder/duplicate_finder.h"
 
 #include <boost/program_options.hpp>
 #include <boost/version.hpp>
@@ -12,6 +14,12 @@
 
 int main(int argc, char* argv[])
 {
-Task t;
+    FinderTask t;
+    
+    using Group = std::vector<std::filesystem::path>;
+    std::unordered_map<StringVector, Group, StringVectorHasher> map;
+
+    DuplicateFinder df;
+
     return 0;
 }

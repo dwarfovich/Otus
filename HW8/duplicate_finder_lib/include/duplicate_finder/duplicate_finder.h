@@ -1,9 +1,18 @@
 #pragma once
 
+#include "duplicates.h"
+#include "finder_task.h"
+#include "signal.h"
+
 class DuplicateFinder
 {
-public:
+public: // methods
+    void findDuplicates(const FinderTask& task) {}
 
-    private:
+public: // signals
+    Signal<void()> taskFinished;
 
+private:
+    FinderTask currentTask_;
+    Duplicates duplicates_;
 };

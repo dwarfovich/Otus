@@ -3,4 +3,4 @@
 #include <vector>
 #include <string>
 
-using StringsVector = std::vector<std::string>;
+using StringVector = std::vector<std::string>;

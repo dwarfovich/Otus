@@ -1,12 +1,13 @@
 ﻿set(LIB_NAME duplicate_finder_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
-   "src/lib.cpp" "include/duplicate_finder/duplicate_finder.h" "include/duplicate_finder/finder_task.h" "include/duplicate_finder/paths_vector.h" "include/duplicate_finder/strings_vector.h" "include/duplicate_finder/digester.h")
+   "src/lib.cpp" "include/duplicate_finder/duplicate_finder.h" "include/duplicate_finder/finder_task.h" "include/duplicate_finder/path_vector.h" "include/duplicate_finder/string_vector.h" "include/duplicate_finder/digester.h" "include/duplicate_finder/duplicates.h" "include/duplicate_finder/string_vector_hasher.h" "include/duplicate_finder/signal.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
     PRIVATE src include/duplicate_finder)
 
-
+find_package(Boost 1.74 COMPONENTS REQUIRED)
+target_link_libraries(${LIB_NAME} cryptopp)
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
