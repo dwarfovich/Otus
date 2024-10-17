@@ -1,5 +1,6 @@
 #pragma once
 
+#include "path_vector.h"
 #include "duplicates.h"
 #include "finder_task.h"
 #include "signal.h"
@@ -13,6 +14,7 @@ public: // signals
     Signal<void()> taskFinished;
 
 private:
+
     FinderTask currentTask_;
     Duplicates duplicates_;
 };

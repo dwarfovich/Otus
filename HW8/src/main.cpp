@@ -2,6 +2,7 @@
 #include "duplicate_finder/finder_task.h"
 #include "duplicate_finder/string_vector_hasher.h"
 #include "duplicate_finder/duplicate_finder.h"
+#include "duplicate_finder/file_finder.h"
 
 #include <boost/program_options.hpp>
 #include <boost/version.hpp>
@@ -20,6 +21,7 @@ int main(int argc, char* argv[])
     std::unordered_map<StringVector, Group, StringVectorHasher> map;
 
     DuplicateFinder df;
+    FileFinder ff;
 
     return 0;
 }
