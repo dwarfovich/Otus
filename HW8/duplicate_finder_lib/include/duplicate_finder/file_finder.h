@@ -11,8 +11,11 @@
 
 class FileFinder
 {
-public:
-    std::unordered_set<FileProperties, FilePropertiesHasher> findFiles(const FinderTask& task) const
+public: // types
+    using FilePropertiesUSet = std::unordered_set<FileProperties, FilePropertiesHasher>;
+
+public: // methods
+    FilePropertiesUSet findFiles(const FinderTask& task) const
     {
         std::unordered_set<FileProperties, FilePropertiesHasher> files;
         for (const auto& target : task.targets) {
@@ -20,29 +23,26 @@ public:
                 continue;
             }
 
-            if (std::filesystem::is_regular_file(target) && fileExtensionMatches(target, task.extensionsMasks)) {
-                files.insert({ target, std::filesystem::file_size(target) });
-            } else {
-                auto iter = std::filesystem::recursive_directory_iterator { target };
-                if (!task.recursiveSearch) {
-                    iter.disable_recursion_pending();
+            if (std::filesystem::is_regular_file(target)) {
+                if (fileExtensionMatches(target, task.extensionsMasks)) {
+                    files.insert({ target, std::filesystem::file_size(target) });
                 }
-                for (const auto& entry : iter) {
-                    if (std::filesystem::is_regular_file(entry) && fileExtensionMatches(entry, task.extensionsMasks)) {
-                        auto result = files.insert({ entry, std::filesystem::file_size(entry) });
-                        if(!result.second){
-                            std::cout << "SKIPPED "
-                                      << files.contains({ entry, std::filesystem::file_size(entry) }) << " "
-                                      << entry << '\n';
-                        }
-                    }
-                    if (!task.recursiveSearch) {
-                        iter.disable_recursion_pending();
-                    }
-                }
+            } else if (std::filesystem::is_directory(target) && task.recursiveSearch) {
+                addFilesFromFolder(target, task, files);
             }
         }
 
         return files;
+    }
+
+private:
+    void addFilesFromFolder(const std::filesystem::path& path, const FinderTask& task, FilePropertiesUSet& set) const
+    {
+        auto iter = std::filesystem::recursive_directory_iterator { path };
+        for (const auto& entry : iter) {
+            if (std::filesystem::is_regular_file(entry) && fileExtensionMatches(entry, task.extensionsMasks)) {
+                auto result = set.insert({ entry, std::filesystem::file_size(entry) });
+            }
+        }
     }
 };
