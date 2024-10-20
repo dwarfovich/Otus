@@ -25,10 +25,9 @@ int main(int argc, char* argv[])
     FinderTask      task;
     task.recursiveSearch = true;
     task.targets.push_back("C:\\Boo\\Temp");
-    auto files = ff.findFiles(task);
-    for (const auto& fileProperty : files){
-        std::cout << fileProperty.path() << " " << fileProperty.size() << '\n';
-    }
+    task.targets.push_back("C:\\Boo\\Wallpapers");
+    task.targets.push_back("C:\\Boo\\Транспорт");
+    df.findDuplicates(task);
 
 
     return 0;
