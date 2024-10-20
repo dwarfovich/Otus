@@ -10,6 +10,7 @@
 #include <boost/thread.hpp>
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
+#include <boost/asio/use_future.hpp>
 
 class DuplicateFinder
 {
@@ -34,9 +35,13 @@ public: // signals
 
 private: // methods
     void startWork() {
-        boost::asio::post(*threadPool_, [this](){
-            fileFinder_.findFiles(currentTask_);
-            });
+        auto filesFuture = boost::asio::post(*threadPool_, boost::asio::use_future([this](){
+            return fileFinder_.findFiles(currentTask_);
+            }));
+        findDuplicates(std::move(filesFuture.get()), currentTask_);
+    }
+
+    void findDuplicates(FileFinder::FilePropertiesUSet files, FinderTask    task) {
     }
 
 private: // data

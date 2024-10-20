@@ -21,7 +21,11 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
-find_package(Boost 1.74 COMPONENTS program_options REQUIRED)
+if(MSVC)
+    add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
+endif()
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.74 COMPONENTS program_options thread REQUIRED)
 
 target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options cryptopp)
 add_subdirectory(duplicate_finder_lib)

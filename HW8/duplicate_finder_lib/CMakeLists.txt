@@ -7,7 +7,7 @@ target_include_directories(${LIB_NAME}
     PRIVATE src include/duplicate_finder)
 
 if(MSVC)
-    add_definitions( "-DHAS_BOOST _WIN32_WINNT=0x0601" )
+    add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
 endif()
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.74 COMPONENTS thread REQUIRED)
@@ -15,7 +15,7 @@ IF (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 ENDIF()
 
-target_link_libraries(${LIB_NAME} cryptopp)
+target_link_libraries(${LIB_NAME} cryptopp Boost::thread)
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
