@@ -12,12 +12,12 @@
 class FileFinder
 {
 public: // types
-    using FilePropertiesUSet = std::unordered_set<FileProperties, FilePropertiesHasher>;
+    using FilePropertiesVector = std::vector<FileProperties>;
 
 public: // methods
-    FilePropertiesUSet findFiles(const FinderTask& task) const
+    FilePropertiesVector findFiles(const FinderTask& task) const
     {
-        std::unordered_set<FileProperties, FilePropertiesHasher> files;
+        FilePropertiesUSet files;
         for (const auto& target : task.targets) {
             if (pathIsUnder(target, task.blackList)) {
                 continue;
@@ -32,8 +32,17 @@ public: // methods
             }
         }
 
-        return files;
+        FilePropertiesVector vector;
+        vector.reserve(files.size());
+        for (auto it = files.begin(); it != files.end();) {
+            vector.push_back(std::move(files.extract(it++).value()));
+        }
+
+        return vector;
     }
+
+private: // types
+    using FilePropertiesUSet = std::unordered_set<FileProperties, FilePropertiesHasher>;
 
 private:
     void addFilesFromFolder(const std::filesystem::path& path, const FinderTask& task, FilePropertiesUSet& set) const
