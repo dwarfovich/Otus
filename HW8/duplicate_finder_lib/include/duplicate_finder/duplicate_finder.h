@@ -11,7 +11,7 @@
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/use_future.hpp>
 
-//#include <thread>
+// #include <thread>
 #include <iostream>
 
 class DuplicateFinder
@@ -40,19 +40,12 @@ public: // signals
 private: // methods
     void startWork()
     {
-       /* auto filesFuture = boost::asio::post(*threadPool_, boost::asio::use_future([this]() {
-            auto files = fileFinder_.findFiles(currentTask_);
+        auto mainThread = boost::thread { [this]() {
+            auto files      = fileFinder_.findFiles(currentTask_);
             findDuplicates(std::move(files));
             threadPool_->join();
-        }));*/
-
-        auto mainThread = boost::thread{[this](){
-           auto files      = fileFinder_.findFiles(currentTask_);
-           findDuplicates(std::move(files));
-           threadPool_->join();
-           std::cout << "startWork finished\n";
-           taskFinished();
-            }};
+            taskFinished();
+        } };
         mainThread.detach();
     }
 
@@ -61,8 +54,8 @@ private: // methods
         const auto  filesPerThread = calclulateFilesPerThread(files.size());
         std::size_t distanceToEnd  = files.size();
         for (auto iter = files.cbegin(), nextIter = iter; iter != files.cend(); iter = nextIter) {
-            distanceToEnd  = static_cast<std::size_t>(std::distance(files.cend(), iter));
-            nextIter = iter + std::min(filesPerThread, distanceToEnd);
+            distanceToEnd = static_cast<std::size_t>(std::distance(files.cend(), iter));
+            nextIter      = iter + std::min(filesPerThread, distanceToEnd);
             boost::asio::post(*threadPool_, [this, iter, nextIter]() {
 
             });
@@ -83,7 +76,7 @@ private: // methods
 
 private: // data
     static inline constexpr std::size_t minimumFilesPerThread_ = 20;
-    
+
     boost::thread mainThread_;
     FinderTask    currentTask_;
     Duplicates    duplicates_;
