@@ -15,7 +15,7 @@ IF (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 ENDIF()
 
-target_link_libraries(${LIB_NAME} cryptopp Boost::thread)
+target_link_libraries(${LIB_NAME} cryptopp Boost::thread GTest::gtest_main)
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
