@@ -18,9 +18,13 @@
 
 class DuplicateFinder
 {
-    FRIEND_TEST(DuplicateFinder, JobGeneration_WithZeroJobs);
     FRIEND_TEST(DuplicateFinder, CalculateComparisons_ZeroResult);
     FRIEND_TEST(DuplicateFinder, CalculateComparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_ZeroJobs);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_SingleJob);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_3Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons);
 
 private: // types
     using ThreadPoolPtr = std::shared_ptr<boost::asio::thread_pool>;
@@ -33,8 +37,14 @@ private: // types
                   const ConstIter& aSecondFile,
                   const ConstIter& aEnd,
                   std::size_t      aComparisons)
-            : firstFile { aFirstFile }
+            : firstFile { aFirstFile }, secondFile { aSecondFile }, end { aEnd }, comparisons { aComparisons }
         {
+        }
+
+        bool operator==(const ThreadJob& rhs) const
+        {
+            return std::tie(firstFile, secondFile, end, comparisons)
+                   == std::tie(rhs.firstFile, rhs.secondFile, rhs.end, rhs.comparisons);
         }
 
         ConstIter   firstFile;
@@ -42,6 +52,8 @@ private: // types
         ConstIter   end;
         std::size_t comparisons = 0;
     };
+    friend bool TestJobs(const std::vector<DuplicateFinder::ThreadJob>& jobs,
+                         const std::vector<DuplicateFinder::ThreadJob>& expectedJobs);
 
 public: // methods
     void findDuplicates(const FinderTask& task)
@@ -88,21 +100,12 @@ private: // methods
         return (filesCount - 1) * filesCount / 2;
     }
 
-    /*
-    struct ThreadJob
-    {
-        using ConstIter = decltype(FinderTask::targets)::const_iterator;
-        ConstIter   firstFile;
-        ConstIter   secondFile;
-        ConstIter   end;
-        std::size_t comparisons = 0;
-    };*/
     std::vector<ThreadJob> generateThreadJobs(const FileFinder::FilePropertiesVector& files)
     {
         std::vector<ThreadJob> jobs;
 
         const auto comparisons = calculateComparisonsCount(files.size());
-        if (comparisons < 2) {
+        if (comparisons == 0) {
             return jobs;
         }
 
@@ -111,12 +114,35 @@ private: // methods
             return jobs;
         }
 
-        auto comparisonsRemain = comparisons;
-        jobs.push_back({ files.cbegin(), files.cbegin() + 1, files.cend(), currentTask_.minimumComparisonsPerThread });
-        //auto nextFirstFile = 
-        //auto nextSecondFile = 
-        comparisonsRemain -= currentTask_.minimumComparisonsPerThread;
-        while (comparisonsRemain != 0){
+        auto       comparisonsRemain       = comparisons;
+        const auto minComparisonsPerThread = comparisonsRemain / threadPoolSize_;
+        auto       nextFirstFile           = files.cbegin();
+        auto       nextSecondFile          = nextFirstFile + 1;
+        auto       comparisonsForNextThread =
+            threadPoolSize_ - 1 == 0 ? comparisonsRemain : std::min(minComparisonsPerThread, comparisonsRemain);
+        for (std::size_t i = 0; i < threadPoolSize_; ++i) {
+            jobs.push_back({ nextFirstFile, nextSecondFile, files.cend(), comparisonsForNextThread });
+
+            assert(comparisonsRemain >= comparisonsForNextThread);
+            comparisonsRemain -= comparisonsForNextThread;
+            while (comparisonsRemain > 0 && comparisonsForNextThread > 0) {
+                auto distanceToEnd = static_cast<std::size_t>(std::distance(nextSecondFile, files.cend()));
+                if (distanceToEnd == 1) {
+                    comparisonsForNextThread -= 1;
+                    ++nextFirstFile;
+                    nextSecondFile = nextFirstFile + 1;
+                } else {
+                    auto restComparisons = std::min(distanceToEnd, comparisonsForNextThread);
+                    nextSecondFile += restComparisons;
+                    if (nextSecondFile == files.cend()) {
+                        ++nextFirstFile;
+                        nextSecondFile = nextFirstFile + 1;
+                    }
+                    comparisonsForNextThread -= restComparisons;
+                }
+            }
+            comparisonsForNextThread =
+                threadPoolSize_ == i + 2 ? comparisonsRemain : std::min(minComparisonsPerThread, comparisonsRemain);
         }
 
         return jobs;
