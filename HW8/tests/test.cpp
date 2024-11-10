@@ -15,7 +15,8 @@ std::vector<FileProperties> generateFileProperties(std::size_t count)
     return files;
 }
 
-/*TEST(DuplicateFinder, CalculateComparisons_ZeroResult){
+TEST(DuplicateFinder, CalculateComparisons_ZeroResult)
+{
     DuplicateFinder finder;
     ASSERT_EQ(finder.calculateComparisonsCount(0), 0);
     ASSERT_EQ(finder.calculateComparisonsCount(1), 0);
@@ -30,14 +31,13 @@ TEST(DuplicateFinder, CalculateComparisons)
     ASSERT_EQ(finder.calculateComparisonsCount(5), 10);
 }
 
-
 TEST(DuplicateFinder, JobGeneration_ZeroJobs)
 {
     DuplicateFinder finder;
     finder.currentTask_.minimumComparisonsPerThread = 1;
 
     auto files = generateFileProperties(0);
-    auto jobs = finder.generateThreadJobs(files);
+    auto jobs  = finder.generateThreadJobs(files);
     ASSERT_TRUE(jobs.empty());
 
     files = generateFileProperties(1);
@@ -45,8 +45,8 @@ TEST(DuplicateFinder, JobGeneration_ZeroJobs)
     ASSERT_TRUE(jobs.empty());
 
     finder.currentTask_.minimumComparisonsPerThread = 2;
-    files = generateFileProperties(0);
-    jobs  = finder.generateThreadJobs(files);
+    files                                           = generateFileProperties(0);
+    jobs                                            = finder.generateThreadJobs(files);
     ASSERT_TRUE(jobs.empty());
 
     files = generateFileProperties(1);
@@ -60,8 +60,6 @@ TEST(DuplicateFinder, JobGeneration_SingleJob)
 
     DuplicateFinder finder;
     finder.currentTask_.minimumComparisonsPerThread = 1;
-
-
 
     auto files    = generateFileProperties(2);
     auto jobs     = finder.generateThreadJobs(files);
@@ -77,22 +75,11 @@ TEST(DuplicateFinder, JobGeneration_SingleJob)
 
     finder.currentTask_.minimumComparisonsPerThread = 3;
 
-    files                                           = generateFileProperties(2);
-    jobs                                            = finder.generateThreadJobs(files);
+    files    = generateFileProperties(2);
+    jobs     = finder.generateThreadJobs(files);
     expected = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 1 } };
     ASSERT_EQ(jobs, expected);
-}*/
-
-/*
-    struct ThreadJob
-    {
-        using ConstIter = FileFinder::FilePropertiesVector::const_iterator;
-        ConstIter   firstFile;
-        ConstIter   secondFile;
-        ConstIter   end;
-        std::size_t comparisons = 0;
-    };
-    */
+}
 
 #define ASSERT_JOBS_EQ(minimumComparisonsPerThreadInput, threadsCount, files, expectedJobs) \
     DuplicateFinder finder;                                                                 \
@@ -101,36 +88,63 @@ TEST(DuplicateFinder, JobGeneration_SingleJob)
     auto jobs = finder.generateThreadJobs(files);                                           \
     ASSERT_EQ(jobs, (expectedJobs));
 
-//TEST(DuplicateFinder, JobGeneration_2Jobs_3Comparisons)
-//{
-//    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
-//
-//    auto files       = generateFileProperties(3); // 3 comparisons
-//    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 1 },
-//                                    { files.cbegin(), files.cbegin() + 2, files.cend(), 2 } };
-//    ASSERT_JOBS_EQ(1, 2, files, expected);
-//}
-//
-//TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons)
-//{
-//    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
-//    auto files       = generateFileProperties(4); // 6 comparisons
-//    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 3 },
-//                                    { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 3 } };
-//    ASSERT_JOBS_EQ(2, 2, files, expected);
-//}
-//
-//TEST(DuplicateFinder, JobGeneration_3Jobs_6Comparisons)
-//{
-//    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
-//    auto files       = generateFileProperties(4); // 6 comparisons
-//    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 2 },
-//                                    { files.cbegin(), files.cbegin() + 3, files.cend(), 2 },
-//                                    { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 2 }};
-//    ASSERT_JOBS_EQ(2, 3, files, expected);
-//}
+TEST(DuplicateFinder, JobGeneration_2Jobs_3Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+
+    auto files    = generateFileProperties(3); // 3 comparisons
+    auto expected = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 1 },
+                                 { files.cbegin(), files.cbegin() + 2, files.cend(), 2 } };
+    ASSERT_JOBS_EQ(1, 2, files, expected);
+}
+
+TEST(DuplicateFinder, JobGeneration_1Job_3Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+
+    auto files    = generateFileProperties(3); // 3 comparisons
+    auto expected = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 3 } };
+    ASSERT_JOBS_EQ(3, 2, files, expected);
+}
+
+TEST(DuplicateFinder, JobGeneration_1Job_6Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 6 } };
+    ASSERT_JOBS_EQ(6, 2, files, expected);
+}
+
+TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 3 },
+                                    { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 3 } };
+    ASSERT_JOBS_EQ(2, 2, files, expected);
+}
+
+TEST(DuplicateFinder, JobGeneration_3Jobs_6Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 2 },
+                                    { files.cbegin(), files.cbegin() + 3, files.cend(), 2 },
+                                    { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 2 } };
+    ASSERT_JOBS_EQ(2, 3, files, expected);
+}
 
 TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 2 },
+                                    { files.cbegin(), files.cbegin() + 3, files.cend(), 2 },
+                                    { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 2 } };
+    ASSERT_JOBS_EQ(2, 4, files, expected);
+}
+
+TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons_1MinComparisons)
 {
     using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
     auto files       = generateFileProperties(4); // 6 comparisons
@@ -138,7 +152,7 @@ TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons)
                                     { files.cbegin(), files.cbegin() + 2, files.cend(), 1 },
                                     { files.cbegin(), files.cbegin() + 3, files.cend(), 1 },
                                     { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 3 } };
-    ASSERT_JOBS_EQ(2, 4, files, expected);
+    ASSERT_JOBS_EQ(1, 4, files, expected);
 }
 
 TEST(DuplicateFinder, JobGeneration_5Jobs_6Comparisons)
@@ -150,19 +164,27 @@ TEST(DuplicateFinder, JobGeneration_5Jobs_6Comparisons)
                                     { files.cbegin(), files.cbegin() + 3, files.cend(), 1 },
                                     { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 1 },
                                     { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 2 } };
-    ASSERT_JOBS_EQ(2, 5, files, expected);
+    ASSERT_JOBS_EQ(1, 5, files, expected);
 }
 
+TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 1 },
+                                    { files.cbegin(), files.cbegin() + 2, files.cend(), 1 },
+                                    { files.cbegin(), files.cbegin() + 3, files.cend(), 1 },
+                                    { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 1 },
+                                    { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 1 },
+                                    { files.cbegin() + 2, files.cbegin() + 3, files.cend(), 1 } };
+    ASSERT_JOBS_EQ(1, 6, files, expected);
+}
 
-//TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons)
-//{
-//    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
-//    auto files       = generateFileProperties(4); // 6 comparisons
-//    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 1 },
-//                                    { files.cbegin(), files.cbegin() + 2, files.cend(), 1 },
-//                                    { files.cbegin(), files.cbegin() + 3, files.cend(), 1 },
-//                                    { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 1 },
-//                                    { files.cbegin() + 1, files.cbegin() + 3, files.cend(), 1 },
-//                                    { files.cbegin() + 2, files.cbegin() + 3, files.cend(), 1 } };
-//    ASSERT_JOBS_EQ(2, 6, files, expected);
-//}
+TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons_ByMinComparisons)
+{
+    using ThreadJobs = std::vector<DuplicateFinder::ThreadJob>;
+    auto files       = generateFileProperties(4); // 6 comparisons
+    auto expected    = ThreadJobs { { files.cbegin(), files.cbegin() + 1, files.cend(), 3 },
+                                    { files.cbegin() + 1, files.cbegin() + 2, files.cend(), 3 } };
+    ASSERT_JOBS_EQ(3, 6, files, expected);
+}

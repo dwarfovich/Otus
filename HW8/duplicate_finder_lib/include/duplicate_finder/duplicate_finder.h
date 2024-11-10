@@ -13,21 +13,23 @@
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/use_future.hpp>
 
-// #include <thread>
-#include <iostream>
-
 class DuplicateFinder
 {
     FRIEND_TEST(DuplicateFinder, CalculateComparisons_ZeroResult);
     FRIEND_TEST(DuplicateFinder, CalculateComparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_ZeroJobs);
     FRIEND_TEST(DuplicateFinder, JobGeneration_SingleJob);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_1Job_3Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_3Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_1Job_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_3Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons_1MinComparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_5Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons_ByMinComparisons);
+    
 
 private: // types
     using ThreadPoolPtr = std::shared_ptr<boost::asio::thread_pool>;
@@ -103,6 +105,13 @@ private: // methods
         return (filesCount - 1) * filesCount / 2;
     }
 
+    std::size_t comparisonsForFirstThread(std::size_t comparisonsCount, std::size_t preferredComparions){
+        return threadPoolSize_ == 1
+            ? comparisonsCount
+                                    : std::max(std::min(currentTask_.minimumComparisonsPerThread, comparisonsCount),
+                                               preferredComparions);
+    }
+
     std::vector<ThreadJob> generateThreadJobs(const FileFinder::FilePropertiesVector& files)
     {
         std::vector<ThreadJob> jobs;
@@ -117,19 +126,18 @@ private: // methods
             return jobs;
         }
 
-        auto       comparisonsRemain       = comparisons;
-        const auto minComparisonsPerThread = comparisonsRemain / threadPoolSize_;
-        auto       nextFirstFile           = files.cbegin();
-        auto       nextSecondFile          = nextFirstFile + 1;
+        auto       comparisonsRemain             = comparisons;
+        auto       nextFirstFile                 = files.cbegin();
+        auto       nextSecondFile                = nextFirstFile + 1;
         auto       comparisonsForNextThread =
-            threadPoolSize_ - 1 == 0 ? comparisonsRemain : std::min(minComparisonsPerThread, comparisonsRemain);
-        for (std::size_t i = 0; i < threadPoolSize_; ++i) {
+            comparisonsForFirstThread(comparisonsRemain, comparisonsRemain / threadPoolSize_);
+        for (std::size_t i = 0; i < threadPoolSize_ && comparisonsRemain > 0; ++i) {
             jobs.push_back({ nextFirstFile, nextSecondFile, files.cend(), comparisonsForNextThread });
 
             assert(comparisonsRemain >= comparisonsForNextThread);
             comparisonsRemain -= comparisonsForNextThread;
             while (comparisonsRemain > 0 && comparisonsForNextThread > 0) {
-                auto distanceToEnd = static_cast<std::size_t>(std::distance(nextSecondFile, files.cend()));
+                const auto distanceToEnd = static_cast<std::size_t>(std::distance(nextSecondFile, files.cend()));
                 if (distanceToEnd == 1) {
                     comparisonsForNextThread -= 1;
                     ++nextFirstFile;
@@ -144,9 +152,12 @@ private: // methods
                     comparisonsForNextThread -= restComparisons;
                 }
             }
-            comparisonsForNextThread =
-                threadPoolSize_ == i + 2 ? comparisonsRemain : std::min(minComparisonsPerThread, comparisonsRemain);
+            comparisonsForNextThread = threadPoolSize_ == i + 2
+                                           ? comparisonsRemain
+                                           : std::min(currentTask_.minimumComparisonsPerThread, comparisonsRemain);
         }
+
+        assert(comparisonsRemain == 0);
 
         return jobs;
     }
