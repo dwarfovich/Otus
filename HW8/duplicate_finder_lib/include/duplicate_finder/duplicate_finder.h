@@ -24,6 +24,9 @@ class DuplicateFinder
     FRIEND_TEST(DuplicateFinder, JobGeneration_SingleJob);
     FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_3Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_3Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_4Jobs_6Comparisons);
+    FRIEND_TEST(DuplicateFinder, JobGeneration_5Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons);
 
 private: // types
