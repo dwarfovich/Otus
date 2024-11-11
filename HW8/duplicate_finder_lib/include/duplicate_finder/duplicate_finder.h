@@ -29,7 +29,6 @@ class DuplicateFinder
     FRIEND_TEST(DuplicateFinder, JobGeneration_5Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_6Jobs_6Comparisons);
     FRIEND_TEST(DuplicateFinder, JobGeneration_2Jobs_6Comparisons_ByMinComparisons);
-    
 
 private: // types
     using ThreadPoolPtr = std::shared_ptr<boost::asio::thread_pool>;
@@ -57,8 +56,6 @@ private: // types
         ConstIter   end;
         std::size_t comparisons = 0;
     };
-    friend bool TestJobs(const std::vector<DuplicateFinder::ThreadJob>& jobs,
-                         const std::vector<DuplicateFinder::ThreadJob>& expectedJobs);
 
 public: // methods
     void findDuplicates(const FinderTask& task)
@@ -105,9 +102,9 @@ private: // methods
         return (filesCount - 1) * filesCount / 2;
     }
 
-    std::size_t comparisonsForFirstThread(std::size_t comparisonsCount, std::size_t preferredComparions){
-        return threadPoolSize_ == 1
-            ? comparisonsCount
+    std::size_t comparisonsForFirstThread(std::size_t comparisonsCount, std::size_t preferredComparions)
+    {
+        return threadPoolSize_ == 1 ? comparisonsCount
                                     : std::max(std::min(currentTask_.minimumComparisonsPerThread, comparisonsCount),
                                                preferredComparions);
     }
@@ -126,10 +123,10 @@ private: // methods
             return jobs;
         }
 
-        auto       comparisonsRemain             = comparisons;
-        auto       nextFirstFile                 = files.cbegin();
-        auto       nextSecondFile                = nextFirstFile + 1;
-        auto       comparisonsForNextThread =
+        auto comparisonsRemain = comparisons;
+        auto nextFirstFile     = files.cbegin();
+        auto nextSecondFile    = nextFirstFile + 1;
+        auto comparisonsForNextThread =
             comparisonsForFirstThread(comparisonsRemain, comparisonsRemain / threadPoolSize_);
         for (std::size_t i = 0; i < threadPoolSize_ && comparisonsRemain > 0; ++i) {
             jobs.push_back({ nextFirstFile, nextSecondFile, files.cend(), comparisonsForNextThread });
@@ -162,9 +159,18 @@ private: // methods
         return jobs;
     }
 
+   /* struct ThreadJob
+    {
+        using ConstIter = FileFinder::FilePropertiesVector::const_iterator;
+        ConstIter   firstFile;
+        ConstIter   secondFile;
+        ConstIter   end;
+        std::size_t comparisons = 0;
+    };*/
+
     void performThreadJob(const ThreadJob& job)
     {
-        std::cout << "Performing job on thread " << std::this_thread::get_id() << "\n";
+        
     }
 
     void resizeThreadPool(unsigned size)
