@@ -12,12 +12,12 @@
 class FileFinder
 {
 public: // types
-    using FilePropertiesVector = std::vector<FileProperties>;
+    using FileMap = std::unordered_map<std::uintmax_t, PathVector>;
 
 public: // methods
-    FilePropertiesVector findFiles(const FinderTask& task) const
+    FileMap findFiles(const FinderTask& task) const
     {
-        FilePropertiesUSet files;
+        FileMap files;
         for (const auto& target : task.targets) {
             if (pathIsUnder(target, task.blackList)) {
                 continue;
@@ -25,32 +25,23 @@ public: // methods
 
             if (std::filesystem::is_regular_file(target)) {
                 if (fileExtensionMatches(target, task.extensionsMasks)) {
-                    files.insert({ target, std::filesystem::file_size(target) });
+                    files[std::filesystem::file_size(target)].push_back(target);
                 }
             } else if (std::filesystem::is_directory(target) && task.recursiveSearch) {
                 addFilesFromFolder(target, task, files);
             }
         }
 
-        FilePropertiesVector vector;
-        vector.reserve(files.size());
-        for (auto it = files.begin(); it != files.end();) {
-            vector.push_back(std::move(files.extract(it++).value()));
-        }
-
-        return vector;
+        return files;
     }
 
-private: // types
-    using FilePropertiesUSet = std::unordered_set<FileProperties, FilePropertiesHasher>;
-
 private:
-    void addFilesFromFolder(const std::filesystem::path& path, const FinderTask& task, FilePropertiesUSet& set) const
+    void addFilesFromFolder(const std::filesystem::path& path, const FinderTask& task, FileMap& map) const
     {
         auto iter = std::filesystem::recursive_directory_iterator { path };
         for (const auto& entry : iter) {
             if (std::filesystem::is_regular_file(entry) && fileExtensionMatches(entry, task.extensionsMasks)) {
-                auto result = set.insert({ entry, std::filesystem::file_size(entry) });
+                map[std::filesystem::file_size(entry)].push_back(entry);
             }
         }
     }
