@@ -83,6 +83,10 @@ private: // methods
         for (std::size_t i = 0; i < files.size(); ++i) {
             for (std::size_t j = i + 1; j < files.size(); ++j) {
                 bool areSame = compareFiles({ files[i]->path(), digestVector[i] }, { files[j]->path(), digestVector[j] });
+                if(areSame){
+                    duplicates_.addDuplicate(digestVector[i], files[i]->path());
+                    duplicates_.addDuplicate(digestVector[j], files[j]->path());
+                }
             }
         }
     }
