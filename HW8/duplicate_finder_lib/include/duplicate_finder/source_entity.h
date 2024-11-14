@@ -51,18 +51,18 @@ private:
 class StringSource : public SourceEntity
 {
 public:
-    StringSource(const std::filesystem::path& path) : path_ { path } {}
+    StringSource(const std::filesystem::path& path, const std::string& data) : path_ { path }, data_ { data } {}
 
-    std::string_view             getNextBlock(std::size_t blockSize) { 
-        return { data_.cbegin() + currentPos, data_.cbegin() + currentPos + blockSize};
+    std::string_view getNextBlock(std::size_t blockSize)
+    {
+        return { data_.cbegin() + currentPos, data_.cbegin() + currentPos + blockSize };
     }
     void                         setPos(std::size_t pos) { currentPos = pos; }
-    std::uintmax_t               size() const noexcept { return size_; };
+    std::uintmax_t               size() const noexcept { return data_.size(); };
     const std::filesystem::path& path() const noexcept { return path_; }
 
 private:
     std::filesystem::path path_;
-    std::string data_;
+    std::string           data_;
     std::size_t           currentPos = 0;
-    std::uintmax_t        size_      = 0;
 };

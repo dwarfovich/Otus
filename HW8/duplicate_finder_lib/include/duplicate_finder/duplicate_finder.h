@@ -18,7 +18,15 @@
 
 class DuplicateFinder
 {
-    FRIEND_TEST(DuplicateFinder, CompareDifferentSources_1);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_1);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_2);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_3);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_4);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_5);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_6);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_7);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_8);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentStringSources_9);
 
 private: // types
     using ThreadPoolPtr = std::shared_ptr<boost::asio::thread_pool>;
@@ -103,11 +111,11 @@ private: // methods
         const auto        fileSize     = source1Data.source.size();
         const std::size_t endIndex     = (fileSize / currentTask_.blockSize) + (fileSize % currentTask_.blockSize > 0);
         while (digest1Index < endIndex) {
-            if (digest1Index < source1Data.digest.size()) {
+            if (digest1Index >= source1Data.digest.size()) {
                 const auto& nextBlock = source1Data.source.getNextBlock(currentTask_.blockSize);
                 source1Data.digest.push_back(currentTask_.digester->calculate(nextBlock));
             }
-            if (digest2Index < source2Data.digest.size()) {
+            if (digest2Index >= source2Data.digest.size()) {
                 const auto& nextBlock = source2Data.source.getNextBlock(currentTask_.blockSize);
                 source2Data.digest.push_back(currentTask_.digester->calculate(nextBlock));
             }

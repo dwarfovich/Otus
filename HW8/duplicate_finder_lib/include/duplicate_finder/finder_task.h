@@ -18,5 +18,4 @@ struct FinderTask
     StringVector extensionsMasks;
     std::size_t  blockSize                   = 1024;
     unsigned     maxThreadCount              = 0;
-    std::size_t  minimumComparisonsPerThread = 20;
 };

@@ -8,7 +8,7 @@ public:
     virtual std::unique_ptr<Digester> clone() const = 0;
     virtual std::string               calculate(const std::string_view& message) const = 0;
     virtual std::string calculate(const std::string& message){
-        calculate(std::string_view{message.cbegin(), message.cend()});
+        return calculate(std::string_view{message.cbegin(), message.cend()});
     }
 };
 
