@@ -91,26 +91,26 @@ private: // methods
     {
         std::size_t minDigestIndex = std::min(file1Data.digest.size(), file2Data.digest.size());
 
-        for (std::size_t i = 0; i < minDigestIndex; ++i){
-            if (file1Data.digest[i] != file2Data.digest[i]){
+        for (std::size_t i = 0; i < minDigestIndex; ++i) {
+            if (file1Data.digest[i] != file2Data.digest[i]) {
                 return false;
             }
         }
 
-        std::size_t   digest1Index = minDigestIndex; 
-        std::size_t   digest2Index = minDigestIndex;
-        std::ifstream file1 { file1Data.path };
-        std::ifstream file2 { file2Data.path };
-        const auto fileSize = std::filesystem::file_size(file1Data.path);
-        const std::size_t   endIndex           = fileSize / currentTask_.blockSize + fileSize % currentTask_.blockSize > 0;
-        while(digest1Index < endIndex){
-            if (digest1Index < file1Data.digest.size()){
+        std::size_t       digest1Index = minDigestIndex;
+        std::size_t       digest2Index = minDigestIndex;
+        std::ifstream     file1 { file1Data.path };
+        std::ifstream     file2 { file2Data.path };
+        const auto        fileSize = std::filesystem::file_size(file1Data.path);
+        const std::size_t endIndex = fileSize / currentTask_.blockSize + fileSize % currentTask_.blockSize > 0;
+        while (digest1Index < endIndex) {
+            if (digest1Index < file1Data.digest.size()) {
                 readNextFileBlock(file1, digest1Index * currentTask_.blockSize, file1Data.digest);
             }
             if (digest2Index < file2Data.digest.size()) {
                 readNextFileBlock(file2, digest2Index * currentTask_.blockSize, file2Data.digest);
             }
-            if (file1Data.digest.back() != file2Data.digest.back()){
+            if (file1Data.digest.back() != file2Data.digest.back()) {
                 return false;
             }
             ++digest1Index;
@@ -120,12 +120,13 @@ private: // methods
         return true;
     }
 
-    void readNextFileBlock(std::ifstream& file, std::size_t startPos, DigestBlocks& digest){
+    void readNextFileBlock(std::ifstream& file, std::size_t startPos, DigestBlocks& digest)
+    {
         file.seekg(startPos);
         std::string block;
         block.resize(currentTask_.blockSize);
         file.read(block.data(), currentTask_.blockSize);
-        digest.push_back(std::move(block));
+        digest.push_back(currentTask_.digester->calculate(block));
     }
 
     void resizeThreadPool(unsigned size)
