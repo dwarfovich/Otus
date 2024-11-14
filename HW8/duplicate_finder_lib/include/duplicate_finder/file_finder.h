@@ -2,7 +2,6 @@
 
 #include "path_vector.h"
 #include "file_properties.h"
-#include "file_properties_hasher.h"
 #include "finder_task.h"
 #include "path_utils.h"
 #include "source_vector.h"

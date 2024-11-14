@@ -14,3 +14,8 @@ std::vector<FileProperties> generateFileProperties(std::size_t count)
 
     return files;
 }
+
+TEST(DuplicateFinder, CompareDifferentSources_1)
+{
+
+}

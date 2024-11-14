@@ -18,11 +18,15 @@
 
 class DuplicateFinder
 {
-    FRIEND_TEST(DuplicateFinder, CalculateComparisons_ZeroResult);
-    FRIEND_TEST(DuplicateFinder, CalculateComparisons);
+    FRIEND_TEST(DuplicateFinder, CompareDifferentSources_1);
 
 private: // types
     using ThreadPoolPtr = std::shared_ptr<boost::asio::thread_pool>;
+    struct SourceData
+    {
+        SourceEntity& source;
+        DigestBlocks& digest;
+    };
 
 public: // methods
     void findDuplicates(const FinderTask& task)
@@ -69,12 +73,6 @@ private: // methods
         }
     }
 
-    struct FileData
-    {
-        const std::filesystem::path& path;
-        DigestBlocks&                digest;
-    };
-
     void performThreadJob(const SourceVector& files)
     {
         using DigestVector = std::vector<DigestBlocks>;
@@ -82,8 +80,8 @@ private: // methods
         DigestVector digestVector(files.size());
         for (std::size_t i = 0; i < files.size(); ++i) {
             for (std::size_t j = i + 1; j < files.size(); ++j) {
-                bool areSame = compareFiles({ files[i]->path(), digestVector[i] }, { files[j]->path(), digestVector[j] });
-                if(areSame){
+                bool areSame = compareSources({ *files[i], digestVector[i] }, { *files[j], digestVector[j] });
+                if (areSame) {
                     duplicates_.addDuplicate(digestVector[i], files[i]->path());
                     duplicates_.addDuplicate(digestVector[j], files[j]->path());
                 }
@@ -91,30 +89,29 @@ private: // methods
         }
     }
 
-    bool compareFiles(FileData file1Data, FileData file2Data)
+    bool compareSources(SourceData source1Data, SourceData source2Data)
     {
-        std::size_t minDigestIndex = std::min(file1Data.digest.size(), file2Data.digest.size());
-
-        for (std::size_t i = 0; i < minDigestIndex; ++i) {
-            if (file1Data.digest[i] != file2Data.digest[i]) {
+        const auto minEndDigestIndex = std::min(source1Data.digest.size(), source2Data.digest.size());
+        for (std::size_t i = 0; i < minEndDigestIndex; ++i) {
+            if (source1Data.digest[i] != source2Data.digest[i]) {
                 return false;
             }
         }
 
-        std::size_t       digest1Index = minDigestIndex;
-        std::size_t       digest2Index = minDigestIndex;
-        std::ifstream     file1 { file1Data.path };
-        std::ifstream     file2 { file2Data.path };
-        const auto        fileSize = std::filesystem::file_size(file1Data.path);
-        const std::size_t endIndex = fileSize / currentTask_.blockSize + fileSize % currentTask_.blockSize > 0;
+        auto              digest1Index = minEndDigestIndex;
+        auto              digest2Index = minEndDigestIndex;
+        const auto        fileSize     = source1Data.source.size();
+        const std::size_t endIndex     = (fileSize / currentTask_.blockSize) + (fileSize % currentTask_.blockSize > 0);
         while (digest1Index < endIndex) {
-            if (digest1Index < file1Data.digest.size()) {
-                readNextFileBlock(file1, digest1Index * currentTask_.blockSize, file1Data.digest);
+            if (digest1Index < source1Data.digest.size()) {
+                const auto& nextBlock = source1Data.source.getNextBlock(currentTask_.blockSize);
+                source1Data.digest.push_back(currentTask_.digester->calculate(nextBlock));
             }
-            if (digest2Index < file2Data.digest.size()) {
-                readNextFileBlock(file2, digest2Index * currentTask_.blockSize, file2Data.digest);
+            if (digest2Index < source2Data.digest.size()) {
+                const auto& nextBlock = source2Data.source.getNextBlock(currentTask_.blockSize);
+                source2Data.digest.push_back(currentTask_.digester->calculate(nextBlock));
             }
-            if (file1Data.digest.back() != file2Data.digest.back()) {
+            if (source1Data.digest.back() != source2Data.digest.back()) {
                 return false;
             }
             ++digest1Index;
