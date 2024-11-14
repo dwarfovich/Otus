@@ -75,14 +75,14 @@ private: // methods
         DigestBlocks&                digest;
     };
 
-    void performThreadJob(const PathVector& files)
+    void performThreadJob(const SourceVector& files)
     {
         using DigestVector = std::vector<DigestBlocks>;
 
         DigestVector digestVector(files.size());
         for (std::size_t i = 0; i < files.size(); ++i) {
             for (std::size_t j = i + 1; j < files.size(); ++j) {
-                bool areSame = compareFiles({ files[i], digestVector[i] }, { files[j], digestVector[j] });
+                bool areSame = compareFiles({ files[i]->path(), digestVector[i] }, { files[j]->path(), digestVector[j] });
             }
         }
     }
