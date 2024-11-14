@@ -5,6 +5,7 @@
 #include "finder_task.h"
 #include "file_finder.h"
 #include "signal.h"
+#include "digest_blocks.h"
 
 #include <gtest/gtest_prod.h>
 
@@ -12,6 +13,8 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/use_future.hpp>
+
+#include <fstream>
 
 class DuplicateFinder
 {
@@ -66,10 +69,63 @@ private: // methods
         }
     }
 
+    struct FileData
+    {
+        const std::filesystem::path& path;
+        DigestBlocks&                digest;
+    };
+
     void performThreadJob(const PathVector& files)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "Hello\n";
+        using DigestVector = std::vector<DigestBlocks>;
+
+        DigestVector digestVector(files.size());
+        for (std::size_t i = 0; i < files.size(); ++i) {
+            for (std::size_t j = i + 1; j < files.size(); ++j) {
+                bool areSame = compareFiles({ files[i], digestVector[i] }, { files[j], digestVector[j] });
+            }
+        }
+    }
+
+    bool compareFiles(FileData file1Data, FileData file2Data)
+    {
+        std::size_t minDigestIndex = std::min(file1Data.digest.size(), file2Data.digest.size());
+
+        for (std::size_t i = 0; i < minDigestIndex; ++i){
+            if (file1Data.digest[i] != file2Data.digest[i]){
+                return false;
+            }
+        }
+
+        std::size_t   digest1Index = minDigestIndex; 
+        std::size_t   digest2Index = minDigestIndex;
+        std::ifstream file1 { file1Data.path };
+        std::ifstream file2 { file2Data.path };
+        const auto fileSize = std::filesystem::file_size(file1Data.path);
+        const std::size_t   endIndex           = fileSize / currentTask_.blockSize + fileSize % currentTask_.blockSize > 0;
+        while(digest1Index < endIndex){
+            if (digest1Index < file1Data.digest.size()){
+                readNextFileBlock(file1, digest1Index * currentTask_.blockSize, file1Data.digest);
+            }
+            if (digest2Index < file2Data.digest.size()) {
+                readNextFileBlock(file2, digest2Index * currentTask_.blockSize, file2Data.digest);
+            }
+            if (file1Data.digest.back() != file2Data.digest.back()){
+                return false;
+            }
+            ++digest1Index;
+            ++digest2Index;
+        }
+
+        return true;
+    }
+
+    void readNextFileBlock(std::ifstream& file, std::size_t startPos, DigestBlocks& digest){
+        file.seekg(startPos);
+        std::string block;
+        block.resize(currentTask_.blockSize);
+        file.read(block.data(), currentTask_.blockSize);
+        digest.push_back(std::move(block));
     }
 
     void resizeThreadPool(unsigned size)
