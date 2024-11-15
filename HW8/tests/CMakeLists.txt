@@ -18,7 +18,9 @@ set_target_properties(tests
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+set_target_properties(tests PROPERTIES COMPILE_DEFINITIONS "TEST_DATA_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}/test_data/\"")
 set_property(TARGET tests PROPERTY CXX_STANDARD 20)
+
 target_link_libraries(
   tests
   GTest::gtest_main
