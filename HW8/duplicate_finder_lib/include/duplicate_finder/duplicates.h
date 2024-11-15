@@ -2,6 +2,7 @@
 
 #include "digest_blocks.h"
 #include "digest_blocks_hasher.h"
+#include "source_entity.h"
 
 #include <filesystem>
 #include <unordered_map>
@@ -11,13 +12,13 @@
 class Duplicates
 {
 public:
-    using Group = std::unordered_set<std::filesystem::path>;
+    using Group = std::unordered_set<std::shared_ptr<SourceEntity>>;
     using DuplicatesUmap = std::unordered_map<DigestBlocks, Group, DigestBlocksHasher>;
 
-    void addDuplicate(const DigestBlocks& digest, const std::filesystem::path& path)
+    void addDuplicate(const DigestBlocks& digest, const std::shared_ptr<SourceEntity>& source)
     {
         std::lock_guard lock {mutex_};
-        duplicates_[digest].insert(path);
+        duplicates_[digest].insert(source);
     }
 
     const DuplicatesUmap& duplicates() const noexcept{

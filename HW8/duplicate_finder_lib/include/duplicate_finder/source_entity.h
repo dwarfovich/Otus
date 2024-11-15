@@ -55,14 +55,19 @@ public:
 
     std::string_view getNextBlock(std::size_t blockSize)
     {
-        return { data_.cbegin() + currentPos, data_.cbegin() + currentPos + blockSize };
+        std::string_view result = {
+            data_.cbegin() + currentPos_,
+            data_.cbegin() + currentPos_ + blockSize
+        };
+        currentPos_ += blockSize;
+        return result;
     }
-    void                         setPos(std::size_t pos) { currentPos = pos; }
+    void                         setPos(std::size_t pos) { currentPos_ = pos; }
     std::uintmax_t               size() const noexcept { return data_.size(); };
     const std::filesystem::path& path() const noexcept { return path_; }
 
 private:
     std::filesystem::path path_;
     std::string           data_;
-    std::size_t           currentPos = 0;
+    std::size_t           currentPos_ = 0;
 };

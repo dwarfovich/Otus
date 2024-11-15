@@ -5,4 +5,4 @@
 #include <vector>
 #include <memory>
 
-using SourceVector = std::vector<std::unique_ptr<SourceEntity>>;
+using SourceVector = std::vector<std::shared_ptr<SourceEntity>>;
