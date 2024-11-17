@@ -52,6 +52,10 @@ private: // types
     };
 
 public: // methods
+    const Duplicates& duplicates()  const{
+        return duplicates_;
+    }    
+
     void findDuplicates(const FinderTask& task)
     {
         if (threadPool_) {

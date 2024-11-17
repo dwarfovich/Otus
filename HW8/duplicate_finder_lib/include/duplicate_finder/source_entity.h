@@ -55,11 +55,13 @@ public:
 
     std::string_view getNextBlock(std::size_t blockSize)
     {
-        std::string_view result = {
-            data_.cbegin() + currentPos_,
-            data_.cbegin() + currentPos_ + blockSize
-        };
-        currentPos_ += blockSize;
+        const auto begin = data_.cbegin() + currentPos_;
+        const auto size =
+            std::min(blockSize, static_cast<std::size_t>(std::distance(begin, data_.cend())));
+        const auto end =
+            begin + size;
+        std::string_view result = { begin, end };
+        currentPos_ += size;
         return result;
     }
     void                         setPos(std::size_t pos) { currentPos_ = pos; }

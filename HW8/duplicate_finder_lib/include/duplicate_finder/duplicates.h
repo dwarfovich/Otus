@@ -21,7 +21,7 @@ public:
         duplicates_[digest].insert(source);
     }
 
-    const DuplicatesUmap& duplicates() const noexcept{
+    const DuplicatesUmap& duplicatesMap() const noexcept{
         return duplicates_;
     }
 

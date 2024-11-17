@@ -15,7 +15,7 @@ add_library(${LIB_NAME} STATIC
    "include/duplicate_finder/source_entity.h"
    "include/duplicate_finder/source_vector.h"
    "include/duplicate_finder/digest_blocks_hasher.h"
-   "include/duplicate_finder/string_vector.h")
+   "include/duplicate_finder/string_vector.h" "include/duplicate_finder/path_uset.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
