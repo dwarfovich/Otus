@@ -18,6 +18,6 @@ public:
     std::unique_ptr<Digester> clone() const override{ return std::make_unique<DummyDigester>();
     }
     std::string               calculate(const std::string_view& message) const override {
-        return "0";
+        return {message.cbegin(), message.cend()};
     }
 };
