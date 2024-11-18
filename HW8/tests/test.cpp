@@ -8,26 +8,16 @@
 
 #include <vector>
 
-class TestDigester : public Digester
-{
-public:
-    std::unique_ptr<Digester> clone() const override { return std::make_unique<TestDigester>(); }
-    std::string               calculate(const std::string_view& message) const override
-    {
-        return { message.cbegin(), message.cend() };
-    }
-};
-
-#define CREATE_DATA_FOR_COMPARISONS(data1, data2)           \
-    DuplicateFinder finder;                                 \
-    FinderTask      task;                                   \
-    task.digester       = std::make_shared<TestDigester>(); \
-    task.maxThreadCount = 1;                                \
-    task.blockSize      = 1;                                \
-    finder.currentTask_ = task;                             \
-    DigestBlocks digest1;                                   \
-    DigestBlocks digest2;                                   \
-    auto         s1 = StringSource { "s1", (data1) };       \
+#define CREATE_DATA_FOR_COMPARISONS(data1, data2)            \
+    DuplicateFinder finder;                                  \
+    FinderTask      task;                                    \
+    task.digester       = std::make_shared<DummyDigester>(); \
+    task.maxThreadCount = 1;                                 \
+    task.blockSize      = 1;                                 \
+    finder.currentTask_ = task;                              \
+    DigestBlocks digest1;                                    \
+    DigestBlocks digest2;                                    \
+    auto         s1 = StringSource { "s1", (data1) };        \
     auto         s2 = StringSource { "s2", (data2) };
 
 TEST(DuplicateFinder, CompareDifferentStringSources_1)
@@ -127,15 +117,15 @@ void addSourcesToVector(std::vector<std::shared_ptr<SourceEntity>>& vector, Args
     (vector.push_back(std::make_shared<StringSource>(args, args)), ...);
 }
 
-#define CREATE_DATA_FOR_FINDING_DUPLICATES(...)             \
-    DuplicateFinder finder;                                 \
-    FinderTask      task;                                   \
-    task.digester       = std::make_shared<TestDigester>(); \
-    task.maxThreadCount = 1;                                \
-    task.blockSize      = 1;                                \
-    finder.currentTask_ = task;                             \
-    std::vector<std::shared_ptr<SourceEntity>> sources;     \
-    addSourcesToVector(sources, __VA_ARGS__);               \
+#define CREATE_DATA_FOR_FINDING_DUPLICATES(...)              \
+    DuplicateFinder finder;                                  \
+    FinderTask      task;                                    \
+    task.digester       = std::make_shared<DummyDigester>(); \
+    task.maxThreadCount = 1;                                 \
+    task.blockSize      = 1;                                 \
+    finder.currentTask_ = task;                              \
+    std::vector<std::shared_ptr<SourceEntity>> sources;      \
+    addSourcesToVector(sources, __VA_ARGS__);                \
     finder.findDuplicatesForSources(sources);
 
 TEST(DuplicateFinder, FindZeroDuplicatesForSources_1)
@@ -177,7 +167,7 @@ void addSourceVectorToVector(std::vector<std::shared_ptr<SourceEntity>>& vector,
 #define CREATE_DATA_FOR_FINDING_DUPLICATES_FROM_VECTORS(...) \
     DuplicateFinder finder;                                  \
     FinderTask      task;                                    \
-    task.digester       = std::make_shared<TestDigester>();  \
+    task.digester       = std::make_shared<DummyDigester>(); \
     task.maxThreadCount = 1;                                 \
     task.blockSize      = 1;                                 \
     finder.currentTask_ = task;                              \
@@ -355,11 +345,11 @@ std::filesystem::path generatePathForCase(const std::string& caseName)
     return { TEST_DATA_PATH + caseName };
 }
 
-#define CREATE_FILE_FINDER_TASK_DATA(path, aRecursiveSearch) \
-    FinderTask task;                                         \
-    task.digester        = std::make_shared<TestDigester>(); \
-    task.recursiveSearch = (aRecursiveSearch);               \
-    task.targets.push_back(path);                            \
+#define CREATE_FILE_FINDER_TASK_DATA(path, aRecursiveSearch)  \
+    FinderTask task;                                          \
+    task.digester        = std::make_shared<DummyDigester>(); \
+    task.recursiveSearch = (aRecursiveSearch);                \
+    task.targets.push_back(path);                             \
     FileFinder finder;
 
 TEST(FileFinder, FindFiles_Empty)
@@ -505,7 +495,7 @@ protected:
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_1)
 {
     FinderTask task;
-    task.digester        = std::make_shared<TestDigester>();
+    task.digester        = std::make_shared<DummyDigester>();
     task.recursiveSearch = true;
     task.targets.push_back(generatePathForCase("case2"));
 
@@ -553,7 +543,7 @@ std::filesystem::path formNormalizedPath(const std::string& str)
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_2)
 {
     FinderTask task;
-    task.digester        = std::make_shared<TestDigester>();
+    task.digester        = std::make_shared<DummyDigester>();
     task.recursiveSearch = true;
     task.targets.push_back(generatePathForCase("case3"));
 
@@ -602,13 +592,12 @@ TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_2)
     ASSERT_TRUE(duplicatesContainGroup(duplicates, 5, group3));
     ASSERT_TRUE(duplicatesContainGroup(duplicates, 13, group4));
     ASSERT_TRUE(duplicatesContainGroup(duplicates, 1, group5));
-
 }
 
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_3)
 {
     FinderTask task;
-    task.digester        = std::make_shared<TestDigester>();
+    task.digester        = std::make_shared<DummyDigester>();
     task.recursiveSearch = true;
     task.minimalFileSize = 5;
     task.extensionsMasks.push_back(".txt");
