@@ -27,7 +27,7 @@ public: // methods
                 if (fileMeetsTaskConditions(target, task)) {
                     files[std::filesystem::file_size(target)].push_back(std::make_unique<FileSource>(target));
                 }
-            } else if (std::filesystem::is_directory(target) && task.recursiveSearch) {
+            } else if (std::filesystem::is_directory(target) && !task.nonRecursiveSearch) {
                 addFilesFromFolder(target, task, files);
             }
         }

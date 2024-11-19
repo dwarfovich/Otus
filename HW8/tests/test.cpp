@@ -345,23 +345,23 @@ std::filesystem::path generatePathForCase(const std::string& caseName)
     return { TEST_DATA_PATH + caseName };
 }
 
-#define CREATE_FILE_FINDER_TASK_DATA(path, aRecursiveSearch)  \
+#define CREATE_FILE_FINDER_TASK_DATA(path, aNonRecursiveSearch)  \
     FinderTask task;                                          \
     task.digester        = std::make_shared<DummyDigester>(); \
-    task.recursiveSearch = (aRecursiveSearch);                \
+    task.nonRecursiveSearch = (aNonRecursiveSearch);                \
     task.targets.push_back(path);                             \
     FileFinder finder;
 
 TEST(FileFinder, FindFiles_Empty)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case1"), false);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case1"), true);
     const auto files = finder.findFiles(task);
     ASSERT_TRUE(files.empty());
 }
 
 TEST(FileFinder, FindFiles_RecursiveEmpty)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case2"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case2"), false);
     const auto files = finder.findFiles(task);
     ASSERT_TRUE(files.empty());
 }
@@ -383,14 +383,14 @@ inline constexpr std::size_t case3FileasHeavierThan6Bytes = 7;
 
 TEST(FileFinder, FindFiles_Physical_FullSearch)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     const auto files = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3TotalFileCount);
 }
 
 TEST(FileFinder, FindFiles_Physical_Blacklist_1)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.blackList.push_back(TEST_DATA_PATH + std::string { "case3/TopFolder1" });
     const auto files = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3TopFiles);
@@ -406,7 +406,7 @@ TEST(FileFinder, FindFiles_Physical_Blacklist_2)
 
 TEST(FileFinder, FindFiles_Physical_MinimalFileSize_1)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.minimalFileSize = 6;
     const auto files     = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3FileasHeavierThan6Bytes);
@@ -427,7 +427,7 @@ inline constexpr std::size_t case3FilesWithExtensionContainingDots = 1;
 
 TEST(FileFinder, FindFiles_Physical_FileExtensions_1)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.extensionsMasks.push_back(".txt");
     const auto files = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3TxtFiles);
@@ -435,7 +435,7 @@ TEST(FileFinder, FindFiles_Physical_FileExtensions_1)
 
 TEST(FileFinder, FindFiles_Physical_FileExtensions_2)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.extensionsMasks.push_back("");
     const auto files = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3FilesWithoutExtension);
@@ -443,7 +443,7 @@ TEST(FileFinder, FindFiles_Physical_FileExtensions_2)
 
 TEST(FileFinder, FindFiles_Physical_FileExtensions_3)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.extensionsMasks.push_back(".txt");
     task.extensionsMasks.push_back(".jpeg");
     const auto files = finder.findFiles(task);
@@ -452,7 +452,7 @@ TEST(FileFinder, FindFiles_Physical_FileExtensions_3)
 
 TEST(FileFinder, FindFiles_Physical_FileExtensions_4)
 {
-    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), true);
+    CREATE_FILE_FINDER_TASK_DATA(generatePathForCase("case3"), false);
     task.extensionsMasks.push_back(".txt.ini.jpeg");
     const auto files = finder.findFiles(task);
     ASSERT_EQ(totalFileCount(files), case3FilesWithExtensionContainingDots);
@@ -496,7 +496,7 @@ TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_1)
 {
     FinderTask task;
     task.digester        = std::make_shared<DummyDigester>();
-    task.recursiveSearch = true;
+    task.nonRecursiveSearch = true;
     task.targets.push_back(generatePathForCase("case2"));
 
     DuplicateFinder duplicatesFinder;
@@ -544,7 +544,7 @@ TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_2)
 {
     FinderTask task;
     task.digester        = std::make_shared<DummyDigester>();
-    task.recursiveSearch = true;
+    task.nonRecursiveSearch = false;
     task.targets.push_back(generatePathForCase("case3"));
 
     DuplicateFinder duplicatesFinder;
@@ -598,7 +598,7 @@ TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_3)
 {
     FinderTask task;
     task.digester        = std::make_shared<DummyDigester>();
-    task.recursiveSearch = true;
+    task.nonRecursiveSearch = false;
     task.minimalFileSize = 5;
     task.extensionsMasks.push_back(".txt");
     task.targets.push_back(generatePathForCase("case3"));

@@ -13,7 +13,7 @@ struct FinderTask
 
     PathVector   targets;
     PathVector   blackList;
-    bool         recursiveSearch = false;
+    bool         nonRecursiveSearch = false;
     std::size_t  minimalFileSize = 0;
     StringVector extensionsMasks;
     std::size_t  blockSize                   = 1024;
