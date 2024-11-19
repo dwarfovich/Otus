@@ -130,7 +130,14 @@ void addSourcesToVector(std::vector<std::shared_ptr<SourceEntity>>& vector, Args
 
 TEST(DuplicateFinder, FindZeroDuplicatesForSources_1)
 {
-    CREATE_DATA_FOR_FINDING_DUPLICATES();
+    DuplicateFinder finder;
+    FinderTask      task;
+    task.digester       = std::make_shared<DummyDigester>();
+    task.maxThreadCount = 1;
+    task.blockSize      = 1;
+    finder.currentTask_ = task;
+    std::vector<std::shared_ptr<SourceEntity>> sources;
+    finder.findDuplicatesForSources(sources);
     ASSERT_TRUE(finder.duplicates_.duplicatesMap().empty());
 }
 
@@ -346,10 +353,10 @@ std::filesystem::path generatePathForCase(const std::string& caseName)
 }
 
 #define CREATE_FILE_FINDER_TASK_DATA(path, aNonRecursiveSearch)  \
-    FinderTask task;                                          \
-    task.digester        = std::make_shared<DummyDigester>(); \
-    task.nonRecursiveSearch = (aNonRecursiveSearch);                \
-    task.targets.push_back(path);                             \
+    FinderTask task;                                             \
+    task.digester           = std::make_shared<DummyDigester>(); \
+    task.nonRecursiveSearch = (aNonRecursiveSearch);             \
+    task.targets.push_back(path);                                \
     FileFinder finder;
 
 TEST(FileFinder, FindFiles_Empty)
@@ -495,7 +502,7 @@ protected:
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_1)
 {
     FinderTask task;
-    task.digester        = std::make_shared<DummyDigester>();
+    task.digester           = std::make_shared<DummyDigester>();
     task.nonRecursiveSearch = true;
     task.targets.push_back(generatePathForCase("case2"));
 
@@ -543,7 +550,7 @@ std::filesystem::path formNormalizedPath(const std::string& str)
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_2)
 {
     FinderTask task;
-    task.digester        = std::make_shared<DummyDigester>();
+    task.digester           = std::make_shared<DummyDigester>();
     task.nonRecursiveSearch = false;
     task.targets.push_back(generatePathForCase("case3"));
 
@@ -597,9 +604,9 @@ TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_2)
 TEST_F(SingleThreadDuplicateFinderTest, Physical_SanityCheck_3)
 {
     FinderTask task;
-    task.digester        = std::make_shared<DummyDigester>();
+    task.digester           = std::make_shared<DummyDigester>();
     task.nonRecursiveSearch = false;
-    task.minimalFileSize = 5;
+    task.minimalFileSize    = 5;
     task.extensionsMasks.push_back(".txt");
     task.targets.push_back(generatePathForCase("case3"));
 

@@ -7,21 +7,20 @@
 
 bool fileExtensionMatches(const std::filesystem::path& path, const StringVector& extensionMasks)
 {
-    if(extensionMasks.empty()){
+    if (extensionMasks.empty()) {
         return true;
     }
 
-    if(!std::filesystem::is_regular_file(path)){
+    if (!std::filesystem::is_regular_file(path)) {
         return true;
     }
 
-    //std::filesystem::path path     = "/path/to/file.tar.gz";
-    //std::string           extension(std::find(filename.begin(), filename.end(), '.'), filename.end());
-
-    const auto filename = path.filename().string();
-    const std::string extension = {std::find(filename.begin(), filename.end(), '.'), filename.end()};
-    for (const auto& extensionMask : extensionMasks){
-        if (extension == extensionMask){
+    const auto&       filename  = path.filename().string();
+    size_t            pos       = filename.find('.');
+    const std::string extension = { (pos == std::string::npos ? filename.cend() : filename.cbegin() + pos),
+                                    filename.cend() };
+    for (const auto& extensionMask : extensionMasks) {
+        if (extension == extensionMask) {
             return true;
         }
     }
@@ -31,15 +30,17 @@ bool fileExtensionMatches(const std::filesystem::path& path, const StringVector&
 
 bool pathIsUnder(std::filesystem::path path, const PathVector& blackList)
 {
-    if (path.filename().empty()){
+    if (path.filename().empty()) {
         path = path.parent_path();
     }
+    if(blackList.size() == 1){
+        int t = 43;
+    }
     for (auto blackEntry : blackList) {
-        if(blackEntry.filename().empty()){
+        if (blackEntry.filename().empty()) {
             blackEntry = blackEntry.parent_path();
         }
-        const auto mergedPath     = blackEntry / path;
-        const auto [iter1, iter2] = std::mismatch(blackEntry.begin(), blackEntry.end(), mergedPath.begin());
+        const auto [iter1, iter2] = std::mismatch(blackEntry.begin(), blackEntry.end(), path.begin(), path.end());
 
         if (iter1 == blackEntry.end()) {
             return true;
