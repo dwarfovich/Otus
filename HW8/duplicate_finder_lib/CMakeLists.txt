@@ -21,6 +21,10 @@ target_include_directories(${LIB_NAME}
     PUBLIC include
     PRIVATE src include/duplicate_finder)
 
+if (POLICY CMP0167 )
+  cmake_policy(SET CMP0167  NEW)
+endif()
+
 if(MSVC)
     add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
 endif()
