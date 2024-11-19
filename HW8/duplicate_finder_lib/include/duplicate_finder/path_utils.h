@@ -33,9 +33,7 @@ bool pathIsUnder(std::filesystem::path path, const PathVector& blackList)
     if (path.filename().empty()) {
         path = path.parent_path();
     }
-    if(blackList.size() == 1){
-        int t = 43;
-    }
+    
     for (auto blackEntry : blackList) {
         if (blackEntry.filename().empty()) {
             blackEntry = blackEntry.parent_path();
@@ -46,5 +44,6 @@ bool pathIsUnder(std::filesystem::path path, const PathVector& blackList)
             return true;
         }
     }
+
     return false;
 }
