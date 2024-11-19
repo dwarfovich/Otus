@@ -15,7 +15,10 @@ add_library(${LIB_NAME} STATIC
    "include/duplicate_finder/source_entity.h"
    "include/duplicate_finder/source_vector.h"
    "include/duplicate_finder/digest_blocks_hasher.h"
-   "include/duplicate_finder/string_vector.h" "include/duplicate_finder/path_uset.h"  "include/duplicate_finder/cryptocpp_digesters.h" "include/duplicate_finder/digester_factory.h")
+   "include/duplicate_finder/string_vector.h"
+   "include/duplicate_finder/path_uset.h"
+   "include/duplicate_finder/cryptocpp_digesters.h"
+   "include/duplicate_finder/digester_factory.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
@@ -24,16 +27,15 @@ target_include_directories(${LIB_NAME}
 if (POLICY CMP0167 )
   cmake_policy(SET CMP0167  NEW)
 endif()
-
+set(Boost_USE_MULTITHREADED ON)
 if(MSVC)
     add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
 endif()
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.74 COMPONENTS thread REQUIRED)
-IF (Boost_FOUND)
+#IF (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
-ENDIF()
-
+#ENDIF()
 target_link_libraries(${LIB_NAME} cryptopp Boost::thread GTest::gtest_main)
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")

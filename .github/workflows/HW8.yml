@@ -47,7 +47,7 @@ jobs:
           submodules: true
 
       - name: Install Boost
-        run: sudo apt install -y libboost-program-options-dev libboost-thread1.74-dev
+        run: sudo apt install -y  libboost-all-dev libboost-program-options-dev libboost-thread1.74-dev 
 
       - name: Build packet ${{ env.target_name }}
         working-directory: ${{ env.hw_path }}
