@@ -24,6 +24,11 @@ set_target_properties(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME} bulker_lib)
 add_subdirectory(bulker_lib)
 
+#set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+#file(COPY ${CMAKE_BINARY_DIR}/bulker_lib/bulker_lib.dll DESTINATION ${PROJECT_BINARY_DIR}/bin)
+#configure_file(${CMAKE_BINARY_DIR}/bulker_lib/bulker_lib.dll ${PROJECT_BINARY_DIR}/bin COPYONLY)
+
+
 # .deb package.
 if(CONFIGURE_DEB_PACKAGE)
     set(CPACK_GENERATOR DEB)

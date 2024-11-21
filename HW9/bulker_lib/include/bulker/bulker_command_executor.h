@@ -37,6 +37,7 @@ public:
             }
         }
         logger_->log("\n");
+        logger_->flush();
     }
 
     bool FileExists(const std::string& Filename) const { return access(Filename.c_str(), 0) == 0; }

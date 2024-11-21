@@ -71,7 +71,9 @@ private: // methods
 
         return temp;
     }
-    void sendBlock(CommandBlock&& block) { notifier_(std::move(block)); }
+    void sendBlock(CommandBlock&& block) { 
+        notifier_(std::move(block));
+    }
 
 private: // data
     static constexpr char openBlockChar  = '{';

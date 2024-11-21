@@ -1,13 +1,51 @@
 ﻿set(LIB_NAME bulker_lib CACHE INTERNAL "Library name")
-add_library(${LIB_NAME} STATIC
-   "src/lib.cpp" "include/bulker/command_factory.h" "include/bulker/command_identifier.h" "include/bulker/command.h" "include/bulker/command_parser.h" "include/bulker/bulker_command_factory.h" "include/bulker/bulker_command_parser.h" "include/bulker/bulker_command_executor.h"  "include/bulker/command_block.h" "include/bulker/bulker_command.h" "include/bulker/loggable.h" "include/bulker/logger.h" "include/bulker/bulker_logger.h" "include/bulker/bulker_dummy_logger.h" "include/bulker/dummy_stream.h")
+
+add_library(${LIB_NAME} SHARED
+   "src/lib.cpp"
+   "include/bulker/command_factory.h"
+   "include/bulker/command_identifier.h"
+   "include/bulker/command.h"
+   "include/bulker/command_parser.h"
+   "include/bulker/bulker_command_factory.h"
+   "include/bulker/bulker_command_parser.h"
+   "include/bulker/bulker_command_executor.h"
+   "include/bulker/command_block.h"
+   "include/bulker/bulker_command.h"
+   "include/bulker/loggable.h" 
+   "include/bulker/logger.h" 
+   "include/bulker/bulker_logger.h" 
+   "include/bulker/bulker_dummy_logger.h"
+   "include/bulker/dummy_stream.h"
+   "include/bulker_sl/async.cpp"
+ "include/bulker_sl/command_executor_context.h" "include/bulker_sl/threaded_bulker_logger.h" "include/bulker_sl/thread_safe_cout.h" "include/bulker_sl/command_executor_context_hasher.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
     PRIVATE src include/bulker)
 
-set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+    target_include_directories(${LIB_NAME}
+    PUBLIC include
+    PRIVATE src include/bulker_sl)
+
+set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
+
+if(MSVC)
+    add_definitions(-DDLL_EXPORT)
+endif()
+
+if (POLICY CMP0167 )
+  cmake_policy(SET CMP0167  NEW)
+endif()
+set(Boost_USE_MULTITHREADED ON)
+if(MSVC)
+    add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
+endif()
+#set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.74 COMPONENTS thread REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+target_link_libraries(${LIB_NAME} Boost::thread)
+
 if(MSVC)
   # Force to always compile with W4
   if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
