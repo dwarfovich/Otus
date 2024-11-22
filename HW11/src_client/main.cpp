@@ -1,19 +1,19 @@
 #include "common_aux/port_number.h"
 #include "common_aux/default_port.h"
 #include "common_aux/debug_message.h"
+#include "common_aux/boost_aliases.h"
 
 #if defined(_WIN32) || defined(_WIN64)
     #define IS_WINDOWS_OS
-    #define WIN32_LEAN_AND_MEAN 
+    #define WIN32_LEAN_AND_MEAN
     #include <Windows.h>
 #endif // DEBUG
 
 #include <boost/asio.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/regex.hpp>
 
 #include <iostream>
-
-namespace ba = boost::asio;
 
 static inline bool exitRequested = false;
 
@@ -21,11 +21,9 @@ static inline bool exitRequested = false;
 BOOL WINAPI CtrlHandler(DWORD ctrlType)
 {
     switch (ctrlType) {
-        case CTRL_C_EVENT: // Handle the CTRL-C signal.
-        case CTRL_CLOSE_EVENT:// CTRL-CLOSE: confirm that the user wants to exit.
-        case CTRL_SHUTDOWN_EVENT:
-            exitRequested = true;
-            return true;
+        case CTRL_C_EVENT:     // Handle the CTRL-C signal.
+        case CTRL_CLOSE_EVENT: // CTRL-CLOSE: confirm that the user wants to exit.
+        case CTRL_SHUTDOWN_EVENT: exitRequested = true; return true;
         default: return true;
     }
 }
@@ -41,10 +39,10 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        const auto            port = (argc == 2 ? boost::lexical_cast<PortNumber>(argv[1]) : g_defaultPort);
-        ba::io_context        ioContext;
-        ba::ip::tcp::endpoint endPoint { ba::ip::address::from_string("127.0.0.1"), port };
-        ba::ip::tcp::socket   socket { ioContext };
+        const auto         port = (argc == 2 ? boost::lexical_cast<PortNumber>(argv[1]) : g_defaultPort);
+        basio::io_context  ioContext;
+        BoostTcp::endpoint endPoint { basio::ip::address::from_string("127.0.0.1"), port };
+        BoostTcp::socket   socket { ioContext };
 
         socket.connect(endPoint);
 
@@ -52,15 +50,15 @@ int main(int argc, char* argv[])
         std::string input;
         while (std::getline(std::cin, input) && !exitRequested) {
             input += '\n';
-            g_debugOut << "[Sending message] "  << input;
-            ba::write(socket, ba::buffer(input, input.size()));
+            g_debugOut << "[Sending message]: " << input;
+            basio::write(socket, basio::buffer(input, input.size()));
+            basio::streambuf buffer;
+            basio::read_until(socket, buffer, boost::regex("\n"));
+            std::istream iStream { &buffer };
+            std::string  line;
+            std::getline(iStream, line);
+            std::cout << "[Response]: " << line << '\n';
         }
-
-        /*ba::write(socket, ba::buffer("ping", 4));
-
-        char   data[4];
-        size_t len = socket.read_some(ba::buffer(data));
-        std::cout << "receive " << len << "=" << std::string { data, len } << std::endl;*/
     } catch (const boost::system::system_error& ex) {
         std::cout << "boost exception! " << ex.what() << std::endl;
     } catch (const std::exception& ex) {

@@ -1,7 +1,7 @@
 ﻿set(LIB_NAME db_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-   )
+    "include/db/database.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include

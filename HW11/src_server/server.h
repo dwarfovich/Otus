@@ -20,7 +20,9 @@ public:
         startAccepting();
     }
 
-    void removeSession(Session* session){
+    void removeSession(Session* session) {
+        const auto iter = sessions_.find(session);
+        sessions_.erase(iter);
     }
 
 private: // methods
@@ -29,7 +31,7 @@ private: // methods
         acceptor_.async_accept([this](const BoostErrorCode& ec, BoostTcp::socket socket) {
             if (!ec) {
                 if (sessions_.size() < maxSessions_) {
-                    const auto [iter, success] = sessions_.insert(std::make_unique<Session>(std::move(socket)));
+                    const auto [iter, success] = sessions_.insert(std::make_unique<Session>(std::move(socket), this));
                     if (success) {
                         (*iter)->startAsyncReadData();
                     } else {
@@ -46,7 +48,8 @@ private: // methods
     }
 
 private: // data
-    BoostTcp::acceptor                           acceptor_;
-    const std::size_t                            maxSessions_;
-    std::unordered_set<std::unique_ptr<Session>> sessions_;
+    BoostTcp::acceptor acceptor_;
+    const std::size_t  maxSessions_;
+    using SessionsUset = std::unordered_set<std::unique_ptr<Session>, SessionHasher, SessionComparator>;
+    SessionsUset sessions_;
 };
