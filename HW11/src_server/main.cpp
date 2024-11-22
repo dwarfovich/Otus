@@ -1,3 +1,7 @@
+//
+// Based on Boost' async_tcp_echo_server.cpp by Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #include "common_aux/port_number.h"
 #include "common_aux/debug_message.h"
 #include "common_aux/default_port.h"
@@ -15,7 +19,10 @@ using boost::asio::ip::tcp;
 class Session : public std::enable_shared_from_this<Session>
 {
 public:
-    Session(tcp::socket socket) : socket_ { std::move(socket) } {}
+    Session(tcp::socket socket) : socket_ { std::move(socket) } {
+        g_debugOut << "Creating session\n";
+    }
+    ~Session() { g_debugOut << "Destroying session\n"; }
 
     void start() { doRead(); }
 
@@ -27,7 +34,7 @@ private: // methods
             boost::asio::buffer(data_, maxDataLength), [this, self](boost::system::error_code ec, std::size_t length) {
                 if (!ec) {
                     g_debugOut << "[Received " << length << " bytes]: " << std::string { data_, length } << '\n';
-                    doWrite(length);
+                    //doWrite(length);
                 }
             });
     }
@@ -65,6 +72,7 @@ public:
 private: // methods
     void doAccept()
     {
+        g_debugOut << "doAccept()\n";
         acceptor_.async_accept([this](boost::system::error_code ec, tcp::socket socket) {
             if (!ec) {
                 std::make_shared<Session>(std::move(socket))->start();
