@@ -13,7 +13,7 @@
 #include <memory>
 #include <unordered_set>
 
-
+#include "db/database.h"
 
 int main(int argc, char* argv[])
 {
@@ -33,5 +33,6 @@ int main(int argc, char* argv[])
         std::cerr << "Exception: " << e.what() << "\n";
     }
 
+    Database db;
     return 0;
 }
