@@ -1,0 +1,118 @@
+﻿{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "linux-base",
+            "displayName": "Linux x64 Debug",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/build/install/${presetName}",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux x64 Debug",
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux x64 Release",
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/build/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            },
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "msvc-debug",
+            "displayName": "MSVC Debug",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "warnings": {"dev":  false}
+        },
+        {
+            "name": "msvc-release",
+            "displayName": "MSVC Release",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-linux-base",
+            "hidden": true
+        },
+        {
+          "name": "build-linux-debug",
+          "displayName": "Build Linux Debug",
+          "inherits": "build-linux-base",
+          "configurePreset": "linux-debug"
+        },
+         {
+          "name": "build-linux-release",
+          "displayName": "Build Linux Release",
+          "inherits": "build-linux-base",
+          "configurePreset": "linux-release"
+        },
+        {
+            "name": "build-msvc-base",
+            "hidden": true
+        },
+        {
+          "name": "build-msvc-release",
+          "displayName": "Build MSVC Release",
+          "inherits": "build-msvc-base",
+          "configurePreset": "msvc-release"
+        },
+        {
+          "name": "build-msvc-debug",
+          "displayName": "Build MSVC Debug",
+          "inherits": "build-msvc-base",
+          "configurePreset": "msvc-debug"
+        }
+    ],
+    "packagePresets": [
+    {
+      "name": "deb-package-release",
+      "configurePreset": "linux-release",
+      "generators": [
+        "DEB"
+      ]
+    }
+  ]
+}
