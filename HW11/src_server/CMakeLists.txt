@@ -12,7 +12,7 @@ set(TARGET_NAME join_server CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
-add_executable (${TARGET_NAME} "main.cpp")
+add_executable (${TARGET_NAME} "main.cpp" "session.h" "server.h" "session.cpp")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
 set_target_properties(${TARGET_NAME}
     PROPERTIES

@@ -51,7 +51,8 @@ int main(int argc, char* argv[])
         g_debugOut << "Client connected to 127.0.0.1 at port " << port << '\n';
         std::string input;
         while (std::getline(std::cin, input) && !exitRequested) {
-            g_debugOut << "[Sending message] "  << input << '\n';
+            input += '\n';
+            g_debugOut << "[Sending message] "  << input;
             ba::write(socket, ba::buffer(input, input.size()));
         }
 

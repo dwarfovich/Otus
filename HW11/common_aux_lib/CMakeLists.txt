@@ -1,7 +1,7 @@
 ﻿set(LIB_NAME common_aux_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-    "include/common_aux/debug_message.h" "include/common_aux/default_port.h")
+    "include/common_aux/debug_message.h" "include/common_aux/default_port.h" "include/common_aux/boost_aliases.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC "include"
