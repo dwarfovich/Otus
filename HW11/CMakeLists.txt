@@ -6,7 +6,7 @@ if (POLICY CMP0141)
 endif()
 
 option(BUILD_TESTS "BuildTests" ON)
-option(CONFIGURE_DEB_PACKAGE "Configure .deb package" OFF)
+option(CONFIGURE_DEB_PACKAGE "Configure .deb package" ON)
 
 #set(TARGET_NAME  CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
