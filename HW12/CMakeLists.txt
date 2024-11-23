@@ -24,11 +24,15 @@ project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 
 #target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options cryptopp)
 add_subdirectory(map_reduce_lib)
-add_subdirectory(map_reduce_mean)
-add_subdirectory(map_reduce_dispersion)
+add_subdirectory(map_mean)
+add_subdirectory(map_dispersion)
+add_subdirectory(reduce_mean)
+add_subdirectory(reduce_dispersion)
 
-install(TARGETS map_reduce_mean DESTINATION .)
-install(TARGETS map_reduce_dispersion DESTINATION .)
+install(TARGETS map_mean DESTINATION .)
+install(TARGETS map_dispersion DESTINATION .)
+install(TARGETS reduce_mean DESTINATION .)
+install(TARGETS reduce_dispersion DESTINATION .)
 
 set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
 
