@@ -1,4 +1,7 @@
 #include  "server.h"
+#include "request_processor.h"
+
+#include "db/database.h"
 
 #include "common_aux/port_number.h"
 #include "common_aux/debug_message.h"
@@ -13,7 +16,6 @@
 #include <memory>
 #include <unordered_set>
 
-#include "db/database.h"
 
 int main(int argc, char* argv[])
 {
@@ -23,16 +25,17 @@ int main(int argc, char* argv[])
             return -1;
         }
 
+        auto database = std::make_shared<Database>();
         const auto port = (argc == 2 ? boost::lexical_cast<PortNumber>(argv[1]) : g_defaultPort);
 
         basio::io_context ioContext;
         Server            server { ioContext, port };
+        server.setRequestProcessor(std::make_unique<RequestProcessor>(database));
         g_debugOut << "Start listening at port " << port << '\n';
         ioContext.run();
     } catch (const std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
     }
 
-    Database db;
     return 0;
 }

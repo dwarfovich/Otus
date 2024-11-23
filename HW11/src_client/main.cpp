@@ -54,10 +54,22 @@ int main(int argc, char* argv[])
             basio::write(socket, basio::buffer(input, input.size()));
             basio::streambuf buffer;
             basio::read_until(socket, buffer, boost::regex("\n"));
+            //basio::read(socket, buffer);
             std::istream iStream { &buffer };
             std::string  line;
             std::getline(iStream, line);
             std::cout << "[Response]: " << line << '\n';
+            if(line.find("OK") != std::string::npos){
+                // do nothing
+            } else if(line.size() >= 3 && line.starts_with("ERR")){
+                // do nothing
+            } else{
+                while(line != "OK"){
+                    basio::read_until(socket, buffer, boost::regex("\n"));
+                    std::getline(iStream, line);
+                    std::cout << line << '\n';
+                }
+            }
         }
     } catch (const boost::system::system_error& ex) {
         std::cout << "boost exception! " << ex.what() << std::endl;

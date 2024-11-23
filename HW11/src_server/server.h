@@ -1,6 +1,7 @@
 #pragma once
 
 #include "session.h"
+#include "request_processor.h"
 
 #include "common_aux/boost_aliases.h"
 #include "common_aux/port_number.h"
@@ -18,6 +19,15 @@ public:
         }
 
         startAccepting();
+    }
+
+    void setRequestProcessor(std::unique_ptr<RequestProcessor> processor){
+        requestProcessor_ = std::move(processor);
+    }
+
+    std::string handleInput(std::string input) const{
+        std::cout << "Handling input: " << input << '\n';
+        return requestProcessor_->process(input).value_or("");
     }
 
     void removeSession(Session* session)
@@ -52,4 +62,5 @@ private: // data
     const std::size_t  maxSessions_;
     using SessionsUset = std::unordered_set<std::unique_ptr<Session>, SessionHasher, SessionComparator>;
     SessionsUset sessions_;
+    std::unique_ptr<RequestProcessor> requestProcessor_;
 };

@@ -17,7 +17,7 @@ public:
 
 private: // methods
     void readData(const BoostErrorCode& error, size_t bytes_transferred);
-    void sendAnswer(std::size_t length);
+    void sendAnswer(std::string length);
 
 private: // data
     static inline constexpr char messageDelimiter_ = '\n';
@@ -25,7 +25,6 @@ private: // data
     TcpSocket        socket_;
     basio::streambuf buffer_;
     Server* server_ = nullptr;
-    std::string answer_;
 };
 
 struct SessionHasher

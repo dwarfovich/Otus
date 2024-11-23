@@ -27,7 +27,11 @@ void Session::readData(const BoostErrorCode& ec, size_t bytes_transferred)
         std::string  result;
         std::getline(stream, result);
         g_debugOut << result << '\n';
-        sendAnswer(result.size());
+        auto answer = server_->handleInput(std::move(result));
+        if(!answer.empty()){
+            sendAnswer(std::move(answer));
+        }
+        g_debugOut << "Session: answer sent" << '\n';
         startAsyncReadData();
     } else {
         if ((ec == basio::error::eof) || (ec == basio::error::connection_reset)) {
@@ -38,21 +42,14 @@ void Session::readData(const BoostErrorCode& ec, size_t bytes_transferred)
     }
 }
 
-void Session::sendAnswer(std::size_t length)
+void Session::sendAnswer(std::string answer)
 {
-    answer_ = "Received " + std::to_string(length) + " bytes\n";
-    // auto self { shared_from_this() };
-    basio::async_write(
-        socket_, basio::buffer(answer_, answer_.size()), [this]( BoostErrorCode ec, std::size_t /*length*/) {
-            if (!ec) {
-            }
-        });
-
-    // boost::asio::async_write(socket_,
-    //                          boost::asio::buffer(data_, length),
-    //                          [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-    //                              if (!ec) {
-    //                                  doRead();
-    //                              }
-    //                          });
+    std::cout << "Session sending answer: " << answer << '\n';
+    answer += '\n';
+    basio::write(socket_, basio::buffer(answer, answer.size()));
+    //basio::async_write(
+    //    socket_, basio::buffer(answer, answer.size()), [this]( BoostErrorCode ec, std::size_t /*length*/) {
+    //        if (!ec) {
+    //        }
+    //    });
 }
