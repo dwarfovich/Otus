@@ -5,10 +5,10 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-option(BUILD_TESTS "BuildTests" ON)
+option(BUILD_TESTS "BuildTests" OFF)
 option(CONFIGURE_DEB_PACKAGE "Configure .deb package" ON)
 
-set(TARGET_NAME map_reduce CACHE INTERNAL "Target name")
+set(TARGET_NAME map_reduce_project CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
@@ -30,10 +30,12 @@ add_subdirectory(map_reduce_dispersion)
 install(TARGETS map_reduce_mean DESTINATION .)
 install(TARGETS map_reduce_dispersion DESTINATION .)
 
+set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
+
 # .deb package.
 if(CONFIGURE_DEB_PACKAGE)
     set(CPACK_GENERATOR DEB)
-    set(CPACK_PACKAGE_NAME ${TARGET_NAME})
+    set(CPACK_PACKAGE_NAME "map_reduce")
     set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
     set(CPACK_PACKAGE_ARCHITECTURE "amd64")

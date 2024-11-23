@@ -7,7 +7,7 @@ target_include_directories(${LIB_NAME}
     PUBLIC include
     PRIVATE src include/map_reduce)
 
-target_link_libraries(${LIB_NAME} GTest::gtest_main)
+#target_link_libraries(${LIB_NAME} GTest::gtest_main)
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
 
