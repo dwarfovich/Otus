@@ -33,6 +33,8 @@ add_subdirectory(db_lib)
 add_subdirectory(src_client)
 add_subdirectory(src_server)
 
+install(TARGETS join_server DESTINATION .)
+
 # .deb package.
 if(CONFIGURE_DEB_PACKAGE)
     set(CPACK_GENERATOR DEB)
@@ -42,6 +44,8 @@ if(CONFIGURE_DEB_PACKAGE)
     set(CPACK_PACKAGE_ARCHITECTURE "amd64")
     set(CPACK_PACKAGE_CONTACT "ouncetim@gmail.com")
     set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}/deb")
+    set(CPACK_SET_DESTDIR true)
+    set(CPACK_INSTALL_PREFIX /opt/join_server)
     include(CPack)
 endif()
 
