@@ -18,7 +18,7 @@ endif()
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.74)
 include_directories(${Boost_INCLUDE_DIR})
-target_link_libraries(${LIB_NAME} Boost::thread GTest::gtest_main)
+target_link_libraries(${LIB_NAME} GTest::gtest_main)
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
