@@ -41,7 +41,7 @@ jobs:
           echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Install Boost
-        run: sudo apt install -y  libboost-all-dev 
+        run: sudo apt install -y libasio-dev
 
       - name: Checkout
         uses: actions/checkout@v4
