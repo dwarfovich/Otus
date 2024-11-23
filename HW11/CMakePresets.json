@@ -107,12 +107,19 @@
         }
     ],
     "packagePresets": [
-    {
-      "name": "deb-package-release",
-      "configurePreset": "linux-release",
-      "generators": [
-        "DEB"
-      ]
-    }
-  ]
+        {
+            "name": "deb-package-release",
+            "configurePreset": "linux-release",
+            "generators": [
+                "DEB"
+            ]
+        },
+        {
+            "name": "deb-package-debug",
+            "configurePreset": "linux-debug",
+            "generators": [
+                "DEB"
+            ]
+        }
+    ]
 }
