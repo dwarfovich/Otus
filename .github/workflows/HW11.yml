@@ -14,7 +14,7 @@ permissions:
 jobs:
   build-and-run-job:
     env:
-      target_name: bulk
+      target_name: join_server
       cmake_preset: linux-release
       cmake_build_preset: build-linux-release
       package_preset: deb-package-release
