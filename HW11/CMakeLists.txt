@@ -25,7 +25,7 @@ if(MSVC)
     add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
 endif()
 set(Boost_USE_STATIC_LIBS ON)
-#find_package(Boost 1.74 COMPONENTS thread REQUIRED)
+find_package(Boost 1.74 COMPONENTS thread REQUIRED)
 
 #target_link_libraries(${TARGET_NAME} db_lib)
 add_subdirectory(common_aux_lib)
