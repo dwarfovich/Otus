@@ -20,7 +20,8 @@ public:
         startAccepting();
     }
 
-    void removeSession(Session* session) {
+    void removeSession(Session* session)
+    {
         const auto iter = sessions_.find(session);
         sessions_.erase(iter);
     }
@@ -34,10 +35,9 @@ private: // methods
                     const auto [iter, success] = sessions_.insert(std::make_unique<Session>(std::move(socket), this));
                     if (success) {
                         (*iter)->startAsyncReadData();
-                    } else {
-                        g_debugOut
-                            << "Refusing to establish incomming connection due maximum sessions already reached.\n";
                     }
+                } else {
+                    g_debugOut << "Refusing to establish incomming connection due maximum sessions already reached.\n";
                 }
             } else {
                 g_debugOut << "Failed to accept connection. Error: " + ec.message();

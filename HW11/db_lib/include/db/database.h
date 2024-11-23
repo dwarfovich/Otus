@@ -1,6 +1,7 @@
 #pragma once
 
 #include "database_error.h"
+#include "algebraic_result.h"
 
 #include <string>
 #include <unordered_map>
@@ -37,6 +38,19 @@ public:
         table->clear();
 
         return {};
+    }
+
+    AlgebraicResult intersection() const{
+        AlgebraicResult result;
+        result.type_ = AlgebraicResultType::Intersection;
+        for (const auto& [id, value] : table1_){
+            const auto iter = table2_.find(id);
+            if(iter != table2_.cend()){
+                result.data_.insert({id, {value, iter->second}});
+            }
+        }
+
+        return result;
     }
 
 private: // methods
