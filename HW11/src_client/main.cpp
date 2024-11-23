@@ -63,7 +63,9 @@ int main(int argc, char* argv[])
                 // do nothing
             } else if(line.size() >= 3 && line.starts_with("ERR")){
                 // do nothing
-            } else{
+            } else if (line.size() >= 5 && line.starts_with("Error")) {
+                // do nothing
+            } else {
                 while(line != "OK"){
                     basio::read_until(socket, buffer, boost::regex("\n"));
                     std::getline(iStream, line);

@@ -31,7 +31,6 @@ void Session::readData(const BoostErrorCode& ec, size_t bytes_transferred)
         if(!answer.empty()){
             sendAnswer(std::move(answer));
         }
-        g_debugOut << "Session: answer sent" << '\n';
         startAsyncReadData();
     } else {
         if ((ec == basio::error::eof) || (ec == basio::error::connection_reset)) {
@@ -44,12 +43,6 @@ void Session::readData(const BoostErrorCode& ec, size_t bytes_transferred)
 
 void Session::sendAnswer(std::string answer)
 {
-    std::cout << "Session sending answer: " << answer << '\n';
     answer += '\n';
     basio::write(socket_, basio::buffer(answer, answer.size()));
-    //basio::async_write(
-    //    socket_, basio::buffer(answer, answer.size()), [this]( BoostErrorCode ec, std::size_t /*length*/) {
-    //        if (!ec) {
-    //        }
-    //    });
 }

@@ -26,8 +26,7 @@ public:
     }
 
     std::string handleInput(std::string input) const{
-        std::cout << "Handling input: " << input << '\n';
-        return requestProcessor_->process(input).value_or("");
+        return requestProcessor_->process(input).value_or("Error: bad command - " + input + '\n');
     }
 
     void removeSession(Session* session)

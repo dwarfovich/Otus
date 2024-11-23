@@ -23,7 +23,6 @@ public:
         }
 
         auto result = request->applyToDatabase(*db_);
-        std::cout << "RequestProcessor: forming answer";
         return formAnswerString(std::move(result));
     }
 
