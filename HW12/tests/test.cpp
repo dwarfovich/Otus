@@ -1,5 +1,6 @@
 #include "map_reduce/data_extractor.h"
 #include "map_reduce/map_functions.h"
+#include "map_reduce/reduce_functions.h"
 
 #include <gtest/gtest.h>
 
@@ -101,4 +102,19 @@ TEST(MapFunctions, AddToVarOverflow)
     sum = std::numeric_limits<std::size_t>::max() - 1;
     ASSERT_FALSE(addToVar(10, sum));
     ASSERT_EQ(sum, std::numeric_limits<std::size_t>::max() - 1);
+}
+
+TEST(ReduceFuncitons, SafelyIncrementDouble)
+{
+    ASSERT_TRUE(canSafelyIncrementDouble(std::numeric_limits<double>::lowest()));
+    ASSERT_TRUE(canSafelyIncrementDouble(std::numeric_limits<double>::min()));
+    ASSERT_TRUE(canSafelyIncrementDouble(-1.));
+    ASSERT_TRUE(canSafelyIncrementDouble(0.));
+    ASSERT_TRUE(canSafelyIncrementDouble(1.));
+}
+
+TEST(ReduceFuncitons, CannotSafelyIncrementDouble)
+{
+    ASSERT_FALSE(canSafelyIncrementDouble(std::numeric_limits<double>::infinity()));
+    ASSERT_FALSE(canSafelyIncrementDouble(std::numeric_limits<double>::max()));
 }
