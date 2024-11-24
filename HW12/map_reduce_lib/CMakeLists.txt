@@ -1,7 +1,7 @@
 ﻿set(LIB_NAME map_reduce_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-    "include/map_reduce/data_extractor.h")
+    "include/map_reduce/data_extractor.h" )
 
 target_include_directories(${LIB_NAME}
     PUBLIC include

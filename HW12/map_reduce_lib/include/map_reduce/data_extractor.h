@@ -4,7 +4,7 @@
 #include <string>
 #include <optional>
 
-inline static constexpr int targetCommaNumber = 9;
+inline static constexpr int priceValueNumber = 9;
 
 inline std::optional<std::size_t> extractUll(const std::string& input, unsigned number)
 {
@@ -13,7 +13,7 @@ inline std::optional<std::size_t> extractUll(const std::string& input, unsigned 
     }
 
     std::size_t pos = 0;
-    for (int i = 0; i < number && pos != std::string::npos; ++i) {
+    for (unsigned i = 0; i < number && pos != std::string::npos; ++i) {
         pos = input.find(',', pos + 1);
     }
 
