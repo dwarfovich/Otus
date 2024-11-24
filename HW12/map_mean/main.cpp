@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     std::string line;
     std::size_t sum         = 0;
     std::size_t lineCounter = 0;
-    while (std::getline(std::cin, line) && ++lineCounter < 10) {
+    while (std::getline(std::cin, line)) {
         const auto price = extractUll(line, targetColumnNumber);
         if (!price.has_value()) {
             std::cerr << "Unable to extract price from line " << lineCounter << '\n';
