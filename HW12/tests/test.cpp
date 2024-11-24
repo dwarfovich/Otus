@@ -1,6 +1,9 @@
 #include "map_reduce/data_extractor.h"
+#include "map_reduce/map_functions.h"
 
 #include <gtest/gtest.h>
+
+#include <limits>
 
 TEST(ExtractUll, EmptyString)
 {
@@ -72,4 +75,30 @@ TEST(ExtractUll, ThreeValuesWithText)
 
     result = extractUll("abc def,2, 333333", 2);
     ASSERT_EQ(result.value(), 333333);
+}
+
+TEST(MapFunctions, AddToVarSuccess)
+{
+    std::size_t sum = 0;
+
+    ASSERT_TRUE(addToVar(1, sum));
+    ASSERT_EQ(sum, 1);
+
+    ASSERT_TRUE(addToVar(2, sum));
+    ASSERT_EQ(sum, 3);
+
+    ASSERT_TRUE(addToVar(0, sum));
+    ASSERT_EQ(sum, 3);
+}
+
+TEST(MapFunctions, AddToVarOverflow)
+{
+    std::size_t sum = std::numeric_limits<std::size_t>::max();
+
+    ASSERT_FALSE(addToVar(1, sum));
+    ASSERT_EQ(sum, std::numeric_limits<std::size_t>::max());
+
+    sum = std::numeric_limits<std::size_t>::max() - 1;
+    ASSERT_FALSE(addToVar(10, sum));
+    ASSERT_EQ(sum, std::numeric_limits<std::size_t>::max() - 1);
 }
