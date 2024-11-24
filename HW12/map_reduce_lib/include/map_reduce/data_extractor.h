@@ -4,7 +4,7 @@
 #include <string>
 #include <optional>
 
-inline static constexpr int priceValueNumber = 9;
+inline static constexpr unsigned priceColumnNumber = 9;
 
 inline std::optional<std::size_t> extractUll(const std::string& input, unsigned number)
 {
