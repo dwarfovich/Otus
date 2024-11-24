@@ -5,7 +5,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-option(BUILD_TESTS "BuildTests" OFF)
+option(BUILD_TESTS "BuildTests" ON)
 option(CONFIGURE_DEB_PACKAGE "Configure .deb package" ON)
 
 set(TARGET_NAME map_reduce_project CACHE INTERNAL "Target name")
