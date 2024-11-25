@@ -29,7 +29,7 @@ TEST(ExtractUll, SingleValue)
     auto result = extractUll("1", 0);
     ASSERT_EQ(result.value(), 1);
 
-        result = extractUll("123", 0);
+    result = extractUll("123", 0);
     ASSERT_EQ(result.value(), 123);
 }
 
@@ -38,7 +38,7 @@ TEST(ExtractUll, SingleValueWrongIndex)
     auto result = extractUll("1", 1);
     ASSERT_FALSE(result.has_value());
 
-        result = extractUll("123", 1);
+    result = extractUll("123", 1);
     ASSERT_FALSE(result.has_value());
 }
 
@@ -104,7 +104,7 @@ TEST(MapFunctions, AddToVarOverflow)
     ASSERT_EQ(sum, std::numeric_limits<std::size_t>::max() - 1);
 }
 
-TEST(ReduceFuncitons, SafelyIncrementDouble)
+TEST(ReduceFunctions, SafelyIncrementDouble)
 {
     ASSERT_TRUE(canSafelyIncrementDouble(std::numeric_limits<double>::lowest()));
     ASSERT_TRUE(canSafelyIncrementDouble(std::numeric_limits<double>::min()));
@@ -113,8 +113,30 @@ TEST(ReduceFuncitons, SafelyIncrementDouble)
     ASSERT_TRUE(canSafelyIncrementDouble(1.));
 }
 
-TEST(ReduceFuncitons, CannotSafelyIncrementDouble)
+TEST(ReduceFunctions, CannotSafelyIncrementDouble)
 {
     ASSERT_FALSE(canSafelyIncrementDouble(std::numeric_limits<double>::infinity()));
     ASSERT_FALSE(canSafelyIncrementDouble(std::numeric_limits<double>::max()));
+}
+
+TEST(ReduceFunctions, CalculateDispersionWithError)
+{
+    double dispersion = 0;
+    ASSERT_FALSE(calculateDispersion(0., 0, 1, dispersion));
+    ASSERT_FALSE(calculateDispersion(0., 23, 45, dispersion));
+}
+
+TEST(ReduceFunctions, CalculateDispersionSanityCheck)
+{
+    constexpr double epsilon = 0.001;
+
+    double dispersion = 0;
+    ASSERT_TRUE(calculateDispersion(1., 1, 1, dispersion));
+    ASSERT_NEAR(dispersion, 0, epsilon);
+
+    ASSERT_TRUE(calculateDispersion(2., 3, 5, dispersion));
+    ASSERT_NEAR(dispersion, 0.250, epsilon);
+
+    ASSERT_TRUE(calculateDispersion(3., 6, 14, dispersion));
+    ASSERT_NEAR(dispersion, 0.667, epsilon);
 }
