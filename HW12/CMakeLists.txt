@@ -33,6 +33,8 @@ install(TARGETS map_mean DESTINATION .)
 install(TARGETS map_dispersion DESTINATION .)
 install(TARGETS reduce_mean DESTINATION .)
 install(TARGETS reduce_dispersion DESTINATION .)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/source_data/AB_NYC_2019.csv DESTINATION .)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/run_scripts/run_locally.sh DESTINATION .)
 
 set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
 
