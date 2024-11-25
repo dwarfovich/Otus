@@ -1,20 +1,13 @@
 #! /bin/bash
 
-: '
-set MapMeanPath="../build/msvc-debug/bin/map_mean.exe"
-set ReduceMeanPath="../build/msvc-debug/bin/reduce_mean.exe"
-set SourceDataFolderPath="../source_data/test_data"
-set ResultsFolderPath="../results/tests"
-'
-
-MapMeanPath="../build/linux-debug/bin/map_mean.exe"
-ReduceMeanPath="../build/linux-debug/bin/reduce_mean.exe"
+MapMeanPath="../build/linux-debug/bin/map_mean"
+ReduceMeanPath="../build/linux-debug/bin/reduce_mean"
 SourceDataFolderPath="../source_data/test_data"
 ResultsFolderPath="../results/tests"
 
-# if not exist %ResultsFolderPath% mkdir %ResultsFolderPath%
-
-for %%f in (%SourceDataFolderPath%/*.txt) do (
-  %MapMeanPath% 0 < %SourceDataFolderPath%/%%f | %ReduceMeanPath% > %ResultsFolderPath%/m_result_%%f
-)
+mkdir -p $ResultsFolderPath
+for filePath in $SourceDataFolderPath/*; do
+	filename=$(basename ${filePath})
+	$MapMeanPath 0 < $filePath | $ReduceMeanPath > $ResultsFolderPath/m_result_$filename
+done
 
