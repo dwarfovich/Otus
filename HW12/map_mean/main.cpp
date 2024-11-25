@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[])
 {
-    char*          argumentEnd      = nullptr;
+    char*          argumentEnd        = nullptr;
     const unsigned targetColumnNumber = (argc == 2 ? std::strtoul(argv[1], &argumentEnd, 10) : priceColumnNumber);
     if (errno == ERANGE) {
         std::cerr << "Unable to parse argument\n";
@@ -23,10 +23,11 @@ int main(int argc, char* argv[])
             std::cerr << "Unable to extract price from line " << lineCounter << '\n';
         } else {
             bool success = addToVar(price.value(), sum);
+            ++lineCounter;
             if (success) {
                 std::cout << sum << '\n';
             } else {
-                std::cerr << "Maximum sum reached - exiting\n";
+                std::cerr << "Maximum sum reached at line " << lineCounter << " - exiting\n";
                 return -1;
             }
         }
