@@ -17,23 +17,24 @@ int main(int argc, char* argv[])
     std::string line;
     std::size_t sum         = 0;
     std::size_t sumSquared         = 0;
-    std::size_t lineCounter = 0;
+    std::size_t lineCounter = 1;
     while (std::getline(std::cin, line)) {
         const auto price = extractUll(line, targetColumnNumber);
         if (!price.has_value()) {
             std::cerr << "Unable to extract price from line " << lineCounter << '\n';
         } else {
             bool success = addToVar(price.value(), sum);
+            ++lineCounter;
             if (success) {
                 success = addToVar(price.value() * price.value(), sumSquared);
                 if (success) {
                     std::cout << sum << ' ' << sumSquared << '\n';
                 } else {
-                    std::cerr << "Maximum sum reached - exiting\n";
+                    std::cerr << "Maximum sum reached at line " << lineCounter << " - exiting\n";
                     return -1;
                 }
             } else {
-                std::cerr << "Maximum sum reached - exiting\n";
+                std::cerr << "Maximum sum reached at line " << lineCounter << " - exiting\n";
                 return -1;
             }
         }

@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     std::string line;
     std::size_t sum         = 0;
-    std::size_t lineCounter = 0;
+    std::size_t lineCounter = 1;
     while (std::getline(std::cin, line)) {
         const auto price = extractUll(line, targetColumnNumber);
         if (!price.has_value()) {

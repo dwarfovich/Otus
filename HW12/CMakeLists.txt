@@ -12,17 +12,7 @@ set(TARGET_NAME map_reduce_project CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
-#add_executable (${TARGET_NAME} "src/main.cpp")
 
-#set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
-#set_target_properties(${TARGET_NAME}
-#    PROPERTIES
-#    ARCHIVE_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib"
-#    LIBRARY_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/lib"
-#    RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
-#)
-
-#target_link_libraries(${TARGET_NAME} duplicate_finder_lib Boost::program_options cryptopp)
 add_subdirectory(map_reduce_lib)
 add_subdirectory(map_mean)
 add_subdirectory(map_dispersion)
