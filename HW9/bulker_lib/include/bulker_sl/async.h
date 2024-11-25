@@ -1,7 +1,8 @@
 #pragma once
 
-#include <cstddef>
 #include "bulker_sl/command_executor_context.h"
+
+#include <cstddef>
 #include <unordered_set>
 
 #ifdef DLL_EXPORT
@@ -14,11 +15,11 @@ namespace async {
 
 using handle_t = void*;
 
-class PROJECT_API ContextDispatcher
+class ContextDispatcher
 {
-    friend PROJECT_API handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
-    friend PROJECT_API void receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
-    friend PROJECT_API void disconnect(handle_t handle, ContextDispatcher& dispatcher);
+    friend handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
+    friend void receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
+    friend void disconnect(handle_t handle, ContextDispatcher& dispatcher);
 
 public:
     ContextDispatcher() = default;
@@ -66,8 +67,8 @@ private:
      std::mutex mutex_;
 };
 
-PROJECT_API handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
-PROJECT_API void     receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
-PROJECT_API void     disconnect(handle_t handle, ContextDispatcher& dispatcher);
+handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
+void     receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
+void     disconnect(handle_t handle, ContextDispatcher& dispatcher);
 
 } // namespace async

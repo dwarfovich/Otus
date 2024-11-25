@@ -44,7 +44,7 @@ endif()
 #set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.74 COMPONENTS thread REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-target_link_libraries(${LIB_NAME} Boost::thread)
+#target_link_libraries(${LIB_NAME} Boost::thread)
 
 if(MSVC)
   # Force to always compile with W4
