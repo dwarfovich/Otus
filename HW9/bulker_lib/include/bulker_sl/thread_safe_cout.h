@@ -20,7 +20,7 @@ public:
 private:
     int overflow(int c) override
     {
-        putCharToCout(c);
+        putCharToCout(static_cast<char>(c));
         return 0;
     }
 

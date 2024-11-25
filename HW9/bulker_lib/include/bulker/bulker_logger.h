@@ -7,6 +7,8 @@
 #include <fstream>
 #include <functional>
 #include <sstream>
+#include <thread>
+#include <iostream>
 
 class BulkerLogger : public Logger
 {
@@ -16,7 +18,7 @@ public:
     {
     }
 
-    ~BulkerLogger()
+    ~BulkerLogger() override
     {
         underlyingFileStream_.flush();
         underlyingFileStream_.close();
@@ -25,16 +27,17 @@ public:
     void log(const std::string& message) override
     {
         buffer_ << message;
-        /*stream_ << message;
-        fileStream_.get() << message;
-        fileStream_.get().flush();*/
+            fileStream_.get() << message;
+            fileStream_.get().flush();
     }
 
-    virtual void flush() {
+    virtual void flush()
+    {
         stream_ << buffer_.str();
-        fileStream_.get() << buffer_.str();
-        fileStream_.get().flush();
-        buffer_.str(std::string());
+        if(logToFile_){
+            underlyingFileStream_ << buffer_.str();
+        }
+        buffer_.str("");
     }
 
     virtual void enableLogToFile() { logToFile_ = true; }
@@ -53,5 +56,5 @@ protected:
     std::reference_wrapper<std::ostream> fileStream_;
     std::ofstream                        underlyingFileStream_;
     bool                                 logToFile_ = false;
-    std::stringstream buffer_;
+    std::stringstream                    buffer_;
 };

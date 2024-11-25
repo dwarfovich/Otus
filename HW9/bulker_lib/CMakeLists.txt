@@ -30,7 +30,7 @@ target_include_directories(${LIB_NAME}
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
 
-if(MSVC)
+if (WIN32)
     add_definitions(-DDLL_EXPORT)
 endif()
 
