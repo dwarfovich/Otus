@@ -17,7 +17,7 @@ using handle_t = void*;
 
 class ContextDispatcher
 {
-    friend handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
+    friend handle_t connect(std::size_t bulk, std::ostream& stream, ContextDispatcher& dispatcher);
     friend void receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
     friend void disconnect(handle_t handle, ContextDispatcher& dispatcher);
 
@@ -32,10 +32,10 @@ public:
     }
 
 private:
-    handle_t createContext(std::size_t staticBlockSize)
+    handle_t createContext(std::size_t staticBlockSize, std::ostream& stream)
     {
         std::lock_guard lock { mutex_ };
-        auto            context              = new CommandExecutorContext(staticBlockSize);
+        auto            context              = new CommandExecutorContext(staticBlockSize, stream);
         const auto [iter, insertionHappened] = contexts_.insert(std::move(context));
         if (insertionHappened) {
             return context;
@@ -67,7 +67,7 @@ private:
      std::mutex mutex_;
 };
 
-handle_t connect(std::size_t bulk, ContextDispatcher& dispatcher);
+handle_t connect(std::size_t bulk, std::ostream& stream, ContextDispatcher& dispatcher);
 void     receive(handle_t handle, const char* data, std::size_t size, ContextDispatcher& dispatcher);
 void     disconnect(handle_t handle, ContextDispatcher& dispatcher);
 

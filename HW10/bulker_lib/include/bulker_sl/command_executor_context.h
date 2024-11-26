@@ -7,8 +7,8 @@
 class CommandExecutorContext
 {
 public:
-    CommandExecutorContext(std::size_t staticBlockSize)
-        : logger_ { std::make_shared<ThreadedBulkerLogger>() }
+    CommandExecutorContext(std::size_t staticBlockSize, std::ostream& stream)
+        : logger_ { std::make_shared<ThreadedBulkerLogger>(stream) }
         , executor_ { dummyStream_, logger_ }
         , parser_ { staticBlockSize }
     {
@@ -25,7 +25,8 @@ public:
 public:
     std::shared_ptr<ThreadedBulkerLogger> logger_ = nullptr;
     BulkerCommandExecutor                 executor_;
-    DummyStream                           dummyStream_;
+  DummyStream                           dummyStream_;
+    //std::ostream& stream_;
     BulkerCommandParser                   parser_;
     std::stringstream sstream_;
 

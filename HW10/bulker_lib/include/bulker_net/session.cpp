@@ -27,10 +27,12 @@ void Session::readData(const BoostErrorCode& ec, size_t bytes_transferred)
         std::string  result;
         std::getline(stream, result);
         g_debugOut << result << '\n';
-        auto answer = server_->handleInput(std::move(result));
-        if(!answer.empty()){
-            sendAnswer(std::move(answer));
-        }
+        auto answer = server_->handleInput(handle_, std::move(result));
+        //if(!answer.empty()){
+            sendAnswer(answerStream_.str());
+        answerStream_.clear();
+        answerStream_.str("");
+        //}
         startAsyncReadData();
     } else {
         if ((ec == basio::error::eof) || (ec == basio::error::connection_reset)) {

@@ -11,10 +11,10 @@ namespace async {
 
 static std::mutex globalMutex;
 
-handle_t connect(std::size_t bulk, ContextDispatcher& contextDispatcher)
+handle_t connect(std::size_t bulk, std::ostream& stream, ContextDispatcher& contextDispatcher)
 {
     std::lock_guard lock { globalMutex };
-    return contextDispatcher.createContext(bulk);
+    return contextDispatcher.createContext(bulk, stream);
 }
 
 void receive(handle_t handle, const char* data, std::size_t /*reserved*/, ContextDispatcher& contextDispatcher)

@@ -9,11 +9,13 @@
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/use_future.hpp>
 
+#include <iostream>
+
 class ThreadedBulkerLogger : public BulkerLogger
 {
 public:
-    ThreadedBulkerLogger()
-        : BulkerLogger { std::cout, std::ref(dummyStream_) }
+    ThreadedBulkerLogger(std::ostream& stream)
+        : BulkerLogger { stream, std::ref(dummyStream_) }
         , fileLogger1_ { dummyStream_, std::ref(fileStream1_) }
         , fileLogger2_ { dummyStream_, std::ref(fileStream2_) }
         , currentLogger_ { &fileLogger1_ }
@@ -80,5 +82,6 @@ public: // data
     std::mutex               switchingMutex_;
     std::ofstream            fileStream1_;
     std::ofstream            fileStream2_;
+    //std::ostream& stream_;
     // std::mutex coutMutex_;
 };

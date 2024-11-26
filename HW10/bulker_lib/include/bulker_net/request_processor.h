@@ -1,5 +1,8 @@
 #pragma once
 
+// #include "bulker_sl/command_executor_context.h"
+#include "bulker_sl/async.h"
+
 #include <string>
 #include <memory>
 #include <optional>
@@ -7,55 +10,23 @@
 class RequestProcessor
 {
 public:
-    std::optional<std::string> process(const std::string& requestString)
-    {
-    /*    auto request = requestFactory_.create(requestString);
-        if (!request) {
-            return {};
-        }
+    RequestProcessor(std::size_t staticBlockSize) : staticBlockSize_ { staticBlockSize } {}
 
-        auto result = request->applyToDatabase(*db_);
-        return formAnswerString(std::move(result));*/
+    async::handle_t createContext(std::ostream& stream) { return async::connect(staticBlockSize_, stream,  contextDispatcher_); }
+    void            removeContext(async::handle_t handle){ async::disconnect(handle, contextDispatcher_);
+    }
+
+    std::optional<std::string> process(async::handle_t handle, const std::string& requestString)
+    {
+        async::receive(handle, requestString.c_str(), 0, contextDispatcher_);
+
         return {};
     }
 
 private: // methods
-    std::optional<std::string> formAnswerString()
-    {
-        /*if (result.error()) {
-            return formErrorString(result);
-        } else {
-            return formPositiveAnswerString(result);
-        }*/
-        return {};
-    }
-
-    std::string formPositiveAnswerString() {
-        /*std::string answer;
-        for(const auto& [id, values] : result){
-            answer += std::to_string(id);
-            for (const auto& value : values){
-                answer += ',';
-                answer += value;
-            }
-            answer += '\n';
-        }
-        answer += "OK";
-
-        return answer;*/
-        return {};
-    }
-
-    std::string formErrorString()
-    {
-        /*std::string answer = "ERR " + toString(result.error().value());
-        if (result.error().value() == DatabaseError::ValueAlreadyExists) {
-            answer += ' ';
-            answer += std::to_string(result.errorData());
-        }
-        return answer;*/
-        return {};
-    }
+    
 
 private: // data
+    std::size_t              staticBlockSize_ = 1;
+    mutable async::ContextDispatcher contextDispatcher_;
 };

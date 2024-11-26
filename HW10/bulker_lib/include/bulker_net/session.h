@@ -1,7 +1,10 @@
 #pragma once
 
 #include "boost_aliases.h"
+//#include "async.h"
 //#include "debug_message.h"
+
+#include "bulker_sl/async.h"
 
 #include <boost/bind/bind.hpp>
 
@@ -14,7 +17,13 @@ public:
     ~Session();
 
     void startAsyncReadData();
-
+    void setHandle(async::handle_t handle){
+        handle_ = handle;
+    }
+    async::handle_t handle() const {return handle_;}
+    std::stringstream& answerStream(){
+        return answerStream_;
+    }
 private: // methods
     void readData(const BoostErrorCode& error, size_t bytes_transferred);
     void sendAnswer(std::string length);
@@ -25,6 +34,8 @@ private: // data
     TcpSocket        socket_;
     basio::streambuf buffer_;
     Server* server_ = nullptr;
+    async::handle_t handle_;
+    std::stringstream answerStream_;
 };
 
 struct SessionHasher
