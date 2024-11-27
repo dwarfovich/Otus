@@ -1,7 +1,7 @@
 ﻿set(LIB_NAME sokoban_core_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-     "include/sokoban_core/test.h")
+      "include/sokoban_core/game_object_id.h")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include

@@ -1,10 +1,10 @@
-#include "sokoban_core/test.h"
+#include "sokoban_core/tile.hpp"
 
 #include <iostream>
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Got value: " << testFunction() << '\n';
+    sokoban::Tile tile;
 
    return 0;
 }
