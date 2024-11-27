@@ -16,6 +16,9 @@ project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 add_subdirectory(lib_sokoban_core)
 add_subdirectory(sokoban_driver)
 
+include_directories(${PROJECT_SOURCE_DIR}/submodules/json/include/)
+add_subdirectory(${PROJECT_SOURCE_DIR}/submodules/json/ NlohmannJson)
+include_directories(${PROJECT_SOURCE_DIR}/submodules/json/include/)
 #add_custom_command(
 #    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/
 #    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sokoban_base_data/ ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/

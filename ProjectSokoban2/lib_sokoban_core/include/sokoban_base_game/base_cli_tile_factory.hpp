@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../sokoban_core/tile_factory.hpp"
+#include "../json_utils/json_utils.hpp"
 
 #include <filesystem>
 #include <unordered_map>
@@ -19,7 +20,7 @@ public:
 
 private: // methods
     void initializeFromJson(const std::filesystem::path& path){
-
+        auto json = json_utils::loadFromFile(path);
     }
 
 private: // data

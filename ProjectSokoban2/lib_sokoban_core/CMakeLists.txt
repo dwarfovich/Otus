@@ -24,6 +24,10 @@ target_link_libraries(${LIB_NAME} Boost::thread )
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
 
+#add_subdirectory(${PROJECT_SOURCE_DIR}/submodules/json/ NlohmannJson)
+include_directories(${PROJECT_SOURCE_DIR}/include/)
+target_include_directories(${LIB_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/submodules/json/single_include/)
+
 if(MSVC)
   # Force to always compile with W4
   if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
