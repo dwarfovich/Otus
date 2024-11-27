@@ -10,7 +10,7 @@ class GameObject{
 public:
 
     private:
-        std::shared_ptr<GameObjectId> id_ = nullptr;
+        std::shared_ptr<GameObjectId> id_ = nullptr; 
 };
   
 using GameObjectSptr = std::shared_ptr<GameObject>;

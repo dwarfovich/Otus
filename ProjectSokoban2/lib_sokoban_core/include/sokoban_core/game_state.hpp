@@ -2,7 +2,7 @@
 
 #include <cinttypes>
 
-namespace sokoban{
+namespace sokoban {
 
     enum class GameState : uint8_t {
         InProgress,

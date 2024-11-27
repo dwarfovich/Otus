@@ -1,11 +1,12 @@
 ﻿set(LIB_NAME sokoban_core_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-      "include/sokoban_core/game_object_id.h")
+      "include/sokoban_core/game_object_id.h" "include/sokoban_core/game_action.hpp" "include/sokoban_core/default_paths.hpp")
 
 target_include_directories(${LIB_NAME}
     PUBLIC include
-    PRIVATE src include/sokoban_core)
+    PRIVATE src include/sokoban_core include/sokoban_base_game)
+
 
 if (POLICY CMP0167 )
   cmake_policy(SET CMP0167  NEW)
@@ -17,7 +18,8 @@ endif()
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.74 COMPONENTS thread REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-target_link_libraries(${LIB_NAME} Boost::thread)
+
+target_link_libraries(${LIB_NAME} Boost::thread )
 
 set_target_properties(${LIB_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)

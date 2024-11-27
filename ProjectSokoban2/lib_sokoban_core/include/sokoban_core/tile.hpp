@@ -1,5 +1,6 @@
 #pragma once
 
+#include "tile_id.hpp"
 #include "game_object.hpp"
 
 #include <vector>
@@ -12,13 +13,18 @@ class Tile
 private: // types
     using ObjectsContainer = std::vector<GameObjectSptr>;
 
-public:
+public: // types
     using Iterator = ObjectsContainer::iterator;
+
+    public: // methods
+    Tile(const std::shared_ptr<TileId>& id) : id_{id}{
+    }
 
     Iterator begin() { return objects_.begin(); }
     Iterator end() { return objects_.end(); }
 
 private: // data
+    std::shared_ptr<TileId> id_;
     std::vector<GameObjectSptr> objects_;
 };
 

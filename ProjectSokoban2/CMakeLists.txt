@@ -13,8 +13,26 @@ set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 
-add_subdirectory(sokoban_core_lib)
+add_subdirectory(lib_sokoban_core)
 add_subdirectory(sokoban_driver)
+
+#add_custom_command(
+#    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sokoban_base_data/ ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/
+#    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/sokoban_base_data/)
+
+add_custom_command(
+    OUTPUT
+        ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/tiles_id.json
+    DEPENDS
+        ${CMAKE_CURRENT_SOURCE_DIR}/sokoban_base_data/tiles_id.json
+    COMMAND
+        ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/sokoban_base_data/tiles_id.json
+        ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/tiles_id.json
+)
+add_custom_target(copy DEPENDS  ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/tiles_id.json)
+#add_custom_target(${TARGET_NAME} DEPENDS  ${CMAKE_CURRENT_BINARY_DIR}/Addons/Core/tiles_id.json)
 
 # .deb package.
 if(CONFIGURE_DEB_PACKAGE)

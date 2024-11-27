@@ -7,9 +7,10 @@
 namespace sokoban {
 
     class TileFactory{
+    public:
         virtual ~TileFactory() = default;
 
-        virtual TileUptr create() = 0;
+        virtual TileUptr create() const = 0;
     };
 
 }
