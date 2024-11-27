@@ -1,3 +1,6 @@
 [submodule "HW8/submodules/CryptoPP-CMake"]
 	path = HW8/submodules/CryptoPP-CMake
 	url = https://github.com/abdes/cryptopp-cmake
+[submodule "ProjectSokoban2/submodules/json"]
+	path = ProjectSokoban2/submodules/json
+	url = git@github.com:nlohmann/json.git
