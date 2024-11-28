@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game_object_id.h"
+#include "game_object_id.hpp"
 
 #include <memory>
 

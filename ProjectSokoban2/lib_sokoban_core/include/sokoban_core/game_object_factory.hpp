@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game_object_id.h"
+#include "game_object_id.hpp"
 #include "game_object.hpp"
 
 namespace sokoban {
@@ -15,4 +15,4 @@ public:
 private:
 };
 
-} // namespace sc
+} // namespace sokoban
