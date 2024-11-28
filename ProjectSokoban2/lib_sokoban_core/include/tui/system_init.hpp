@@ -23,7 +23,7 @@ struct System
         if (instance().initialized_) {
             return true;
         }
-        //AllocConsole();
+        
         instance().stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         instance().stdIn  = GetStdHandle(STD_INPUT_HANDLE);
         std::cout << instance().stdOut << " "

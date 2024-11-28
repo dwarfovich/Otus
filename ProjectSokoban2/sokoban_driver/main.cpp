@@ -1,11 +1,18 @@
 #include "sokoban_base_game/base_context_factory.hpp"
 #include "sokoban_core/game_state.hpp"
+#include "sokoban_core/new_game_parameters.hpp"
 #include "tui/system_init.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"
 #include "tui/keyboard.hpp"
+#include "tui/key_definitions_win.hpp"
 
 #include <iostream>
+
+void startGame(const sokoban::NewGameParameters& parameters)
+{
+    auto sessionContext = 
+}
 
 int main(int argc, char* argv[])
 {
@@ -14,14 +21,24 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    sokoban::NewGameParameters newGameParameters;
+    newGameParameters.modFolder = "Core";
+
     sokoban::tui::MenuCollection menus;
     sokoban::tui::printMenu(menus.mainMenu);
     while(true){
-        char c = sokoban::tui::waitForInput();
-        if (c == 0){
+        sokoban::tui::Key c = sokoban::tui::waitForInput();
+        if (c == sokoban::tui::Key::esc) {
             return 0;
         }
-        std::cout << int(c) << ' ' << c << '\n';
+        switch (c) {
+            case sokoban::tui::Key::digit1: startGame(newGameParameters); break;
+            case sokoban::tui::Key::digit2: break;
+            case sokoban::tui::Key::digit3: break;
+            case sokoban::tui::Key::digit4: break;
+            case sokoban::tui::Key::digit5: break;
+            default: break;
+        }
     }
 
     return 0;
