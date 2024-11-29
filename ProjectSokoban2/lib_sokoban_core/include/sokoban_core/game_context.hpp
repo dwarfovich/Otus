@@ -16,7 +16,7 @@ public:
 private:
     std::unique_ptr<GameObjectFactory> objectFactory_ = nullptr;
     std::unique_ptr<TileFactory>       tileFactory_   = nullptr;
-    std::unique_ptr<GameAction>       actionFactory_   = nullptr;
+    //std::unique_ptr<GameAction>       actionFactory_   = nullptr;
 };
 
 } // namespace sc

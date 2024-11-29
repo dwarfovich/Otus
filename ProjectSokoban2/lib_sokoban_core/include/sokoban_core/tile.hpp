@@ -17,6 +17,8 @@ public: // types
     using Iterator = ObjectsContainer::iterator;
 
     public: // methods
+    Tile(std::vector<GameObjectSptr> objects) : objects_ { objects } {}
+
     Tile(const std::shared_ptr<TileId>& id) : id_{id}{
     }
 

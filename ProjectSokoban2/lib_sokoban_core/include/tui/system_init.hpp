@@ -26,8 +26,6 @@ struct System
         
         instance().stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         instance().stdIn  = GetStdHandle(STD_INPUT_HANDLE);
-        std::cout << instance().stdOut << " "
-                  << instance().stdIn << '\n';  
         if (instance().stdOut == 0 || instance().stdOut == INVALID_HANDLE_VALUE || instance().stdIn == 0
             || instance().stdIn == INVALID_HANDLE_VALUE) {
             return false;

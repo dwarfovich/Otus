@@ -1,4 +1,5 @@
 #include "sokoban_base_game/base_context_factory.hpp"
+#include "sokoban_base_game/base_session_context.hpp"
 #include "sokoban_core/game_state.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
 #include "tui/system_init.hpp"
@@ -11,7 +12,8 @@
 
 void startGame(const sokoban::NewGameParameters& parameters)
 {
-    auto sessionContext = 
+    sokoban::sbg::BaseSessionContext sessionContext;
+    sessionContext.loadLevel(parameters.modFolder / "level1.json");
 }
 
 int main(int argc, char* argv[])
@@ -22,12 +24,13 @@ int main(int argc, char* argv[])
     }
 
     sokoban::NewGameParameters newGameParameters;
-    newGameParameters.modFolder = "Core";
+    newGameParameters.modFolder = sokoban::default_paths::addonsFolder/ "Core";
 
     sokoban::tui::MenuCollection menus;
     sokoban::tui::printMenu(menus.mainMenu);
     while(true){
-        sokoban::tui::Key c = sokoban::tui::waitForInput();
+        //sokoban::tui::Key c = sokoban::tui::waitForInput();
+        sokoban::tui::Key c = sokoban::tui::Key::digit1;
         if (c == sokoban::tui::Key::esc) {
             return 0;
         }

@@ -3,10 +3,14 @@
 #include <any>
 #include <vector>
 
-class ActionResult{
+namespace sokoban{
+
+    class ActionResult{
 public:
 
     private:
         std::string id_;
         std::vector<std::any> data_;
 };
+
+}

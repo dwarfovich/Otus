@@ -2,5 +2,6 @@
     "wall": "#",
     "crate": "$",
     "target": ".",
-    "hero": "@"
+    "hero": "@",
+    "crate_on_target": "%"
 }

@@ -9,10 +9,10 @@
 namespace sokoban {
 namespace sbg {
 
-class BaseCliTileFactory : public TileFactory
+class BaseTileFactory : public TileFactory
 {
 public:
-    BaseCliTileFactory(const std::filesystem::path& path) { 
+    BaseTileFactory(const std::filesystem::path& path) { 
         initializeFromJson(path);
     }
 

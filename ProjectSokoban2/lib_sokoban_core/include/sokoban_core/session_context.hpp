@@ -1,13 +1,16 @@
 #pragma once
 
-#include "action_result.hpp"
+//#include "action_result.hpp"
 #include "command.hpp"
 
 #include <memory>
 #include <filesystem>
 
+namespace sokoban {
 class GameContext;
 class MultimodalInterface;
+class ActionResult;
+}
 
 namespace sokoban {
 

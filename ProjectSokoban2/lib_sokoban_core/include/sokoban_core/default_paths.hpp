@@ -5,7 +5,7 @@
 namespace sokoban{
 
     namespace default_paths{
-        inline const std::filesystem::path addonsFolder = "Addons";    
-        inline const std::filesystem::path coreDataFolder = "CoreData";    
+        inline const std::filesystem::path addonsFolder = "../../../sokoban_base_data/Mods";    
+        //inline const std::filesystem::path coreDataFolder = "CoreData";    
     }
 }
