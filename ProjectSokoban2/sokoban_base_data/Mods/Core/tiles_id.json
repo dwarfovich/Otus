@@ -1,7 +1,0 @@
-{
-    "wall": "#",
-    "crate": "$",
-    "target": ".",
-    "hero": "@",
-    "crate_on_target": "%"
-}

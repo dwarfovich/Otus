@@ -1,0 +1,7 @@
+{
+    "#": "wall",
+    "$": "crate",
+    ".": "target",
+    "@": "player",
+    "%": ["target", "crate"]
+}
