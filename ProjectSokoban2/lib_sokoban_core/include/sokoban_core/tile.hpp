@@ -17,13 +17,17 @@ public: // types
     using Iterator = ObjectsContainer::iterator;
 
     public: // methods
+        Tile() = default;
     Tile(std::vector<GameObjectSptr> objects) : objects_ { objects } {}
 
-    Tile(const std::shared_ptr<TileId>& id) : id_{id}{
-    }
+    /*Tile(const std::shared_ptr<TileId>& id) : id_{id}{
+    }*/
+
 
     Iterator begin() { return objects_.begin(); }
     Iterator end() { return objects_.end(); }
+
+    void setObjects
 
 private: // data
     std::shared_ptr<TileId> id_;

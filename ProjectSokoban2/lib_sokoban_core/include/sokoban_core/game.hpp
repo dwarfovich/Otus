@@ -8,6 +8,7 @@ namespace sokoban {
     class Game
 {
 public:
+    Game(LevelMap::TileMap map): map_{map}{}
     virtual ~Game() = default;
 
     void setMap(const LevelMap& map){

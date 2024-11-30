@@ -22,15 +22,18 @@ private:
     TileMap map_;
 };
 
-std::vector<std::vector<Tile>> loadLevelMap(const std::filesystem::path& path, const GameObjectFactory& objectFactory)
+LevelMap::TileMap loadLevelMap(const std::filesystem::path& path, const GameObjectFactory& objectFactory)
 {
     auto file = std::ifstream{path};
     if(!file.is_open()){
         throw std::runtime_error("Failed to open path " + path.string());
     }
 
+    LevelMap::TileMap map;
+
     std::string line;
     while(std::getline(file, line)){
+        LevelMap::Row row (line.size());
 
     }
 

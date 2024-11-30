@@ -18,11 +18,12 @@ class BaseSessionContext : public SessionContext
 {
 public:
     BaseSessionContext(){
-        game_ = std::make_unique<BaseGame>();
         multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
         gameContext_ = std::make_unique<BaseGameContext>();
         auto objects         = loadFromJsonFile(default_paths::addonsFolder / "Core/object_ids.json");
         gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
+        game_                = std::make_unique<BaseGame>(
+            loadLevelMap(default_paths::addonsFolder / "Core/level1.json", *gameObjectFactory_));
     }
     GameContext&         gameContext() override { return *gameContext_; };
     MultimodalInterface& multimodalInterface() override { return (MultimodalInterface&)*multimodalInterface_; }
