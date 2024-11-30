@@ -11,15 +11,14 @@ namespace sokoban {
 class GameObjectFactory
 {
 public:
-    GameObjectFactory(){
-
-    }
+    
     virtual ~GameObjectFactory() = default;
 
-    void setObjectsMap(const std::unordered_map<char, std::vector<GameObject>>& map){
-    }
+    /*void setObjectsMap(const std::unordered_map<char, std::vector<GameObject>>& map){
+    }*/
 
     virtual GameObjectUptr create(const GameObjectId& id) const = 0;
+    virtual std::vector<GameObjectSptr> create(char symbol) const            = 0;
 
 private:
 };

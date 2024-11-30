@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_context.hpp"
+#include "level_map.hpp"
 
 namespace sokoban {
 
@@ -9,9 +10,13 @@ namespace sokoban {
 public:
     virtual ~Game() = default;
 
-private:
+    void setMap(const LevelMap& map){
+        map_ = map;
+    }
+
+protected:
     // gameState_;
-    // LevelMap
+    LevelMap map_;
 };
 
 } // namespace sc

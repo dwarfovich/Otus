@@ -12,6 +12,7 @@
 
 void startGame(const sokoban::NewGameParameters& parameters)
 {
+    
     sokoban::sbg::BaseSessionContext sessionContext;
     sessionContext.loadLevel(parameters.modFolder / "level1.json");
 }
@@ -42,6 +43,8 @@ int main(int argc, char* argv[])
             case sokoban::tui::Key::digit5: break;
             default: break;
         }
+
+        break;
     }
 
     return 0;

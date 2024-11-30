@@ -11,11 +11,15 @@ namespace sokoban {
 
 class LevelMap
 {
+public: // types
+    using Row = std::vector<Tile>;
+    using TileMap = std::vector<Row>;
+
 public:
-    LevelMap(std::vector<std::vector<Tile>> map) : map_ { map } {}
+    LevelMap(TileMap map) : map_ { map } {}
 
 private:
-    std::vector<std::vector<Tile>> map_;
+    TileMap map_;
 };
 
 std::vector<std::vector<Tile>> loadLevelMap(const std::filesystem::path& path, const GameObjectFactory& objectFactory)

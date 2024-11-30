@@ -8,6 +8,8 @@ namespace sokoban {
 class GameObjectId
 {
 public:
+    GameObjectId(const std::string& id) : objectId_{id}{}
+
 private:
     std::string objectId_;
     std::string sourceId_;

@@ -1,8 +1,7 @@
 #pragma once
 
-//#include "session_context.hpp"
 #include "../sokoban_core/session_context.hpp"
-//#include "game_context.hpp"
+#include "../sokoban_base_game/base_game_object_factory.hpp"
 #include "../sokoban_core/command.hpp"
 #include "../sokoban_core/action_result.hpp"
 #include "base_game.hpp"
@@ -22,6 +21,8 @@ public:
         game_ = std::make_unique<BaseGame>();
         multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
         gameContext_ = std::make_unique<BaseGameContext>();
+        auto objects         = loadFromJsonFile(default_paths::addonsFolder / "Core/object_ids.json");
+        gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
     }
     GameContext&         gameContext() override { return *gameContext_; };
     MultimodalInterface& multimodalInterface() override { return (MultimodalInterface&)*multimodalInterface_; }
@@ -36,6 +37,7 @@ private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
     std::unique_ptr<BaseMultimodalInterface> multimodalInterface_ = nullptr;
     std::unique_ptr<BaseGameContext>         gameContext_         = nullptr;
+    std::unique_ptr<BaseGameObjectFactory>         gameObjectFactory_         = nullptr;
 };
 
 } // namespace sbg
