@@ -1,4 +1,5 @@
 {
+    " ": "empty",
     "#": "wall",
     "$": "crate",
     ".": "target",

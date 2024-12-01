@@ -34,10 +34,13 @@ LevelMap::TileMap loadLevelMap(const std::filesystem::path& path, const GameObje
     std::string line;
     while(std::getline(file, line)){
         LevelMap::Row row (line.size());
-
+        for(std::size_t i = 0;i < line.size(); ++i){
+            row[i].setObjects(objectFactory.create(line[i]));
+        }
+        map.push_back(std::move(row));
     }
 
-    return {};
+    return map;
 }
 
 } // namespace sokoban

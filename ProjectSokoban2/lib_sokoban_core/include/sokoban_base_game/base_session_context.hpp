@@ -23,10 +23,11 @@ public:
         auto objects         = loadFromJsonFile(default_paths::addonsFolder / "Core/object_ids.json");
         gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
         game_                = std::make_unique<BaseGame>(
-            loadLevelMap(default_paths::addonsFolder / "Core/level1.json", *gameObjectFactory_));
+            loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));
     }
+
     GameContext&         gameContext() override { return *gameContext_; };
-    MultimodalInterface& multimodalInterface() override { return (MultimodalInterface&)*multimodalInterface_; }
+    MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
 
     void         loadLevel(const std::filesystem::path& path) override {
         int t =433;

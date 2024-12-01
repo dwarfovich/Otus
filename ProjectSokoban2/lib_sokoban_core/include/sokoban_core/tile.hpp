@@ -27,10 +27,12 @@ public: // types
     Iterator begin() { return objects_.begin(); }
     Iterator end() { return objects_.end(); }
 
-    void setObjects
+    void setObjects(std::vector<GameObjectSptr>&& objects){
+        objects_ = std::move(objects);
+    }
 
 private: // data
-    std::shared_ptr<TileId> id_;
+    //std::shared_ptr<TileId> id_;
     std::vector<GameObjectSptr> objects_;
 };
 
