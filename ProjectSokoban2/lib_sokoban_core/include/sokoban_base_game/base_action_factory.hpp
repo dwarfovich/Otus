@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tui/key_definitions.hpp"
+#include "sokoban_core/key_definitions.hpp"
 #include "base_game_action.hpp"
 #include "sokoban_core/command.hpp"
 

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace sokoban {
-namespace tui {
+
 enum class Key : unsigned
 {
     invalidKey,
@@ -21,5 +21,5 @@ enum class Key : unsigned
     esc,
 
 };
-}
+
 } // namespace sokoban

@@ -1,17 +1,17 @@
 #pragma once
 
-#include "tui/key_definitions.hpp"
+#include "key_definitions.hpp"
 
 namespace sokoban {
 
 class Command
 {
 public:
-    Command(sokoban::tui::Key key) : key_ { key } {}
+    Command(Key key) : key_ { key } {}
 
-    sokoban::tui::Key key() const {return key_;}
+    Key key() const {return key_;}
 
 private:
-    sokoban::tui::Key key_ = sokoban::tui::Key::invalidKey;
+    Key key_ = Key::invalidKey;
 };
 } // namespace sokoban

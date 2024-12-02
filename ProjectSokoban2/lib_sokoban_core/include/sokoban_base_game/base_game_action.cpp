@@ -105,21 +105,21 @@ bool tryMovePlayer(Direction direction, BaseGame& game)
 bool BaseGameAction::perform(BaseSessionContext& context)
 {
     switch (key_) {
-        case sokoban::tui::Key::invalidKey: break;
-        case sokoban::tui::Key::digit1: break;
-        case sokoban::tui::Key::digit2: break;
-        case sokoban::tui::Key::digit3: break;
-        case sokoban::tui::Key::digit4: break;
-        case sokoban::tui::Key::digit5: break;
-        case sokoban::tui::Key::a: tryMovePlayer(Direction::Left, context.game()); break;
-        case sokoban::tui::Key::s: tryMovePlayer(Direction::Down, context.game()); break;
-        case sokoban::tui::Key::d: tryMovePlayer(Direction::Right, context.game()); break;
-        case sokoban::tui::Key::w: tryMovePlayer(Direction::Up, context.game()); break;
-        case sokoban::tui::Key::leftArrow: tryMovePlayer(Direction::Left, context.game()); break;
-        case sokoban::tui::Key::rightArrow: tryMovePlayer(Direction::Right, context.game()); break;
-        case sokoban::tui::Key::upArrow: tryMovePlayer(Direction::Up, context.game()); break;
-        case sokoban::tui::Key::downArrow: tryMovePlayer(Direction::Down, context.game()); break;
-        case sokoban::tui::Key::esc: break;
+        case Key::invalidKey: break;
+        case Key::digit1: break;
+        case Key::digit2: break;
+        case Key::digit3: break;
+        case Key::digit4: break;
+        case Key::digit5: break;
+        case Key::a: tryMovePlayer(Direction::Left, context.game()); break;
+        case Key::s: tryMovePlayer(Direction::Down, context.game()); break;
+        case Key::d: tryMovePlayer(Direction::Right, context.game()); break;
+        case Key::w: tryMovePlayer(Direction::Up, context.game()); break;
+        case Key::leftArrow: tryMovePlayer(Direction::Left, context.game()); break;
+        case Key::rightArrow: tryMovePlayer(Direction::Right, context.game()); break;
+        case Key::upArrow: tryMovePlayer(Direction::Up, context.game()); break;
+        case Key::downArrow: tryMovePlayer(Direction::Down, context.game()); break;
+        case Key::esc: break;
         default: break;
     }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "key_definitions.hpp"
+#include "sokoban_core/key_definitions.hpp"
 
 #include <Windows.h>
 

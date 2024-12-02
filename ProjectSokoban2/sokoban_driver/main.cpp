@@ -15,8 +15,8 @@ void startGame(const sokoban::NewGameParameters& parameters)
     sessionContext.drawLevel(sessionContext.game().map());
     bool finished = false;
     do{
-        sokoban::tui::Key c = sokoban::tui::waitForInput();
-        if (c == sokoban::tui::Key::esc) {
+        sokoban::Key c = sokoban::tui::waitForInput();
+        if (c == sokoban::Key::esc) {
             return;
         }
         finished = sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
@@ -41,16 +41,16 @@ int main(int argc, char* argv[])
     sokoban::tui::MenuCollection menus;
     while(true){
         sokoban::tui::printMenu(menus.mainMenu);
-        sokoban::tui::Key c = sokoban::tui::waitForInput();
-        if (c == sokoban::tui::Key::esc) {
+        sokoban::Key c = sokoban::tui::waitForInput();
+        if (c == sokoban::Key::esc) {
             return 0;
         }
         switch (c) {
-            case sokoban::tui::Key::digit1: startGame(newGameParameters); break;
-            case sokoban::tui::Key::digit2: break;
-            case sokoban::tui::Key::digit3: break;
-            case sokoban::tui::Key::digit4: break;
-            case sokoban::tui::Key::digit5: return 0;
+            case sokoban::Key::digit1: startGame(newGameParameters); break;
+            case sokoban::Key::digit2: break;
+            case sokoban::Key::digit3: break;
+            case sokoban::Key::digit4: break;
+            case sokoban::Key::digit5: return 0;
             default: break;
         }
     }
