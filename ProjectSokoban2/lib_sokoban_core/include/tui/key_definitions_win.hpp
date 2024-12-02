@@ -1,29 +1,11 @@
 #pragma once
 
+#include "key_definitions.hpp"
+
 #include <Windows.h>
 
 namespace sokoban {
 namespace tui {
-
-enum class Key : unsigned
-{
-    invalidKey,
-    digit1,
-    digit2,
-    digit3,
-    digit4,
-    digit5,
-    a,
-    s,
-    d,
-    w,
-    leftArrow,
-    rightArrow,
-    upArrow,
-    downArrow,
-    esc,
-
-};
 
 Key fromVirtualWord(WORD c)
 {

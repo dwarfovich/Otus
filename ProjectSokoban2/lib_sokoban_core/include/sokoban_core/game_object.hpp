@@ -12,6 +12,10 @@ class GameObject
 public:
     GameObject(const std::shared_ptr<GameObjectId>& id) : id_{id}{}
 
+    const std::shared_ptr<GameObjectId>& id() const{
+        return id_;
+    }
+
 private:
     std::shared_ptr<GameObjectId>              id_ = nullptr;
     std::vector<std::shared_ptr<GameObjectId>> childObjects_;

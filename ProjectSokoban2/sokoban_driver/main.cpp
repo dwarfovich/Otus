@@ -1,4 +1,3 @@
-#include "sokoban_base_game/base_context_factory.hpp"
 #include "sokoban_base_game/base_session_context.hpp"
 #include "sokoban_core/game_state.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
@@ -12,9 +11,18 @@
 
 void startGame(const sokoban::NewGameParameters& parameters)
 {
-    
     sokoban::sbg::BaseSessionContext sessionContext;
-    sessionContext.loadLevel(parameters.modFolder / "level1.json");
+    sessionContext.drawLevel(sessionContext.level());
+    sokoban::ActionResult actionResult;
+    do{
+        sokoban::tui::Key c = sokoban::tui::waitForInput();
+        if (c == sokoban::tui::Key::esc) {
+            return;
+        }
+        sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
+
+        break;
+    } while(!actionResult.hasNewState());
 }
 
 int main(int argc, char* argv[])

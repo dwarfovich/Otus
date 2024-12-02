@@ -1,8 +1,8 @@
 #pragma once
 
-#include "game_context.hpp"
 #include "level_map.hpp"
 #include "game_object.hpp"
+#include "session_context.hpp"
 
 namespace sokoban{
 
@@ -10,6 +10,7 @@ namespace sokoban{
     public:
         virtual ~GameAction()= default;
 
-//        virtual bool tryPerform(GameContext& context, LevelMap& map, GameObject& object) = 0;
+        virtual void perform(SessionContext& context){
+        }
     };
 }

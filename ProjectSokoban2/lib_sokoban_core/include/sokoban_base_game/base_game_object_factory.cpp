@@ -7,6 +7,9 @@ namespace sbg {
 
 BaseGameObjectFactory::BaseGameObjectFactory(const ObjectsMap& objectsMap) : map_ { objectsMap }
 {
+    for( const auto& iter : map_){
+        symbolsMap_[iter.second] = iter.first;
+    }
 }
 
 GameObjectUptr BaseGameObjectFactory::create(const GameObjectId& id) const

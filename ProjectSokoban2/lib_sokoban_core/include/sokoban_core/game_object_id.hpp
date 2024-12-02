@@ -10,6 +10,7 @@ class GameObjectId
 public:
     GameObjectId(const std::string& id) : objectId_{id}{}
 
+    const std::string& id() const {return objectId_;}
 private:
     std::string objectId_;
     std::string sourceId_;

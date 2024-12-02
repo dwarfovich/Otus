@@ -1,7 +1,8 @@
 #pragma once
 
-#include "game_context.hpp"
 #include "level_map.hpp"
+#include "game_state.hpp"
+#include "coords.hpp"
 
 namespace sokoban {
 
@@ -15,8 +16,19 @@ public:
         map_ = map;
     }
 
+    const LevelMap& map() const{
+        return map_;
+    }
+
+    void moveObject(const std::shared_ptr<GameObject>& object, const Coords& sourceCoords, const Coords& targetCoords){
+        auto& tile = map_.tile(sourceCoords);
+        tile.removeObject(object);
+        map_.tile(targetCoords).addObject(object);
+        //auto object = tile.objects
+    }
+
 protected:
-    // gameState_;
+    GameState gameState_ = GameState::InProgress;
     LevelMap map_;
 };
 

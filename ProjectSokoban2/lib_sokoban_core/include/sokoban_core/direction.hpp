@@ -4,7 +4,7 @@
 
 namespace sokoban{
 
-    enum class Direction : uint8_{
+    enum class Direction : uint8_t{
         Up,
         Right,
         Down,
