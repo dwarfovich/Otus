@@ -23,7 +23,7 @@ public:
     virtual void         loadLevel(const std::filesystem::path& path)            = 0;
     virtual bool executeCommand(const std::shared_ptr<Command>& command) = 0;
     virtual void         representAction(const ActionResult& action)             = 0;
-    virtual void         drawLevel(const LevelMap& level)             = 0;
+    //virtual void         drawLevel(const LevelMap& level)             = 0;
 
 private:
 };

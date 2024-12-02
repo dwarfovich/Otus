@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../sokoban_core/session_context.hpp"
-#include "../sokoban_base_game/base_game_object_factory.hpp"
-#include "../sokoban_core/command.hpp"
-#include "../sokoban_core/action_result.hpp"
+#include "sokoban_core/session_context.hpp"
+#include "sokoban_base_game/base_game_object_factory.hpp"
+#include "sokoban_core/command.hpp"
+#include "sokoban_core/action_result.hpp"
 #include "sokoban_core/default_paths.hpp"
 #include "base_game.hpp"
 #include "base_multimodal_interface.hpp"
@@ -41,13 +41,10 @@ public:
         return result;
     }
     void         representAction(const ActionResult& action) override {}
-    const LevelMap& level() const{
-        return game_->map();
-    } 
-    void drawLevel(const LevelMap& level) override {
+    void drawLevel(const BaseGame::TileMap& level) {
         system("cls");
 
-        for(const auto& row : level.map()){
+        for(const auto& row : game_->map()){
             for(const auto& tile : row){
                 auto symbol  = gameObjectFactory_->symbol(tile.objects());
                 if(symbol){

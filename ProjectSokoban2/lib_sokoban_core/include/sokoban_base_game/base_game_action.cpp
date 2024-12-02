@@ -16,10 +16,10 @@ bool tileIsMovable(const Tile& tile)
     return true;
 }
 
-bool tryMoveObject(GameObjectSptr object, const Coords& coords, Direction direction, Game& game)
+bool tryMoveObject(GameObjectSptr object, const Coords& coords, Direction direction, BaseGame& game)
 {
     auto&       map          = game.map();
-    const auto& nextTile     = map.adjacentTile(coords, direction);
+    const auto& nextTile     = game.adjacentTile(coords, direction);
     if (!nextTile.has_value()) {
         return false;
     }
@@ -28,7 +28,7 @@ bool tryMoveObject(GameObjectSptr object, const Coords& coords, Direction direct
         return false;
     }
 
-    const auto& playerTile = game.map().tile(coords);
+    const auto& playerTile = game.tile(coords);
     auto        iter = std::find(playerTile.objects().begin(), playerTile.objects().end(), object);
     if (iter != playerTile.objects().cend()) {
         if (direction == Direction::Left) {
@@ -47,11 +47,11 @@ bool tryMoveObject(GameObjectSptr object, const Coords& coords, Direction direct
     return true;
 }
 
-bool tryMovePlayer(Direction direction, Game& game)
+bool tryMovePlayer(Direction direction, BaseGame& game)
 {
     auto&       map          = game.map();
-    const auto& playerCoords = game.map().playerCoords();
-    const auto& nextTile     = map.adjacentTile(playerCoords, direction);
+    const auto& playerCoords = game.playerCoords();
+    const auto& nextTile     = game.adjacentTile(playerCoords, direction);
     if (!nextTile.has_value()) {
         return false;
     }
@@ -66,7 +66,7 @@ bool tryMovePlayer(Direction direction, Game& game)
     bool hasCrate = false;
     for(const auto& object : tile.get()){
         if(object->id()->id() == "crate"){
-            const auto& nextCoords = map.adjacentCoords(playerCoords, direction);
+            const auto& nextCoords = game.adjacentCoords(playerCoords, direction);
             hasCrate = !tryMoveObject(object, nextCoords, direction, game);  
             break;
         }
@@ -76,7 +76,7 @@ bool tryMovePlayer(Direction direction, Game& game)
         return false;
     }
 
-    const auto& playerTile = game.map().tile(game.map().playerCoords());
+    const auto& playerTile = game.tile(game.playerCoords());
     auto        iter = std::find_if(playerTile.objects().begin(), playerTile.objects().end(), [](const auto& iter) {
         return iter->id()->id() == "player";
     });
@@ -84,19 +84,19 @@ bool tryMovePlayer(Direction direction, Game& game)
         auto player = *iter;
         if (direction == Direction::Left) {
             game.moveObject(player, playerCoords, { playerCoords.x() - 1, playerCoords.y() });
-            map.setPlayerCoords({ playerCoords.x() - 1, playerCoords.y() });
+            game.setPlayerCoords({ playerCoords.x() - 1, playerCoords.y() });
         }
         if (direction == Direction::Right) {
             game.moveObject(player, playerCoords, { playerCoords.x() + 1, playerCoords.y() });
-            map.setPlayerCoords({ playerCoords.x() + 1, playerCoords.y() });
+            game.setPlayerCoords({ playerCoords.x() + 1, playerCoords.y() });
         }
         if (direction == Direction::Up) {
             game.moveObject(player, playerCoords, { playerCoords.x(), playerCoords.y() - 1 });
-            map.setPlayerCoords({ playerCoords.x(), playerCoords.y() - 1 });
+            game.setPlayerCoords({ playerCoords.x(), playerCoords.y() - 1 });
         }
         if (direction == Direction::Down) {
             game.moveObject(player, playerCoords, { playerCoords.x(), playerCoords.y() + 1 });
-            map.setPlayerCoords({ playerCoords.x(), playerCoords.y() + 1 });
+            game.setPlayerCoords({ playerCoords.x(), playerCoords.y() + 1 });
         }
     }
     return true;
@@ -123,7 +123,7 @@ bool BaseGameAction::perform(BaseSessionContext& context)
         default: break;
     }
 
-    context.drawLevel(context.level());
+    context.drawLevel(context.game().map());
 
     return context.game().isFinished();
 }
