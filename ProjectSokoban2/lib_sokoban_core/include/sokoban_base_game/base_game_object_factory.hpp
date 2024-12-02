@@ -16,7 +16,7 @@ class BaseGameObjectFactory : public GameObjectFactory
 {
 public: // types
     using ObjectsMap = std::unordered_map<char, std::vector<GameObjectIdSptr>>;
-    using SymbolsMap = std::unordered_map<std::vector<GameObjectIdSptr>, char, ObjectsToSymbolHasher>;
+    using SymbolsMap = std::unordered_map<std::vector<GameObjectIdSptr>, char, ObjectsToSymbolHasher, ObjectsToSymbolComparator>;
 
 public:
     BaseGameObjectFactory(const ObjectsMap& objectsMap);
@@ -24,6 +24,10 @@ public:
     sokoban::GameObjectUptr     create(const GameObjectId& id) const override;
     std::vector<GameObjectSptr> create(char symbol) const override
     {
+        if(symbol == emptyTileSymbol_){
+            return {};
+        }
+
         const auto iter = map_.find(symbol);
         if (iter == map_.cend()) {
             throw std::runtime_error("Could't find symbol " + symbol);
@@ -38,9 +42,18 @@ public:
 
     char symbol(const std::vector<GameObjectSptr>& objects)
     {
+        if(objects.empty()){
+            return emptyTileSymbol_;
+        }
+
+        for(const auto& object : objects){
+           if(object->id()->id() == "player"){
+               return '@';
+           }
+        }
+
         std::vector<GameObjectIdSptr> ids;
         for (const auto& object : objects) {
-            //std::cout << object->id()->id() << std::endl;
             ids.push_back(object->id());
             
         }
@@ -56,6 +69,8 @@ public:
 private:
     ObjectsMap map_;
     SymbolsMap symbolsMap_;
+    const char emptyTileSymbol_ = ' ';
+    const std::string emptyTileCode_ = "empty";
 };
 
 BaseGameObjectFactory::ObjectsMap loadFromJsonFile(const std::filesystem::path& path);

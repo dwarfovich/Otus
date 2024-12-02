@@ -20,8 +20,6 @@ void startGame(const sokoban::NewGameParameters& parameters)
             return;
         }
         sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
-
-        break;
     } while(!actionResult.hasNewState());
 }
 

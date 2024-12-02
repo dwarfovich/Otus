@@ -20,11 +20,12 @@ public:
         return map_;
     }
 
-    void moveObject(const std::shared_ptr<GameObject>& object, const Coords& sourceCoords, const Coords& targetCoords){
+        LevelMap& map() { return map_; }
+
+    void moveObject( std::shared_ptr<GameObject> object, const Coords& sourceCoords, const Coords& targetCoords){
         auto& tile = map_.tile(sourceCoords);
         tile.removeObject(object);
         map_.tile(targetCoords).addObject(object);
-        //auto object = tile.objects
     }
 
 protected:

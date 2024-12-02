@@ -38,13 +38,55 @@ public:
 
     const TileMap& map() const { return map_; }
     std::optional<std::reference_wrapper<const Tile>> adjacentTile(const Coords& coords, Direction direction)const{
-
+        if (coords.y() >= map_.size()){
+            return{};
+        }
         const auto& row = map_[coords.y()];
-        if(row.size() >= coords.x()){
+        if (direction == Direction::Right && row.size() <= coords.x() - 1) {
+            return {};
+        }
+        if (direction == Direction::Left && coords.x() == 0) {
+            return {};
+        }
+        if (direction == Direction::Up && coords.y() == 0){
+            return {};
+        }
+        if (direction == Direction::Down && coords.y() >= map_.size() - 1) {
             return {};
         }
 
-        return row[coords.x() + 1];
+        if(direction == Direction::Left){
+            return row[coords.x() - 1];
+        }
+        if (direction == Direction::Right) {
+            return row[coords.x() + 1];
+        }
+        if (direction == Direction::Up) {
+            return map_[coords.y() - 1][coords.x()];
+        }
+        if (direction == Direction::Down) {
+            return map_[coords.y() + 1][coords.x()];
+        }
+
+        return {};
+    }
+
+    Coords adjacentCoords(const Coords& coords, Direction direction) const
+    {
+        if (direction == Direction::Left) {
+            return {coords.x() - 1, coords.y()};
+        }
+        if (direction == Direction::Right) {
+            return { coords.x() + 1, coords.y() };
+        }
+        if (direction == Direction::Up) {
+            return { coords.x(), coords.y() -1};
+        }
+        if (direction == Direction::Down) {
+            return { coords.x(), coords.y() + 1 };
+        }
+
+        return {};
     }
 
     const Tile& tile(const Coords& coords) const{
@@ -55,6 +97,10 @@ public:
 
     const Coords& playerCoords() const{
         return playerCoords_;
+    }
+
+    void setPlayerCoords(const Coords& coords){
+        playerCoords_ = coords;
     }
 
 private:
