@@ -12,7 +12,7 @@ class BaseGameAction : public GameAction
 {
 public:
     BaseGameAction(sokoban::tui::Key key) : key_ { key } {}
-    void perform(BaseSessionContext& context);
+    bool perform(BaseSessionContext& context);
 
 private:
     sokoban::tui::Key key_;

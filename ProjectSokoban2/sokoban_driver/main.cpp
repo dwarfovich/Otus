@@ -13,14 +13,19 @@ void startGame(const sokoban::NewGameParameters& parameters)
 {
     sokoban::sbg::BaseSessionContext sessionContext;
     sessionContext.drawLevel(sessionContext.level());
-    sokoban::ActionResult actionResult;
+    bool finished = false;
     do{
         sokoban::tui::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::tui::Key::esc) {
             return;
         }
-        sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
-    } while(!actionResult.hasNewState());
+        finished = sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
+    } while(!finished);
+
+    system("clear");
+    std::cout << "Yoy won!!!\n";
+    std::cout << "Press any key to return to main window\n";
+    sokoban::tui::waitForInput();
 }
 
 int main(int argc, char* argv[])

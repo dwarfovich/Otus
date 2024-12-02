@@ -102,7 +102,7 @@ bool tryMovePlayer(Direction direction, Game& game)
     return true;
 }
 
-void BaseGameAction::perform(BaseSessionContext& context)
+bool BaseGameAction::perform(BaseSessionContext& context)
 {
     switch (key_) {
         case sokoban::tui::Key::invalidKey: break;
@@ -124,6 +124,8 @@ void BaseGameAction::perform(BaseSessionContext& context)
     }
 
     context.drawLevel(context.level());
+
+    return context.game().isFinished();
 }
 
 } // namespace sbg

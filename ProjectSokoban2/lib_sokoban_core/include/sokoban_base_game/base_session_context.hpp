@@ -31,14 +31,14 @@ public:
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
 
     void         loadLevel(const std::filesystem::path& path) override { int t = 433; }
-    ActionResult executeCommand(const std::shared_ptr<Command>& command) override { 
+    bool executeCommand(const std::shared_ptr<Command>& command) override { 
         auto action = BaseActionFactory().create(*command);
-        action->perform(*this);
+        auto result = action->perform(*this);
         // auto action = createAction(command);
         // auto result = action->execute(game_);
         // log(action);
         // action->representChanges(multimodalInterface_ );
-        return {};
+        return result;
     }
     void         representAction(const ActionResult& action) override {}
     const LevelMap& level() const{
@@ -60,7 +60,7 @@ public:
         }
     }
 
-    Game& game() {return *game_;}
+    BaseGame& game() {return *game_;}
 
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
