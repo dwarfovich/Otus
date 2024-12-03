@@ -1,6 +1,7 @@
 #include "sokoban_base_game/base_session_context.hpp"
 #include "sokoban_core/game_state.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
+#include "sokoban_core/action_logger.hpp"
 #include "tui/system_init.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"

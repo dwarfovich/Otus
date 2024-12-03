@@ -11,6 +11,7 @@ namespace sokoban {
 class ActionLogger
 {
 public:
+    ActionLogger(std::filesystem::path path) : currentLogFilePath_{path}{}
     ~ActionLogger() { flushBuffer(); }
 
     void setLogFilePath(const std::filesystem::path& path) { newLogFilePath_ = path; }
@@ -35,10 +36,11 @@ private: // methods
             currentLogFilePath_ = newLogFilePath_;
         }
 
-        logStream_.open(currentLogFilePath_);
+        std::filesystem::create_directories(currentLogFilePath_.parent_path());
+        logStream_.open(currentLogFilePath_, std::ios::binary);
         if (logStream_.is_open()) {
             for (auto key : buffer_) {
-                logStream_ << key;
+                logStream_ << static_cast<std::underlying_type<Key>::type>(key) << '\n';
             }
             buffer_.clear();
         }
@@ -56,7 +58,7 @@ private: // data
     std::vector<Key>      buffer_;
     std::filesystem::path currentLogFilePath_;
     std::filesystem::path newLogFilePath_;
-    std::ifstream         logStream_;
+    std::ofstream         logStream_;
 };
 
 } // namespace sokoban

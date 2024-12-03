@@ -5,6 +5,7 @@
 #include "sokoban_core/command.hpp"
 #include "sokoban_core/action_result.hpp"
 #include "sokoban_core/default_paths.hpp"
+#include "sokoban_core/action_logger.hpp"
 #include "base_game.hpp"
 #include "base_multimodal_interface.hpp"
 #include "base_action_factory.hpp"
@@ -26,30 +27,36 @@ public:
         gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
         game_                = std::make_unique<BaseGame>(
             loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));
+        actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
     }
 
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
 
-    void         loadLevel(const std::filesystem::path& path) override { int t = 433; }
-    bool executeCommand(const std::shared_ptr<Command>& command) override { 
+    void loadLevel(const std::filesystem::path& path) override { int t = 433; }
+    bool executeCommand(const std::shared_ptr<Command>& command) override
+    {
         auto action = BaseActionFactory().create(*command);
-        auto result = action->perform(*this);
+        auto [success, gameFinished] = action->perform(*this);
+        if(success && actionLogger_){
+            actionLogger_->log(action->key());
+        }
         // auto action = createAction(command);
         // auto result = action->execute(game_);
         // log(action);
         // action->representChanges(multimodalInterface_ );
-        return result;
+        return gameFinished;
     }
-    void         representAction(const ActionResult& action) override {}
-    void drawLevel(const BaseGame::TileMap& level) {
+    void representAction(const ActionResult& action) override {}
+    void drawLevel(const BaseGame::TileMap& level)
+    {
         system("cls");
 
-        for(const auto& row : game_->map()){
-            for(const auto& tile : row){
-                auto symbol  = gameObjectFactory_->symbol(tile.objects());
-                if(symbol){
+        for (const auto& row : game_->map()) {
+            for (const auto& tile : row) {
+                auto symbol = gameObjectFactory_->symbol(tile.objects());
+                if (symbol) {
                     std::cout << symbol;
-                } else{
+                } else {
                     std::cout << ' ';
                 }
             }
@@ -57,12 +64,28 @@ public:
         }
     }
 
-    BaseGame& game() {return *game_;}
+    BaseGame& game() { return *game_; }
+
+    std::filesystem::path generateLogFilepath(const std::string& levelName) const
+    {
+        std::filesystem::path path { default_paths::addonsFolder / "Core/Logs/" };
+        std::time_t           t = std::time(nullptr);
+        char                  mbstr[100];
+
+        path += levelName;
+        if (std::strftime(mbstr, sizeof(mbstr), "-%Y-%m-%d_%H_%M_%S", std::localtime(&t))) {
+            path += mbstr;
+        }
+        path += ".gl";
+
+        return path;
+    }
 
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
     std::unique_ptr<BaseMultimodalInterface> multimodalInterface_ = nullptr;
     std::unique_ptr<BaseGameObjectFactory>   gameObjectFactory_   = nullptr;
+    std::unique_ptr<ActionLogger>            actionLogger_        = nullptr;
 };
 
 } // namespace sbg

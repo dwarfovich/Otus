@@ -12,7 +12,9 @@ class BaseGameAction : public GameAction
 {
 public:
     BaseGameAction(Key key) : key_ { key } {}
-    bool perform(BaseSessionContext& context);
+
+    Key key() const{ return key_; }
+    std::pair<bool, bool> perform(BaseSessionContext& context);
 
 private:
     Key key_;
