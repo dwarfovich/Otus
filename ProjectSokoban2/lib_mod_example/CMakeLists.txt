@@ -1,11 +1,11 @@
 ﻿set(LIB_NAME mod_example_lib CACHE INTERNAL "Library name")
-add_library(${LIB_NAME} SHARED
+add_library(mod_example_lib SHARED
    "src/lib.cpp"
-       "include/mod_example.h")
+       "include/mod_example.hpp"  "src/mod_example.cpp")
 
-#target_include_directories(${LIB_NAME}
-#    PUBLIC include
-#    PRIVATE src include/sokoban_core include/sokoban_base_game include/tui)
+target_include_directories(mod_example_lib
+    PUBLIC include
+    PRIVATE src )
 target_link_libraries(mod_example_lib sokoban_core_lib)
 
 
@@ -17,13 +17,13 @@ if(MSVC)
     add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
 endif()
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.74 COMPONENTS thread REQUIRED)
+find_package(Boost 1.74 COMPONENTS filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
-target_link_libraries(${LIB_NAME} Boost::thread )
+target_link_libraries(mod_example_lib Boost::filesystem)
 
 set_target_properties(mod_example_lib PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-target_compile_features(${LIB_NAME} PUBLIC cxx_std_20)
+target_compile_features(mod_example_lib PUBLIC cxx_std_20)
 
 #add_subdirectory(${PROJECT_SOURCE_DIR}/submodules/json/ NlohmannJson)
 #include_directories(${PROJECT_SOURCE_DIR}/include/)

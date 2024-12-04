@@ -32,7 +32,6 @@ public:
 
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
 
-    void loadLevel(const std::filesystem::path& path) override { int t = 433; }
     bool executeCommand(const std::shared_ptr<Command>& command) override
     {
         auto action = BaseActionFactory().create(*command);
@@ -42,7 +41,6 @@ public:
         }
         return gameFinished;
     }
-    void representAction(const ActionResult& action) override {}
     void drawLevel(const BaseGame::TileMap& level)
     {
         system("cls");
@@ -76,6 +74,8 @@ public:
 
         return path;
     }
+
+    void startGame() override{}
 
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;

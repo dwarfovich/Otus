@@ -1,14 +1,7 @@
 #pragma once
 
-#include "level_map.hpp"
-
-namespace sokoban{
-
-    class Tui{
-    public:
-        virtual void drawLevelMap(const LevelMap& map){
-
-        }
-    };
-
-}
+#if defined(_WIN32) || defined(_WIN64)
+    #include "tui_win.hpp"
+#else
+    #include "tui_linux.hpp"
+#endif
