@@ -40,10 +40,6 @@ public:
         if(success && actionLogger_){
             actionLogger_->log(action->key());
         }
-        // auto action = createAction(command);
-        // auto result = action->execute(game_);
-        // log(action);
-        // action->representChanges(multimodalInterface_ );
         return gameFinished;
     }
     void representAction(const ActionResult& action) override {}
