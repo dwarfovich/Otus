@@ -8,6 +8,17 @@ endif()
 set(TARGET_NAME sokoban_driver CACHE INTERNAL "Target name")
 set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 
+if (POLICY CMP0167 )
+  cmake_policy(SET CMP0167  NEW)
+endif()
+set(Boost_USE_MULTITHREADED ON)
+if(MSVC)
+    add_definitions("-DHAS_BOOST -D_WIN32_WINNT=0x0601")
+endif()
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.74 COMPONENTS thread filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 add_executable (${TARGET_NAME} "main.cpp")
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
@@ -18,4 +29,4 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
-target_link_libraries(${TARGET_NAME} sokoban_core_lib)
+target_link_libraries(${TARGET_NAME} Boost::filesystem sokoban_core_lib mod_example_lib)

@@ -1,4 +1,5 @@
 ﻿cmake_minimum_required (VERSION 3.12)
+set( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS True )
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -14,6 +15,7 @@ set(PROJECT_VERSION "0.0.1" CACHE INTERNAL "Version")
 project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 
 add_subdirectory(lib_sokoban_core)
+add_subdirectory(lib_mod_example)
 add_subdirectory(sokoban_driver)
 
 include_directories(${PROJECT_SOURCE_DIR}/submodules/json/include/)
