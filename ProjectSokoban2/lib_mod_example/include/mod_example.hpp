@@ -1,5 +1,6 @@
 #pragma once
 
+#include "mod_context.hpp"
 #include "sokoban_core/mod.hpp"
 #include "sokoban_core/session_context.hpp"
 
@@ -16,7 +17,7 @@ public:
         return name;
     }
 
-    std::unique_ptr<sokoban::SessionContext> createSessionContext() const override { return nullptr; }
+    std::unique_ptr<sokoban::SessionContext> createSessionContext() const override { return std::make_unique<ModSessionContext>(); }
 };
 
 BOOST_DLL_ALIAS(ModExample::create, createPlugin)

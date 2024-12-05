@@ -1,5 +1,5 @@
 #include "base_game_action.hpp"
-#include "game.hpp"
+#include "sokoban_core/game.hpp"
 #include "base_session_context.hpp"
 
 namespace sokoban {

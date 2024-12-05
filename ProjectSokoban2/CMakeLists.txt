@@ -16,6 +16,7 @@ project (${TARGET_NAME} VERSION ${PROJECT_VERSION})
 
 add_subdirectory(lib_sokoban_core)
 add_subdirectory(lib_mod_example)
+add_subdirectory(lib_base_game)
 add_subdirectory(sokoban_driver)
 
 include_directories(${PROJECT_SOURCE_DIR}/submodules/json/include/)

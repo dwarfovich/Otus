@@ -1,23 +1,20 @@
 #pragma once
 
 #include "sokoban_core/game.hpp"
+#include "sokoban_core/game_state.hpp"
 #include "sokoban_core/game_action.hpp"
 #include "sokoban_core/tile.hpp"
 #include "sokoban_core/tile_map.hpp"
 #include "sokoban_core/coords.hpp"
 #include "sokoban_core/direction.hpp"
 
-namespace sokoban {
-namespace sbg {
-
-class ModGame : public Game
+class ModGame : public sokoban::Game
 {
-public: // types
-
 public:
-    ModGame(BaseGame::RectangleTileMap map) : map_ { map }
+    ModGame() = default;
+    ModGame(sokoban::RectangleTileMap map, sokoban::Coords playerCoords) : map_ { map }, playerCoords_ { playerCoords }
     {
-        for (std::size_t i = 0; i < map_.size(); ++i) {
+        /*for (std::size_t i = 0; i < map_.size(); ++i) {
             for (std::size_t j = 0; j < map_.size(); ++j) {
                 const auto& tile = map_[i][j];
                 for (const auto& object : tile) {
@@ -27,12 +24,12 @@ public:
                     }
                 }
             }
-        }
+        }*/
     }
 
     bool isFinished() const
     {
-        for (const auto& row : map_) {
+        /*for (const auto& row : map_) {
             for (const auto& tile : row) {
                 auto targetIter = std::find_if(tile.begin(), tile.end(), [](const auto& object) {
                     return object->id()->id() == "target";
@@ -46,34 +43,36 @@ public:
                     }
                 }
             }
-        }
+        }*/
 
         return true;
     }
-    void setMap(const RectangleTileMap& map) { map_ = map; }
+    void setMap(const sokoban::RectangleTileMap& map) { map_ = map; }
 
-    const RectangleTileMap& map() const { return map_; }
+    const sokoban::RectangleTileMap& map() const { return map_; }
 
-    RectangleTileMap&                                          map() { return map_; }
+    sokoban::RectangleTileMap& map() { return map_; }
 
-    const Tile& tile(const Coords& coords) const { return map_[coords.y()][coords.x()]; }
+    const sokoban::Tile& tile(const sokoban::Coords& coords) const { return map_.map()[coords.y()][coords.x()]; }
 
-    Tile& tile(const Coords& coords) { return map_[coords.y()][coords.x()]; }
+    //Tile& tile(const Coords& coords) { return map_.map()[coords.y()][coords.x()]; }
 
-    const Coords& playerCoords() const { return playerCoords_; }
+    const sokoban::Coords& playerCoords() const { return playerCoords_; }
 
-    void setPlayerCoords(const Coords& coords) { playerCoords_ = coords; }
-    void moveObject(std::shared_ptr<GameObject> object, const Coords& sourceCoords, const Coords& targetCoords)
+    void setPlayerCoords(const sokoban::Coords& coords) { playerCoords_ = coords; }
+    void moveObject(std::shared_ptr<sokoban::GameObject> object,
+                    const sokoban::Coords&               sourceCoords,
+                    const sokoban::Coords&               targetCoords)
     {
-        auto& tilet = tile(sourceCoords);
+        /*auto& tilet = tile(sourceCoords);
         tilet.removeObject(object);
-        tile(targetCoords).addObject(object);
+        tile(targetCoords).addObject(object);*/
     }
 
 private:
-    RectangleTileMap   map_;
-    Coords    playerCoords_;
-    GameState gameState_ = GameState::InProgress;
+    sokoban::RectangleTileMap map_;
+    sokoban::Coords           playerCoords_;
+    sokoban::GameState        gameState_ = sokoban::GameState::InProgress;
 };
 
 //inline BaseGame::TileMap loadLevelMap(const std::filesystem::path& path, const GameObjectFactory& objectFactory)
@@ -97,5 +96,3 @@ private:
 //    return map;
 //}
 
-} // namespace sbg
-} // namespace sokoban

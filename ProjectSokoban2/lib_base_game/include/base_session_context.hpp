@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sokoban_core/session_context.hpp"
-#include "sokoban_base_game/base_game_object_factory.hpp"
+#include "base_game_object_factory.hpp"
 #include "sokoban_core/command.hpp"
 #include "sokoban_core/action_result.hpp"
 #include "sokoban_core/default_paths.hpp"
@@ -23,11 +23,11 @@ public:
     BaseSessionContext()
     {
         multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
-        auto objects         = loadFromJsonFile(sokoban::default_paths::addonsFolder / "Core/object_ids.json");
-        gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        /*game_                = std::make_unique<BaseGame>(
-            loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));*/
-        actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
+        //auto objects         = loadFromJsonFile("object_ids.json");
+        //gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
+        //game_                = std::make_unique<BaseGame>(
+        //    loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));*/
+        //actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
     }
 
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
@@ -58,11 +58,11 @@ public:
     //    }
     //}
 
-    BaseGame& game() { return *game_; }
+    //BaseGame& game() { return *game_; }
 
     std::filesystem::path generateLogFilepath(const std::string& levelName) const
     {
-        std::filesystem::path path { default_paths::addonsFolder / "Core/Logs/" };
+        std::filesystem::path path { default_paths::modsFolder / "Core/Logs/" };
         std::time_t           t = std::time(nullptr);
         char                  mbstr[100];
 
@@ -75,7 +75,15 @@ public:
         return path;
     }
 
-    void startGame() override{}
+    void startGame() override{
+                // auto objects         = loadFromJsonFile("object_ids.json");
+        // gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
+        // game_                = std::make_unique<BaseGame>(
+        //     loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));*/
+        // actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
+
+        //game_ = std::make_unique<BaseGame>(std::filesystem::current_path() / sokoban::default_paths::modsFolder/ "level1.lm");
+    }
 
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;

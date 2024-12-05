@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../sokoban_core/game_object_factory.hpp"
-#include "../json_utils/json_utils.hpp"
+#include "sokoban_core/game_object_factory.hpp"
+#include "json_utils/json_utils.hpp"
 #include "objects_to_symbol_hasher.hpp"
 
 
@@ -71,6 +71,7 @@ private:
     SymbolsMap symbolsMap_;
     const char emptyTileSymbol_ = ' ';
     const std::string emptyTileCode_ = "empty";
+    const std::string playerCode_   = "player";
 };
 
 BaseGameObjectFactory::ObjectsMap loadFromJsonFile(const std::filesystem::path& path);

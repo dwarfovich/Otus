@@ -13,7 +13,8 @@ namespace sbg {
 class BaseGame : public Game
 {
 public:
-    BaseGame(RectangleTileMap map) : map_ { map } {
+    BaseGame(RectangleTileMap map, const Coords& playerCoords) : map_ { map }, playerCoords_{playerCoords}
+    {
         /*for (std::size_t i = 0; i < map_.size(); ++i) {
             for (std::size_t j = 0; j < map_.size(); ++j) {
                 const auto& tile = map_[i][j];

@@ -1,8 +1,9 @@
 #pragma once
 
+#include "mod_game.hpp"
 #include "sokoban_core/session_context.hpp"
 #include "sokoban_core/command.hpp"
-#include "sokoban_base_game/base_multimodal_interface.hpp"
+#include "base_multimodal_interface.hpp"
 
 #include <memory>
 
@@ -10,8 +11,10 @@ class ModSessionContext : public sokoban::SessionContext
 {
 public:
     sokoban::MultimodalInterface& multimodalInterface() { return multimodalInterface_; }
-    bool                          executeCommand(const std::shared_ptr<Command>& command) {}
-    void                          startGame() {
+    bool                          executeCommand(const std::shared_ptr<sokoban::Command>& command) {
+        return false;
+    }
+    void                          startGame() override {
         //sessionContext.drawLevel(sessionContext.game().map());
         /*bool finished = false;
         do {
@@ -29,8 +32,9 @@ public:
     }
 
     private: // methods
-    void drawLevel(const BaseGame::RectangleTileMap& level){
-    }
+   /* void drawLevel(const BaseGame::RectangleTileMap& level){
+    }*/
 private: // data
     sokoban::sbg::BaseMultimodalInterface multimodalInterface_;
+    ModGame game_;
 };

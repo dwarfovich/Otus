@@ -7,15 +7,21 @@ namespace sokoban {
 
 class GameObjectId
 {
-public:
-    GameObjectId(const std::string& id) : objectId_{id}{}
+    friend auto operator==(const sokoban::GameObjectId& lhs, sokoban::GameObjectId rhs)
+    {
+        return lhs.objectId_ == rhs.objectId_;
+    }
+    friend auto operator==(const sokoban::GameObjectId& lhs, const char* rhs) { return lhs.objectId_ == rhs; }
 
-    const std::string& id() const {return objectId_;}
+public:
+    GameObjectId(const std::string& id) : objectId_ { id } {}
+
+    const std::string& id() const { return objectId_; }
+
 private:
     std::string objectId_;
-    std::string sourceId_;
 };
 
 using GameObjectIdSptr = std::shared_ptr<GameObjectId>;
 
-} // namespace sc
+} // namespace sokoban
