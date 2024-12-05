@@ -25,8 +25,8 @@ public:
         multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
         auto objects         = loadFromJsonFile(sokoban::default_paths::addonsFolder / "Core/object_ids.json");
         gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        game_                = std::make_unique<BaseGame>(
-            loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));
+        /*game_                = std::make_unique<BaseGame>(
+            loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));*/
         actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
     }
 
@@ -41,22 +41,22 @@ public:
         }
         return gameFinished;
     }
-    void drawLevel(const BaseGame::TileMap& level)
-    {
-        system("cls");
+    //void drawLevel(const BaseGame::RectangleTileMap& level)
+    //{
+    //    system("cls");
 
-        for (const auto& row : game_->map()) {
-            for (const auto& tile : row) {
-                auto symbol = gameObjectFactory_->symbol(tile.objects());
-                if (symbol) {
-                    std::cout << symbol;
-                } else {
-                    std::cout << ' ';
-                }
-            }
-            std::cout << '\n';
-        }
-    }
+    //    for (const auto& row : game_->map()) {
+    //        for (const auto& tile : row) {
+    //            auto symbol = gameObjectFactory_->symbol(tile.objects());
+    //            if (symbol) {
+    //                std::cout << symbol;
+    //            } else {
+    //                std::cout << ' ';
+    //            }
+    //        }
+    //        std::cout << '\n';
+    //    }
+    //}
 
     BaseGame& game() { return *game_; }
 

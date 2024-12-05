@@ -14,7 +14,7 @@ public:
     BaseGameAction(Key key) : key_ { key } {}
 
     Key key() const{ return key_; }
-    std::pair<bool, bool> perform(BaseSessionContext& context);
+    std::pair<bool, bool> perform(BaseSessionContext& context){return {false, false};}
 
 private:
     Key key_;

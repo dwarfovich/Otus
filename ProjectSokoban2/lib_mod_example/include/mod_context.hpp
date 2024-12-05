@@ -29,7 +29,7 @@ public:
     }
 
     private: // methods
-    void drawLevel(const BaseGame::TileMap& level){
+    void drawLevel(const BaseGame::RectangleTileMap& level){
     }
 private: // data
     sokoban::sbg::BaseMultimodalInterface multimodalInterface_;
