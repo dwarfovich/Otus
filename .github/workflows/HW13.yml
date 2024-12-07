@@ -40,6 +40,9 @@ jobs:
           echo "deb_path=${{ env.hw_path }}/${{ env.build_folder }}/${{ env.release_folder }}/deb" >> $GITHUB_ENV
           echo "version=${{ env.version_base }}.${{ github.run_number }}" >> $GITHUB_ENV
 
+      - name: Install Boost
+        run: sudo apt install -y libasio-dev
+        
       - name: Checkout
         uses: actions/checkout@v4
 
