@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - 'HW13/**'
-      - '.github/workflows/HW12.yml' 
+      - '.github/workflows/HW13.yml' 
 
 permissions:
   actions: write
@@ -42,7 +42,7 @@ jobs:
 
       - name: Install Boost
         run: sudo apt install -y libasio-dev
-        
+
       - name: Checkout
         uses: actions/checkout@v4
 
