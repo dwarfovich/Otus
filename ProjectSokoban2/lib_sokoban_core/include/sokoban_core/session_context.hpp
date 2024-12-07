@@ -7,10 +7,7 @@
 #include <filesystem>
 
 namespace sokoban {
-class GameContext;
 class MultimodalInterface;
-class ActionResult;
-class LevelMap;
 } // namespace sokoban
 
 namespace sokoban {

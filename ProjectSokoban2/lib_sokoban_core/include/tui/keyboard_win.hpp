@@ -13,6 +13,8 @@ inline Key waitForInput()
     static INPUT_RECORD inputRecord;
     static DWORD        eventsRead = 0;
     while(true) {
+
+        auto h = System::inputHandle();
         auto success = ReadConsoleInput(System::inputHandle(), &inputRecord, 1, &eventsRead);
         if (!success) {
             return Key::invalidKey;

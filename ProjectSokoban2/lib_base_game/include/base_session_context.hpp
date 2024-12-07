@@ -44,7 +44,7 @@ public:
         return gameFinished;
     }
 
-    // BaseGame& game() { return *game_; }
+     BaseGame& game() { return *game_; }
 
     std::filesystem::path generateLogFilepath(const std::string& levelName) const
     {
@@ -88,7 +88,6 @@ public:
         sokoban::tui::waitForInput();
     }
 
-private:
     void drawLevel(const RectangleTileMap& map)
     {
         for (const auto& row : game_->map()) {

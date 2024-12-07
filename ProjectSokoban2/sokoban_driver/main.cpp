@@ -27,6 +27,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    auto h = sokoban::tui::System::inputHandle();
+
     try {
         boost::filesystem::path lib_path {
             "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"

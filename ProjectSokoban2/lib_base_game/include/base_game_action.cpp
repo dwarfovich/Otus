@@ -5,130 +5,32 @@
 namespace sokoban {
 namespace sbg {
 
-bool tileIsMovable(const Tile& tile)
+std::pair<bool, bool> BaseGameAction::perform(BaseSessionContext& context)
 {
-    for (const auto& object : tile) {
-        if ((object->id()->id() == "player") || (object->id()->id() == "crate") || (object->id()->id() == "wall")) {
-            return false;
-        }
+    bool success = false;
+    switch (key_) {
+        case Key::invalidKey: break;
+        case Key::digit1: break;
+        case Key::digit2: break;
+        case Key::digit3: break;
+        case Key::digit4: break;
+        case Key::digit5: break;
+        case Key::w: success = context.game().movePlayer(Direction::Up, context.game()); break;
+        case Key::a: success = context.game().movePlayer(Direction::Left, context.game()); break;
+        case Key::s: success = context.game().movePlayer(Direction::Down, context.game()); break;
+        case Key::d: success = context.game().movePlayer(Direction::Right, context.game()); break;
+        case Key::upArrow: success = context.game().movePlayer(Direction::Up, context.game()); break;
+        case Key::leftArrow: success = context.game().movePlayer(Direction::Left, context.game()); break;
+        case Key::rightArrow: success = context.game().movePlayer(Direction::Right, context.game()); break;
+        case Key::downArrow: success = context.game().movePlayer(Direction::Down, context.game()); break;
+        case Key::esc: break;
+        default: break;
     }
 
-    return true;
+    context.drawLevel(context.game().map());
+
+    return { success, context.game().isFinished() };
 }
-
-//bool tryMoveObject(GameObjectSptr object, const Coords& coords, Direction direction, BaseGame& game)
-//{
-//    auto&       map      = game.map();
-//    const auto& nextTile = game.adjacentTile(coords, direction);
-//    if (!nextTile.has_value()) {
-//        return false;
-//    }
-//
-//    if (!tileIsMovable(nextTile.value())) {
-//        return false;
-//    }
-//
-//    const auto& playerTile = game.tile(coords);
-//    auto        iter       = std::find(playerTile.objects().begin(), playerTile.objects().end(), object);
-//    if (iter != playerTile.objects().cend()) {
-//        if (direction == Direction::Left) {
-//            game.moveObject(object, coords, { coords.x() - 1, coords.y() });
-//        }
-//        if (direction == Direction::Right) {
-//            game.moveObject(object, coords, { coords.x() + 1, coords.y() });
-//        }
-//        if (direction == Direction::Up) {
-//            game.moveObject(object, coords, { coords.x(), coords.y() - 1 });
-//        }
-//        if (direction == Direction::Down) {
-//            game.moveObject(object, coords, { coords.x(), coords.y() + 1 });
-//        }
-//    }
-//    return true;
-//}
-
-//bool tryMovePlayer(Direction direction, BaseGame& game)
-//{
-//    auto&       map          = game.map();
-//    const auto& playerCoords = game.playerCoords();
-//    const auto& nextTile     = game.adjacentTile(playerCoords, direction);
-//    if (!nextTile.has_value()) {
-//        return false;
-//    }
-//
-//    const auto& tile = nextTile.value();
-//    for (const auto& object : tile.get()) {
-//        if (object->id()->id() == "wall") {
-//            return false;
-//        }
-//    }
-//
-//    bool hasCrate = false;
-//    for (const auto& object : tile.get()) {
-//        if (object->id()->id() == "crate") {
-//            const auto& nextCoords = game.adjacentCoords(playerCoords, direction);
-//            hasCrate               = !tryMoveObject(object, nextCoords, direction, game);
-//            break;
-//        }
-//    }
-//
-//    if (hasCrate) {
-//        return false;
-//    }
-//
-//    const auto& playerTile = game.tile(game.playerCoords());
-//    auto        iter = std::find_if(playerTile.objects().begin(), playerTile.objects().end(), [](const auto& iter) {
-//        return iter->id()->id() == "player";
-//    });
-//    if (iter != playerTile.objects().cend()) {
-//        auto player = *iter;
-//        if (direction == Direction::Left) {
-//            game.moveObject(player, playerCoords, { playerCoords.x() - 1, playerCoords.y() });
-//            game.setPlayerCoords({ playerCoords.x() - 1, playerCoords.y() });
-//        }
-//        if (direction == Direction::Right) {
-//            game.moveObject(player, playerCoords, { playerCoords.x() + 1, playerCoords.y() });
-//            game.setPlayerCoords({ playerCoords.x() + 1, playerCoords.y() });
-//        }
-//        if (direction == Direction::Up) {
-//            game.moveObject(player, playerCoords, { playerCoords.x(), playerCoords.y() - 1 });
-//            game.setPlayerCoords({ playerCoords.x(), playerCoords.y() - 1 });
-//        }
-//        if (direction == Direction::Down) {
-//            game.moveObject(player, playerCoords, { playerCoords.x(), playerCoords.y() + 1 });
-//            game.setPlayerCoords({ playerCoords.x(), playerCoords.y() + 1 });
-//        }
-//    }
-//    return true;
-//}
-
-//std::pair<bool, bool> BaseGameAction::perform(BaseSessionContext& context)
-//{
-//    bool success = false;
-//    switch (key_) {
-//        case Key::invalidKey: break;
-//        case Key::digit1: break;
-//        case Key::digit2: break;
-//        case Key::digit3: break;
-//        case Key::digit4: break;
-//        case Key::digit5: break;
-//        case Key::a: success = tryMovePlayer(Direction::Left, context.game()); break;
-//        case Key::s: success = tryMovePlayer(Direction::Down, context.game()); break;
-//        case Key::d: success = tryMovePlayer(Direction::Right, context.game()); break;
-//        case Key::w: success = tryMovePlayer(Direction::Up, context.game()); break;
-//        case Key::leftArrow: success = tryMovePlayer(Direction::Left, context.game()); break;
-//        case Key::rightArrow: success = tryMovePlayer(Direction::Right, context.game()); break;
-//        case Key::upArrow: success = tryMovePlayer(Direction::Up, context.game()); break;
-//        case Key::downArrow: success = tryMovePlayer(Direction::Down, context.game()); break;
-//        case Key::esc: break;
-//        default: break;
-//    }
-//
-//    context.drawLevel(context.game().map());
-//
-//    // return context.game().isFinished();
-//    return { success, context.game().isFinished() };
-//}
 
 } // namespace sbg
 } // namespace sokoban
