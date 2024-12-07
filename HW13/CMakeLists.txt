@@ -16,7 +16,7 @@ add_subdirectory(driver)
 
 install(TARGETS fashion_mnist DESTINATION .)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/hw_data/test.csv DESTINATION .)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/hw_data/test_data_logreg.txt DESTINATION .)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/hw_data/logreg_coef.txt DESTINATION .)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/run.sh DESTINATION .)
 
 set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
