@@ -132,7 +132,8 @@ void startGame(const std::filesystem::path& modFolderPath)
         ModDll modDll = loadModDll(modFolderPath);
         std::cout << "Mod loaded: " << modDll.mod().name() << '\n';
         auto context = modDll.mod().createSessionContext();
-        context->startGame();
+            context->startGame();
+       // context->startGame();
 
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';

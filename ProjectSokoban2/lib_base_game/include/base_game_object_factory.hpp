@@ -4,7 +4,6 @@
 #include "json_utils/json_utils.hpp"
 #include "objects_to_symbol_hasher.hpp"
 
-
 #include <unordered_map>
 #include <filesystem>
 #include <iostream>
@@ -47,7 +46,7 @@ public:
         }
 
         for(const auto& object : objects){
-           if(object->id()->id() == "player"){
+           if(*object->id() == playerCode_){
                return '@';
            }
         }
@@ -71,7 +70,7 @@ private:
     SymbolsMap symbolsMap_;
     const char emptyTileSymbol_ = ' ';
     const std::string emptyTileCode_ = "empty";
-    const std::string playerCode_   = "player";
+    const std::string playerCode_       = "player";
 };
 
 BaseGameObjectFactory::ObjectsMap loadFromJsonFile(const std::filesystem::path& path);

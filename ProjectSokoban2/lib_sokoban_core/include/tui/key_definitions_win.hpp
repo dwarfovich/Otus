@@ -7,7 +7,7 @@
 namespace sokoban {
 namespace tui {
 
-Key fromVirtualWord(WORD c)
+inline Key fromVirtualWord(WORD c)
 {
     switch (c) {
         case 49: return Key::digit1;

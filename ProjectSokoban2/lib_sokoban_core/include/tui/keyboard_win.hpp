@@ -8,7 +8,7 @@
 namespace sokoban {
 namespace tui {
 
-Key waitForInput()
+inline Key waitForInput()
 {
     static INPUT_RECORD inputRecord;
     static DWORD        eventsRead = 0;

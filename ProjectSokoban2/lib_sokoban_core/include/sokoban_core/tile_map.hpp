@@ -3,18 +3,46 @@
 #include "tile.hpp"
 #include "coords.hpp"
 #include "direction.hpp"
+#include "game_object_factory.hpp"
+#include "json_utils/json_utils.hpp"
 
 #include <optional>
 #include <limits>
+#include <istream>
 
 namespace sokoban {
 
 class RectangleTileMap
 {
-private: // types
+public: // types
     using Row     = std::vector<Tile>;
+    using ConstIterator = std::vector<Row>::const_iterator;
 
-public:
+public: // methods
+    RectangleTileMap()=default;
+    RectangleTileMap(std::vector<Row> map): map_{map}{}
+
+    ConstIterator begin() const {return map_.cbegin();};
+    ConstIterator end() const { return map_.cend(); };
+
+    bool loadMapFromJson(std::istream& stream, const GameObjectFactory& objectFactory)
+    {
+        map_.clear();
+
+        std::string line;
+        while (std::getline(stream, line)) {
+            RectangleTileMap::Row row(line.size());
+            for (std::size_t i = 0; i < line.size(); ++i) {
+                row[i].setObjects(objectFactory.create(line[i]));
+
+            }
+            map_.push_back(std::move(row));
+        }
+
+        return false;
+    }
+    
+
     const std::vector<Row>& map() const{
         return map_;
     }
@@ -88,8 +116,20 @@ public:
         return {};
     }
 
+     void moveObject(std::shared_ptr<GameObject> object, const Coords& sourceCoords, const Coords& targetCoords)
+    {
+         auto& tilet = tile(sourceCoords);
+         tilet.removeObject(object);
+         tile(targetCoords).addObject(object);
+    }
+
+     Tile& tile(const Coords& coords){
+         return map_[coords.y()][coords.x()];
+     }
+
 private: // data
     std::vector<Row> map_;
+    Coords playerCoords_;
 };
 
 } // namespace sokoban

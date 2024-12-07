@@ -9,7 +9,6 @@ add_library(base_game_lib SHARED
       "include/base_game_action.cpp"
       "include/base_multimodal_interface.hpp"
       "include/base_session_context.hpp"
-      "include/base_tile_factory.hpp"
       "include/objects_to_symbol_hasher.hpp"
  "src/mod.cpp")
 
