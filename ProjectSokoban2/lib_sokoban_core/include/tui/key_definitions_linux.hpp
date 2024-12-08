@@ -1,12 +1,9 @@
 #pragma once
 
-#include "sokoban_core/key_definitions.hpp"
-#include "sokoban_core/windows.hpp"
-
 namespace sokoban {
 namespace tui {
 
-inline Key fromVirtualWord(WORD c)
+inline Key fromVirtualChar(char c)
 {
     switch (c) {
         case 49: return Key::digit1;

@@ -1,7 +1,21 @@
 ﻿set(LIB_NAME sokoban_core_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-      "include/sokoban_core/game_object_id.hpp" "include/sokoban_core/game_action.hpp" "include/sokoban_core/default_paths.hpp" "include/sokoban_core/multimodal_interface.hpp" "include/sokoban_core/session_context.hpp" "include/tui/menu.hpp" "include/tui/menu_entry.hpp" "include/tui/keyboard_win.hpp" "include/tui/tui.hpp" "include/sokoban_core/coords.hpp"  "include/sokoban_core/mod.hpp")
+      "include/sokoban_core/game_object_id.hpp" "include/sokoban_core/game_action.hpp" "include/sokoban_core/default_paths.hpp" "include/sokoban_core/multimodal_interface.hpp" "include/sokoban_core/session_context.hpp" "include/tui/menu.hpp" "include/tui/menu_entry.hpp"   "include/sokoban_core/coords.hpp"  "include/sokoban_core/mod.hpp")
+
+if (WIN32)
+    target_sources(${LIB_NAME}
+        PUBLIC "${PROJECT_SOURCE_DIR}/lib_sokoban_core/include/tui/key_definitions_win.hpp"
+        "${PROJECT_SOURCE_DIR}/lib_sokoban_core/include/tui/console_win.hpp"
+    )
+endif()
+
+if (UNIX)
+    target_sources(${LIB_NAME}
+        PUBLIC "${PROJECT_SOURCE_DIR}/lib_sokoban_core/include/tui/key_definitions_linux.hpp"
+        "${PROJECT_SOURCE_DIR}/lib_sokoban_core/include/tui/console_linux.hpp"
+    )
+endif()
 
 target_include_directories(${LIB_NAME}
     PUBLIC include

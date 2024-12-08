@@ -1,4 +1,3 @@
-// #include "base_session_context.hpp"
 #include "sokoban_core/game_state.hpp"
 #include "sokoban_core/game.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
@@ -8,9 +7,6 @@
 #include "sokoban_core/system.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"
-#include "tui/keyboard.hpp"
-#include "tui/key_definitions_win.hpp"
-#include "tui/tui.hpp"
 
 #include <boost/dll/import.hpp>
 #include <boost/filesystem.hpp>
@@ -20,89 +16,6 @@
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
 void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
-
-int main(int argc, char* argv[])
-{
-    // const auto success = sokoban::System::initialize();
-    // if (!success) {
-    //     return -1;
-    // }
-
-    sokoban::System system;
-    auto            console = std::make_shared<sokoban::tui::Console>(system);
-
-    // try {
-    //     boost::filesystem::path lib_path {
-    //         "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
-    //     };
-
-    //    auto pluginCreatorFunction = boost::dll::import_alias<std::unique_ptr<sokoban::Mod>()>(
-    //        lib_path, "createPlugin", boost::dll::load_mode::append_decorations);
-
-    //    auto plugin = pluginCreatorFunction();
-    //    // std::cout << plugin->name() << std::endl;
-    //    auto c = plugin->createSessionContext();
-    //} catch (const std::exception& e) {
-    //    std::cout << "Exception: " << e.what() << '\n';
-    //}
-
-    sokoban::NewGameParameters newGameParameters;
-    newGameParameters.modFolder = sokoban::default_paths::modsFolder / "Core";
-
-    std::filesystem::path        modPath = "Mods/BaseGame";
-    sokoban::tui::MenuCollection menus;
-    while (true) {
-        sokoban::tui::clearConsole();
-        sokoban::tui::printMenu(menus.mainMenu);
-        startGame(modPath, console);
-        /*sokoban::Key c = sokoban::tui::waitForInput();
-        if (c == sokoban::Key::esc) {
-            return 0;
-        }
-        switch (c) {
-            case sokoban::Key::digit1: startGame(modPath); break;
-            case sokoban::Key::digit2: break;
-            case sokoban::Key::digit3: {
-                const auto& selectedPath = showLoadModMenu();
-                if (!selectedPath.empty()) {
-                    modPath = selectedPath;
-                }
-                break;
-            }
-            case sokoban::Key::digit4: break;
-            case sokoban::Key::digit5: return 0;
-            default: break;
-        }*/
-    }
-
-    return 0;
-}
-
-std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
-{
-    sokoban::tui::clearConsole();
-    std::size_t                                   counter = 0;
-    static constexpr std::size_t                  maxMods = 5;
-    std::vector<std::filesystem::directory_entry> modFolders;
-    for (const auto& dirEntry : std::filesystem::directory_iterator { sokoban::default_paths::modsFolder }) {
-        if (dirEntry.is_directory()) {
-            std::filesystem::path path { dirEntry };
-            std::cout << counter++ + 1 << ": " << path.filename() << '\n';
-            modFolders.push_back(dirEntry);
-        }
-    }
-
-    const auto key = console.waitForInput();
-    switch (key) {
-        case sokoban::Key::digit1: return modFolders[0];
-        case sokoban::Key::digit2: return modFolders[1];
-        case sokoban::Key::digit3: return modFolders[2];
-        case sokoban::Key::digit4: return modFolders[3];
-        case sokoban::Key::digit5: return modFolders[4];
-        case sokoban::Key::esc: return {};
-        default: return {};
-    }
-}
 
 class ModDll
 {
@@ -130,6 +43,101 @@ ModDll loadModDll(const std::filesystem::path& modFolderPath)
     return ModDll { modDllPath };
 }
 
+int main(int argc, char* argv[])
+{
+    sokoban::System system;
+    auto            console = std::make_shared<sokoban::tui::Console>(system);
+
+    try{
+    std::filesystem::path modPath = "Mods/BaseGame";
+    ModDll                modDll  = loadModDll(modPath);
+    } catch (const std::exception& e){
+        std::cout << "Exception: " << e.what() << std::endl;
+    }
+
+    return 0;
+    //std::cout << "Wait for key...\n";
+    //while(true){
+    //auto key = console->waitForInput();
+    //std::cout << "Key code: " << int(key) << '\n';
+    //}
+    //return 0;
+
+    // try {
+    //     boost::filesystem::path lib_path {
+    //         "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
+    //     };
+
+    //    auto pluginCreatorFunction = boost::dll::import_alias<std::unique_ptr<sokoban::Mod>()>(
+    //        lib_path, "createPlugin", boost::dll::load_mode::append_decorations);
+
+    //    auto plugin = pluginCreatorFunction();
+    //    // std::cout << plugin->name() << std::endl;
+    //    auto c = plugin->createSessionContext();
+    //} catch (const std::exception& e) {
+    //    std::cout << "Exception: " << e.what() << '\n';
+    //}
+
+    //sokoban::NewGameParameters newGameParameters;
+    //newGameParameters.modFolder = sokoban::default_paths::modsFolder / "Core";
+
+    //std::filesystem::path        modPath = "Mods/BaseGame";
+    //sokoban::tui::MenuCollection menus;
+    //while (true) {
+    //    console->clear();
+    //    sokoban::tui::printMenu(menus.mainMenu);
+    //    startGame(modPath, console);
+    //    /*sokoban::Key c = sokoban::tui::waitForInput();
+    //    if (c == sokoban::Key::esc) {
+    //        return 0;
+    //    }
+    //    switch (c) {
+    //        case sokoban::Key::digit1: startGame(modPath); break;
+    //        case sokoban::Key::digit2: break;
+    //        case sokoban::Key::digit3: {
+    //            const auto& selectedPath = showLoadModMenu();
+    //            if (!selectedPath.empty()) {
+    //                modPath = selectedPath;
+    //            }
+    //            break;
+    //        }
+    //        case sokoban::Key::digit4: break;
+    //        case sokoban::Key::digit5: return 0;
+    //        default: break;
+    //    }*/
+    //}
+
+    return 0;
+}
+
+std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
+{
+    console.clear();
+    std::size_t                                   counter = 0;
+    static constexpr std::size_t                  maxMods = 5;
+    std::vector<std::filesystem::directory_entry> modFolders;
+    for (const auto& dirEntry : std::filesystem::directory_iterator { sokoban::default_paths::modsFolder }) {
+        if (dirEntry.is_directory()) {
+            std::filesystem::path path { dirEntry };
+            std::cout << counter++ + 1 << ": " << path.filename() << '\n';
+            modFolders.push_back(dirEntry);
+        }
+    }
+
+    const auto key = console.waitForInput();
+    switch (key) {
+        case sokoban::Key::digit1: return modFolders[0];
+        case sokoban::Key::digit2: return modFolders[1];
+        case sokoban::Key::digit3: return modFolders[2];
+        case sokoban::Key::digit4: return modFolders[3];
+        case sokoban::Key::digit5: return modFolders[4];
+        case sokoban::Key::esc: return {};
+        default: return {};
+    }
+}
+
+
+
 void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
 {
     try {
@@ -145,9 +153,6 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
                 return;
             }
             auto [success, gameFinished] = context->executeCommand(std::make_shared<sokoban::Command>(c));
-            //if(success){
-            //    context->redrawGame();
-            //}
             finished = gameFinished;
         }
         std::cout << "Press any key to return to main window\n";

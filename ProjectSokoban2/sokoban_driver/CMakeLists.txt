@@ -29,13 +29,15 @@ set_target_properties(${TARGET_NAME}
     RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_BINARY_DIR}/bin"
 )
 
-target_link_libraries(${TARGET_NAME} Boost::filesystem sokoban_core_lib base_game_lib)
+#mod_example_lib
+target_link_libraries(${TARGET_NAME} Boost::filesystem sokoban_core_lib base_game_lib )
 
 install(FILES $<TARGET_RUNTIME_DLLS:sokoban_driver> TYPE BIN)
 
+if (WIN32)
 add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build event to MyTest
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
-                   "C:/Boo/Code/Otus/ProjectSokoban2/build/msvc-debug/lib_base_game/base_game_lib.dll"      # <--this is in-file
+                   "${CMAKE_SOURCE_DIR}/build/msvc-debug/lib_base_game/base_game_lib.dll"      # <--this is in-file
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/mod.dll)                 # <--this is out-file path
 
 add_custom_command(TARGET sokoban_driver POST_BUILD 
@@ -52,3 +54,24 @@ add_custom_command(TARGET sokoban_driver POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
                    "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/object_ids.json"
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/object_ids.json)        
+else()
+                   add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build event to MyTest
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
+                   "${CMAKE_SOURCE_DIR}/build/linux-debug/lib/libbase_game_lib.so"
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/mod.so)                 # <--this is out-file path
+
+#add_custom_command(TARGET sokoban_driver POST_BUILD 
+#                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+#                   "${CMAKE_SOURCE_DIR}/build/linux-debug/lib_mod_example/mod_example_lib.so"
+#                   ${CMAKE_BINARY_DIR}/bin/Mods/ModExample/mod.so)                 
+
+add_custom_command(TARGET sokoban_driver POST_BUILD        
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+                   "${CMAKE_SOURCE_DIR}/sokoban_base_data/level1.lm"
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/level1.lm)            
+                   
+                   add_custom_command(TARGET sokoban_driver POST_BUILD        
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+                   "${CMAKE_SOURCE_DIR}/sokoban_base_data/object_ids.json"
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/object_ids.json)  
+                   endif()

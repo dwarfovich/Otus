@@ -2,7 +2,6 @@
 
 #include "sokoban_core/session_context.hpp"
 #include "tui/console.hpp"
-#include "tui/keyboard.hpp"
 #include "base_game_object_factory.hpp"
 #include "sokoban_core/command.hpp"
 #include "sokoban_core/action_result.hpp"
@@ -61,25 +60,36 @@ public:
                          *gameObjectFactory_);
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
         console().clear();
-        drawLevel(game_->map());
+        drawLevel(std::cout, game_->map());
     }
-    void redrawGame() override{
+    void redrawGame() {
         console().clear();
-        drawLevel(game_->map());
+        drawLevel(std::cout, game_->map());
     }
 
-    void drawLevel(const RectangleTileMap& map)
+        bool supportsSaveGames() const override { return true; }
+    void saveGame(const std::filesystem::path& path) const override{
+        std::ofstream stream {path};
+        if(!stream.is_open()){
+            throw std::runtime_error("Failed to open file for saving game - " + path.string());
+        }
+
+        drawLevel(stream, game_->map());
+    }
+    virtual void loadGame(const std::filesystem::path& path) override {}
+
+    void drawLevel(std::ostream& stream, const RectangleTileMap& map) const
     {
         for (const auto& row : game_->map()) {
             for (const auto& tile : row) {
                 auto symbol = gameObjectFactory_->symbol(tile.objects());
                 if (symbol) {
-                    std::cout << symbol;
+                    stream << symbol;
                 } else {
-                    std::cout << ' ';
+                    stream << ' ';
                 }
             }
-            std::cout << '\n';
+            stream << '\n';
         }
     }
 
