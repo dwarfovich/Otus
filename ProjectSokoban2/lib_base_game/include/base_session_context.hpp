@@ -1,7 +1,6 @@
 #pragma once
 
 #include "sokoban_core/session_context.hpp"
-//#include "tui/tui.hpp"
 #include "tui/console.hpp"
 #include "tui/keyboard.hpp"
 #include "base_game_object_factory.hpp"
@@ -16,7 +15,6 @@
 #include <filesystem>
 #include <memory>
 #include <iostream>
-#include <conio.h>
 
 namespace sokoban {
 namespace sbg {
@@ -27,11 +25,6 @@ public:
     BaseSessionContext()
     {
         multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
-        // auto objects         = loadFromJsonFile("object_ids.json");
-        // gameObjectFactory_   = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        // game_                = std::make_unique<BaseGame>(
-        //     loadLevelMap(default_paths::addonsFolder / "Core/level1.lm", *gameObjectFactory_));*/
-        // actionLogger_ = std::make_unique<ActionLogger>(generateLogFilepath("level1"));
     }
 
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
@@ -46,7 +39,7 @@ public:
         return gameFinished;
     }
 
-     BaseGame& game() { return *game_; }
+    BaseGame& game() { return *game_; }
 
     std::filesystem::path generateLogFilepath(const std::string& levelName) const
     {
@@ -73,20 +66,18 @@ public:
                          *gameObjectFactory_);
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
 
-        console().clear();
-        drawLevel(game_->map());
         bool finished = false;
         do {
+            console().clear();
+            drawLevel(game_->map());
             sokoban::Key c = console().waitForInput();
             if (c == sokoban::Key::esc) {
                 return;
             }
             finished = executeCommand(std::make_shared<sokoban::Command>(c));
-            console().clear();
-            drawLevel(game_->map());
         } while (!finished);
 
-         console().clear();
+        console().clear();
         std::cout << "Yoy won!!!\n";
         std::cout << "Press any key to return to main window\n";
         console().waitForInput();
