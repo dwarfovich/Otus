@@ -1,7 +1,8 @@
 #pragma once
 
 #include "sokoban_core/session_context.hpp"
-#include "tui/tui.hpp"
+//#include "tui/tui.hpp"
+#include "tui/console.hpp"
 #include "tui/keyboard.hpp"
 #include "base_game_object_factory.hpp"
 #include "sokoban_core/command.hpp"
@@ -71,21 +72,21 @@ public:
                          *gameObjectFactory_);
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
 
-        sokoban::tui::clearConsole();
+        console().clear();
         drawLevel(game_->map());
         bool finished = false;
         do {
-            sokoban::Key c = sokoban::tui::waitForInput();
+            sokoban::Key c = console().waitForInput();
             if (c == sokoban::Key::esc) {
                 return;
             }
             finished = executeCommand(std::make_shared<sokoban::Command>(c));
         } while (!finished);
 
-        sokoban::tui::clearConsole();
+         console().clear();
         std::cout << "Yoy won!!!\n";
         std::cout << "Press any key to return to main window\n";
-        sokoban::tui::waitForInput();
+        console().waitForInput();
     }
 
     void drawLevel(const RectangleTileMap& map)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sokoban_core/key_definitions.hpp"
-
+#define NOMINMAX
 #include <Windows.h>
 
 namespace sokoban {

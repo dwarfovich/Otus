@@ -4,7 +4,7 @@
 #include "sokoban_core/action_logger.hpp"
 #include "sokoban_core/mod.hpp"
 #include "sokoban_core/default_paths.hpp"
-#include "tui/system_init.hpp"
+#include "sokoban_core/system.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"
 #include "tui/keyboard.hpp"
@@ -18,31 +18,32 @@
 #include <iostream>
 
 std::filesystem::path showLoadModMenu();
-void                  startGame(const std::filesystem::path& modFolderPath);
+void                  startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
 
 int main(int argc, char* argv[])
 {
-    const auto success = sokoban::tui::System::initialize();
-    if (!success) {
-        return -1;
-    }
+    //const auto success = sokoban::System::initialize();
+    //if (!success) {
+    //    return -1;
+    //}
 
-    auto h = sokoban::tui::System::inputHandle();
+    sokoban::System system;
+    auto console = std::make_shared<sokoban::tui::Console>(system);
 
-    try {
-        boost::filesystem::path lib_path {
-            "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
-        };
+    //try {
+    //    boost::filesystem::path lib_path {
+    //        "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
+    //    };
 
-        auto pluginCreatorFunction = boost::dll::import_alias<std::unique_ptr<sokoban::Mod>()>(
-            lib_path, "createPlugin", boost::dll::load_mode::append_decorations);
+    //    auto pluginCreatorFunction = boost::dll::import_alias<std::unique_ptr<sokoban::Mod>()>(
+    //        lib_path, "createPlugin", boost::dll::load_mode::append_decorations);
 
-        auto plugin = pluginCreatorFunction();
-        // std::cout << plugin->name() << std::endl;
-        auto c = plugin->createSessionContext();
-    } catch (const std::exception& e) {
-        std::cout << "Exception: " << e.what() << '\n';
-    }
+    //    auto plugin = pluginCreatorFunction();
+    //    // std::cout << plugin->name() << std::endl;
+    //    auto c = plugin->createSessionContext();
+    //} catch (const std::exception& e) {
+    //    std::cout << "Exception: " << e.what() << '\n';
+    //}
 
     sokoban::NewGameParameters newGameParameters;
     newGameParameters.modFolder = sokoban::default_paths::modsFolder / "Core";
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
     while (true) {
         sokoban::tui::clearConsole();
         sokoban::tui::printMenu(menus.mainMenu);
-        startGame(modPath);
+        startGame(modPath, console);
         /*sokoban::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::Key::esc) {
             return 0;
@@ -76,7 +77,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-std::filesystem::path showLoadModMenu()
+std::filesystem::path showLoadModMenu(sokoban::tui::Console& console)
 {
     sokoban::tui::clearConsole();
     std::size_t                                   counter = 0;
@@ -90,7 +91,7 @@ std::filesystem::path showLoadModMenu()
         }
     }
 
-    const auto key = sokoban::tui::waitForInput();
+    const auto key = console.waitForInput();
     switch (key) {
         case sokoban::Key::digit1: return modFolders[0];
         case sokoban::Key::digit2: return modFolders[1];
@@ -128,12 +129,13 @@ ModDll loadModDll(const std::filesystem::path& modFolderPath)
     return ModDll { modDllPath };
 }
 
-void startGame(const std::filesystem::path& modFolderPath)
+void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
 {
     try {
         ModDll modDll = loadModDll(modFolderPath);
         std::cout << "Mod loaded: " << modDll.mod().name() << '\n';
         auto context = modDll.mod().createSessionContext();
+        context->setConsole(console);
             context->startGame();
        // context->startGame();
 
@@ -141,7 +143,7 @@ void startGame(const std::filesystem::path& modFolderPath)
         std::cout << "Exception: " << e.what() << '\n';
     }
 
-    sokoban::tui::waitForInput();
+    console->waitForInput();
 }
 
 // void startGame(const sokoban::NewGameParameters& parameters)
