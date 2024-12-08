@@ -41,7 +41,7 @@ public:
 
     BaseGame& game() { return *game_; }
 
-    std::filesystem::path generateLogFilepath(const std::string& levelName) const
+    std::filesystem::path generateLogFilePath(const std::string& levelName) const
     {
         std::filesystem::path path { default_paths::modsFolder / "Core/Logs/" };
         std::time_t           t = std::time(nullptr);

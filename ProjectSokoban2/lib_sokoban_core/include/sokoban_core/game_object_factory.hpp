@@ -11,13 +11,10 @@ namespace sokoban {
 class GameObjectFactory
 {
 public:
-    
     virtual ~GameObjectFactory() = default;
 
-    virtual GameObjectUptr create(const GameObjectId& id) const = 0;
+    virtual GameObjectUptr              create(const GameObjectId& id) const = 0;
     virtual std::vector<GameObjectSptr> create(char symbol) const            = 0;
-
-private:
 };
 
 } // namespace sokoban
