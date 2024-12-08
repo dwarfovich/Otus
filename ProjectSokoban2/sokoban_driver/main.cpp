@@ -17,7 +17,7 @@
 
 #include <iostream>
 
-std::filesystem::path showLoadModMenu();
+std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
 void                  startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
 
 int main(int argc, char* argv[])
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-std::filesystem::path showLoadModMenu(sokoban::tui::Console& console)
+std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
 {
     sokoban::tui::clearConsole();
     std::size_t                                   counter = 0;
@@ -136,6 +136,7 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
         std::cout << "Mod loaded: " << modDll.mod().name() << '\n';
         auto context = modDll.mod().createSessionContext();
         context->setConsole(console);
+        context->setModFolderPath(modFolderPath);
             context->startGame();
        // context->startGame();
 

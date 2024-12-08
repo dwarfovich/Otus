@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <memory>
 #include <iostream>
+#include <conio.h>
 
 namespace sokoban {
 namespace sbg {
@@ -81,6 +82,8 @@ public:
                 return;
             }
             finished = executeCommand(std::make_shared<sokoban::Command>(c));
+            console().clear();
+            drawLevel(game_->map());
         } while (!finished);
 
          console().clear();

@@ -26,9 +26,12 @@ public:
     tui::Console& console() {
         return *console_;
     }
+    void          setModFolderPath(const std::filesystem::path& path){ modFolderPath_ = path;
+    }
 
     protected:
         std::shared_ptr<tui::Console> console_;
+        std::filesystem::path modFolderPath_;
 };
 
 } // namespace sokoban

@@ -3,13 +3,14 @@
 #include "keyboard.hpp"
 
 namespace sokoban {
-    namespace tui{
+namespace tui {
 
-class Console{
+class Console
+{
 public:
-    Console(System& s) : system_{s}{}
+    Console(System& system) : system_ { system } {}
 
-    void clear() const {system("cls");}
+    void clear() const { system("cls"); }
     Key  waitForInput() const
     {
         static INPUT_RECORD inputRecord;
@@ -17,7 +18,6 @@ public:
         while (true) {
             auto success = ReadConsoleInput(system_.inputHandle(), &inputRecord, 1, &eventsRead);
             if (!success) {
-                auto e = GetLastError();
                 return Key::invalidKey;
             }
             if (inputRecord.EventType == KEY_EVENT) {
@@ -29,8 +29,9 @@ public:
         }
     }
 
-    private:
-        System& system_;
+private:
+    System& system_;
 };
-    }
-}
+
+} // namespace tui
+} // namespace sokoban

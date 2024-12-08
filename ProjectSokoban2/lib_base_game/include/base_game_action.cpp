@@ -27,7 +27,7 @@ std::pair<bool, bool> BaseGameAction::perform(BaseSessionContext& context)
         default: break;
     }
 
-    context.drawLevel(context.game().map());
+    
 
     return { success, context.game().isFinished() };
 }
