@@ -6,6 +6,7 @@
 #include "sokoban_core/tile_map.hpp"
 #include "sokoban_core/coords.hpp"
 #include "sokoban_core/direction.hpp"
+#include "base_action_factory.hpp"
 
 namespace sokoban {
 namespace sbg {
@@ -15,7 +16,7 @@ class BaseGame : public Game
 public:
     BaseGame(RectangleTileMap map, const Coords& playerCoords) : map_ { map }, playerCoords_ { playerCoords } {}
 
-    bool isFinished() const
+    virtual bool isFinished() const
     {
         for (const auto& row : map_) {
             for (const auto& tile : row) {
@@ -35,17 +36,13 @@ public:
 
         return true;
     }
-    void                    setMap(const RectangleTileMap& map) { map_ = map; }
-    const RectangleTileMap& map() const { return map_; }
-    RectangleTileMap&       map() { return map_; }
-    const Tile&             tile(const Coords& coords) const { return map_.map()[coords.y()][coords.x()]; }
-    const Coords&           playerCoords() const { return playerCoords_; }
-    void                    setPlayerCoords(const Coords& coords) { playerCoords_ = coords; }
-    void moveObject(std::shared_ptr<GameObject> object, const Coords& sourceCoords, const Coords& targetCoords)
+    virtual void setMap(const RectangleTileMap& map) { map_ = map; }
+    virtual void setPlayerCoords(const Coords& coords) { playerCoords_ = coords; }
+    virtual void moveObject(std::shared_ptr<GameObject> object, const Coords& sourceCoords, const Coords& targetCoords)
     {
         map_.moveObject(object, sourceCoords, targetCoords);
     }
-    bool tileIsMovable(const Tile& tile)
+    virtual bool tileIsMovable(const Tile& tile)
     {
         for (const auto& object : tile) {
             if ((*object->id() == "player") || (*object->id() == "crate") || (*object->id() == "wall")) {
@@ -55,7 +52,7 @@ public:
 
         return true;
     }
-    bool moveObject(GameObjectSptr object, const Coords& coords, Direction direction)
+    virtual bool moveObject(GameObjectSptr object, const Coords& coords, Direction direction)
     {
         const auto& nextTile = map_.adjacentTile(coords, direction);
         if (!nextTile.has_value()) {
@@ -77,7 +74,7 @@ public:
         }
         return false;
     }
-    bool movePlayer(Direction direction, BaseGame& game)
+    virtual bool movePlayer(Direction direction)
     {
         const auto& nextTile = map_.adjacentTile(playerCoords_, direction);
         if (!nextTile.has_value()) {
@@ -122,11 +119,17 @@ public:
         }
         return false;
     }
+  
+
+    const RectangleTileMap& map() const { return map_; }
+    const Tile&             tile(const Coords& coords) const { return map_.map()[coords.y()][coords.x()]; }
+    const Coords&           playerCoords() const { return playerCoords_; }
 
 private:
     RectangleTileMap map_;
     Coords           playerCoords_;
     GameState        gameState_ = GameState::InProgress;
+    BaseActionFactory actionFactory_;
 };
 
 inline std::pair<RectangleTileMap, Coords> loadLevelMap(const std::filesystem::path& path,

@@ -22,24 +22,19 @@ namespace sbg {
 class BaseSessionContext : public SessionContext
 {
 public:
-    BaseSessionContext()
-    {
-        multimodalInterface_ = std::make_unique<BaseMultimodalInterface>();
-    }
+    BaseSessionContext() { multimodalInterface_ = std::make_unique<BaseMultimodalInterface>(); }
 
     MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
-
-    bool executeCommand(const std::shared_ptr<Command>& command) override
+    Game& game() override { return *game_; }
+    std::pair<bool, bool> executeCommand(const std::shared_ptr<Command>& command) override
     {
-        auto action                  = BaseActionFactory().create(*command);
-        auto [success, gameFinished] = action->perform(*this);
-        if (success && actionLogger_) {
-            actionLogger_->log(action->key());
+        auto action                  = actionFactory_.create(*command);
+        auto [success, gameFinished] = action->perform(*game_);
+        if(success){
+            redrawGame();
         }
-        return gameFinished;
+        return { success, gameFinished };
     }
-
-    BaseGame& game() { return *game_; }
 
     std::filesystem::path generateLogFilePath(const std::string& levelName) const
     {
@@ -65,22 +60,12 @@ public:
             loadLevelMap(std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/level1.lm",
                          *gameObjectFactory_);
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
-
-        bool finished = false;
-        do {
-            console().clear();
-            drawLevel(game_->map());
-            sokoban::Key c = console().waitForInput();
-            if (c == sokoban::Key::esc) {
-                return;
-            }
-            finished = executeCommand(std::make_shared<sokoban::Command>(c));
-        } while (!finished);
-
         console().clear();
-        std::cout << "Yoy won!!!\n";
-        std::cout << "Press any key to return to main window\n";
-        console().waitForInput();
+        drawLevel(game_->map());
+    }
+    void redrawGame() override{
+        console().clear();
+        drawLevel(game_->map());
     }
 
     void drawLevel(const RectangleTileMap& map)
@@ -103,6 +88,7 @@ private:
     std::unique_ptr<BaseMultimodalInterface> multimodalInterface_ = nullptr;
     std::unique_ptr<BaseGameObjectFactory>   gameObjectFactory_   = nullptr;
     std::unique_ptr<ActionLogger>            actionLogger_        = nullptr;
+    BaseActionFactory                        actionFactory_;
 };
 
 } // namespace sbg

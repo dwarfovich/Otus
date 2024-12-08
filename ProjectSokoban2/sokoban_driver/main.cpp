@@ -1,5 +1,6 @@
 // #include "base_session_context.hpp"
 #include "sokoban_core/game_state.hpp"
+#include "sokoban_core/game.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
 #include "sokoban_core/action_logger.hpp"
 #include "sokoban_core/mod.hpp"
@@ -18,22 +19,22 @@
 #include <iostream>
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
-void                  startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
+void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
 
 int main(int argc, char* argv[])
 {
-    //const auto success = sokoban::System::initialize();
-    //if (!success) {
-    //    return -1;
-    //}
+    // const auto success = sokoban::System::initialize();
+    // if (!success) {
+    //     return -1;
+    // }
 
     sokoban::System system;
-    auto console = std::make_shared<sokoban::tui::Console>(system);
+    auto            console = std::make_shared<sokoban::tui::Console>(system);
 
-    //try {
-    //    boost::filesystem::path lib_path {
-    //        "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
-    //    };
+    // try {
+    //     boost::filesystem::path lib_path {
+    //         "C:\\Boo\\Code\\Otus\\ProjectSokoban2\\build\\msvc-debug\\lib_mod_example\\mod_example_lib"
+    //     };
 
     //    auto pluginCreatorFunction = boost::dll::import_alias<std::unique_ptr<sokoban::Mod>()>(
     //        lib_path, "createPlugin", boost::dll::load_mode::append_decorations);
@@ -120,7 +121,7 @@ public:
 
 private: // data
     boost::shared_ptr<boost::dll::shared_library> library_ = nullptr;
-    std::unique_ptr<sokoban::Mod>                 mod_ = nullptr;
+    std::unique_ptr<sokoban::Mod>                 mod_     = nullptr;
 };
 
 ModDll loadModDll(const std::filesystem::path& modFolderPath)
@@ -137,9 +138,20 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
         auto context = modDll.mod().createSessionContext();
         context->setConsole(console);
         context->setModFolderPath(modFolderPath);
-            context->startGame();
-       // context->startGame();
-
+        context->startGame();
+        for(bool finished = false; !finished; ){
+            sokoban::Key c = console->waitForInput();
+            if (c == sokoban::Key::esc) {
+                return;
+            }
+            auto [success, gameFinished] = context->executeCommand(std::make_shared<sokoban::Command>(c));
+            //if(success){
+            //    context->redrawGame();
+            //}
+            finished = gameFinished;
+        }
+        std::cout << "Press any key to return to main window\n";
+        console->waitForInput();
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';
     }
