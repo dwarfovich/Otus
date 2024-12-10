@@ -11,8 +11,8 @@ class ModSessionContext : public sokoban::SessionContext
 {
 public:
     sokoban::MultimodalInterface& multimodalInterface() { return multimodalInterface_; }
-    bool                          executeCommand(const std::shared_ptr<sokoban::Command>& command) {
-        return false;
+    std::pair<bool, bool>         executeCommand(const std::shared_ptr<sokoban::Command>& command) {
+        return {};
     }
     void                          startGame() override {
         //sessionContext.drawLevel(sessionContext.game().map());
@@ -29,6 +29,9 @@ public:
         std::cout << "Yoy won!!!\n";
         std::cout << "Press any key to return to main window\n";
         sokoban::tui::waitForInput();*/
+    }
+    sokoban::Game&                 game() override{
+        return game_;
     }
 
     private: // methods

@@ -40,10 +40,10 @@ add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build e
                    "${CMAKE_SOURCE_DIR}/build/msvc-debug/lib_base_game/base_game_lib.dll"      # <--this is in-file
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/mod.dll)                 # <--this is out-file path
 
-add_custom_command(TARGET sokoban_driver POST_BUILD 
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
-                   "C:/Boo/Code/Otus/ProjectSokoban2/build/msvc-debug/lib_mod_example/mod_example_lib.dll"
-                   ${CMAKE_BINARY_DIR}/bin/Mods/ModExample/mod.dll)                 
+#add_custom_command(TARGET sokoban_driver POST_BUILD 
+#                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+#                   "C:/Boo/Code/Otus/ProjectSokoban2/build/msvc-debug/lib_mod_example/mod_example_lib.dll"
+#                   ${CMAKE_BINARY_DIR}/bin/Mods/ModExample/mod.dll)                 
 
 add_custom_command(TARGET sokoban_driver POST_BUILD        
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
@@ -58,7 +58,7 @@ else()
                    add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build event to MyTest
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
                    "${CMAKE_SOURCE_DIR}/build/linux-debug/lib/libbase_game_lib.so"
-                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/mod.so)                 # <--this is out-file path
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/libmod.so)                 # <--this is out-file path
 
 #add_custom_command(TARGET sokoban_driver POST_BUILD 
 #                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  

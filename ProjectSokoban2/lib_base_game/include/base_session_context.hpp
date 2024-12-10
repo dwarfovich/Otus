@@ -23,13 +23,13 @@ class BaseSessionContext : public SessionContext
 public:
     BaseSessionContext() { multimodalInterface_ = std::make_unique<BaseMultimodalInterface>(); }
 
-    MultimodalInterface& multimodalInterface() override { return *multimodalInterface_; }
-    Game& game() override { return *game_; }
+    MultimodalInterface&  multimodalInterface() override { return *multimodalInterface_; }
+    Game&                 game() override { return *game_; }
     std::pair<bool, bool> executeCommand(const std::shared_ptr<Command>& command) override
     {
         auto action                  = actionFactory_.create(*command);
         auto [success, gameFinished] = action->perform(*game_);
-        if(success){
+        if (success) {
             redrawGame();
         }
         return { success, gameFinished };
@@ -55,22 +55,24 @@ public:
         auto path = std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/object_ids.json";
         auto objects       = loadFromJsonFile(path);
         gameObjectFactory_ = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        auto [map, playerCoords] =
-            loadLevelMap(std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/level1.lm",
-                         *gameObjectFactory_);
-        game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
+        const std::filesystem::path levelpath =
+            std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/level1.lm";
+        auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
+        game_                    = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
         console().clear();
         drawLevel(std::cout, game_->map());
     }
-    void redrawGame() {
+    void redrawGame()
+    {
         console().clear();
         drawLevel(std::cout, game_->map());
     }
 
-        bool supportsSaveGames() const override { return true; }
-    void saveGame(const std::filesystem::path& path) const override{
-        std::ofstream stream {path};
-        if(!stream.is_open()){
+    bool supportsSaveGames() const override { return true; }
+    void saveGame(const std::filesystem::path& path) const override
+    {
+        std::ofstream stream { path };
+        if (!stream.is_open()) {
             throw std::runtime_error("Failed to open file for saving game - " + path.string());
         }
 

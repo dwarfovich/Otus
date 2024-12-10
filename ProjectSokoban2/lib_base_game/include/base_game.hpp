@@ -119,16 +119,15 @@ public:
         }
         return false;
     }
-  
 
     const RectangleTileMap& map() const { return map_; }
     const Tile&             tile(const Coords& coords) const { return map_.map()[coords.y()][coords.x()]; }
     const Coords&           playerCoords() const { return playerCoords_; }
 
 private:
-    RectangleTileMap map_;
-    Coords           playerCoords_;
-    GameState        gameState_ = GameState::InProgress;
+    RectangleTileMap  map_;
+    Coords            playerCoords_;
+    GameState         gameState_ = GameState::InProgress;
     BaseActionFactory actionFactory_;
 };
 
@@ -140,6 +139,7 @@ inline std::pair<RectangleTileMap, Coords> loadLevelMap(const std::filesystem::p
         throw std::runtime_error("Failed to open path " + path.string());
     }
 
+    static const std::string           symbolsToIgnore = "\r";
     std::vector<RectangleTileMap::Row> map;
     std::optional<Coords>              playerCoords_;
     std::string                        line;
@@ -147,13 +147,16 @@ inline std::pair<RectangleTileMap, Coords> loadLevelMap(const std::filesystem::p
     while (std::getline(file, line)) {
         RectangleTileMap::Row row(line.size());
         for (std::size_t i = 0; i < line.size(); ++i) {
+            if (symbolsToIgnore.find(line[i]) != std::string::npos) {
+                continue;
+            }
             auto objects = objectFactory.create(line[i]);
             for (const auto& object : objects) {
                 if (*object->id() == "player") {
                     playerCoords_ = { i, rowsCount };
                 }
             }
-            row[i].setObjects(objectFactory.create(line[i]));
+            row[i].setObjects(std::move(objects));
         }
         map.push_back(std::move(row));
         ++rowsCount;

@@ -11,6 +11,8 @@
 #include <fcntl.h>
 #include <termios.h>
 
+#include <cstdint>
+
 namespace sokoban {
 namespace tui {
 
@@ -29,8 +31,8 @@ public:
 
             int result = select(fileno(stdin) + 1, &fdSet, NULL, NULL, NULL);
             if (result > 0) {
-                char c;
-                read(fileno(stdin), &c, 1);
+                uint32_t c = 0;
+                read(fileno(stdin), &c, sizeof(c));
                 return fromVirtualChar(c);
             } else {
                 return Key::invalidKey;
