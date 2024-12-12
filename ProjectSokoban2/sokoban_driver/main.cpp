@@ -15,7 +15,7 @@
 #include <iostream>
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
-void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
+void initialize(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
 
 class ModDll
 {
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     while (true) {
         console->clear();
         sokoban::tui::printMenu(menus.mainMenu);
-        startGame(modPath, console);
+        initialize(modPath, console);
         /*sokoban::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::Key::esc) {
             return 0;
@@ -105,7 +105,7 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
     }
 }
 
-void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
+void initialize(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
 {
     try {
         ModDll modDll = loadModDll(modFolderPath);
@@ -113,27 +113,33 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
         auto context = modDll.mod().createSessionContext();
         context->setConsole(console);
         context->setModFolderPath(modFolderPath);
-        context->startGame();
+        context->initialize();
         bool hasNextLevel = true;
         do {
-            context->loadCurrentLevel();
-            for (bool finished = false; !finished;) {
+            context->loadNextLevel();
+            sokoban::GameState gameState = sokoban::GameState::InProgress;
+            do {
                 sokoban::Key c = console->waitForInput();
                 if (c == sokoban::Key::esc) {
                     return;
                 }
-                auto [success, gameFinished] = context->executeCommand(std::make_shared<sokoban::Command>(c));
-                finished                     = gameFinished;
-            }
-            hasNextLevel = context->hasNextLevel();
-            if (context->hasNextLevel()){
-                context->loadNextLevel();
+                auto [success, newGameState] = context->executeCommand(std::make_shared<sokoban::Command>(c));
+                gameState                    = newGameState;
+            } while (gameState == sokoban::GameState::InProgress);
+
+            if (gameState == sokoban::GameState::Won) {
+                std::cout << "Wou won! Press any key to continue.\n";
+                console->waitForInput();
+                hasNextLevel = context->hasNextLevel();
+                if (hasNextLevel) {
+                    context->incrementLevelNumber();
+                }
+            } else {
+                std::cout << "Wou lost! Press any key to continue.\n";
             }
 
-                std::cout << "Game over. Press any key to continue.\n";
-                console->waitForInput();
         } while (hasNextLevel);
-        std::cout << "Press any key to return to main window\n";
+        std::cout << "Game over. Press any key to continue.\n";
         console->waitForInput();
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';

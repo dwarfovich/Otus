@@ -18,7 +18,7 @@ class BaseGame : public Game
 public:
     BaseGame(RectangleTileMap map, const Coords& playerCoords) : map_ { map }, playerCoords_ { playerCoords } {}
 
-    virtual bool isFinished() const
+    virtual GameState gameState() const
     {
         for (const auto& row : map_) {
             for (const auto& tile : row) {
@@ -30,13 +30,13 @@ public:
                         return object->id()->id() == "crate";
                     });
                     if (crateIter == tile.end()) {
-                        return false;
+                        return GameState::InProgress;
                     }
                 }
             }
         }
 
-        return true;
+        return GameState::Won;
     }
     virtual void setMap(const RectangleTileMap& map) { map_ = map; }
     virtual void setPlayerCoords(const Coords& coords) { playerCoords_ = coords; }

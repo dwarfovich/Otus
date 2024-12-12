@@ -6,7 +6,8 @@ namespace sokoban {
 
     enum class GameState : uint8_t {
         InProgress,
-        Finished
+        Won,
+        Lost
     };
 
 }

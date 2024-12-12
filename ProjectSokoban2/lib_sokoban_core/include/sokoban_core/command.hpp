@@ -14,4 +14,5 @@ public:
 private:
     Key key_ = Key::invalidKey;
 };
+
 } // namespace sokoban

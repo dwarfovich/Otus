@@ -14,7 +14,7 @@ public:
     std::pair<bool, bool>         executeCommand(const std::shared_ptr<sokoban::Command>& command) {
         return {};
     }
-    void                          startGame() override {
+    void                          initialize() override {
         //sessionContext.drawLevel(sessionContext.game().map());
         /*bool finished = false;
         do {

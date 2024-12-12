@@ -26,7 +26,7 @@ public:
 
     MultimodalInterface&  multimodalInterface() override { return *multimodalInterface_; }
     Game&                 game() override { return *game_; }
-    std::pair<bool, bool> executeCommand(const std::shared_ptr<Command>& command) override
+    std::pair<bool, GameState> executeCommand(const std::shared_ptr<Command>& command) override
     {
         auto action                  = actionFactory_.create(*command);
         auto [success, gameFinished] = action->perform(*game_);
@@ -51,7 +51,7 @@ public:
         return path;
     }
 
-    void startGame() override
+    void initialize() override
     {
         auto campaignPath =
             std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/campaign.json";
@@ -64,7 +64,7 @@ public:
         
     }
 
-    void loadCurrentLevel() override{
+    void loadNextLevel() override{
         const std::filesystem::path levelpath = std::filesystem::current_path() / sokoban::default_paths::modsFolder
                                                 / "BaseGame/" / campaign_->currentLevelName();
         auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
@@ -72,7 +72,7 @@ public:
         console().clear();
         drawLevel(std::cout, game_->map());
     }
-    void loadNextLevel() override{
+    void incrementLevelNumber() override{
         campaign_->setCurrentLevel(campaign_->currentLevel()  +1);
     }
     void redrawGame()

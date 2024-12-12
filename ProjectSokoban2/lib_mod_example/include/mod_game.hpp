@@ -27,7 +27,7 @@ public:
         }*/
     }
 
-    bool isFinished() const
+    bool gameState() const
     {
         /*for (const auto& row : map_) {
             for (const auto& tile : row) {
