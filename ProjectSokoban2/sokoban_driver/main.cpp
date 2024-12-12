@@ -15,7 +15,7 @@
 #include <iostream>
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
-void initialize(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
+void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
 
 class ModDll
 {
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     while (true) {
         console->clear();
         sokoban::tui::printMenu(menus.mainMenu);
-        initialize(modPath, console);
+        startGame(modPath, console);
         /*sokoban::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::Key::esc) {
             return 0;
@@ -88,7 +88,7 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
     for (const auto& dirEntry : std::filesystem::directory_iterator { sokoban::default_paths::modsFolder }) {
         if (dirEntry.is_directory()) {
             std::filesystem::path path { dirEntry };
-            std::cout << counter++ + 1 << ": " << path.filename() << '\n';
+            std::cout << ++counter + 1 << ": " << path.filename() << '\n';
             modFolders.push_back(dirEntry);
         }
     }
@@ -105,7 +105,7 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
     }
 }
 
-void initialize(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
+void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
 {
     try {
         ModDll modDll = loadModDll(modFolderPath);
@@ -113,7 +113,7 @@ void initialize(const std::filesystem::path& modFolderPath, const std::shared_pt
         auto context = modDll.mod().createSessionContext();
         context->setConsole(console);
         context->setModFolderPath(modFolderPath);
-        context->initialize();
+        context->startGame();
         bool hasNextLevel = true;
         do {
             context->loadNextLevel();
@@ -129,7 +129,6 @@ void initialize(const std::filesystem::path& modFolderPath, const std::shared_pt
 
             if (gameState == sokoban::GameState::Won) {
                 std::cout << "Wou won! Press any key to continue.\n";
-                console->waitForInput();
                 hasNextLevel = context->hasNextLevel();
                 if (hasNextLevel) {
                     context->incrementLevelNumber();
@@ -137,13 +136,11 @@ void initialize(const std::filesystem::path& modFolderPath, const std::shared_pt
             } else {
                 std::cout << "Wou lost! Press any key to continue.\n";
             }
-
+            console->waitForInput();
         } while (hasNextLevel);
         std::cout << "Game over. Press any key to continue.\n";
         console->waitForInput();
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';
     }
-
-    console->waitForInput();
 }
