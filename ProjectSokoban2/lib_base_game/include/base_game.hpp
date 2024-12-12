@@ -8,6 +8,8 @@
 #include "sokoban_core/direction.hpp"
 #include "base_action_factory.hpp"
 
+#include <tuple>
+
 namespace sokoban {
 namespace sbg {
 
@@ -163,6 +165,43 @@ inline std::pair<RectangleTileMap, Coords> loadLevelMap(const std::filesystem::p
     }
 
     return { RectangleTileMap { std::move(map) }, playerCoords_.value() };
+}
+
+inline std::tuple<RectangleTileMap, Coords, std::size_t> loadSaveGame(const std::filesystem::path& path,
+                                                                      const GameObjectFactory&     objectFactory)
+{
+    auto file = std::ifstream { path };
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open path " + path.string());
+    }
+
+    std::size_t level = 0;
+    file >> level;
+
+    static const std::string           symbolsToIgnore = "\r";
+    std::vector<RectangleTileMap::Row> map;
+    std::optional<Coords>              playerCoords_;
+    std::string                        line;
+    std::size_t                        rowsCount = 0;
+    while (std::getline(file, line)) {
+        RectangleTileMap::Row row(line.size());
+        for (std::size_t i = 0; i < line.size(); ++i) {
+            if (symbolsToIgnore.find(line[i]) != std::string::npos) {
+                continue;
+            }
+            auto objects = objectFactory.create(line[i]);
+            for (const auto& object : objects) {
+                if (*object->id() == "player") {
+                    playerCoords_ = { i, rowsCount };
+                }
+            }
+            row[i].setObjects(std::move(objects));
+        }
+        map.push_back(std::move(row));
+        ++rowsCount;
+    }
+
+    return { RectangleTileMap { std::move(map) }, playerCoords_.value(), level };
 }
 
 } // namespace sbg

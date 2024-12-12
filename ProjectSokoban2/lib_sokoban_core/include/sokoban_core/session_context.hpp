@@ -20,6 +20,7 @@ public:
     virtual std::pair<bool, bool> executeCommand(const std::shared_ptr<Command>& command) = 0;
     virtual Game&                 game()                                                  = 0;
     virtual void                  startGame()                                             = 0;
+    bool hasNextLevel() const {return false;}
     //virtual void                  redrawGame()                                            = 0;
     virtual bool                  supportsSaveGames() const { return false; }
     virtual void                  saveGame(const std::filesystem::path& path) const {}
