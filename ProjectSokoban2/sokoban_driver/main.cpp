@@ -114,14 +114,25 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
         context->setConsole(console);
         context->setModFolderPath(modFolderPath);
         context->startGame();
-        for (bool finished = false; !finished;) {
-            sokoban::Key c = console->waitForInput();
-            if (c == sokoban::Key::esc) {
-                return;
+        bool hasNextLevel = true;
+        do {
+            context->loadCurrentLevel();
+            for (bool finished = false; !finished;) {
+                sokoban::Key c = console->waitForInput();
+                if (c == sokoban::Key::esc) {
+                    return;
+                }
+                auto [success, gameFinished] = context->executeCommand(std::make_shared<sokoban::Command>(c));
+                finished                     = gameFinished;
             }
-            auto [success, gameFinished] = context->executeCommand(std::make_shared<sokoban::Command>(c));
-            finished                     = gameFinished;
-        }
+            hasNextLevel = context->hasNextLevel();
+            if (context->hasNextLevel()){
+                context->loadNextLevel();
+            }
+
+                std::cout << "Game over. Press any key to continue.\n";
+                console->waitForInput();
+        } while (hasNextLevel);
         std::cout << "Press any key to return to main window\n";
         console->waitForInput();
     } catch (std::exception e) {
@@ -130,22 +141,3 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
 
     console->waitForInput();
 }
-
-// void startGame(const sokoban::NewGameParameters& parameters)
-//{
-//     sokoban::sbg::BaseSessionContext sessionContext;
-//     sessionContext.drawLevel(sessionContext.game().map());
-//     bool finished = false;
-//     do {
-//         sokoban::Key c = sokoban::tui::waitForInput();
-//         if (c == sokoban::Key::esc) {
-//             return;
-//         }
-//         finished = sessionContext.executeCommand(std::make_shared<sokoban::Command>(c));
-//     } while (!finished);
-//
-//     system("cls");
-//     std::cout << "Yoy won!!!\n";
-//     std::cout << "Press any key to return to main window\n";
-//     sokoban::tui::waitForInput();
-// }

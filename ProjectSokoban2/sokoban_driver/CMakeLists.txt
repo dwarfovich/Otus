@@ -49,6 +49,10 @@ add_custom_command(TARGET sokoban_driver POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
                    "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/level1.lm"
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/level1.lm)            
+                   add_custom_command(TARGET sokoban_driver POST_BUILD        
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+                   "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/level2.lm"
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/level2.lm)   
                    
                    add_custom_command(TARGET sokoban_driver POST_BUILD        
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  

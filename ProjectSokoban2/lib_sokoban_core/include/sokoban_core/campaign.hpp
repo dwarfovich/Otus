@@ -37,7 +37,7 @@ public:
     }
 
     bool hasNextLevel() const{
-        levelNames_.size() > currentLevel_ + 1;
+        return levelNames_.size() > currentLevel_ + 1;
     }
 
 private:
