@@ -5,6 +5,7 @@
 #include "sokoban_core/mod.hpp"
 #include "sokoban_core/default_paths.hpp"
 #include "sokoban_core/system.hpp"
+#include "sokoban_core/player.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"
 
@@ -16,6 +17,7 @@
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
 void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
+std::unique_ptr<sokoban::Player> selectPlayer();
 
 class ModDll
 {
@@ -52,6 +54,7 @@ int main(int argc, char* argv[])
 
     std::filesystem::path        modPath = "Mods/BaseGame";
     sokoban::tui::MenuCollection menus;
+    std::unique_ptr<sokoban::Player> user = selectPlayer();
     while (true) {
         console->clear();
         sokoban::tui::printMenu(menus.mainMenu);
@@ -143,4 +146,8 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';
     }
+}
+
+std::unique_ptr<sokoban::Player> selectPlayer(){
+    return nullptr;
 }

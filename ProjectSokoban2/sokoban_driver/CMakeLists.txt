@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.26)
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -48,7 +48,8 @@ add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build e
 add_custom_command(TARGET sokoban_driver POST_BUILD        
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
                    "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/level1.lm"
-                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/level1.lm)            
+                   ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/level1.lm)       
+                   
                    add_custom_command(TARGET sokoban_driver POST_BUILD        
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
                    "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/level2.lm"
@@ -63,6 +64,12 @@ add_custom_command(TARGET sokoban_driver POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
                    "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/campaign.json"
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/campaign.json)  
+
+add_custom_command(TARGET sokoban_driver POST_BUILD        
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different   
+                   "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/Players"
+                   ${CMAKE_BINARY_DIR}/bin/Players)  
+
 else()
                    add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build event to MyTest
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
