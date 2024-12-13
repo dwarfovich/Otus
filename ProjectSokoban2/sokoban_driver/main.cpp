@@ -6,6 +6,7 @@
 #include "sokoban_core/default_paths.hpp"
 #include "sokoban_core/system.hpp"
 #include "sokoban_core/player.hpp"
+#include "json_utils/json_utils.hpp"
 #include "tui/menu_collection.hpp"
 #include "tui/menu.hpp"
 
@@ -16,8 +17,7 @@
 #include <iostream>
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
-void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console);
-std::unique_ptr<sokoban::Player> selectPlayer();
+void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console, sokoban::Player& player);
 
 class ModDll
 {
@@ -49,16 +49,19 @@ int main(int argc, char* argv[])
     sokoban::System system;
     auto            console = std::make_shared<sokoban::tui::Console>(system);
 
+    const auto json =sokoban::json_utils::loadFromFile("players.json");
+    auto players = sokoban::loadPlayersList(json);
+
+
     sokoban::NewGameParameters newGameParameters;
     newGameParameters.modFolder = sokoban::default_paths::modsFolder / "Core";
 
     std::filesystem::path        modPath = "Mods/BaseGame";
     sokoban::tui::MenuCollection menus;
-    std::unique_ptr<sokoban::Player> user = selectPlayer();
     while (true) {
         console->clear();
         sokoban::tui::printMenu(menus.mainMenu);
-        startGame(modPath, console);
+        startGame(modPath, console, players[0]);
         /*sokoban::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::Key::esc) {
             return 0;
@@ -108,7 +111,9 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
     }
 }
 
-void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console)
+void startGame(const std::filesystem::path&                  modFolderPath,
+               const std::shared_ptr<sokoban::tui::Console>& console,
+               sokoban::Player&                              player)
 {
     try {
         ModDll modDll = loadModDll(modFolderPath);
@@ -131,10 +136,16 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
             } while (gameState == sokoban::GameState::InProgress);
 
             if (gameState == sokoban::GameState::Won) {
-                std::cout << "Wou won! Press any key to continue.\n";
                 hasNextLevel = context->hasNextLevel();
                 if (hasNextLevel) {
                     context->incrementLevelNumber();
+                } else{
+                    auto message = context->achievement();
+                    if(!message.empty()){
+                        std::cout << "You got an achievement: " << message << '\n';
+                        player.addAchievement(modFolderPath, std::move(message));
+                    }
+                    std::cout << "Press any key to continue.\n";
                 }
             } else {
                 std::cout << "Wou lost! Press any key to continue.\n";
@@ -146,8 +157,4 @@ void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr
     } catch (std::exception e) {
         std::cout << "Exception: " << e.what() << '\n';
     }
-}
-
-std::unique_ptr<sokoban::Player> selectPlayer(){
-    return nullptr;
 }

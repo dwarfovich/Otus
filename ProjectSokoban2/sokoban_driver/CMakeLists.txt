@@ -66,9 +66,9 @@ add_custom_command(TARGET sokoban_driver POST_BUILD
                    ${CMAKE_BINARY_DIR}/bin/Mods/BaseGame/campaign.json)  
 
 add_custom_command(TARGET sokoban_driver POST_BUILD        
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different   
-                   "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/Players"
-                   ${CMAKE_BINARY_DIR}/bin/Players)  
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different   
+                   "C:/Boo/Code/Otus/ProjectSokoban2/sokoban_base_data/players.json"
+                   ${CMAKE_BINARY_DIR}/bin/players.json)  
 
 else()
                    add_custom_command(TARGET sokoban_driver POST_BUILD        # Adds a post-build event to MyTest

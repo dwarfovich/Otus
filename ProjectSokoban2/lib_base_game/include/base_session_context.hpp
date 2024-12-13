@@ -123,6 +123,11 @@ public:
         }
     }
 
+    std::string achievement() const override { 
+        return "Base campaign completed!"; 
+    }
+
+
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
     std::unique_ptr<BaseMultimodalInterface> multimodalInterface_ = nullptr;

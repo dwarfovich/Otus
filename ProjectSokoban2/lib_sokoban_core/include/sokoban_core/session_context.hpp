@@ -27,6 +27,7 @@ public:
     virtual bool                  supportsSaveGames() const { return false; }
     virtual void                  saveGame(const std::filesystem::path& path) const {}
     virtual void                  loadGame(const std::filesystem::path& path) {}
+    virtual std::string achievement() const {return{};}
 
     void          setConsole(const std::shared_ptr<tui::Console>& console) { console_ = console; }
     tui::Console& console() { return *console_; }

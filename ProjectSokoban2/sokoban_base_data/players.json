@@ -1,0 +1,13 @@
+[
+    {
+        "name": "player 1",
+        "achievements": {
+            "BaseMod": "Completed campaign"
+        }
+    },
+    {
+        "name": "player 2",
+        "achievements": {
+        }
+    }
+]
