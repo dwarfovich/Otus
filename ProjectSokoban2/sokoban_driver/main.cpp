@@ -1,3 +1,5 @@
+#include "mod_dynamic_library.hpp"
+
 #include "sokoban_core/game_state.hpp"
 #include "sokoban_core/game.hpp"
 #include "sokoban_core/new_game_parameters.hpp"
@@ -14,35 +16,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/function.hpp>
 
-#include <iostream>
+#include <iostream> 
 
 std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
-void startGame(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console, sokoban::Player& player);
-
-class ModDll
-{
-private: // types
-    using ModCreatorFunction = std::unique_ptr<sokoban::Mod>();
-
-public:
-    ModDll(const boost::filesystem::path& modDllPath)
-        : library_ { modDllPath, boost::dll::load_mode::append_decorations }
-        , mod_ { library_.get_alias<ModCreatorFunction>("createMod")() }
-    {
-    }
-
-    sokoban::Mod& mod() { return *mod_; }
-
-private: // data
-    boost::dll::shared_library    library_;
-    std::unique_ptr<sokoban::Mod> mod_ = nullptr;
-};
-
-ModDll loadModDll(const std::filesystem::path& modFolderPath)
-{
-    boost::filesystem::path modDllPath = modFolderPath.string() + "/mod";
-    return ModDll { modDllPath };
-}
+void initialize(const std::filesystem::path& modFolderPath, const std::shared_ptr<sokoban::tui::Console>& console, sokoban::Player& player);
 
 int main(int argc, char* argv[])
 {
@@ -55,13 +32,13 @@ int main(int argc, char* argv[])
 
     sokoban::NewGameParameters newGameParameters;
     newGameParameters.modFolder = sokoban::default_paths::modsFolder / "Core";
-
+     
     std::filesystem::path        modPath = "Mods/BaseGame";
     sokoban::tui::MenuCollection menus;
     while (true) {
         console->clear();
         sokoban::tui::printMenu(menus.mainMenu);
-        startGame(modPath, console, players[0]);
+        initialize(modPath, console, players[0]);
         /*sokoban::Key c = sokoban::tui::waitForInput();
         if (c == sokoban::Key::esc) {
             return 0;
@@ -111,17 +88,17 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console)
     }
 }
 
-void startGame(const std::filesystem::path&                  modFolderPath,
+void initialize(const std::filesystem::path&                  modFolderPath,
                const std::shared_ptr<sokoban::tui::Console>& console,
                sokoban::Player&                              player)
 {
     try {
-        ModDll modDll = loadModDll(modFolderPath);
+        ModDynamicLibrary modDll = loadModDll(modFolderPath);
         std::cout << "Mod loaded: " << modDll.mod().name() << '\n';
         auto context = modDll.mod().createSessionContext();
         context->setConsole(console);
         context->setModFolderPath(modFolderPath);
-        context->startGame();
+        context->initialize();
         bool hasNextLevel = true;
         do {
             context->loadNextLevel();
@@ -139,14 +116,15 @@ void startGame(const std::filesystem::path&                  modFolderPath,
                 hasNextLevel = context->hasNextLevel();
                 if (hasNextLevel) {
                     context->incrementLevelNumber();
+                    std::cout << "You solved this puzzle!!!\n";
                 } else{
                     auto message = context->achievement();
                     if(!message.empty()){
                         std::cout << "You got an achievement: " << message << '\n';
                         player.addAchievement(modFolderPath, std::move(message));
                     }
-                    std::cout << "Press any key to continue.\n";
                 }
+                    std::cout << "Press any key to continue.\n";
             } else {
                 std::cout << "Wou lost! Press any key to continue.\n";
             }

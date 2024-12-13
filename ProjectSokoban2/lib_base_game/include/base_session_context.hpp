@@ -51,7 +51,7 @@ public:
         return path;
     }
 
-    void startGame() override
+    void initialize() override
     {
         auto campaignPath =
             std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/campaign.json";
