@@ -89,6 +89,8 @@ public:
         if (!stream.is_open()) {
             throw std::runtime_error("Failed to open file for saving game - " + path.string());
         }
+        stream << player_->name() << '\n';
+        stream << modFolderPath_ << '\n';
         stream << campaign_->currentLevel() << '\n';
         drawLevel(stream, game_->map());
     }

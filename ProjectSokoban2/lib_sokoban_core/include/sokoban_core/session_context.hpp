@@ -2,6 +2,7 @@
 
 #include "command.hpp"
 #include "game_state.hpp"
+#include "player.hpp"
 #include "tui/console.hpp"
 
 #include <memory>
@@ -29,11 +30,14 @@ public:
     virtual void                  loadGame(const std::filesystem::path& path) {}
     virtual std::string achievement() const {return{};}
 
+    void          setPlayer(const std::shared_ptr<Player>& player) { player_ = player; }
+    const std::shared_ptr<Player>& player() { return player_; }
     void          setConsole(const std::shared_ptr<tui::Console>& console) { console_ = console; }
     tui::Console& console() { return *console_; }
     void          setModFolderPath(const std::filesystem::path& path) { modFolderPath_ = path; }
 
 protected:
+    std::shared_ptr<Player> player_;
     std::shared_ptr<tui::Console> console_;
     std::filesystem::path         modFolderPath_;
 };

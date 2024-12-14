@@ -14,12 +14,15 @@ private: // types
     using ModCreatorFunction = std::unique_ptr<sokoban::Mod>();
 
 public:
-    ModDynamicLibrary(const boost::filesystem::path& modDllPath)
-        : library_ { modDllPath, boost::dll::load_mode::append_decorations }
+    ModDynamicLibrary(const std::filesystem::path& modFolderPath, const std::string& modFileName)
+        : library_ { boost::filesystem::path { modFolderPath } / modFileName, boost::dll::load_mode::append_decorations }
         , mod_ { library_.get_alias<ModCreatorFunction>(methodName_)() }
+        , modFolderPath_ { modFolderPath } 
     {
+
     }
 
+    const std::filesystem::path  modFolderPath() const { return modFolderPath_;}
     sokoban::Mod& mod() { return *mod_; }
 
 private: // data
@@ -27,10 +30,11 @@ private: // data
 
     boost::dll::shared_library    library_;
     std::unique_ptr<sokoban::Mod> mod_ = nullptr;
+    std::filesystem::path modFolderPath_;
 };
 
-ModDynamicLibrary loadModDll(const std::filesystem::path& modFolderPath)
+ModDynamicLibrary loadModDynamicLibrary(const std::filesystem::path& modFolderPath)
 {
-    boost::filesystem::path modDllPath = modFolderPath.string() + "/mod";
-    return ModDynamicLibrary { modDllPath };
+    static const std::string modFileName = "mod";
+    return ModDynamicLibrary { modFolderPath, modFileName };
 }

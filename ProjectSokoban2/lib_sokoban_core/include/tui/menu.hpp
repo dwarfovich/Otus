@@ -27,7 +27,7 @@ template<typename MenuType>
 void printMenu(const MenuType& menu)
 {
     for (uint8_t i = 0; i < menu.size(); ++i) {
-        std::cout << (unsigned)i + 1 << ": " << menu.text(i) << '\n';
+        std::cout << +i + 1 << ": " << menu.text(i) << '\n';
     }
     std::cout << "Choose entry number...\n";
 }
