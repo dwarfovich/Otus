@@ -16,6 +16,7 @@ namespace sbg {
 class BaseGame : public Game
 {
 public:
+    BaseGame() = default;
     BaseGame(RectangleTileMap map, const Coords& playerCoords) : map_ { map }, playerCoords_ { playerCoords } {}
 
     virtual GameState gameState() const

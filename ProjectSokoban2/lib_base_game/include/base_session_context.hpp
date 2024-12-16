@@ -24,18 +24,20 @@ class BaseSessionContext : public SessionContext
 public:
     BaseSessionContext() { multimodalInterface_ = std::make_unique<BaseMultimodalInterface>(); }
 
-    MultimodalInterface&  multimodalInterface() override { return *multimodalInterface_; }
-    Game&                 game() override { return *game_; }
+    MultimodalInterface&       multimodalInterface() override { return *multimodalInterface_; }
     std::pair<bool, GameState> executeCommand(const std::shared_ptr<Command>& command) override
     {
         auto action                  = actionFactory_.create(*command);
         auto [success, gameFinished] = action->perform(*game_);
         if (success) {
-            redrawGame();
+            drawLevel();
         }
         return { success, gameFinished };
     }
-    void          drawLevel() override{ redrawGame();
+    void drawLevel() override
+    {
+        console_->clear();
+        drawLevel(std::cout, game_->map());
     }
     std::filesystem::path generateLogFilePath(const std::string& levelName) const
     {
@@ -60,62 +62,32 @@ public:
         campaign_         = std::make_unique<Campaign>();
         campaign_->load(campaignJson);
         auto path = std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/object_ids.json";
-        auto objects                          = loadFromJsonFile(path);
-        gameObjectFactory_                    = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        
+        auto objects       = loadFromJsonFile(path);
+        gameObjectFactory_ = std::make_unique<BaseGameObjectFactory>(std::move(objects));
     }
 
-    void loadNextLevel() override{
+    void loadLevel() override
+    {
         const std::filesystem::path levelpath = std::filesystem::current_path() / sokoban::default_paths::modsFolder
                                                 / "BaseGame/" / campaign_->currentLevelName();
         auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
-        game_                    = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
-        //console().clear();
-        //drawLevel(std::cout, game_->map());
+        if (!game_) {
+            game_ = std::make_unique<BaseGame>();
+        }
+        game_->setMap(std::move(map));
+        game_->setPlayerCoords(std::move(playerCoords));
     }
-    void incrementLevelNumber() override{
-        campaign_->setCurrentLevel(campaign_->currentLevel()  +1);
-    }
-    void redrawGame()
-    {
-        console().clear();
-        drawLevel(std::cout, game_->map());
-    }
-
+    void incrementLevelNumber() override { campaign_->setCurrentLevel(campaign_->currentLevel() + 1); }
     bool supportsSaveGames() const override { return true; }
     bool hasNextLevel() const override { return campaign_->hasNextLevel(); }
-    void saveGame(std::ostream& stream) const {
+    void saveGame(std::ostream& stream) const
+    {
         stream << campaign_->currentLevel() << '\n';
         drawLevel(stream, game_->map());
     }
-    void saveGame(const std::filesystem::path& path) const override
-    {
-        std::ofstream stream { path };
-        if (!stream.is_open()) {
-            throw std::runtime_error("Failed to open file for saving game - " + path.string());
-        }
-        stream << player_->name() << '\n';
-        stream << modFolderPath_ << '\n';
-        stream << campaign_->currentLevel() << '\n';
-        drawLevel(stream, game_->map());
-    }
-    void loadGame(const std::filesystem::path& path) override
-    {
-        auto objectsPath =
-            std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/object_ids.json";
-        auto objects       = loadFromJsonFile(objectsPath);
-        gameObjectFactory_ = std::make_unique<BaseGameObjectFactory>(std::move(objects));
-        if (!campaign_) {
-            campaign_->load(std::filesystem::current_path() / sokoban::default_paths::modsFolder
-                            / "BaseGame/campaign.json");
-        }
 
-        auto [map, playerCoords, level] = loadSaveGame(path, *gameObjectFactory_);
-        campaign_->setCurrentLevel(level);
-        game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
-    }
-
-     void loadGame(std::istream& stream) override {
+    void loadGame(std::istream& stream) override
+    {
         auto objectsPath =
             std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/object_ids.json";
         auto objects       = loadFromJsonFile(objectsPath);
@@ -130,6 +102,7 @@ public:
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
     }
 
+private: // methods
     void drawLevel(std::ostream& stream, const RectangleTileMap& map) const
     {
         for (const auto& row : game_->map()) {
@@ -145,10 +118,7 @@ public:
         }
     }
 
-    std::string achievement() const override { 
-        return "Base campaign completed!"; 
-    }
-
+    std::string achievement() const override { return "Base campaign completed!"; }
 
 private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
