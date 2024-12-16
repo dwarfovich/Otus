@@ -168,6 +168,7 @@ void startGame(ModDynamicLibrary&                   modLibrary,
         bool hasNextLevel = true;
         do {
             context->loadNextLevel();
+            context->drawLevel();
             sokoban::GameState gameState = sokoban::GameState::InProgress;
             do {
                 sokoban::Key c = console->waitForInput();
@@ -215,7 +216,7 @@ void startGame(SessionContext& context)
         bool hasNextLevel = true;
         do {
             
-            //drawLevel(std::cout, game_->map());
+            context.drawLevel();
             sokoban::GameState gameState = sokoban::GameState::InProgress;
             do {
                 sokoban::Key c = context.console().waitForInput();

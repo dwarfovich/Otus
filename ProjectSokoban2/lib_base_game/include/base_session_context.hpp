@@ -35,7 +35,8 @@ public:
         }
         return { success, gameFinished };
     }
-
+    void          drawLevel() override{ redrawGame();
+    }
     std::filesystem::path generateLogFilePath(const std::string& levelName) const
     {
         std::filesystem::path path { default_paths::modsFolder / "Core/Logs/" };
@@ -69,8 +70,8 @@ public:
                                                 / "BaseGame/" / campaign_->currentLevelName();
         auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
         game_                    = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
-        console().clear();
-        drawLevel(std::cout, game_->map());
+        //console().clear();
+        //drawLevel(std::cout, game_->map());
     }
     void incrementLevelNumber() override{
         campaign_->setCurrentLevel(campaign_->currentLevel()  +1);

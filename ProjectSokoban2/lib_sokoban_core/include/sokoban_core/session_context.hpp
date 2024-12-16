@@ -23,6 +23,7 @@ public:
     virtual std::pair<bool, GameState> executeCommand(const std::shared_ptr<Command>& command) = 0;
     virtual Game&                 game()                                                  = 0;
     virtual void                  initialize()                                             = 0;
+    virtual void                       drawLevel()                                            = 0;
     virtual void                  loadNextLevel()                                      = 0;
     virtual void                  incrementLevelNumber() {}
     virtual bool                  hasNextLevel() const { return false; }
