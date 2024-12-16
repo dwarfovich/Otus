@@ -25,17 +25,18 @@ std::filesystem::path showLoadModMenu(const sokoban::tui::Console& console);
 void initialize(const std::filesystem::path&                  modFolderPath,
                 const std::shared_ptr<sokoban::tui::Console>& console,
                 sokoban::Player&                              player);
-std::unique_ptr<SessionContext> initializeContext(
-    ModDynamicLibrary&                   modLibrary,
-    const std::shared_ptr<Player>&       player,
-    const std::shared_ptr<tui::Console>& console);
-void startGame(ModDynamicLibrary&                   modLibrary,
-               const std::shared_ptr<Player>&       player,
-               const std::shared_ptr<tui::Console>& console);
-void                  startGame(SessionContext& context);
+
+std::unique_ptr<SessionContext> initializeContext(ModDynamicLibrary&                   modLibrary,
+                                                  const std::shared_ptr<Player>&       player,
+                                                  const std::shared_ptr<tui::Console>& console);
+
 void saveBaseGameInfo(std::ostream& stream, const sokoban::SessionContext& context, const sokoban::Player& player);
-void loadBaseGameInfo(const std::filesystem::path& path);
+
 std::filesystem::path showLoadGameMenu(tui::Console& console);
+
+std::pair<sokoban::GameState, bool> playLevel(SessionContext& context, tui::Console& console);
+
+void playGame(SessionContext& context, Player& player, tui::Console& console);
 
 int main(int argc, char* argv[])
 {
@@ -57,11 +58,16 @@ int main(int argc, char* argv[])
             return 0;
         }
         switch (c) {
-            case sokoban::Key::digit1: startGame(modLibrary, players[0], console); break;
+            case sokoban::Key::digit1: {
+                auto context = initializeContext(modLibrary, players[0], console);
+                context->loadNextLevel();
+                playGame(*context, *players[0], *console);
+                break;
+            }
             case sokoban::Key::digit2: {
-                auto saveGamePath = showLoadGameMenu(*console);
-                std::ifstream stream {saveGamePath};
-                if(!stream.is_open()){
+                auto          saveGamePath = showLoadGameMenu(*console);
+                std::ifstream stream { saveGamePath };
+                if (!stream.is_open()) {
                     return 0;
                 }
                 std::string playerName;
@@ -69,27 +75,26 @@ int main(int argc, char* argv[])
                 std::string modFolderStr;
                 std::getline(stream, modFolderStr);
                 modFolderStr.pop_back();
-                modFolderStr.erase(0,1);
+                modFolderStr.erase(0, 1);
                 std::filesystem::path modFolder { modFolderStr };
-                try{
-                modLibrary = loadModDynamicLibrary(modFolder);
-                } catch(const std::exception& e){
+                try {
+                    modLibrary = loadModDynamicLibrary(modFolder);
+                } catch (const std::exception& e) {
                     std::cout << "Exception: " << e.what() << '\n';
                 }
                 std::size_t playerIndex = std::numeric_limits<std::size_t>::max();
-                for (std::size_t i = 0; i < players.size(); ++i){
-                    if (players[i]->name() == playerName){
+                for (std::size_t i = 0; i < players.size(); ++i) {
+                    if (players[i]->name() == playerName) {
                         playerIndex = i;
                         break;
                     }
                 }
-                if (playerIndex == std::numeric_limits<std::size_t>::max()){
-                    return 0 ;
+                if (playerIndex == std::numeric_limits<std::size_t>::max()) {
+                    return 0;
                 }
-                //startGame(modLibrary, players[playerIndex], console);
-                auto context = initializeContext(modLibrary, players[playerIndex], console);
+                auto context = initializeContext(modLibrary, players[0], console);
                 context->loadGame(stream);
-                startGame(*context);
+                playGame(*context, *players[0], *console);
 
                 break;
             }
@@ -159,104 +164,61 @@ std::filesystem::path generateSaveGameFilePath(const std::filesystem::path& modF
     return default_paths::saveGameFolder / "savegame1.sav";
 }
 
-void startGame(ModDynamicLibrary&                   modLibrary,
-               const std::shared_ptr<Player>&       player,
-               const std::shared_ptr<tui::Console>& console)
+void playGame(SessionContext& context, Player& player, tui::Console& console)
 {
     try {
-        auto context      = initializeContext(modLibrary, player, console);
         bool hasNextLevel = true;
-        do {
-            context->loadNextLevel();
-            context->drawLevel();
-            sokoban::GameState gameState = sokoban::GameState::InProgress;
-            do {
-                sokoban::Key c = console->waitForInput();
-                if (c == sokoban::Key::esc) {
-                    return;
-                } else if (c == Key::digit5) {
-                    std::filesystem::create_directories(default_paths::saveGameFolder);
-                    const auto& filePath = generateSaveGameFilePath("SaveGame1.sv");
-                    context->saveGame(filePath);
-                } else {
-                    auto [success, newGameState] = context->executeCommand(std::make_shared<sokoban::Command>(c));
-                    gameState                    = newGameState;
-                }
-            } while (gameState == sokoban::GameState::InProgress);
-
-            if (gameState == sokoban::GameState::Won) {
-                hasNextLevel = context->hasNextLevel();
-                if (hasNextLevel) {
-                    context->incrementLevelNumber();
-                    std::cout << "You solved this puzzle!!!\n";
-                } else {
-                    auto message = context->achievement();
-                    if (!message.empty()) {
-                        std::cout << "You got an achievement: " << message << '\n';
-                        player->addAchievement(modLibrary.modFolderPath(), std::move(message));
-                    }
-                }
-                std::cout << "Press any key to continue.\n";
-            } else {
-                std::cout << "Wou lost! Press any key to continue.\n";
+        while (hasNextLevel) {
+            auto [gameState, abortRequested] = playLevel(context, console);
+            if(abortRequested){
+                return;
             }
-            console->waitForInput();
-        } while (hasNextLevel);
-        std::cout << "Game over. Press any key to continue.\n";
-        console->waitForInput();
-    } catch (const std::exception& e) {
-        std::cout << "Exception: " << e.what() << '\n';
-        console->waitForInput();
-    }
-}
-
-void startGame(SessionContext& context)
-{
-    try {
-        bool hasNextLevel = true;
-        do {
-            
-            context.drawLevel();
-            sokoban::GameState gameState = sokoban::GameState::InProgress;
-            do {
-                sokoban::Key c = context.console().waitForInput();
-                if (c == sokoban::Key::esc) {
-                    return;
-                } else if (c == Key::digit5) {
-                    std::filesystem::create_directories(default_paths::saveGameFolder);
-                    const auto& filePath = generateSaveGameFilePath("SaveGame1.sv");
-                    context.saveGame(filePath);
-                } else {
-                    auto [success, newGameState] = context.executeCommand(std::make_shared<sokoban::Command>(c));
-                    gameState                    = newGameState;
-                }
-            } while (gameState == sokoban::GameState::InProgress);
-
             if (gameState == sokoban::GameState::Won) {
+                std::cout << "You solved this puzzle!!!\n";
                 hasNextLevel = context.hasNextLevel();
                 if (hasNextLevel) {
                     context.incrementLevelNumber();
-                    std::cout << "You solved this puzzle!!!\n";
                     context.loadNextLevel();
                 } else {
+                    std::cout << "Game over!\n";
                     auto message = context.achievement();
                     if (!message.empty()) {
                         std::cout << "You got an achievement: " << message << '\n';
-                        context.player()->addAchievement(context.modFolderPath(), std::move(message));
+                        player.addAchievement(context.modFolderPath(), std::move(message));
                     }
                 }
                 std::cout << "Press any key to continue.\n";
             } else {
                 std::cout << "Wou lost! Press any key to continue.\n";
             }
-            context.console() .waitForInput();
-        } while (hasNextLevel);
-        std::cout << "Game over. Press any key to continue.\n";
-        context.console() .waitForInput();
+            console.waitForInput();
+        }
+
     } catch (const std::exception& e) {
         std::cout << "Exception: " << e.what() << '\n';
-        context.console() .waitForInput();
+        console.waitForInput();
     }
+}
+
+std::pair<sokoban::GameState, bool> playLevel(SessionContext& context, tui::Console& console)
+{
+    sokoban::GameState gameState = sokoban::GameState::InProgress;
+    do {
+        context.drawLevel();
+        sokoban::Key c = console.waitForInput();
+        if (c == sokoban::Key::esc) {
+            return {{}, true};
+        } else if (c == Key::digit5) {
+            std::filesystem::create_directories(default_paths::saveGameFolder);
+            const auto& filePath = generateSaveGameFilePath("SaveGame1.sv");
+            context.saveGame(filePath);
+        } else {
+            auto [success, newGameState] = context.executeCommand(std::make_shared<sokoban::Command>(c));
+            gameState                    = newGameState;
+        }
+    } while (gameState == sokoban::GameState::InProgress);
+
+    return {gameState, false};
 }
 
 void saveBaseGameInfo(std::ostream& stream, const sokoban::SessionContext& context, const sokoban::Player& player)
