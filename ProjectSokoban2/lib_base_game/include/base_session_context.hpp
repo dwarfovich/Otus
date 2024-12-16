@@ -83,6 +83,10 @@ public:
 
     bool supportsSaveGames() const override { return true; }
     bool hasNextLevel() const override { return campaign_->hasNextLevel(); }
+    void saveGame(std::ostream& stream) const {
+        stream << campaign_->currentLevel() << '\n';
+        drawLevel(stream, game_->map());
+    }
     void saveGame(const std::filesystem::path& path) const override
     {
         std::ofstream stream { path };
@@ -106,6 +110,21 @@ public:
         }
 
         auto [map, playerCoords, level] = loadSaveGame(path, *gameObjectFactory_);
+        campaign_->setCurrentLevel(level);
+        game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
+    }
+
+     void loadGame(std::istream& stream) override {
+        auto objectsPath =
+            std::filesystem::current_path() / sokoban::default_paths::modsFolder / "BaseGame/object_ids.json";
+        auto objects       = loadFromJsonFile(objectsPath);
+        gameObjectFactory_ = std::make_unique<BaseGameObjectFactory>(std::move(objects));
+        if (!campaign_) {
+            campaign_->load(std::filesystem::current_path() / sokoban::default_paths::modsFolder
+                            / "BaseGame/campaign.json");
+        }
+
+        auto [map, playerCoords, level] = loadSaveGame(stream, *gameObjectFactory_);
         campaign_->setCurrentLevel(level);
         game_ = std::make_unique<BaseGame>(std::move(map), std::move(playerCoords));
     }

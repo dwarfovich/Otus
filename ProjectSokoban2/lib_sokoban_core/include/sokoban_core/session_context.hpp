@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <filesystem>
+#include <iosfwd>
 
 namespace sokoban {
 class MultimodalInterface;
@@ -26,7 +27,9 @@ public:
     virtual void                  incrementLevelNumber() {}
     virtual bool                  hasNextLevel() const { return false; }
     virtual bool                  supportsSaveGames() const { return false; }
+    virtual void                       saveGame(std::ostream& stream) const {}
     virtual void                  saveGame(const std::filesystem::path& path) const {}
+    virtual void                       loadGame(std::istream& stream) {}
     virtual void                  loadGame(const std::filesystem::path& path) {}
     virtual std::string achievement() const {return{};}
 
@@ -35,6 +38,7 @@ public:
     void          setConsole(const std::shared_ptr<tui::Console>& console) { console_ = console; }
     tui::Console& console() { return *console_; }
     void          setModFolderPath(const std::filesystem::path& path) { modFolderPath_ = path; }
+    const std::filesystem::path         & modFolderPath() const{ return modFolderPath_;}
 
 protected:
     std::shared_ptr<Player> player_;

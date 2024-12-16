@@ -36,5 +36,6 @@ private: // data
 ModDynamicLibrary loadModDynamicLibrary(const std::filesystem::path& modFolderPath)
 {
     static const std::string modFileName = "mod";
+    auto t=  boost::filesystem::path { modFolderPath } / modFileName;
     return ModDynamicLibrary { modFolderPath, modFileName };
 }
