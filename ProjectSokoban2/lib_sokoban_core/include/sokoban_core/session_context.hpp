@@ -23,7 +23,7 @@ public:
     virtual void                       initialize()                                            = 0;
     virtual std::pair<bool, GameState> executeCommand(const std::shared_ptr<Command>& command) = 0;
     virtual void                       drawLevel()                                             = 0;
-    virtual void                       loadLevel(const std::filesystem::path& path = {}) = 0;
+    virtual void                       loadLevel(const std::filesystem::path& path = {})       = 0;
 
     virtual void        incrementLevelNumber() {}
     virtual bool        hasNextLevel() const { return false; }

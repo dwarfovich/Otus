@@ -10,7 +10,7 @@ class GameAction
 public:
     virtual ~GameAction() = default;
 
-    virtual void perform(SessionContext& context) {}
+    //virtual void perform(SessionContext& context) {}
 };
 
 } // namespace sokoban

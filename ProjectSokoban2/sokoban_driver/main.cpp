@@ -17,6 +17,7 @@
 #include <boost/function.hpp>
 
 #include <iostream>
+#include <thread>
 
 using namespace sokoban;
 
@@ -51,8 +52,8 @@ int main(int argc, char* argv[])
     sokoban::System system;
     auto            console = std::make_shared<sokoban::tui::Console>(system);
 
-    const auto json    = sokoban::json_utils::loadFromFile("players.json");
-    auto       players = sokoban::loadPlayersList(json);
+    const auto playersJson = sokoban::json_utils::loadFromFile("players.json");
+    const auto players     = sokoban::loadPlayersList(playersJson);
 
     ModDynamicLibrary            modLibrary = loadModDynamicLibrary("Mods/BaseGame");
     std::filesystem::path        modPath    = "Mods/BaseGame";
@@ -67,6 +68,11 @@ int main(int argc, char* argv[])
         }
         switch (c) {
             case sokoban::Key::digit1: {
+                auto c= modLibrary.mod().createSessionContext();
+                //c->setModFolderPath("23");
+                std::filesystem::path p {"wd"};
+                c->setConsole(nullptr);
+                c->setModFolderPath(p);
                 startNewGame(modLibrary, players[0], console);
                 break;
             }
@@ -124,7 +130,11 @@ std::unique_ptr<SessionContext> initializeContext(ModDynamicLibrary&            
                                                   const std::shared_ptr<tui::Console>& console)
 {
     auto context = modLibrary.mod().createSessionContext();
+    if(!context){
+        throw std::runtime_error("Failed to create context");
+    }
     context->setConsole(console);
+    context->setModFolderPath("");
     context->setModFolderPath(modLibrary.modFolderPath());
     context->setPlayer(player);
     context->initialize();
@@ -289,11 +299,11 @@ std::filesystem::path generateLogFilePath(const SessionContext& context)
     std::filesystem::path path { context.modFolderPath() / "Logs" };
     std::filesystem::create_directories(path);
     path /= "log";
-    std::time_t t = std::time(nullptr);
-    char        mbstr[100];
 
-    if (std::strftime(mbstr, sizeof(mbstr), "-%Y-%m-%d_%H_%M_%S", std::localtime(&t))) {
-        path += mbstr;
+    std::time_t time { std::time(nullptr) };
+    char        timeStringBuffer[100];
+    if (std::strftime(timeStringBuffer, sizeof(timeStringBuffer), "-%Y-%m-%d_%H_%M_%S", std::localtime(&time))) {
+        path += timeStringBuffer;
     }
     path += ".gl";
 

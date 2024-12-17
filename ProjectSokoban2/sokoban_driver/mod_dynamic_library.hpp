@@ -22,7 +22,7 @@ public:
 
     }
 
-    const std::filesystem::path  modFolderPath() const { return modFolderPath_;}
+    const std::filesystem::path&  modFolderPath() const { return modFolderPath_;}
     sokoban::Mod& mod() { return *mod_; }
 
 private: // data
@@ -36,6 +36,6 @@ private: // data
 ModDynamicLibrary loadModDynamicLibrary(const std::filesystem::path& modFolderPath)
 {
     static const std::string modFileName = "mod";
-    auto t=  boost::filesystem::path { modFolderPath } / modFileName;
+    
     return ModDynamicLibrary { modFolderPath, modFileName };
 }
