@@ -12,7 +12,7 @@ public:
     Menu<MainMenuEntriesId> mainMenu { { MenuEntry<MainMenuEntriesId> { "Play", MainMenuEntriesId::Play },
                                          { "Load game", MainMenuEntriesId::LoadGame },
                                          { "Load mod", MainMenuEntriesId::LoadMod },
-                                         { "Options", MainMenuEntriesId::Options },
+                                         { "Play log", MainMenuEntriesId::PlayLog },
                                          { "Exit", MainMenuEntriesId::Exit } } };
 };
 

@@ -42,6 +42,10 @@ void loadGame(ModDynamicLibrary&                          modLibrary,
               const std::vector<std::shared_ptr<Player>>& players,
               const std::shared_ptr<tui::Console>&        console);
 
+void playLog(ModDynamicLibrary& modLibrary, const std::shared_ptr<tui::Console>& console);
+
+std::filesystem::path generateLogFilePath(const SessionContext& context);
+
 int main(int argc, char* argv[])
 {
     sokoban::System system;
@@ -77,7 +81,10 @@ int main(int argc, char* argv[])
                 }
                 break;
             }
-            case sokoban::Key::digit4: break;
+            case sokoban::Key::digit4: {
+                playLog(modLibrary, console);
+                break;
+            }
             case sokoban::Key::digit5: return 0;
             default: break;
         }
@@ -168,6 +175,9 @@ void playGame(SessionContext& context, Player& player, tui::Console& console)
 
 std::pair<sokoban::GameState, bool> playLevel(SessionContext& context, tui::Console& console)
 {
+    std::ofstream logStream { generateLogFilePath(context) };
+    logStream << context.currentLevelPath() << '\n';
+
     sokoban::GameState gameState = sokoban::GameState::InProgress;
     do {
         context.drawLevel();
@@ -185,7 +195,10 @@ std::pair<sokoban::GameState, bool> playLevel(SessionContext& context, tui::Cons
             }
         } else {
             auto [success, newGameState] = context.executeCommand(std::make_shared<sokoban::Command>(c));
-            gameState                    = newGameState;
+            if (success) {
+                logStream << static_cast<std::underlying_type_t<Key>>(c) << '\n';
+            }
+            gameState = newGameState;
         }
     } while (gameState == sokoban::GameState::InProgress);
 
@@ -269,4 +282,85 @@ void loadGame(ModDynamicLibrary&                          modLibrary,
     auto context = initializeContext(modLibrary, players[playerIndex], console);
     context->loadGame(stream);
     playGame(*context, *players[playerIndex], *console);
+}
+
+std::filesystem::path generateLogFilePath(const SessionContext& context)
+{
+    std::filesystem::path path { context.modFolderPath() / "Logs" };
+    std::filesystem::create_directories(path);
+    path /= "log";
+    std::time_t t = std::time(nullptr);
+    char        mbstr[100];
+
+    if (std::strftime(mbstr, sizeof(mbstr), "-%Y-%m-%d_%H_%M_%S", std::localtime(&t))) {
+        path += mbstr;
+    }
+    path += ".gl";
+
+    return path;
+}
+
+std::filesystem::path selectLog(const std::filesystem::path& modFolder, tui::Console& console)
+{
+    std::vector<std::filesystem::path> logs;
+
+    std::size_t                                   counter = 0;
+    static constexpr std::size_t                  maxLogs = 5;
+    std::vector<std::filesystem::directory_entry> paths;
+    auto                                          t = modFolder / "Logs";
+    for (const auto& dirEntry : std::filesystem::directory_iterator { modFolder / "Logs" }) {
+        if (!dirEntry.is_directory()) {
+            std::filesystem::path path { dirEntry };
+            std::cout << ++counter << ": " << path.filename() << '\n';
+            paths.push_back(dirEntry);
+        }
+        if (counter >= 5) {
+            break;
+        }
+    }
+
+    const auto c = console.waitForInput();
+    switch (c) {
+        case sokoban::Key::digit1: return paths[0];
+        case sokoban::Key::digit2: return paths[1];
+        case sokoban::Key::digit3: return paths[2];
+        case sokoban::Key::digit4: return paths[3];
+        case sokoban::Key::digit5: return paths[4];
+        case sokoban::Key::esc: return {};
+        default: return {};
+    }
+}
+
+void playLog(ModDynamicLibrary& modLibrary, const std::shared_ptr<tui::Console>& console)
+{
+    const auto modFolder = modLibrary.modFolderPath();
+    const auto logPath   = selectLog(modFolder, *console);
+    if (logPath.empty()) {
+        return;
+    }
+
+    auto context = initializeContext(modLibrary, nullptr, console);
+    context->loadLevel();
+
+    std::ifstream logStream { logPath };
+    if (!logStream.is_open()) {
+        return;
+    }
+
+    std::filesystem::path levelPath;
+    logStream >> levelPath;
+
+    std::underlying_type_t<Key> keyValue;
+
+    context->loadLevel(levelPath);
+    context->drawLevel();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    while (logStream >> keyValue) {
+        Key key { keyValue };
+        context->executeCommand(std::make_shared<sokoban::Command>(key));
+        context->drawLevel();
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    std::cout << "Finished. Press any key to return to main menu.\n";
+    console->waitForInput();
 }

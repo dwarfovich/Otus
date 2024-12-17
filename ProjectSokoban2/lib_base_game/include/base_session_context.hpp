@@ -39,20 +39,7 @@ public:
         console_->clear();
         drawLevel(std::cout, game_->map());
     }
-    std::filesystem::path generateLogFilePath(const std::string& levelName) const
-    {
-        std::filesystem::path path { default_paths::modsFolder / "Core/Logs/" };
-        std::time_t           t = std::time(nullptr);
-        char                  mbstr[100];
-
-        path += levelName;
-        if (std::strftime(mbstr, sizeof(mbstr), "-%Y-%m-%d_%H_%M_%S", std::localtime(&t))) {
-            path += mbstr;
-        }
-        path += ".gl";
-
-        return path;
-    }
+    
 
     void initialize() override
     {
@@ -66,10 +53,12 @@ public:
         gameObjectFactory_ = std::make_unique<BaseGameObjectFactory>(std::move(objects));
     }
 
-    void loadLevel() override
+    void loadLevel(const std::filesystem::path& path = {}) override
     {
-        const std::filesystem::path levelpath = std::filesystem::current_path() / sokoban::default_paths::modsFolder
-                                                / "BaseGame/" / campaign_->currentLevelName();
+
+        const std::filesystem::path levelpath = path.empty() ? std::filesystem::current_path() / sokoban::default_paths::modsFolder
+                                                / "BaseGame/" / campaign_->currentLevelName() : path;
+        currentlevelPath_        = sokoban::default_paths::modsFolder / "BaseGame/" / campaign_->currentLevelName();
         auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
         if (!game_) {
             game_ = std::make_unique<BaseGame>();

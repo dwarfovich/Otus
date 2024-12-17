@@ -10,7 +10,7 @@ enum class MainMenuEntriesId : uint8_t
     Play,
     LoadGame,
     LoadMod,
-    Options,
+    PlayLog,
     Exit,
     idsCount
 };
