@@ -1,0 +1,34 @@
+<map id="lib_sokoban_core/include/sokoban_core/game_object.hpp" name="lib_sokoban_core/include/sokoban_core/game_object.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="328,5,538,48"/>
+<area shape="rect" id="Node000002" href="$d1/dab/game__action_8hpp.html" title=" " alt="" coords="186,96,395,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="388,59,325,98,322,93,385,54"/>
+<area shape="rect" id="Node000009" href="$d8/dd9/game__object__factory_8hpp.html" title=" " alt="" coords="536,187,720,245"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="467,57,600,184,596,188,463,60"/>
+<area shape="rect" id="Node000013" href="$df/d7a/tile_8hpp.html" title=" " alt="" coords="344,195,511,237"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="435,64,431,194,426,194,429,63"/>
+<area shape="rect" id="Node000003" href="$d9/dc0/base__game_8hpp.html" title=" " alt="" coords="219,384,372,427"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,154,298,384,293,384,288,154"/>
+<area shape="rect" id="Node000007" href="$dc/d77/base__game__action_8hpp.html" title=" " alt="" coords="96,195,255,237"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="256,151,202,196,199,192,253,147"/>
+<area shape="rect" id="Node000004" href="$d5/ddc/base__session__context_8hpp.html" title=" " alt="" coords="190,475,370,517"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="292,442,286,475,281,474,287,441"/>
+<area shape="rect" id="Node000005" href="$d0/d8e/base__game__action_8cpp.html" title=" " alt="" coords="5,565,165,608"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="221,527,132,567,130,562,219,522"/>
+<area shape="rect" id="Node000006" href="$db/db9/lib__base__game_2include_2mod_8hpp.html" title=" " alt="" coords="203,565,356,608"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="282,533,282,565,277,565,277,533"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="125,248,101,269,83,295,70,330,63,368,60,407,61,445,70,514,81,564,76,566,64,515,55,446,54,407,57,368,65,329,79,292,97,265,122,244"/>
+<area shape="rect" id="Node000008" href="$db/d29/base__action__factory_8hpp.html" title=" " alt="" coords="92,293,259,336"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="178,253,178,293,173,293,173,253"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="217,343,269,381,266,386,214,347"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="183,350,192,388,209,425,229,451,252,472,249,476,225,455,204,428,187,390,178,352"/>
+<area shape="rect" id="Node000010" href="$de/d37/base__game__object__factory_8hpp.html" title=" " alt="" coords="592,293,797,336"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="658,256,683,292,678,295,654,259"/>
+<area shape="rect" id="Node000012" href="$df/d74/tile__map_8hpp.html" title=" " alt="" coords="384,293,568,336"/>
+<area shape="poly" id="edge15_Node000009_Node000012" title=" " alt="" coords="571,256,510,295,507,290,568,252"/>
+<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="698,352,692,392,684,412,671,429,650,443,620,455,542,473,454,486,371,493,370,488,454,480,541,468,618,450,647,438,667,425,679,409,687,390,693,351"/>
+<area shape="rect" id="Node000011" href="$d0/da1/base__game__object__factory_8cpp.html" title=" " alt="" coords="452,384,657,427"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="650,347,588,386,586,381,647,342"/>
+<area shape="poly" id="edge16_Node000012_Node000003" title=" " alt="" coords="421,346,339,386,336,381,419,341"/>
+<area shape="poly" id="edge18_Node000013_Node000003" title=" " alt="" coords="405,251,374,295,312,385,307,382,369,292,401,248"/>
+<area shape="poly" id="edge19_Node000013_Node000012" title=" " alt="" coords="447,250,468,292,463,294,442,253"/>
+</map>

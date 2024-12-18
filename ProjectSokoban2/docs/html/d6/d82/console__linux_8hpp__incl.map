@@ -1,0 +1,27 @@
+<map id="lib_sokoban_core/include/tui/console_linux.hpp" name="lib_sokoban_core/include/tui/console_linux.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="455,5,623,48"/>
+<area shape="rect" id="Node000002" href="$dd/d90/system_8hpp.html" title=" " alt="" coords="66,104,241,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,50,224,103,223,97,454,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,187,81,213"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="455,31,348,34,229,45,173,53,124,65,84,80,57,98,46,114,41,133,41,171,35,171,36,132,41,112,53,94,81,75,122,60,172,48,229,39,348,29,455,25"/>
+<area shape="rect" id="Node000005" href="$d7/dff/key__definitions__linux_8hpp.html" title=" " alt="" coords="265,96,392,139"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="491,51,393,92,391,87,489,46"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="348,187,408,213"/>
+<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="511,51,456,98,422,138,396,175,391,172,418,134,452,94,508,47"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="466,104,526,131"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="532,50,511,91,507,89,527,47"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="550,104,613,131"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="551,47,571,89,567,91,546,50"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="638,104,720,131"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="573,46,647,93,645,98,570,51"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="744,104,833,131"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="599,46,733,93,740,96,739,101,731,99,597,51"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="857,104,925,131"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="623,39,731,62,846,93,852,95,850,100,845,99,729,67,622,45"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="949,104,1006,131"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="624,33,771,54,855,71,937,93,942,95,940,100,936,99,854,76,770,59,623,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,133,74,179,71,175,135,129"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="118,187,189,213"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="156,131,156,171,151,171,151,131"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="343,138,364,172,360,175,339,141"/>
+</map>

@@ -1,0 +1,28 @@
+\doxysection{json\+\_\+utils.\+hpp}
+\hypertarget{json__utils_8hpp_source}{}\label{json__utils_8hpp_source}\index{lib\_sokoban\_core/include/json\_utils/json\_utils.hpp@{lib\_sokoban\_core/include/json\_utils/json\_utils.hpp}}
+\mbox{\hyperlink{json__utils_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ "{}nlohmann/json.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}nlohmann/json.hpp"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }json\_utils\{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacesokoban_1_1json__utils_ac1e4edce42906deda88481c30a88ad11}{Json}}\ =\ nlohmann::json;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{namespacesokoban_1_1json__utils_ac1e4edce42906deda88481c30a88ad11}{Json}}\ \mbox{\hyperlink{namespacesokoban_1_1json__utils_ab9a63e4e88c1b9169bd04489fe1fd590}{loadFromFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)\{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ std::ifstream\ stream\ \{path\};}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!stream.is\_open())\{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Coudn't\ open\ file\ "{}}\ +\ path.string());}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Json::parse(stream);}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ \}}
+
+\end{DoxyCode}

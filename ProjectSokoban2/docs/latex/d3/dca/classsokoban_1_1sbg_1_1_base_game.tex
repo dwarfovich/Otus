@@ -1,0 +1,141 @@
+\doxysection{sokoban\+::sbg\+::Base\+Game Class Reference}
+\hypertarget{classsokoban_1_1sbg_1_1_base_game}{}\label{classsokoban_1_1sbg_1_1_base_game}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+
+
+{\ttfamily \#include $<$base\+\_\+game.\+hpp$>$}
+
+
+
+Inheritance diagram for sokoban\+::sbg\+::Base\+Game\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{d3/d4f/classsokoban_1_1sbg_1_1_base_game__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for sokoban\+::sbg\+::Base\+Game\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{d8/d25/classsokoban_1_1sbg_1_1_base_game__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_aa200581675491b81edfa637c0c5c8ef3}{Base\+Game}} ()=default
+\item 
+\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a473f115a1bb16f208bafa465b1f8079e}{Base\+Game}} (\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}} \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_ab041525e66edc6b5d5a694e0af8312f4}{map}}, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a9588845c4f2c298f6409e88809fac343}{player\+Coords}})
+\item 
+virtual \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{Game\+State}} \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_ae6912f1d9d6cd4cade643f51b45174ee}{game\+State}} () const
+\item 
+virtual void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a03774d08ee05103d881c1c79154bbd37}{set\+Map}} (const \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}} \&\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_ab041525e66edc6b5d5a694e0af8312f4}{map}})
+\item 
+virtual void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a984ff4978f348ee6442f9ec37300da96}{set\+Player\+Coords}} (const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords)
+\item 
+virtual void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a53d1d0e25a9aeee7ef2511d603083e05}{move\+Object}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}} $>$ object, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&source\+Coords, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&target\+Coords)
+\item 
+virtual bool \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_afa1c5dad920b9e4195ad4e9989d1710e}{tile\+Is\+Movable}} (const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \&\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a0cdecf4272deca8d626ebff2dab14577}{tile}})
+\item 
+virtual bool \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_adb48a7b0c69de22fb9d936c33003ba62}{move\+Object}} (\mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} object, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}} direction)
+\item 
+virtual bool \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_aa79705e137687f80ef9f9b3212e55627}{move\+Player}} (\mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}} direction)
+\item 
+const \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}} \& \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_ab041525e66edc6b5d5a694e0af8312f4}{map}} () const
+\item 
+const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \& \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a0cdecf4272deca8d626ebff2dab14577}{tile}} (const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords) const
+\item 
+const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \& \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_a9588845c4f2c298f6409e88809fac343}{player\+Coords}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classsokoban_1_1_game}{sokoban\+::\+Game}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsokoban_1_1_game_a9b859661468079254843c952bfdf8a55}{Game}} ()=default
+\item 
+virtual \mbox{\hyperlink{classsokoban_1_1_game_a2eb1a254b334c42866af75a5f892f5f9}{\texorpdfstring{$\sim$}{\string~}\+Game}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_aa200581675491b81edfa637c0c5c8ef3}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!BaseGame@{BaseGame}}
+\index{BaseGame@{BaseGame}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{BaseGame()}{BaseGame()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_aa200581675491b81edfa637c0c5c8ef3} 
+sokoban\+::sbg\+::\+Base\+Game\+::\+Base\+Game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a473f115a1bb16f208bafa465b1f8079e}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!BaseGame@{BaseGame}}
+\index{BaseGame@{BaseGame}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{BaseGame()}{BaseGame()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a473f115a1bb16f208bafa465b1f8079e} 
+sokoban\+::sbg\+::\+Base\+Game\+::\+Base\+Game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}}}]{map}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{player\+Coords}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_ae6912f1d9d6cd4cade643f51b45174ee}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!gameState@{gameState}}
+\index{gameState@{gameState}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{gameState()}{gameState()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_ae6912f1d9d6cd4cade643f51b45174ee} 
+virtual \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{Game\+State}} sokoban\+::sbg\+::\+Base\+Game\+::game\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_ab041525e66edc6b5d5a694e0af8312f4}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!map@{map}}
+\index{map@{map}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{map()}{map()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_ab041525e66edc6b5d5a694e0af8312f4} 
+const \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}} \& sokoban\+::sbg\+::\+Base\+Game\+::map (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_adb48a7b0c69de22fb9d936c33003ba62}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!moveObject@{moveObject}}
+\index{moveObject@{moveObject}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{moveObject()}{moveObject()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_adb48a7b0c69de22fb9d936c33003ba62} 
+virtual bool sokoban\+::sbg\+::\+Base\+Game\+::move\+Object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}}}]{object}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{, }\item[{\mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}}]{direction}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a53d1d0e25a9aeee7ef2511d603083e05}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!moveObject@{moveObject}}
+\index{moveObject@{moveObject}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{moveObject()}{moveObject()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a53d1d0e25a9aeee7ef2511d603083e05} 
+virtual void sokoban\+::sbg\+::\+Base\+Game\+::move\+Object (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}} $>$}]{object}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{source\+Coords}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{target\+Coords}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_aa79705e137687f80ef9f9b3212e55627}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!movePlayer@{movePlayer}}
+\index{movePlayer@{movePlayer}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{movePlayer()}{movePlayer()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_aa79705e137687f80ef9f9b3212e55627} 
+virtual bool sokoban\+::sbg\+::\+Base\+Game\+::move\+Player (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}}]{direction}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a9588845c4f2c298f6409e88809fac343}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!playerCoords@{playerCoords}}
+\index{playerCoords@{playerCoords}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{playerCoords()}{playerCoords()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a9588845c4f2c298f6409e88809fac343} 
+const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \& sokoban\+::sbg\+::\+Base\+Game\+::player\+Coords (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a03774d08ee05103d881c1c79154bbd37}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!setMap@{setMap}}
+\index{setMap@{setMap}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{setMap()}{setMap()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a03774d08ee05103d881c1c79154bbd37} 
+virtual void sokoban\+::sbg\+::\+Base\+Game\+::set\+Map (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}} \&}]{map}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a984ff4978f348ee6442f9ec37300da96}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!setPlayerCoords@{setPlayerCoords}}
+\index{setPlayerCoords@{setPlayerCoords}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{setPlayerCoords()}{setPlayerCoords()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a984ff4978f348ee6442f9ec37300da96} 
+virtual void sokoban\+::sbg\+::\+Base\+Game\+::set\+Player\+Coords (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_a0cdecf4272deca8d626ebff2dab14577}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!tile@{tile}}
+\index{tile@{tile}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{tile()}{tile()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_a0cdecf4272deca8d626ebff2dab14577} 
+const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \& sokoban\+::sbg\+::\+Base\+Game\+::tile (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_afa1c5dad920b9e4195ad4e9989d1710e}\index{sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}!tileIsMovable@{tileIsMovable}}
+\index{tileIsMovable@{tileIsMovable}!sokoban::sbg::BaseGame@{sokoban::sbg::BaseGame}}
+\doxysubsubsection{\texorpdfstring{tileIsMovable()}{tileIsMovable()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_afa1c5dad920b9e4195ad4e9989d1710e} 
+virtual bool sokoban\+::sbg\+::\+Base\+Game\+::tile\+Is\+Movable (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \&}]{tile}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib\+\_\+base\+\_\+game/include/\mbox{\hyperlink{base__game_8hpp}{base\+\_\+game.\+hpp}}\end{DoxyCompactItemize}

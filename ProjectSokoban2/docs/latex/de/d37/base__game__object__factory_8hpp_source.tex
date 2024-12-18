@@ -1,0 +1,75 @@
+\doxysection{base\+\_\+game\+\_\+object\+\_\+factory.\+hpp}
+\hypertarget{base__game__object__factory_8hpp_source}{}\label{base__game__object__factory_8hpp_source}\index{lib\_base\_game/include/base\_game\_object\_factory.hpp@{lib\_base\_game/include/base\_game\_object\_factory.hpp}}
+\mbox{\hyperlink{base__game__object__factory_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__object__factory_8hpp}{sokoban\_core/game\_object\_factory.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{json__utils_8hpp}{json\_utils/json\_utils.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{objects__to__symbol__hasher_8hpp}{objects\_to\_symbol\_hasher.hpp}}"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }sbg\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory}{BaseGameObjectFactory}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{GameObjectFactory}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ types}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{ObjectsMap}}\ =\ std::unordered\_map<char,\ std::vector<GameObjectIdSptr>>;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95}{SymbolsMap}}\ =}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ std::unordered\_map<std::vector<GameObjectIdSptr>,\ char,\ \mbox{\hyperlink{structsokoban_1_1sbg_1_1_objects_to_symbol_hasher}{ObjectsToSymbolHasher}},\ \mbox{\hyperlink{structsokoban_1_1sbg_1_1_objects_to_symbol_comparator}{ObjectsToSymbolComparator}}>;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a3326953745a5c14a1096872a184417b0}{BaseGameObjectFactory}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{ObjectsMap}}\&\ objectsMap);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{sokoban::GameObjectUptr}}\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a787f6b511d5a2df1aa0dbb7771fda188}{create}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id}{GameObjectId}}\&\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00025\ \ \ \ \ std::vector<GameObjectSptr>\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_ad247fe15ee01345435b592b9cbfc01ab}{create}}(\textcolor{keywordtype}{char}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}})\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ iter\ =\ map\_.find(\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}});}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (iter\ ==\ map\_.cend())\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Could't\ find\ symbol\ "{}}\ +\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}});}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GameObjectSptr>\ objects;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ \textcolor{keywordtype}{id}\ :\ iter-\/>second)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ objects.push\_back(std::make\_shared<GameObject>(\textcolor{keywordtype}{id}));}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ objects;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}}(\textcolor{keyword}{const}\ std::vector<GameObjectSptr>\&\ objects)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ \textcolor{keywordtype}{object}\ :\ objects)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*object-\/>id()\ ==\ playerCode\_)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GameObjectIdSptr>\ ids\ \{\ std::make\_shared<GameObjectId>(playerCode\_)\ \};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ symbolsMap\_[ids];}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::vector<GameObjectIdSptr>\ ids;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ \textcolor{keywordtype}{object}\ :\ objects)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ ids.push\_back(object-\/>id());}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ iter\ =\ symbolsMap\_.find(ids);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (iter\ ==\ symbolsMap\_.cend())\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ iter-\/>second;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{ObjectsMap}}\ \ \ \ \ \ \ \ map\_;}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95}{SymbolsMap}}\ \ \ \ \ \ \ \ symbolsMap\_;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ playerCode\_\ =\ \textcolor{stringliteral}{"{}player"{}};}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{BaseGameObjectFactory::ObjectsMap}}\ \mbox{\hyperlink{namespacesokoban_1_1sbg_a2b972bf1db7cdebc07482fca50fca8fb}{loadFromJsonFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \}\ \textcolor{comment}{//\ namespace\ sbg}}
+\DoxyCodeLine{00069\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

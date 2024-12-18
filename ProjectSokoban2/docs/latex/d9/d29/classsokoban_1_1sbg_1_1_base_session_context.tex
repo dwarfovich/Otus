@@ -1,0 +1,196 @@
+\doxysection{sokoban\+::sbg\+::Base\+Session\+Context Class Reference}
+\hypertarget{classsokoban_1_1sbg_1_1_base_session_context}{}\label{classsokoban_1_1sbg_1_1_base_session_context}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+
+
+{\ttfamily \#include $<$base\+\_\+session\+\_\+context.\+hpp$>$}
+
+
+
+Inheritance diagram for sokoban\+::sbg\+::Base\+Session\+Context\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{da/df5/classsokoban_1_1sbg_1_1_base_session_context__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for sokoban\+::sbg\+::Base\+Session\+Context\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{d3/d6c/classsokoban_1_1sbg_1_1_base_session_context__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a1db3b205f1e263ba76c73b30a794197b}{Base\+Session\+Context}} ()
+\item 
+\mbox{\hyperlink{classsokoban_1_1_multimodal_interface}{Multimodal\+Interface}} \& \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a4682416d727dc6767fa91217690475a6}{multimodal\+Interface}} () override
+\item 
+std\+::pair$<$ bool, \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{Game\+State}} $>$ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_aa0b7bcba35d7f5dd3f261c4eb918844f}{execute\+Command}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_command}{Command}} $>$ \&command) override
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{draw\+Level}} () override
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_af82e6be1b2044630a8523a3577ac8ec5}{initialize}} () override
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7020001cda0c9b09d5165afafd086d65}{load\+Level}} (const std\+::filesystem\+::path \&path=\{\}) override
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a9a78926ed0e4181dde4dfe4ab3341a72}{increment\+Level\+Number}} () override
+\item 
+bool \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_ad59e5b3b89f2935f2e57eb9112ef453c}{supports\+Save\+Games}} () const override
+\item 
+bool \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a748242a8d37de80582d8da3f64a53726}{has\+Next\+Level}} () const override
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a49c9402497ac6952a90941e50a84ffac}{save\+Game}} (std\+::ostream \&stream) const
+\item 
+void \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a1862a5250c51b7ddd162f259026ab67d}{load\+Game}} (std\+::istream \&stream) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classsokoban_1_1_session_context}{sokoban\+::\+Session\+Context}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classsokoban_1_1_session_context_a166c8b14d2305eaeddce0178e63ad373}{set\+Player}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \&\mbox{\hyperlink{classsokoban_1_1_session_context_a677c6d6461e556a061900b498dfc69f3}{player}})
+\item 
+const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \& \mbox{\hyperlink{classsokoban_1_1_session_context_a677c6d6461e556a061900b498dfc69f3}{player}} ()
+\item 
+void \mbox{\hyperlink{classsokoban_1_1_session_context_aef6ba0266cf481951e21031d4176336e}{set\+Console}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&\mbox{\hyperlink{classsokoban_1_1_session_context_a6a239a3cae809e48f60c414ee60e4931}{console}})
+\item 
+\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \& \mbox{\hyperlink{classsokoban_1_1_session_context_a6a239a3cae809e48f60c414ee60e4931}{console}} ()
+\item 
+void \mbox{\hyperlink{classsokoban_1_1_session_context_a6f0ddbac8da7d0feec7177a33049c7f5}{set\+Mod\+Folder\+Path}} (const std\+::filesystem\+::path \&path)
+\item 
+const std\+::filesystem\+::path \& \mbox{\hyperlink{classsokoban_1_1_session_context_a7f2a2cf5708bcaaca03391e85f8c2dd5}{mod\+Folder\+Path}} () const
+\item 
+const std\+::filesystem\+::path \& \mbox{\hyperlink{classsokoban_1_1_session_context_a15c538b80792fe1169fb6c43513913bf}{current\+Level\+Path}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classsokoban_1_1_session_context}{sokoban\+::\+Session\+Context}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \mbox{\hyperlink{classsokoban_1_1_session_context_a0f0deceb70c2c3d0d7b83c1762fd887b}{player\+\_\+}}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \mbox{\hyperlink{classsokoban_1_1_session_context_a936aceafc63fcc5b9809d366fb46388e}{console\+\_\+}}
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{classsokoban_1_1_session_context_a267ee7c503878b9afa51b2dd597f1fdb}{mod\+Folder\+Path\+\_\+}}
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{classsokoban_1_1_session_context_a433a2b691144f7a9e9606c4832cca3e7}{currentlevel\+Path\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a1db3b205f1e263ba76c73b30a794197b}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!BaseSessionContext@{BaseSessionContext}}
+\index{BaseSessionContext@{BaseSessionContext}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{BaseSessionContext()}{BaseSessionContext()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a1db3b205f1e263ba76c73b30a794197b} 
+sokoban\+::sbg\+::\+Base\+Session\+Context\+::\+Base\+Session\+Context (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!drawLevel@{drawLevel}}
+\index{drawLevel@{drawLevel}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{drawLevel()}{drawLevel()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::draw\+Level (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_session_context_a167ee92fad6642b5ea83a1d584124988}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_aa0b7bcba35d7f5dd3f261c4eb918844f}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!executeCommand@{executeCommand}}
+\index{executeCommand@{executeCommand}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{executeCommand()}{executeCommand()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_aa0b7bcba35d7f5dd3f261c4eb918844f} 
+std\+::pair$<$ bool, \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{Game\+State}} $>$ sokoban\+::sbg\+::\+Base\+Session\+Context\+::execute\+Command (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_command}{Command}} $>$ \&}]{command}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_session_context_a41d2c1f17601027a50d15f0fc95eff4f}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a748242a8d37de80582d8da3f64a53726}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!hasNextLevel@{hasNextLevel}}
+\index{hasNextLevel@{hasNextLevel}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{hasNextLevel()}{hasNextLevel()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a748242a8d37de80582d8da3f64a53726} 
+bool sokoban\+::sbg\+::\+Base\+Session\+Context\+::has\+Next\+Level (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classsokoban_1_1_session_context_aa061bb95e9899eaf0ba6df2fe6dfa4a6}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a9a78926ed0e4181dde4dfe4ab3341a72}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!incrementLevelNumber@{incrementLevelNumber}}
+\index{incrementLevelNumber@{incrementLevelNumber}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{incrementLevelNumber()}{incrementLevelNumber()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a9a78926ed0e4181dde4dfe4ab3341a72} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::increment\+Level\+Number (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classsokoban_1_1_session_context_ab58d18bccb6f87981ca87816d376e8be}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_af82e6be1b2044630a8523a3577ac8ec5}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!initialize@{initialize}}
+\index{initialize@{initialize}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_af82e6be1b2044630a8523a3577ac8ec5} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::initialize (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_session_context_a9f3e393e4c278c03d71702c8a503c21a}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a1862a5250c51b7ddd162f259026ab67d}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!loadGame@{loadGame}}
+\index{loadGame@{loadGame}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{loadGame()}{loadGame()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a1862a5250c51b7ddd162f259026ab67d} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::load\+Game (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{stream}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classsokoban_1_1_session_context_ac1c92b0b01b2a7dbd827cc533bf8b3f3}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a7020001cda0c9b09d5165afafd086d65}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!loadLevel@{loadLevel}}
+\index{loadLevel@{loadLevel}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{loadLevel()}{loadLevel()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a7020001cda0c9b09d5165afafd086d65} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::load\+Level (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{path}{ = {\ttfamily \{\}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_session_context_a0200de33b017d373a5c6fe4eb6da7116}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a4682416d727dc6767fa91217690475a6}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!multimodalInterface@{multimodalInterface}}
+\index{multimodalInterface@{multimodalInterface}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{multimodalInterface()}{multimodalInterface()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a4682416d727dc6767fa91217690475a6} 
+\mbox{\hyperlink{classsokoban_1_1_multimodal_interface}{Multimodal\+Interface}} \& sokoban\+::sbg\+::\+Base\+Session\+Context\+::multimodal\+Interface (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_session_context_a6685cb6b3575ef08682017de8eaf9802}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_a49c9402497ac6952a90941e50a84ffac}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!saveGame@{saveGame}}
+\index{saveGame@{saveGame}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{saveGame()}{saveGame()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_a49c9402497ac6952a90941e50a84ffac} 
+void sokoban\+::sbg\+::\+Base\+Session\+Context\+::save\+Game (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{stream}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classsokoban_1_1_session_context_ab75b31ae1f2cc06a0ea30d7710af49ce}{sokoban\+::\+Session\+Context}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_session_context_ad59e5b3b89f2935f2e57eb9112ef453c}\index{sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}!supportsSaveGames@{supportsSaveGames}}
+\index{supportsSaveGames@{supportsSaveGames}!sokoban::sbg::BaseSessionContext@{sokoban::sbg::BaseSessionContext}}
+\doxysubsubsection{\texorpdfstring{supportsSaveGames()}{supportsSaveGames()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_session_context_ad59e5b3b89f2935f2e57eb9112ef453c} 
+bool sokoban\+::sbg\+::\+Base\+Session\+Context\+::supports\+Save\+Games (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classsokoban_1_1_session_context_a3393b5b8101c5ab30704559f118e1792}{sokoban\+::\+Session\+Context}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib\+\_\+base\+\_\+game/include/\mbox{\hyperlink{base__session__context_8hpp}{base\+\_\+session\+\_\+context.\+hpp}}\end{DoxyCompactItemize}

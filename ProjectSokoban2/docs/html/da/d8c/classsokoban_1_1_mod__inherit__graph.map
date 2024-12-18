@@ -1,0 +1,5 @@
+<map id="sokoban::Mod" name="sokoban::Mod">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,165,117"/>
+<area shape="rect" id="Node000002" href="$d7/df6/class_base_mod.html" title=" " alt="" coords="5,165,165,277"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,133,88,166,83,166,83,133"/>
+</map>

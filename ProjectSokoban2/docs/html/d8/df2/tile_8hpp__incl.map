@@ -1,0 +1,16 @@
+<map id="lib_sokoban_core/include/sokoban_core/tile.hpp" name="lib_sokoban_core/include/sokoban_core/tile.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="180,5,347,48"/>
+<area shape="rect" id="Node000002" href="$d4/d42/game__object_8hpp.html" title=" " alt="" coords="106,96,226,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,51,194,88,191,84,237,47"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="146,245,215,272"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="277,47,290,78,301,117,303,159,299,179,291,199,279,214,264,227,231,245,228,241,261,223,275,211,286,196,294,178,298,158,295,118,285,80,272,49"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="219,171,276,197"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="264,48,253,155,248,155,259,48"/>
+<area shape="rect" id="Node000003" href="$d3/d3e/game__object__id_8hpp.html" title=" " alt="" coords="5,171,143,197"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="152,125,103,163,100,159,148,121"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="170,123,181,230,175,230,165,123"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="182,121,224,158,220,162,178,125"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="47,245,101,272"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="77,198,77,230,71,230,71,198"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="94,196,151,234,148,238,91,200"/>
+</map>

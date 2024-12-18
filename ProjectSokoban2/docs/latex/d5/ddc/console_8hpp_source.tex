@@ -1,0 +1,13 @@
+\doxysection{console.\+hpp}
+\hypertarget{console_8hpp_source}{}\label{console_8hpp_source}\index{lib\_sokoban\_core/include/tui/console.hpp@{lib\_sokoban\_core/include/tui/console.hpp}}
+\mbox{\hyperlink{console_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{console__win_8hpp}{console\_win.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{console__linux_8hpp}{console\_linux.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

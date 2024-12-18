@@ -1,0 +1,47 @@
+\doxysection{mod\+\_\+dynamic\+\_\+library.\+hpp}
+\hypertarget{mod__dynamic__library_8hpp_source}{}\label{mod__dynamic__library_8hpp_source}\index{sokoban\_driver/mod\_dynamic\_library.hpp@{sokoban\_driver/mod\_dynamic\_library.hpp}}
+\mbox{\hyperlink{mod__dynamic__library_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib__sokoban__core_2include_2sokoban__core_2mod_8hpp}{sokoban\_core/mod.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <boost/filesystem.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <boost/dll/import.hpp>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mod_dynamic_library}{ModDynamicLibrary}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ types}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{using\ }ModCreatorFunction\ =\ std::unique\_ptr<sokoban::Mod>();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_mod_dynamic_library_aa263e6a20a17424bd1f7115bb7b9b164}{ModDynamicLibrary}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ \mbox{\hyperlink{class_mod_dynamic_library_ab60e71c997d312a2beebe0afe94dd509}{modFolderPath}},\ \textcolor{keyword}{const}\ std::string\&\ modFileName)}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ :\ library\_\ \{\ boost::filesystem::path\ \{\ \mbox{\hyperlink{class_mod_dynamic_library_ab60e71c997d312a2beebe0afe94dd509}{modFolderPath}}\ \}\ /\ modFileName,\ boost::dll::load\_mode::append\_decorations\ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ ,\ mod\_\ \{\ library\_.get\_alias<ModCreatorFunction>(methodName\_)()\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ ,\ modFolderPath\_\ \{\ \mbox{\hyperlink{class_mod_dynamic_library_ab60e71c997d312a2beebe0afe94dd509}{modFolderPath}}\ \}\ }
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ \ \mbox{\hyperlink{class_mod_dynamic_library_ab60e71c997d312a2beebe0afe94dd509}{modFolderPath}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ modFolderPath\_;\}}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_mod}{sokoban::Mod}}\&\ \mbox{\hyperlink{class_mod_dynamic_library_a3d065dc0f2af18d91e5b2dc5e7716be0}{mod}}()\ \{\ \textcolor{keywordflow}{return}\ *mod\_;\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ data}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ methodName\_\ =\ \textcolor{stringliteral}{"{}createMod"{}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ boost::dll::shared\_library\ \ \ \ library\_;}
+\DoxyCodeLine{00032\ \ \ \ \ std::unique\_ptr<sokoban::Mod>\ mod\_\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00033\ \ \ \ \ std::filesystem::path\ modFolderPath\_;}
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \mbox{\hyperlink{class_mod_dynamic_library}{ModDynamicLibrary}}\ \mbox{\hyperlink{mod__dynamic__library_8hpp_a796f246170ca51bf747c662515b3ba12}{loadModDynamicLibrary}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ modFolderPath)}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ modFileName\ =\ \textcolor{stringliteral}{"{}mod"{}};}
+\DoxyCodeLine{00039\ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_mod_dynamic_library}{ModDynamicLibrary}}\ \{\ modFolderPath,\ modFileName\ \};}
+\DoxyCodeLine{00041\ \}}
+
+\end{DoxyCode}

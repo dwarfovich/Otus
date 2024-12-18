@@ -1,0 +1,128 @@
+\doxysection{base\+\_\+session\+\_\+context.\+hpp}
+\hypertarget{base__session__context_8hpp_source}{}\label{base__session__context_8hpp_source}\index{lib\_base\_game/include/base\_session\_context.hpp@{lib\_base\_game/include/base\_session\_context.hpp}}
+\mbox{\hyperlink{base__session__context_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base__game_8hpp}{base\_game.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base__multimodal__interface_8hpp}{base\_multimodal\_interface.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base__game__object__factory_8hpp}{base\_game\_object\_factory.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base__action__factory_8hpp}{base\_action\_factory.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{session__context_8hpp}{sokoban\_core/session\_context.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{command_8hpp}{sokoban\_core/command.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{action__result_8hpp}{sokoban\_core/action\_result.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{default__paths_8hpp}{sokoban\_core/default\_paths.hpp}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{action__logger_8hpp}{sokoban\_core/action\_logger.hpp}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{campaign_8hpp}{sokoban\_core/campaign.hpp}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{console_8hpp}{tui/console.hpp}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }sbg\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context}{BaseSessionContext}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsokoban_1_1_session_context}{SessionContext}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a1db3b205f1e263ba76c73b30a794197b}{BaseSessionContext}}()\ \{\ multimodalInterface\_\ =\ std::make\_unique<BaseMultimodalInterface>();\ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_multimodal_interface}{MultimodalInterface}}\&\ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a4682416d727dc6767fa91217690475a6}{multimodalInterface}}()\textcolor{keyword}{\ override\ }\{\ \textcolor{keywordflow}{return}\ *multimodalInterface\_;\ \}}
+\DoxyCodeLine{00028\ \ \ \ \ std::pair<bool,\ GameState>\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_aa0b7bcba35d7f5dd3f261c4eb918844f}{executeCommand}}(\textcolor{keyword}{const}\ std::shared\_ptr<Command>\&\ command)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ action\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ actionFactory\_.\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_action_factory_a00aad6eaff747b0a34a908454422ac47}{create}}(*command);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ [success,\ gameFinished]\ =\ action-\/>perform(*game\_);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{drawLevel}}();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ success,\ gameFinished\ \};}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{drawLevel}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a936aceafc63fcc5b9809d366fb46388e}{console\_}}-\/>clear();}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{drawLevel}}(std::cout);}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_af82e6be1b2044630a8523a3577ac8ec5}{initialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ campaignPath\ =}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::current\_path()\ /\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}\ /\ \textcolor{stringliteral}{"{}BaseGame/campaign.json"{}};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ campaignJson\ =\ \mbox{\hyperlink{namespacesokoban_1_1json__utils_ab9a63e4e88c1b9169bd04489fe1fd590}{json\_utils::loadFromFile}}(campaignPath);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ campaign\_\ \ \ \ \ \ \ \ \ =\ std::make\_unique<Campaign>();}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ campaign\_-\/>load(campaignJson);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ path\ =\ std::filesystem::current\_path()\ /\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}\ /\ \textcolor{stringliteral}{"{}BaseGame/object\_ids.json"{}};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ objects\ \ \ \ \ \ \ =\ \mbox{\hyperlink{namespacesokoban_1_1sbg_a2b972bf1db7cdebc07482fca50fca8fb}{loadFromJsonFile}}(path);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ gameObjectFactory\_\ =\ std::make\_unique<BaseGameObjectFactory>(std::move(objects));}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7020001cda0c9b09d5165afafd086d65}{loadLevel}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path\ =\ \{\})\ \textcolor{keyword}{override}}
+\DoxyCodeLine{00056\ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ levelpath\ =\ path.empty()\ ?\ std::filesystem::current\_path()}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}\ /\ \textcolor{stringliteral}{"{}BaseGame/"{}}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ campaign\_-\/>currentLevelName()}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ path;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a433a2b691144f7a9e9606c4832cca3e7}{currentlevelPath\_}}\ \ \ \ \ \ \ \ =\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}\ /\ \textcolor{stringliteral}{"{}BaseGame/"{}}\ /\ campaign\_-\/>currentLevelName();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ [map,\ playerCoords]\ =\ \mbox{\hyperlink{namespacesokoban_1_1sbg_a8f2cb47f845eab09db6625dc0078f300}{loadLevelMap}}(levelpath,\ *gameObjectFactory\_);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!game\_)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ game\_\ =\ std::make\_unique<BaseGame>();}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ game\_-\/>setMap(std::move(map));}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ game\_-\/>setPlayerCoords(std::move(playerCoords));}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a9a78926ed0e4181dde4dfe4ab3341a72}{incrementLevelNumber}}()\textcolor{keyword}{\ override\ }\{\ campaign\_-\/>setCurrentLevel(campaign\_-\/>currentLevel()\ +\ 1);\ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_ad59e5b3b89f2935f2e57eb9112ef453c}{supportsSaveGames}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a748242a8d37de80582d8da3f64a53726}{hasNextLevel}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ campaign\_-\/>hasNextLevel();\ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a49c9402497ac6952a90941e50a84ffac}{saveGame}}(std::ostream\&\ stream)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ stream\ <<\ campaign\_-\/>currentLevel()\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{drawLevel}}(stream);}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a1862a5250c51b7ddd162f259026ab67d}{loadGame}}(std::istream\&\ stream)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00079\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ objectsPath\ =}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::current\_path()\ /\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}\ /\ \textcolor{stringliteral}{"{}BaseGame/object\_ids.json"{}};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ objects\ \ \ \ \ \ \ =\ \mbox{\hyperlink{namespacesokoban_1_1sbg_a2b972bf1db7cdebc07482fca50fca8fb}{loadFromJsonFile}}(objectsPath);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ gameObjectFactory\_\ =\ std::make\_unique<BaseGameObjectFactory>(std::move(objects));}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!campaign\_)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ campaign\_-\/>load(std::filesystem::current\_path()\ /\ \mbox{\hyperlink{namespacesokoban_1_1default__paths_a554abc90101c7e52d67dceed2c7470b5}{sokoban::default\_paths::modsFolder}}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \textcolor{stringliteral}{"{}BaseGame/campaign.json"{}});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ [map,\ playerCoords,\ level]\ =\ \mbox{\hyperlink{namespacesokoban_1_1sbg_a1238dcead3fe6a0c1302e28fa0267093}{loadSaveGame}}(stream,\ *gameObjectFactory\_);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ campaign\_-\/>setCurrentLevel(level);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ game\_\ =\ std::make\_unique<BaseGame>(std::move(map),\ std::move(playerCoords));}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ methods}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_session_context_a7ad9ac17618a18b1c47b4deea162c393}{drawLevel}}(std::ostream\&\ stream)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00096\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ row\ :\ game\_-\/>map())\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ row)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ symbol\ =\ gameObjectFactory\_-\/>symbol(tile.objects());}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (symbol)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ symbol;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ std::string\ achievement()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Base\ campaign\ completed!"{}};\ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00113\ \ \ \ \ std::unique\_ptr<BaseGame>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ game\_\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00114\ \ \ \ \ std::unique\_ptr<BaseMultimodalInterface>\ multimodalInterface\_\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00115\ \ \ \ \ std::unique\_ptr<BaseGameObjectFactory>\ \ \ gameObjectFactory\_\ \ \ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00116\ \ \ \ \ std::unique\_ptr<ActionLogger>\ \ \ \ \ \ \ \ \ \ \ \ actionLogger\_\ \ \ \ \ \ \ \ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00117\ \ \ \ \ std::unique\_ptr<Campaign>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ campaign\_\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00118\ \ \ \ \ BaseActionFactory\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actionFactory\_;}
+\DoxyCodeLine{00119\ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \}\ \textcolor{comment}{//\ namespace\ sbg}}
+\DoxyCodeLine{00122\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

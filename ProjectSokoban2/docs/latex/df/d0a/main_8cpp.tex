@@ -1,0 +1,136 @@
+\doxysection{sokoban\+\_\+driver/main.cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{sokoban\_driver/main.cpp@{sokoban\_driver/main.cpp}}
+{\ttfamily \#include "{}mod\+\_\+dynamic\+\_\+library.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/game\+\_\+state.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/game.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/new\+\_\+game\+\_\+parameters.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/action\+\_\+logger.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/mod.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/default\+\_\+paths.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/system.\+hpp"{}}\newline
+{\ttfamily \#include "{}sokoban\+\_\+core/player.\+hpp"{}}\newline
+{\ttfamily \#include "{}json\+\_\+utils/json\+\_\+utils.\+hpp"{}}\newline
+{\ttfamily \#include "{}tui/menu\+\_\+collection.\+hpp"{}}\newline
+{\ttfamily \#include "{}tui/menu.\+hpp"{}}\newline
+{\ttfamily \#include $<$boost/dll/import.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/filesystem.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/function.\+hpp$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{da/dce/main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{main_8cpp_a8174c4a6489edda24486f51c9995e3c5}{show\+Load\+Mod\+Menu}} (const \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{sokoban\+::tui\+::\+Console}} \&console)
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} $>$ \mbox{\hyperlink{main_8cpp_ae0346d1da0c9e5115ce6e1e4bd0650df}{initialize\+Context}} (\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&mod\+Library, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \&player, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&console)
+\item 
+void \mbox{\hyperlink{main_8cpp_af35a0680261504d964a0477f661eaa65}{save\+Base\+Game\+Info}} (std\+::ostream \&stream, const \mbox{\hyperlink{classsokoban_1_1_session_context}{sokoban\+::\+Session\+Context}} \&context, const \mbox{\hyperlink{classsokoban_1_1_player}{sokoban\+::\+Player}} \&player)
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{main_8cpp_ae565b00fc041f3627cf04a5787e763ee}{show\+Load\+Game\+Menu}} (\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&console)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{sokoban\+::\+Game\+State}}, bool $>$ \mbox{\hyperlink{main_8cpp_a0cd11b33b5724d7d4c736895b07a7f0e}{play\+Level}} (\mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&context, \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&console)
+\item 
+void \mbox{\hyperlink{main_8cpp_ae61d0a5f942ff7b7626ea7d725b01db3}{play\+Game}} (\mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&context, \mbox{\hyperlink{classsokoban_1_1_player}{Player}} \&player, \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&console)
+\item 
+void \mbox{\hyperlink{main_8cpp_a05806457f6f259f680d393eb91d0d283}{start\+New\+Game}} (\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&mod\+Library, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \&player, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&console)
+\item 
+void \mbox{\hyperlink{main_8cpp_a6dc569632de47b4b69abf00cbd991a1b}{load\+Game}} (\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&mod\+Library, const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ $>$ \&players, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&console)
+\item 
+void \mbox{\hyperlink{main_8cpp_a428447ddf14bf5a3a5bcc982ec84e5f7}{play\+Log}} (\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&mod\+Library, const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&console)
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{main_8cpp_aa7396c5e3c40624c319e9e0397e3d888}{generate\+Log\+File\+Path}} (const \mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&context)
+\item 
+int \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{main_8cpp_a6ec30822ffb002e8d65563225e9c79a5}{generate\+Save\+Game\+File\+Path}} (const std\+::filesystem\+::path \&mod\+Folder)
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{main_8cpp_a2de8993ee90641cba03aa8426b520453}{select\+Log}} (const std\+::filesystem\+::path \&mod\+Folder, \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&console)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_aa7396c5e3c40624c319e9e0397e3d888}\index{main.cpp@{main.cpp}!generateLogFilePath@{generateLogFilePath}}
+\index{generateLogFilePath@{generateLogFilePath}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{generateLogFilePath()}{generateLogFilePath()}}
+{\footnotesize\ttfamily \label{main_8cpp_aa7396c5e3c40624c319e9e0397e3d888} 
+std\+::filesystem\+::path generate\+Log\+File\+Path (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&}]{context}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a6ec30822ffb002e8d65563225e9c79a5}\index{main.cpp@{main.cpp}!generateSaveGameFilePath@{generateSaveGameFilePath}}
+\index{generateSaveGameFilePath@{generateSaveGameFilePath}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{generateSaveGameFilePath()}{generateSaveGameFilePath()}}
+{\footnotesize\ttfamily \label{main_8cpp_a6ec30822ffb002e8d65563225e9c79a5} 
+std\+::filesystem\+::path generate\+Save\+Game\+File\+Path (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{mod\+Folder}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ae0346d1da0c9e5115ce6e1e4bd0650df}\index{main.cpp@{main.cpp}!initializeContext@{initializeContext}}
+\index{initializeContext@{initializeContext}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{initializeContext()}{initializeContext()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae0346d1da0c9e5115ce6e1e4bd0650df} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} $>$ initialize\+Context (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&}]{mod\+Library}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \&}]{player}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a6dc569632de47b4b69abf00cbd991a1b}\index{main.cpp@{main.cpp}!loadGame@{loadGame}}
+\index{loadGame@{loadGame}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{loadGame()}{loadGame()}}
+{\footnotesize\ttfamily \label{main_8cpp_a6dc569632de47b4b69abf00cbd991a1b} 
+void load\+Game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&}]{mod\+Library}{, }\item[{const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ $>$ \&}]{players}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ae61d0a5f942ff7b7626ea7d725b01db3}\index{main.cpp@{main.cpp}!playGame@{playGame}}
+\index{playGame@{playGame}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{playGame()}{playGame()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae61d0a5f942ff7b7626ea7d725b01db3} 
+void play\+Game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&}]{context}{, }\item[{\mbox{\hyperlink{classsokoban_1_1_player}{Player}} \&}]{player}{, }\item[{\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a0cd11b33b5724d7d4c736895b07a7f0e}\index{main.cpp@{main.cpp}!playLevel@{playLevel}}
+\index{playLevel@{playLevel}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{playLevel()}{playLevel()}}
+{\footnotesize\ttfamily \label{main_8cpp_a0cd11b33b5724d7d4c736895b07a7f0e} 
+std\+::pair$<$ \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{sokoban\+::\+Game\+State}}, bool $>$ play\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}} \&}]{context}{, }\item[{\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a428447ddf14bf5a3a5bcc982ec84e5f7}\index{main.cpp@{main.cpp}!playLog@{playLog}}
+\index{playLog@{playLog}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{playLog()}{playLog()}}
+{\footnotesize\ttfamily \label{main_8cpp_a428447ddf14bf5a3a5bcc982ec84e5f7} 
+void play\+Log (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&}]{mod\+Library}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_af35a0680261504d964a0477f661eaa65}\index{main.cpp@{main.cpp}!saveBaseGameInfo@{saveBaseGameInfo}}
+\index{saveBaseGameInfo@{saveBaseGameInfo}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{saveBaseGameInfo()}{saveBaseGameInfo()}}
+{\footnotesize\ttfamily \label{main_8cpp_af35a0680261504d964a0477f661eaa65} 
+void save\+Base\+Game\+Info (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{stream}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_session_context}{sokoban\+::\+Session\+Context}} \&}]{context}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_player}{sokoban\+::\+Player}} \&}]{player}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a2de8993ee90641cba03aa8426b520453}\index{main.cpp@{main.cpp}!selectLog@{selectLog}}
+\index{selectLog@{selectLog}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{selectLog()}{selectLog()}}
+{\footnotesize\ttfamily \label{main_8cpp_a2de8993ee90641cba03aa8426b520453} 
+std\+::filesystem\+::path select\+Log (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{mod\+Folder}{, }\item[{\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_ae565b00fc041f3627cf04a5787e763ee}\index{main.cpp@{main.cpp}!showLoadGameMenu@{showLoadGameMenu}}
+\index{showLoadGameMenu@{showLoadGameMenu}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{showLoadGameMenu()}{showLoadGameMenu()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae565b00fc041f3627cf04a5787e763ee} 
+std\+::filesystem\+::path show\+Load\+Game\+Menu (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a8174c4a6489edda24486f51c9995e3c5}\index{main.cpp@{main.cpp}!showLoadModMenu@{showLoadModMenu}}
+\index{showLoadModMenu@{showLoadModMenu}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{showLoadModMenu()}{showLoadModMenu()}}
+{\footnotesize\ttfamily \label{main_8cpp_a8174c4a6489edda24486f51c9995e3c5} 
+std\+::filesystem\+::path show\+Load\+Mod\+Menu (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{sokoban\+::tui\+::\+Console}} \&}]{console}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a05806457f6f259f680d393eb91d0d283}\index{main.cpp@{main.cpp}!startNewGame@{startNewGame}}
+\index{startNewGame@{startNewGame}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{startNewGame()}{startNewGame()}}
+{\footnotesize\ttfamily \label{main_8cpp_a05806457f6f259f680d393eb91d0d283} 
+void start\+New\+Game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_mod_dynamic_library}{Mod\+Dynamic\+Library}} \&}]{mod\+Library}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ \&}]{player}{, }\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui\+::\+Console}} $>$ \&}]{console}{}\end{DoxyParamCaption})}
+

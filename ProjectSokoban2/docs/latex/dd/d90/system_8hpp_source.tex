@@ -1,0 +1,63 @@
+\doxysection{system.\+hpp}
+\hypertarget{system_8hpp_source}{}\label{system_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/system.hpp@{lib\_sokoban\_core/include/sokoban\_core/system.hpp}}
+\mbox{\hyperlink{system_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{windows_8hpp}{windows.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\ \ \ \ \#define\ HANDLE\ int}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\ \ \ \ \#include\ <termios.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_system}{System}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_system_a33cce9bc61781ce021e8288fe3cd4dde}{System}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_system}{System}}\&)\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_system}{System}}\&\ \mbox{\hyperlink{classsokoban_1_1_system_ad77f06d94bc55fe48682bafc8d0287cf}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_system}{System}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ HANDLE\ \mbox{\hyperlink{classsokoban_1_1_system_a42697cf97f119876f0086a79d17af2ec}{outputHandle}}()\ \{\ \textcolor{keywordflow}{return}\ stdOutHandle\_;\ \}}
+\DoxyCodeLine{00021\ \ \ \ \ HANDLE\ \mbox{\hyperlink{classsokoban_1_1_system_a08a7ae52c4f3d5f0e2839f9d6f5b3b57}{inputHandle}}()\ \{\ \textcolor{keywordflow}{return}\ stdInHandle\_;\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ methods}}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_system_a16a0dfc41fe326bcc52f4061bb53c44b}{System}}()}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ stdOutHandle\_\ =\ GetStdHandle(STD\_OUTPUT\_HANDLE);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ stdInHandle\_\ \ =\ GetStdHandle(STD\_INPUT\_HANDLE);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stdOutHandle\_\ ==\ 0\ ||\ stdOutHandle\_\ ==\ INVALID\_HANDLE\_VALUE\ ||\ stdInHandle\_\ ==\ 0}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ ||\ stdInHandle\_\ ==\ INVALID\_HANDLE\_VALUE)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Failed\ to\ initialize\ handles"{}});}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ tcgetattr(fileno(stdin),\ \&oldSettings);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ newSettings\ =\ oldSettings;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ newSettings.c\_lflag\ \&=\ (\string~ICANON\ \&\ \string~ECHO);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ tcsetattr(fileno(stdin),\ TCSANOW,\ \&newSettings);}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_system_a9fe9b1b70a22cdd1f1047e4d5dc1b310}{\string~System}}()\ \{\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ tcsetattr(fileno(stdin),\ TCSANOW,\ \&oldSettings);}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ data}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ initialized\_\ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ HANDLE\ stdOutHandle\_\ =\ 0;}
+\DoxyCodeLine{00050\ \ \ \ \ HANDLE\ stdInHandle\_\ \ =\ 0;}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(\_WIN32)\ \&\&\ !defined(\_WIN64)}}
+\DoxyCodeLine{00052\ \ \ \ \ termios\ oldSettings;}
+\DoxyCodeLine{00053\ \ \ \ \ termios\ newSettings;}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00055\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

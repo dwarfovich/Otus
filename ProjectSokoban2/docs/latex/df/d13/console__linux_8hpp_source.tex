@@ -1,0 +1,56 @@
+\doxysection{console\+\_\+linux.\+hpp}
+\hypertarget{console__linux_8hpp_source}{}\label{console__linux_8hpp_source}\index{lib\_sokoban\_core/include/tui/console\_linux.hpp@{lib\_sokoban\_core/include/tui/console\_linux.hpp}}
+\mbox{\hyperlink{console__linux_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{system_8hpp}{sokoban\_core/system.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{key__definitions__linux_8hpp}{tui/key\_definitions\_linux.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <sys/time.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <fcntl.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <termios.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }tui\ \{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{Console}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console_a06d5f6d9eaba82eaf742bfb61b0d61e9}{Console}}(\mbox{\hyperlink{classsokoban_1_1_system}{System}}\&\ system)\ :\ system\_\ \{\ system\ \}\ \{\}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console_a68922519b5769e63f0bcef1073416304}{clear}}()\textcolor{keyword}{\ const\ }\{\}}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ \ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console_a26e5c54bb002c8c011f2d4cf3ae471c8}{waitForInput}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ fd\_set\ \ fdSet;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ FD\_ZERO(\&fdSet);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ FD\_SET(fileno(stdin),\ \&fdSet);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ result\ =\ select(fileno(stdin)\ +\ 1,\ \&fdSet,\ NULL,\ NULL,\ NULL);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ >\ 0)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ c\ =\ 0;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ read(fileno(stdin),\ \&c,\ \textcolor{keyword}{sizeof}(c));}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_1_1tui_ad3edc568fa163fc9e368826e82d98a70}{fromVirtualChar}}(c);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598aff11827484ece25f557df10d480a9e93}{Key::invalidKey}};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_system}{System}}\&\ system\_;}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \}\ \textcolor{comment}{//\ namespace\ tui}}
+\DoxyCodeLine{00050\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

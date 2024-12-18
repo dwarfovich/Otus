@@ -1,0 +1,9 @@
+<map id="lib_sokoban_core/include/json_utils/json_utils.hpp" name="lib_sokoban_core/include/json_utils/json_utils.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="116,5,284,48"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,96,136,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,51,105,90,102,85,165,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="159,96,240,123"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,49,202,80,197,80,197,49"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="264,96,330,123"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,47,272,84,269,88,223,51"/>
+</map>

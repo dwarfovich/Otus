@@ -1,0 +1,7 @@
+<map id="sokoban::tui::MenuEntry&lt; Enum &gt;" name="sokoban::tui::MenuEntry&lt; Enum &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,139,160,224"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="25,5,71,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,74,58,114,60,122,55,123,53,115,47,75"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="95,5,142,75"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="113,75,100,123,95,122,107,74"/>
+</map>

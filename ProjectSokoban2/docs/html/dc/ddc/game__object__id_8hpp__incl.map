@@ -1,0 +1,7 @@
+<map id="lib_sokoban_core/include/sokoban_core/game_object_id.hpp" name="lib_sokoban_core/include/sokoban_core/game_object_id.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,232,48"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="49,96,102,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,50,92,83,87,81,105,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="127,96,195,123"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,47,150,81,145,83,127,50"/>
+</map>

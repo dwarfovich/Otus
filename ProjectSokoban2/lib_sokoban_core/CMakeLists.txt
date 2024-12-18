@@ -1,7 +1,7 @@
 ﻿set(LIB_NAME sokoban_core_lib CACHE INTERNAL "Library name")
 add_library(${LIB_NAME} STATIC
    "src/lib.cpp"
-      "include/sokoban_core/game_object_id.hpp" "include/sokoban_core/game_action.hpp" "include/sokoban_core/default_paths.hpp" "include/sokoban_core/multimodal_interface.hpp" "include/sokoban_core/session_context.hpp" "include/tui/menu.hpp" "include/tui/menu_entry.hpp"   "include/sokoban_core/coords.hpp"  "include/sokoban_core/mod.hpp" "include/sokoban_core/achievement_record.h")
+      "include/sokoban_core/game_object_id.hpp" "include/sokoban_core/game_action.hpp" "include/sokoban_core/default_paths.hpp" "include/sokoban_core/multimodal_interface.hpp" "include/sokoban_core/session_context.hpp" "include/tui/menu.hpp" "include/tui/menu_entry.hpp"   "include/sokoban_core/coords.hpp"  "include/sokoban_core/mod.hpp" )
 
 if (WIN32)
     target_sources(${LIB_NAME}

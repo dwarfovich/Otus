@@ -1,0 +1,254 @@
+\doxysection{sokoban Namespace Reference}
+\hypertarget{namespacesokoban}{}\label{namespacesokoban}\index{sokoban@{sokoban}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacesokoban_1_1default__paths}{default\+\_\+paths}}
+\item 
+namespace \mbox{\hyperlink{namespacesokoban_1_1json__utils}{json\+\_\+utils}}
+\item 
+namespace \mbox{\hyperlink{namespacesokoban_1_1sbg}{sbg}}
+\item 
+namespace \mbox{\hyperlink{namespacesokoban_1_1tui}{tui}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_action_logger}{Action\+Logger}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_action_result}{Action\+Result}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_campaign}{Campaign}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_command}{Command}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_game}{Game}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_game_action}{Game\+Action}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{Game\+Object\+Factory}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_game_object_id}{Game\+Object\+Id}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_mod}{Mod}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_multimodal_interface}{Multimodal\+Interface}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_new_game_parameters}{New\+Game\+Parameters}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_player}{Player}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{Rectangle\+Tile\+Map}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_session_context}{Session\+Context}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_system}{System}}
+\item 
+class \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} = std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}}$>$
+\item 
+using \mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{Game\+Object\+Uptr}} = std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}}$>$
+\item 
+using \mbox{\hyperlink{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}{Game\+Object\+Id\+Sptr}} = std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object_id}{Game\+Object\+Id}}$>$
+\item 
+using \mbox{\hyperlink{namespacesokoban_a34f3f0697986dd368d44d0abf819d0ad}{Tile\+Uptr}} = std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a258f49887ef8d14ac268c92b02503aaa}{Up}}
+, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a92b09c7c48c520c3c55e497875da437c}{Right}}
+, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a08a38277b0309070706f6652eeae9a53}{Down}}
+, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a945d5e233cf7d6240f6b783b36a374ff}{Left}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{Game\+State}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3ca12d868c18cb29bf58f02b504be9033fd}{In\+Progress}}
+, \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3ca19abd416eb9fe03ae7400a22446956a5}{Won}}
+, \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3cab578b733cbb788fc6ad208314d2c4c2b}{Lost}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}} \+: unsigned \{ \newline
+\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598aff11827484ece25f557df10d480a9e93}{invalid\+Key}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a72177afabbc99980d451262eda42ba05}{digit1}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a97f7e64a3a261570dffe308fdf062cda}{digit2}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a6c3c641f6319a194c1fb1d5899f7b806}{digit3}}
+, \newline
+\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a53b2fd66dd5d3af25000def6e8840afb}{digit4}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8cf2ed79a2d73e77b765736f0ffe6f25}{digit5}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a0cc175b9c0f1b6a831c399e269772661}{a}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a03c7c0ace395d80182db07ae2c30f034}{s}}
+, \newline
+\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8277e0910d750195b448797616e091ad}{d}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598af1290186a5d0b1ceab27f4e77c0c5d68}{w}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a07fb9bf7b5ce76ce6cb6b8097385223f}{left\+Arrow}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a279ed35099b07322cf4fb6cd9b03c5ec}{right\+Arrow}}
+, \newline
+\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a7dda0fb14261325841bc3140841ecfec}{up\+Arrow}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a749574394f2fe8de9a7494d04785eb05}{down\+Arrow}}
+, \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a3f0e951cdec5a39685cb08fa6edc6094}{esc}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ $>$ \mbox{\hyperlink{namespacesokoban_a6ad615f35695c0954b28db2fc559e174}{load\+Players\+List}} (const \mbox{\hyperlink{namespacesokoban_1_1json__utils_ac1e4edce42906deda88481c30a88ad11}{json\+\_\+utils\+::\+Json}} \&json)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}\index{sokoban@{sokoban}!GameObjectIdSptr@{GameObjectIdSptr}}
+\index{GameObjectIdSptr@{GameObjectIdSptr}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{GameObjectIdSptr}{GameObjectIdSptr}}
+{\footnotesize\ttfamily \label{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3} 
+using \mbox{\hyperlink{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}{sokoban\+::\+Game\+Object\+Id\+Sptr}} = std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object_id}{Game\+Object\+Id}}$>$}
+
+\Hypertarget{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}\index{sokoban@{sokoban}!GameObjectSptr@{GameObjectSptr}}
+\index{GameObjectSptr@{GameObjectSptr}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{GameObjectSptr}{GameObjectSptr}}
+{\footnotesize\ttfamily \label{namespacesokoban_aa4808be624db9a7898d2cc3661560d06} 
+using \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{sokoban\+::\+Game\+Object\+Sptr}} = std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}}$>$}
+
+\Hypertarget{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}\index{sokoban@{sokoban}!GameObjectUptr@{GameObjectUptr}}
+\index{GameObjectUptr@{GameObjectUptr}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{GameObjectUptr}{GameObjectUptr}}
+{\footnotesize\ttfamily \label{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3} 
+using \mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{sokoban\+::\+Game\+Object\+Uptr}} = std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}}$>$}
+
+\Hypertarget{namespacesokoban_a34f3f0697986dd368d44d0abf819d0ad}\index{sokoban@{sokoban}!TileUptr@{TileUptr}}
+\index{TileUptr@{TileUptr}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{TileUptr}{TileUptr}}
+{\footnotesize\ttfamily \label{namespacesokoban_a34f3f0697986dd368d44d0abf819d0ad} 
+using \mbox{\hyperlink{namespacesokoban_a34f3f0697986dd368d44d0abf819d0ad}{sokoban\+::\+Tile\+Uptr}} = std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}$>$}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}\index{sokoban@{sokoban}!Direction@{Direction}}
+\index{Direction@{Direction}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{Direction}{Direction}}
+{\footnotesize\ttfamily \label{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139} 
+enum class \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{sokoban\+::\+Direction}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Up@{Up}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Up@{Up}}}\Hypertarget{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a258f49887ef8d14ac268c92b02503aaa}\label{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139} 
+Up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Right@{Right}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Right@{Right}}}\Hypertarget{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a92b09c7c48c520c3c55e497875da437c}\label{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139} 
+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Down@{Down}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Down@{Down}}}\Hypertarget{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a08a38277b0309070706f6652eeae9a53}\label{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139} 
+Down&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Left@{Left}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Left@{Left}}}\Hypertarget{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a945d5e233cf7d6240f6b783b36a374ff}\label{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139} 
+Left&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}\index{sokoban@{sokoban}!GameState@{GameState}}
+\index{GameState@{GameState}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{GameState}{GameState}}
+{\footnotesize\ttfamily \label{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c} 
+enum class \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{sokoban\+::\+Game\+State}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InProgress@{InProgress}!sokoban@{sokoban}}\index{sokoban@{sokoban}!InProgress@{InProgress}}}\Hypertarget{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3ca12d868c18cb29bf58f02b504be9033fd}\label{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c} 
+In\+Progress&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Won@{Won}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Won@{Won}}}\Hypertarget{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3ca19abd416eb9fe03ae7400a22446956a5}\label{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c} 
+Won&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Lost@{Lost}!sokoban@{sokoban}}\index{sokoban@{sokoban}!Lost@{Lost}}}\Hypertarget{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3cab578b733cbb788fc6ad208314d2c4c2b}\label{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c} 
+Lost&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}\index{sokoban@{sokoban}!Key@{Key}}
+\index{Key@{Key}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{Key}{Key}}
+{\footnotesize\ttfamily \label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+enum class \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{sokoban\+::\+Key}} \+: unsigned\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalidKey@{invalidKey}!sokoban@{sokoban}}\index{sokoban@{sokoban}!invalidKey@{invalidKey}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598aff11827484ece25f557df10d480a9e93}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+invalid\+Key&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{digit1@{digit1}!sokoban@{sokoban}}\index{sokoban@{sokoban}!digit1@{digit1}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a72177afabbc99980d451262eda42ba05}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+digit1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{digit2@{digit2}!sokoban@{sokoban}}\index{sokoban@{sokoban}!digit2@{digit2}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a97f7e64a3a261570dffe308fdf062cda}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+digit2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{digit3@{digit3}!sokoban@{sokoban}}\index{sokoban@{sokoban}!digit3@{digit3}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a6c3c641f6319a194c1fb1d5899f7b806}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+digit3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{digit4@{digit4}!sokoban@{sokoban}}\index{sokoban@{sokoban}!digit4@{digit4}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a53b2fd66dd5d3af25000def6e8840afb}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+digit4&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{digit5@{digit5}!sokoban@{sokoban}}\index{sokoban@{sokoban}!digit5@{digit5}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8cf2ed79a2d73e77b765736f0ffe6f25}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+digit5&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{a@{a}!sokoban@{sokoban}}\index{sokoban@{sokoban}!a@{a}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a0cc175b9c0f1b6a831c399e269772661}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+a&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{s@{s}!sokoban@{sokoban}}\index{sokoban@{sokoban}!s@{s}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a03c7c0ace395d80182db07ae2c30f034}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+s&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{d@{d}!sokoban@{sokoban}}\index{sokoban@{sokoban}!d@{d}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8277e0910d750195b448797616e091ad}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+d&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{w@{w}!sokoban@{sokoban}}\index{sokoban@{sokoban}!w@{w}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598af1290186a5d0b1ceab27f4e77c0c5d68}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+w&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{leftArrow@{leftArrow}!sokoban@{sokoban}}\index{sokoban@{sokoban}!leftArrow@{leftArrow}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a07fb9bf7b5ce76ce6cb6b8097385223f}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+left\+Arrow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{rightArrow@{rightArrow}!sokoban@{sokoban}}\index{sokoban@{sokoban}!rightArrow@{rightArrow}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a279ed35099b07322cf4fb6cd9b03c5ec}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+right\+Arrow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{upArrow@{upArrow}!sokoban@{sokoban}}\index{sokoban@{sokoban}!upArrow@{upArrow}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a7dda0fb14261325841bc3140841ecfec}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+up\+Arrow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{downArrow@{downArrow}!sokoban@{sokoban}}\index{sokoban@{sokoban}!downArrow@{downArrow}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a749574394f2fe8de9a7494d04785eb05}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+down\+Arrow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{esc@{esc}!sokoban@{sokoban}}\index{sokoban@{sokoban}!esc@{esc}}}\Hypertarget{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a3f0e951cdec5a39685cb08fa6edc6094}\label{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598} 
+esc&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacesokoban_a6ad615f35695c0954b28db2fc559e174}\index{sokoban@{sokoban}!loadPlayersList@{loadPlayersList}}
+\index{loadPlayersList@{loadPlayersList}!sokoban@{sokoban}}
+\doxysubsubsection{\texorpdfstring{loadPlayersList()}{loadPlayersList()}}
+{\footnotesize\ttfamily \label{namespacesokoban_a6ad615f35695c0954b28db2fc559e174} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_player}{Player}} $>$ $>$ sokoban\+::load\+Players\+List (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacesokoban_1_1json__utils_ac1e4edce42906deda88481c30a88ad11}{json\+\_\+utils\+::\+Json}} \&}]{json}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+

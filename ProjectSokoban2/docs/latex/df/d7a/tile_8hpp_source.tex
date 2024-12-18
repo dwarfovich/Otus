@@ -1,0 +1,49 @@
+\doxysection{tile.\+hpp}
+\hypertarget{tile_8hpp_source}{}\label{tile_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/tile.hpp@{lib\_sokoban\_core/include/sokoban\_core/tile.hpp}}
+\mbox{\hyperlink{tile_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__object_8hpp}{game\_object.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ types}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{using\ }ObjectsContainer\ =\ std::vector<GameObjectSptr>;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ types}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1_tile_a24eff31dc5e8c4914c4d18a1ef72c5a5}{Iterator}}\ \ \ \ \ \ =\ ObjectsContainer::iterator;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1_tile_a4fb89c73f111f1604cc0463ee6087a50}{ConstIterator}}\ =\ ObjectsContainer::const\_iterator;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ methods}}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a9654305ec5f9f15decd6d19aea9375fd}{Tile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_adca9ee88bcbd690a8ecb3406c6c10ab2}{Tile}}(std::vector<GameObjectSptr>\ \mbox{\hyperlink{classsokoban_1_1_tile_a88acf60b93a22762324ff288c2a22893}{objects}})\ :\ objects\_\ \{\ \mbox{\hyperlink{classsokoban_1_1_tile_a88acf60b93a22762324ff288c2a22893}{objects}}\ \}\ \{\}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a24eff31dc5e8c4914c4d18a1ef72c5a5}{Iterator}}\ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_ae7951b4b9e68be16cf39c4861251b946}{begin}}()\ \{\ \textcolor{keywordflow}{return}\ objects\_.begin();\ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a24eff31dc5e8c4914c4d18a1ef72c5a5}{Iterator}}\ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a703b879e5e8e0a5802d1b5d77f30837d}{end}}()\ \{\ \textcolor{keywordflow}{return}\ objects\_.end();\ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a4fb89c73f111f1604cc0463ee6087a50}{ConstIterator}}\ \mbox{\hyperlink{classsokoban_1_1_tile_a181adbdc1052d4a5d8474ca08d04bd6b}{begin}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ objects\_.cbegin();\ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile_a4fb89c73f111f1604cc0463ee6087a50}{ConstIterator}}\ \mbox{\hyperlink{classsokoban_1_1_tile_a2057324e34be40cf1026eb7087fbc7de}{end}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ objects\_.cend();\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_tile_a0085da41216dd1521be3f590ed2194a6}{setObjects}}(std::vector<GameObjectSptr>\&\&\ \mbox{\hyperlink{classsokoban_1_1_tile_a88acf60b93a22762324ff288c2a22893}{objects}})\ \{\ objects\_\ =\ std::move(\mbox{\hyperlink{classsokoban_1_1_tile_a88acf60b93a22762324ff288c2a22893}{objects}});\ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<GameObjectSptr>\&\ \mbox{\hyperlink{classsokoban_1_1_tile_a88acf60b93a22762324ff288c2a22893}{objects}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ objects\_;\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsokoban_1_1_tile_acdf948d5b116bf1484b5e5e1a187adbd}{removeObject}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{GameObjectSptr}}\&\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ objects\_.erase(find(objects\_.begin(),\ objects\_.end(),\ \textcolor{keywordtype}{object}));}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_tile_a7ad6da61fc5adf8c96721a8d70a6180d}{addObject}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{GameObjectSptr}}\&\ \textcolor{keywordtype}{object})\ \{\ objects\_.push\_back(\textcolor{keywordtype}{object});\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ data}}
+\DoxyCodeLine{00038\ \ \ \ \ std::vector<GameObjectSptr>\ objects\_;}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacesokoban_a34f3f0697986dd368d44d0abf819d0ad}{TileUptr}}\ =\ std::unique\_ptr<Tile>;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

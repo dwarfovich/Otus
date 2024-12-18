@@ -1,0 +1,26 @@
+\doxysection{game\+\_\+object\+\_\+factory.\+hpp}
+\hypertarget{game__object__factory_8hpp_source}{}\label{game__object__factory_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/game\_object\_factory.hpp@{lib\_sokoban\_core/include/sokoban\_core/game\_object\_factory.hpp}}
+\mbox{\hyperlink{game__object__factory_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__object__id_8hpp}{game\_object\_id.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__object_8hpp}{game\_object.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_game_object_factory}{GameObjectFactory}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classsokoban_1_1_game_object_factory_a0314591011ba15b9bc1a62e21696aa07}{\string~GameObjectFactory}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{GameObjectUptr}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_game_object_factory_ae1e15a5757283ab648f8377f6a3d0698}{create}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id}{GameObjectId}}\&\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<GameObjectSptr>\ \mbox{\hyperlink{classsokoban_1_1_game_object_factory_a86863fb177ef5a68ced4819b8c898c22}{create}}(\textcolor{keywordtype}{char}\ symbol)\ \textcolor{keyword}{const}\ \ \ \ \ \ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

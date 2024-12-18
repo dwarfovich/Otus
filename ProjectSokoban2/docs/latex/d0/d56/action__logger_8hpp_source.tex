@@ -1,0 +1,70 @@
+\doxysection{action\+\_\+logger.\+hpp}
+\hypertarget{action__logger_8hpp_source}{}\label{action__logger_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/action\_logger.hpp@{lib\_sokoban\_core/include/sokoban\_core/action\_logger.hpp}}
+\mbox{\hyperlink{action__logger_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{key__definitions_8hpp}{key\_definitions.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_action_logger}{ActionLogger}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_action_logger_a396fd3788e72d78c33f1e9a97ad31bff}{ActionLogger}}(std::filesystem::path\ path)\ :\ currentLogFilePath\_\{path\}\{\}}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_action_logger_aaa64ecdfe9c3e01b450a5ba533d2dd8a}{\string~ActionLogger}}()\ \{\ flushBuffer();\ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_action_logger_af4d62d0a7acd8bb68c3b20325391129c}{setLogFilePath}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)\ \{\ newLogFilePath\_\ =\ path;\ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_action_logger_afc75a9fcaf33df60a6a6985aae5a2283}{setMaxBufferLength}}(std::size\_t\ length)}
+\DoxyCodeLine{00020\ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ maxBufferLength\_\ =\ length;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ flushBufferIfNeeded();}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_action_logger_a48637f04b2ce12e4a5d70e74251ddc6a}{log}}(\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ key)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ buffer\_.push\_back(key);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ flushBufferIfNeeded();}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ methods}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ flushBuffer()}
+\DoxyCodeLine{00033\ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (logStream\_.is\_open()\ \&\&\ currentLogFilePath\_\ !=\ newLogFilePath\_)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ logStream\_.close();}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ currentLogFilePath\_\ =\ newLogFilePath\_;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::filesystem::create\_directories(currentLogFilePath\_.parent\_path());}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ logStream\_.open(currentLogFilePath\_,\ std::ios::binary);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (logStream\_.is\_open())\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ key\ :\ buffer\_)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logStream\_\ <<\ static\_cast<std::underlying\_type<Key>::type>(key)\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ buffer\_.clear();}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ flushBufferIfNeeded()}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffer\_.size()\ >=\ maxBufferLength\_)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ flushBuffer();}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ data}}
+\DoxyCodeLine{00057\ \ \ \ \ std::size\_t\ \ \ \ \ \ \ \ \ \ \ maxBufferLength\_\ =\ 100;}
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<Key>\ \ \ \ \ \ buffer\_;}
+\DoxyCodeLine{00059\ \ \ \ \ std::filesystem::path\ currentLogFilePath\_;}
+\DoxyCodeLine{00060\ \ \ \ \ std::filesystem::path\ newLogFilePath\_;}
+\DoxyCodeLine{00061\ \ \ \ \ std::ofstream\ \ \ \ \ \ \ \ \ logStream\_;}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

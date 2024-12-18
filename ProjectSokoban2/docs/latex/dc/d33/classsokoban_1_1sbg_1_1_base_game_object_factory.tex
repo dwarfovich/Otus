@@ -1,0 +1,112 @@
+\doxysection{sokoban\+::sbg\+::Base\+Game\+Object\+Factory Class Reference}
+\hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory}{}\label{classsokoban_1_1sbg_1_1_base_game_object_factory}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+
+
+{\ttfamily \#include $<$base\+\_\+game\+\_\+object\+\_\+factory.\+hpp$>$}
+
+
+
+Inheritance diagram for sokoban\+::sbg\+::Base\+Game\+Object\+Factory\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{d0/d27/classsokoban_1_1sbg_1_1_base_game_object_factory__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for sokoban\+::sbg\+::Base\+Game\+Object\+Factory\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{d5/d65/classsokoban_1_1sbg_1_1_base_game_object_factory__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{Objects\+Map}} = std\+::unordered\+\_\+map$<$char, std\+::vector$<$\mbox{\hyperlink{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}{Game\+Object\+Id\+Sptr}}$>$$>$
+\item 
+using \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95}{Symbols\+Map}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a3326953745a5c14a1096872a184417b0}{Base\+Game\+Object\+Factory}} (const \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{Objects\+Map}} \&objects\+Map)
+\item 
+\mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{sokoban\+::\+Game\+Object\+Uptr}} \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a787f6b511d5a2df1aa0dbb7771fda188}{create}} (const \mbox{\hyperlink{classsokoban_1_1_game_object_id}{Game\+Object\+Id}} \&id) const override
+\item 
+std\+::vector$<$ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} $>$ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_ad247fe15ee01345435b592b9cbfc01ab}{create}} (char \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}}) const override
+\item 
+char \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}{symbol}} (const std\+::vector$<$ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} $>$ \&objects)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{sokoban\+::\+Game\+Object\+Factory}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classsokoban_1_1_game_object_factory_a0314591011ba15b9bc1a62e21696aa07}{\texorpdfstring{$\sim$}{\string~}\+Game\+Object\+Factory}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!ObjectsMap@{ObjectsMap}}
+\index{ObjectsMap@{ObjectsMap}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{ObjectsMap}{ObjectsMap}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71} 
+using \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::\+Objects\+Map}} = std\+::unordered\+\_\+map$<$char, std\+::vector$<$\mbox{\hyperlink{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}{Game\+Object\+Id\+Sptr}}$>$$>$}
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!SymbolsMap@{SymbolsMap}}
+\index{SymbolsMap@{SymbolsMap}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{SymbolsMap}{SymbolsMap}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95} 
+using \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a42b227a91f52c007831b57f91c396e95}{sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::\+Symbols\+Map}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ std::unordered\_map<std::vector<GameObjectIdSptr>,\ char,\ ObjectsToSymbolHasher,\ ObjectsToSymbolComparator>}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_a3326953745a5c14a1096872a184417b0}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!BaseGameObjectFactory@{BaseGameObjectFactory}}
+\index{BaseGameObjectFactory@{BaseGameObjectFactory}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{BaseGameObjectFactory()}{BaseGameObjectFactory()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_a3326953745a5c14a1096872a184417b0} 
+sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::\+Base\+Game\+Object\+Factory (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_object_factory_a0e54602fa5f045d4b6b735a65a5cff71}{Objects\+Map}} \&}]{objects\+Map}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_ad247fe15ee01345435b592b9cbfc01ab}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!create@{create}}
+\index{create@{create}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_ad247fe15ee01345435b592b9cbfc01ab} 
+std\+::vector$<$ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} $>$ sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::create (\begin{DoxyParamCaption}\item[{char}]{symbol}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_game_object_factory_a86863fb177ef5a68ced4819b8c898c22}{sokoban\+::\+Game\+Object\+Factory}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_a787f6b511d5a2df1aa0dbb7771fda188}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!create@{create}}
+\index{create@{create}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_a787f6b511d5a2df1aa0dbb7771fda188} 
+\mbox{\hyperlink{namespacesokoban_ad73f5cf83bb44fda0dd45fa3badd8ed3}{Game\+Object\+Uptr}} sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::create (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_game_object_id}{Game\+Object\+Id}} \&}]{id}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classsokoban_1_1_game_object_factory_ae1e15a5757283ab648f8377f6a3d0698}{sokoban\+::\+Game\+Object\+Factory}}.
+
+\Hypertarget{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a}\index{sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}!symbol@{symbol}}
+\index{symbol@{symbol}!sokoban::sbg::BaseGameObjectFactory@{sokoban::sbg::BaseGameObjectFactory}}
+\doxysubsubsection{\texorpdfstring{symbol()}{symbol()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1sbg_1_1_base_game_object_factory_af8c8429a9b5d037b0e34d6c89919c06a} 
+char sokoban\+::sbg\+::\+Base\+Game\+Object\+Factory\+::symbol (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{namespacesokoban_aa4808be624db9a7898d2cc3661560d06}{Game\+Object\+Sptr}} $>$ \&}]{objects}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lib\+\_\+base\+\_\+game/include/\mbox{\hyperlink{base__game__object__factory_8hpp}{base\+\_\+game\+\_\+object\+\_\+factory.\+hpp}}\item 
+lib\+\_\+base\+\_\+game/include/\mbox{\hyperlink{base__game__object__factory_8cpp}{base\+\_\+game\+\_\+object\+\_\+factory.\+cpp}}\end{DoxyCompactItemize}

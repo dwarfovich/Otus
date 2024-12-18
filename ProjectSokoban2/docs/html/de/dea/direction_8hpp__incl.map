@@ -1,0 +1,5 @@
+<map id="lib_sokoban_core/include/sokoban_core/direction.hpp" name="lib_sokoban_core/include/sokoban_core/direction.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,190,48"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="60,96,135,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,49,100,80,95,80,95,49"/>
+</map>

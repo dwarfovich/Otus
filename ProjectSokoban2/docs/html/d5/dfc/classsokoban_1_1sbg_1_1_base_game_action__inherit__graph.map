@@ -1,0 +1,5 @@
+<map id="sokoban::sbg::BaseGameAction" name="sokoban::sbg::BaseGameAction">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,123,207,235"/>
+<area shape="rect" id="Node000002" href="$d8/dc2/classsokoban_1_1_game_action.html" title=" " alt="" coords="35,5,177,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,90,109,123,103,123,103,90"/>
+</map>

@@ -1,0 +1,56 @@
+\doxysection{session\+\_\+context.\+hpp}
+\hypertarget{session__context_8hpp_source}{}\label{session__context_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/session\_context.hpp@{lib\_sokoban\_core/include/sokoban\_core/session\_context.hpp}}
+\mbox{\hyperlink{session__context_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{command_8hpp}{command.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__state_8hpp}{game\_state.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{player_8hpp}{player.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{console_8hpp}{tui/console.hpp}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }MultimodalInterface;}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }Game;}
+\DoxyCodeLine{00015\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_session_context}{SessionContext}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classsokoban_1_1_multimodal_interface}{MultimodalInterface}}\&\ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a6685cb6b3575ef08682017de8eaf9802}{multimodalInterface}}()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a9f3e393e4c278c03d71702c8a503c21a}{initialize}}()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{virtual}\ std::pair<bool,\ GameState>\ \mbox{\hyperlink{classsokoban_1_1_session_context_a41d2c1f17601027a50d15f0fc95eff4f}{executeCommand}}(\textcolor{keyword}{const}\ std::shared\_ptr<Command>\&\ command)\ =\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a167ee92fad6642b5ea83a1d584124988}{drawLevel}}()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a0200de33b017d373a5c6fe4eb6da7116}{loadLevel}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path\ =\ \{\})\ \ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_ab58d18bccb6f87981ca87816d376e8be}{incrementLevelNumber}}()\ \{\}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_aa061bb95e9899eaf0ba6df2fe6dfa4a6}{hasNextLevel}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a3393b5b8101c5ab30704559f118e1792}{supportsSaveGames}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_ab75b31ae1f2cc06a0ea30d7710af49ce}{saveGame}}(std::ostream\&)\textcolor{keyword}{\ const\ }\{\}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_ac1c92b0b01b2a7dbd827cc533bf8b3f3}{loadGame}}(std::istream\&)\ \{\}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{classsokoban_1_1_session_context_a19e258c401c01600e838ce2ae18d95b4}{achievement}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a166c8b14d2305eaeddce0178e63ad373}{setPlayer}}(\textcolor{keyword}{const}\ std::shared\_ptr<Player>\&\ \mbox{\hyperlink{classsokoban_1_1_session_context_a677c6d6461e556a061900b498dfc69f3}{player}})\ \{\ \mbox{\hyperlink{classsokoban_1_1_session_context_a0f0deceb70c2c3d0d7b83c1762fd887b}{player\_}}\ =\ \mbox{\hyperlink{classsokoban_1_1_session_context_a677c6d6461e556a061900b498dfc69f3}{player}};\ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<Player>\&\ \mbox{\hyperlink{classsokoban_1_1_session_context_a677c6d6461e556a061900b498dfc69f3}{player}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsokoban_1_1_session_context_a0f0deceb70c2c3d0d7b83c1762fd887b}{player\_}};\ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_aef6ba0266cf481951e21031d4176336e}{setConsole}}(\textcolor{keyword}{const}\ std::shared\_ptr<tui::Console>\&\ \mbox{\hyperlink{classsokoban_1_1_session_context_a6a239a3cae809e48f60c414ee60e4931}{console}})\ \{\ \mbox{\hyperlink{classsokoban_1_1_session_context_a936aceafc63fcc5b9809d366fb46388e}{console\_}}\ =\ \mbox{\hyperlink{classsokoban_1_1_session_context_a6a239a3cae809e48f60c414ee60e4931}{console}};\ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1tui_1_1_console}{tui::Console}}\&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a6a239a3cae809e48f60c414ee60e4931}{console}}()\ \{\ \textcolor{keywordflow}{return}\ *\mbox{\hyperlink{classsokoban_1_1_session_context_a936aceafc63fcc5b9809d366fb46388e}{console\_}};\ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a6f0ddbac8da7d0feec7177a33049c7f5}{setModFolderPath}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)\ \{\ \mbox{\hyperlink{classsokoban_1_1_session_context_a267ee7c503878b9afa51b2dd597f1fdb}{modFolderPath\_}}\ =\ path;\ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a7f2a2cf5708bcaaca03391e85f8c2dd5}{modFolderPath}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsokoban_1_1_session_context_a267ee7c503878b9afa51b2dd597f1fdb}{modFolderPath\_}};\ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a15c538b80792fe1169fb6c43513913bf}{currentLevelPath}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsokoban_1_1_session_context_a433a2b691144f7a9e9606c4832cca3e7}{currentlevelPath\_}};\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00044\ \ \ \ \ std::shared\_ptr<Player>\ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a0f0deceb70c2c3d0d7b83c1762fd887b}{player\_}};}
+\DoxyCodeLine{00045\ \ \ \ \ std::shared\_ptr<tui::Console>\ \mbox{\hyperlink{classsokoban_1_1_session_context_a936aceafc63fcc5b9809d366fb46388e}{console\_}};}
+\DoxyCodeLine{00046\ \ \ \ \ std::filesystem::path\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a267ee7c503878b9afa51b2dd597f1fdb}{modFolderPath\_}};}
+\DoxyCodeLine{00047\ \ \ \ \ std::filesystem::path\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_session_context_a433a2b691144f7a9e9606c4832cca3e7}{currentlevelPath\_}};}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

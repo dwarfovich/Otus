@@ -1,0 +1,33 @@
+\doxysection{game\+\_\+object\+\_\+id.\+hpp}
+\hypertarget{game__object__id_8hpp_source}{}\label{game__object__id_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/game\_object\_id.hpp@{lib\_sokoban\_core/include/sokoban\_core/game\_object\_id.hpp}}
+\mbox{\hyperlink{game__object__id_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_game_object_id}{GameObjectId}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id_af261c32a07c6a0be2cf8ab7bd69d6c6d}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id}{sokoban::GameObjectId}}\&\ lhs,\ \mbox{\hyperlink{classsokoban_1_1_game_object_id}{sokoban::GameObjectId}}\ rhs)}
+\DoxyCodeLine{00011\ \ \ \ \ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.objectId\_\ ==\ rhs.objectId\_;}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id_a628ec9cd127dfd215bb3038af185f52a}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_game_object_id}{sokoban::GameObjectId}}\&\ lhs,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ rhs)\ \{\ \textcolor{keywordflow}{return}\ lhs.objectId\_\ ==\ rhs;\ \}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_game_object_id_a7f398f422fde0e3fe55c694e68c29a49}{GameObjectId}}(\textcolor{keyword}{const}\ std::string\&\ \textcolor{keywordtype}{id})\ :\ objectId\_\ \{\ \mbox{\hyperlink{classsokoban_1_1_game_object_id_a206ebbc0df11158a81df043b82deb058}{id}}\ \}\ \{\}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{classsokoban_1_1_game_object_id_a206ebbc0df11158a81df043b82deb058}{id}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ objectId\_;\ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ objectId\_;}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacesokoban_a9c7cb0306a86c8f68476af162233acd3}{GameObjectIdSptr}}\ =\ std::shared\_ptr<GameObjectId>;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

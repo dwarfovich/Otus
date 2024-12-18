@@ -1,0 +1,141 @@
+\doxysection{tile\+\_\+map.\+hpp}
+\hypertarget{tile__map_8hpp_source}{}\label{tile__map_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/tile\_map.hpp@{lib\_sokoban\_core/include/sokoban\_core/tile\_map.hpp}}
+\mbox{\hyperlink{tile__map_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{tile_8hpp}{tile.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{coords_8hpp}{coords.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{direction_8hpp}{direction.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__object__factory_8hpp}{game\_object\_factory.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{json__utils_8hpp}{json\_utils/json\_utils.hpp}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <istream>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map}{RectangleTileMap}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ types}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}}\ \ \ \ \ =\ std::vector<Tile>;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{ConstIterator}}\ =\ std::vector<Row>::const\_iterator;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ methods}}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad61e1e292f26628bfa7d90ed711a870c}{RectangleTileMap}}()=\textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_aa27c163c31e8dcf9b01f57f719965e13}{RectangleTileMap}}(std::vector<Row>\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}{map}}):\ map\_\{\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}{map}}\}\{\}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{ConstIterator}}\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a20a0ccaaa319b9bcdd264028c9a7f593}{begin}}()\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ map\_.cbegin();\};}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{ConstIterator}}\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ac0599b4a17e07e6dc7c41e782a576206}{end}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ map\_.cend();\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a6924b9564b2d91709796cc1d5b520987}{loadMapFromJson}}(std::istream\&\ stream,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{GameObjectFactory}}\&\ objectFactory)}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ map\_.clear();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::string\ line;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (std::getline(stream,\ line))\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{RectangleTileMap::Row}}\ row(line.size());}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ line.size();\ ++i)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ row[i].setObjects(objectFactory.\mbox{\hyperlink{classsokoban_1_1_game_object_factory_ae1e15a5757283ab648f8377f6a3d0698}{create}}(line[i]));}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ map\_.push\_back(std::move(row));}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Row>\&\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}{map}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map\_;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::size\_t\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_aab44d5b2120d7196fe8a868bab62fa8b}{size}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map\_.size();}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ std::optional<std::reference\_wrapper<const\ Tile>>\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ae16dd0fb29299d66ae5ca58664b4377b}{adjacentTile}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\&\ coords,\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}\ direction)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00055\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ >=\ map\_.size())\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ row\ =\ map\_[coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()];}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a258f49887ef8d14ac268c92b02503aaa}{Direction::Up}})\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map\_[coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ -\/\ 1][coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()];}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a92b09c7c48c520c3c55e497875da437c}{Direction::Right}})\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (row.size()\ <=\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ -\/\ 1)\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ row[coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ +\ 1];}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a08a38277b0309070706f6652eeae9a53}{Direction::Down}})\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ >=\ map\_.size()\ -\/\ 1)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map\_[coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ +\ 1][coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()];}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a945d5e233cf7d6240f6b783b36a374ff}{Direction::Left}})\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ row[coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ -\/\ 1];}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ std::optional<Coords>\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af4b16e66f7eb0472cd7f774c41324a66}{adjacentCoords}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\&\ coords,\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}\ direction)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00090\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a945d5e233cf7d6240f6b783b36a374ff}{Direction::Left}})\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ ==\ 0)\{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \{coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ -\/\ 1,\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\}\ \};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a92b09c7c48c520c3c55e497875da437c}{Direction::Right}})\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ ==\ std::numeric\_limits<\textcolor{keyword}{decltype}(coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}())>::max())\{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\{\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()\ +\ 1,\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ \}\};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a258f49887ef8d14ac268c92b02503aaa}{Direction::Up}})\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\{\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}(),\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ -\/\ 1\ \}\};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139a08a38277b0309070706f6652eeae9a53}{Direction::Down}})\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ ==\ std::numeric\_limits<\textcolor{keyword}{decltype}(coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}())>::max())\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\{\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}(),\ coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()\ +\ 1\ \}\};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a033af4fd2e391864c7b3b5081b9ca58c}{moveObject}}(std::shared\_ptr<GameObject>\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\&\ sourceCoords,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\&\ targetCoords)}
+\DoxyCodeLine{00120\ \ \ \ \ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ tilet\ =\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912}{tile}}(sourceCoords);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ tilet.removeObject(\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912}{tile}}(targetCoords).\mbox{\hyperlink{classsokoban_1_1_tile_a7ad6da61fc5adf8c96721a8d70a6180d}{addObject}}(\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}\&\ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912}{tile}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\&\ coords)\{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map\_[coords.\mbox{\hyperlink{classsokoban_1_1_coords_af791f6042cf7f56f17689013f39cb3a2}{y}}()][coords.\mbox{\hyperlink{classsokoban_1_1_coords_a1ce876d305e0e8f9cd74c8cb451cd7cb}{x}}()];}
+\DoxyCodeLine{00128\ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{keyword}{private}:\ \textcolor{comment}{//\ data}}
+\DoxyCodeLine{00131\ \ \ \ \ std::vector<Row>\ map\_;}
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}}\ playerCoords\_;}
+\DoxyCodeLine{00133\ \};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

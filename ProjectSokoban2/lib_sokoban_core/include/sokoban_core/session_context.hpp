@@ -28,8 +28,8 @@ public:
     virtual void        incrementLevelNumber() {}
     virtual bool        hasNextLevel() const { return false; }
     virtual bool        supportsSaveGames() const { return false; }
-    virtual void        saveGame(std::ostream& stream) const {}
-    virtual void        loadGame(std::istream& stream) {}
+    virtual void        saveGame(std::ostream&) const {}
+    virtual void        loadGame(std::istream&) {}
     virtual std::string achievement() const { return {}; }
 
     void                           setPlayer(const std::shared_ptr<Player>& player) { player_ = player; }

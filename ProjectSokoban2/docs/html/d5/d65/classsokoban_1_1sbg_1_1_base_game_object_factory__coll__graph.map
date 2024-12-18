@@ -1,0 +1,5 @@
+<map id="sokoban::sbg::BaseGameObjectFactory" name="sokoban::sbg::BaseGameObjectFactory">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,165,207,315"/>
+<area shape="rect" id="Node000002" href="$d8/ddb/classsokoban_1_1_game_object_factory.html" title=" " alt="" coords="13,5,199,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,132,109,166,103,166,103,132"/>
+</map>

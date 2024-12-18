@@ -1,0 +1,33 @@
+\doxysection{action\+\_\+result.\+hpp}
+\hypertarget{action__result_8hpp_source}{}\label{action__result_8hpp_source}\index{lib\_sokoban\_core/include/sokoban\_core/action\_result.hpp@{lib\_sokoban\_core/include/sokoban\_core/action\_result.hpp}}
+\mbox{\hyperlink{action__result_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__state_8hpp}{game\_state.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1_action_result}{ActionResult}}\{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsokoban_1_1_action_result_a8fadcac69089f619cbf8b6688215acf8}{hasNewState}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ newState\_.has\_value();}
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{namespacesokoban_accb61aac9fefeabbbde4aa418f98cc3c}{GameState}}\ \mbox{\hyperlink{classsokoban_1_1_action_result_ad45a3ed69390a297bd73312133d9c650}{newState}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ newState\_.value();}
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::optional<GameState>\ newState\_;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::string\ id\_;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ std::vector<std::any>\ data\_;}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \}}
+
+\end{DoxyCode}

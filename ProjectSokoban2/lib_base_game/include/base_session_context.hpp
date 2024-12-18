@@ -1,16 +1,16 @@
 #pragma once
 
-#include "sokoban_core/session_context.hpp"
-#include "tui/console.hpp"
+#include "base_game.hpp"
+#include "base_multimodal_interface.hpp"
 #include "base_game_object_factory.hpp"
+#include "base_action_factory.hpp"
+#include "sokoban_core/session_context.hpp"
 #include "sokoban_core/command.hpp"
 #include "sokoban_core/action_result.hpp"
 #include "sokoban_core/default_paths.hpp"
 #include "sokoban_core/action_logger.hpp"
 #include "sokoban_core/campaign.hpp"
-#include "base_game.hpp"
-#include "base_multimodal_interface.hpp"
-#include "base_action_factory.hpp"
+#include "tui/console.hpp"
 
 #include <filesystem>
 #include <memory>
@@ -37,9 +37,8 @@ public:
     void drawLevel() override
     {
         console_->clear();
-        drawLevel(std::cout, game_->map());
+        drawLevel(std::cout);
     }
-    
 
     void initialize() override
     {
@@ -55,9 +54,10 @@ public:
 
     void loadLevel(const std::filesystem::path& path = {}) override
     {
-
-        const std::filesystem::path levelpath = path.empty() ? std::filesystem::current_path() / sokoban::default_paths::modsFolder
-                                                / "BaseGame/" / campaign_->currentLevelName() : path;
+        const std::filesystem::path levelpath = path.empty() ? std::filesystem::current_path()
+                                                                   / sokoban::default_paths::modsFolder / "BaseGame/"
+                                                                   / campaign_->currentLevelName()
+                                                             : path;
         currentlevelPath_        = sokoban::default_paths::modsFolder / "BaseGame/" / campaign_->currentLevelName();
         auto [map, playerCoords] = loadLevelMap(levelpath, *gameObjectFactory_);
         if (!game_) {
@@ -72,7 +72,7 @@ public:
     void saveGame(std::ostream& stream) const
     {
         stream << campaign_->currentLevel() << '\n';
-        drawLevel(stream, game_->map());
+        drawLevel(stream);
     }
 
     void loadGame(std::istream& stream) override
@@ -92,7 +92,7 @@ public:
     }
 
 private: // methods
-    void drawLevel(std::ostream& stream, const RectangleTileMap& map) const
+    void drawLevel(std::ostream& stream) const
     {
         for (const auto& row : game_->map()) {
             for (const auto& tile : row) {

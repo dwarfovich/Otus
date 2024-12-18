@@ -1,0 +1,37 @@
+\doxysection{key\+\_\+definitions\+\_\+win.\+hpp}
+\hypertarget{key__definitions__win_8hpp_source}{}\label{key__definitions__win_8hpp_source}\index{lib\_sokoban\_core/include/tui/key\_definitions\_win.hpp@{lib\_sokoban\_core/include/tui/key\_definitions\_win.hpp}}
+\mbox{\hyperlink{key__definitions__win_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{key__definitions_8hpp}{sokoban\_core/key\_definitions.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{windows_8hpp}{sokoban\_core/windows.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }tui\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ \mbox{\hyperlink{namespacesokoban_1_1tui_a84ce1044cc78330a1e426dc5ae911326}{fromVirtualWord}}(WORD\ c)}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordflow}{switch}\ (c)\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 49:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a72177afabbc99980d451262eda42ba05}{Key::digit1}};}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 50:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a97f7e64a3a261570dffe308fdf062cda}{Key::digit2}};}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 51:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a6c3c641f6319a194c1fb1d5899f7b806}{Key::digit3}};}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 52:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a53b2fd66dd5d3af25000def6e8840afb}{Key::digit4}};}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 53:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8cf2ed79a2d73e77b765736f0ffe6f25}{Key::digit5}};}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 65:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a0cc175b9c0f1b6a831c399e269772661}{Key::a}};}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 83:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a03c7c0ace395d80182db07ae2c30f034}{Key::s}};}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 68:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a8277e0910d750195b448797616e091ad}{Key::d}};}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 87:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598af1290186a5d0b1ceab27f4e77c0c5d68}{Key::w}};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 37:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a07fb9bf7b5ce76ce6cb6b8097385223f}{Key::leftArrow}};}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 39:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a279ed35099b07322cf4fb6cd9b03c5ec}{Key::rightArrow}};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 38:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a7dda0fb14261325841bc3140841ecfec}{Key::upArrow}};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 40:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a749574394f2fe8de9a7494d04785eb05}{Key::downArrow}};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 27:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598a3f0e951cdec5a39685cb08fa6edc6094}{Key::esc}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598aff11827484ece25f557df10d480a9e93}{Key::invalidKey}};}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \}\ \textcolor{comment}{//\ namespace\ tui}}
+\DoxyCodeLine{00031\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

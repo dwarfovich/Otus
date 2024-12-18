@@ -1,0 +1,139 @@
+\doxysection{sokoban\+::Rectangle\+Tile\+Map Class Reference}
+\hypertarget{classsokoban_1_1_rectangle_tile_map}{}\label{classsokoban_1_1_rectangle_tile_map}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+
+
+{\ttfamily \#include $<$tile\+\_\+map.\+hpp$>$}
+
+
+
+Collaboration diagram for sokoban\+::Rectangle\+Tile\+Map\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{d0/d41/classsokoban_1_1_rectangle_tile_map__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}} = std\+::vector$<$\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}$>$
+\item 
+using \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{Const\+Iterator}} = std\+::vector$<$\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}}$>$\+::const\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad61e1e292f26628bfa7d90ed711a870c}{Rectangle\+Tile\+Map}} ()=default
+\item 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_aa27c163c31e8dcf9b01f57f719965e13}{Rectangle\+Tile\+Map}} (std\+::vector$<$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}} $>$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}{map}})
+\item 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{Const\+Iterator}} \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a20a0ccaaa319b9bcdd264028c9a7f593}{begin}} () const
+\item 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{Const\+Iterator}} \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ac0599b4a17e07e6dc7c41e782a576206}{end}} () const
+\item 
+bool \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a6924b9564b2d91709796cc1d5b520987}{load\+Map\+From\+Json}} (std\+::istream \&stream, const \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{Game\+Object\+Factory}} \&object\+Factory)
+\item 
+const std\+::vector$<$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}} $>$ \& \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}{map}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_aab44d5b2120d7196fe8a868bab62fa8b}{size}} () const
+\item 
+std\+::optional$<$ std\+::reference\+\_\+wrapper$<$ const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} $>$ $>$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_ae16dd0fb29299d66ae5ca58664b4377b}{adjacent\+Tile}} (const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}} direction) const
+\item 
+std\+::optional$<$ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} $>$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af4b16e66f7eb0472cd7f774c41324a66}{adjacent\+Coords}} (const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords, \mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}} direction) const
+\item 
+void \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a033af4fd2e391864c7b3b5081b9ca58c}{move\+Object}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}} $>$ object, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&source\+Coords, const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&target\+Coords)
+\item 
+\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \& \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912}{tile}} (const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&coords)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!ConstIterator@{ConstIterator}}
+\index{ConstIterator@{ConstIterator}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{ConstIterator}{ConstIterator}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf} 
+using \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{sokoban\+::\+Rectangle\+Tile\+Map\+::\+Const\+Iterator}} = std\+::vector$<$\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}}$>$\+::const\+\_\+iterator}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!Row@{Row}}
+\index{Row@{Row}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{Row}{Row}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96} 
+using \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{sokoban\+::\+Rectangle\+Tile\+Map\+::\+Row}} = std\+::vector$<$\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}}$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_ad61e1e292f26628bfa7d90ed711a870c}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!RectangleTileMap@{RectangleTileMap}}
+\index{RectangleTileMap@{RectangleTileMap}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{RectangleTileMap()}{RectangleTileMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_ad61e1e292f26628bfa7d90ed711a870c} 
+sokoban\+::\+Rectangle\+Tile\+Map\+::\+Rectangle\+Tile\+Map (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_aa27c163c31e8dcf9b01f57f719965e13}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!RectangleTileMap@{RectangleTileMap}}
+\index{RectangleTileMap@{RectangleTileMap}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{RectangleTileMap()}{RectangleTileMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_aa27c163c31e8dcf9b01f57f719965e13} 
+sokoban\+::\+Rectangle\+Tile\+Map\+::\+Rectangle\+Tile\+Map (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}} $>$}]{map}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_af4b16e66f7eb0472cd7f774c41324a66}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!adjacentCoords@{adjacentCoords}}
+\index{adjacentCoords@{adjacentCoords}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{adjacentCoords()}{adjacentCoords()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_af4b16e66f7eb0472cd7f774c41324a66} 
+std\+::optional$<$ \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} $>$ sokoban\+::\+Rectangle\+Tile\+Map\+::adjacent\+Coords (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{, }\item[{\mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}}]{direction}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_ae16dd0fb29299d66ae5ca58664b4377b}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!adjacentTile@{adjacentTile}}
+\index{adjacentTile@{adjacentTile}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{adjacentTile()}{adjacentTile()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_ae16dd0fb29299d66ae5ca58664b4377b} 
+std\+::optional$<$ std\+::reference\+\_\+wrapper$<$ const \mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} $>$ $>$ sokoban\+::\+Rectangle\+Tile\+Map\+::adjacent\+Tile (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{, }\item[{\mbox{\hyperlink{namespacesokoban_ab3f2dbcce0c78c98f9da3b9d0736b139}{Direction}}}]{direction}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_a20a0ccaaa319b9bcdd264028c9a7f593}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!begin@{begin}}
+\index{begin@{begin}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_a20a0ccaaa319b9bcdd264028c9a7f593} 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{Const\+Iterator}} sokoban\+::\+Rectangle\+Tile\+Map\+::begin (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_ac0599b4a17e07e6dc7c41e782a576206}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!end@{end}}
+\index{end@{end}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_ac0599b4a17e07e6dc7c41e782a576206} 
+\mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a252c6a8c43f5cda45e70123529d339bf}{Const\+Iterator}} sokoban\+::\+Rectangle\+Tile\+Map\+::end (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_a6924b9564b2d91709796cc1d5b520987}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!loadMapFromJson@{loadMapFromJson}}
+\index{loadMapFromJson@{loadMapFromJson}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{loadMapFromJson()}{loadMapFromJson()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_a6924b9564b2d91709796cc1d5b520987} 
+bool sokoban\+::\+Rectangle\+Tile\+Map\+::load\+Map\+From\+Json (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{stream}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_game_object_factory}{Game\+Object\+Factory}} \&}]{object\+Factory}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!map@{map}}
+\index{map@{map}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{map()}{map()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_ad0c776e1911b7b77f7e10a2b263558db} 
+const std\+::vector$<$ \mbox{\hyperlink{classsokoban_1_1_rectangle_tile_map_a32c274f2e67cf5fe2fc1ff7cc3670f96}{Row}} $>$ \& sokoban\+::\+Rectangle\+Tile\+Map\+::map (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_a033af4fd2e391864c7b3b5081b9ca58c}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!moveObject@{moveObject}}
+\index{moveObject@{moveObject}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{moveObject()}{moveObject()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_a033af4fd2e391864c7b3b5081b9ca58c} 
+void sokoban\+::\+Rectangle\+Tile\+Map\+::move\+Object (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsokoban_1_1_game_object}{Game\+Object}} $>$}]{object}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{source\+Coords}{, }\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{target\+Coords}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_aab44d5b2120d7196fe8a868bab62fa8b}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!size@{size}}
+\index{size@{size}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_aab44d5b2120d7196fe8a868bab62fa8b} 
+std\+::size\+\_\+t sokoban\+::\+Rectangle\+Tile\+Map\+::size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912}\index{sokoban::RectangleTileMap@{sokoban::RectangleTileMap}!tile@{tile}}
+\index{tile@{tile}!sokoban::RectangleTileMap@{sokoban::RectangleTileMap}}
+\doxysubsubsection{\texorpdfstring{tile()}{tile()}}
+{\footnotesize\ttfamily \label{classsokoban_1_1_rectangle_tile_map_af3db0dcd3e17b1435b1ff2fd778a6912} 
+\mbox{\hyperlink{classsokoban_1_1_tile}{Tile}} \& sokoban\+::\+Rectangle\+Tile\+Map\+::tile (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsokoban_1_1_coords}{Coords}} \&}]{coords}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib\+\_\+sokoban\+\_\+core/include/sokoban\+\_\+core/\mbox{\hyperlink{tile__map_8hpp}{tile\+\_\+map.\+hpp}}\end{DoxyCompactItemize}

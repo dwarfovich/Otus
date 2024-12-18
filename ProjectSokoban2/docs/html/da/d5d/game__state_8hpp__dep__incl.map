@@ -1,0 +1,36 @@
+<map id="lib_sokoban_core/include/sokoban_core/game_state.hpp" name="lib_sokoban_core/include/sokoban_core/game_state.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="414,5,617,48"/>
+<area shape="rect" id="Node000002" href="$de/d39/action__result_8hpp.html" title=" " alt="" coords="5,459,215,501"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="398,41,317,58,277,72,239,90,207,111,182,138,165,169,159,207,159,300,155,345,145,390,122,459,116,457,140,388,150,345,154,300,154,206,160,168,177,135,204,107,237,85,275,67,315,53,397,36"/>
+<area shape="rect" id="Node000006" href="$da/d4c/session__context_8hpp.html" title=" " alt="" coords="400,96,630,139"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="518,64,518,96,513,96,513,64"/>
+<area shape="rect" id="Node000012" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="722,376,888,403"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="605,51,684,83,725,105,767,130,806,160,841,194,870,233,891,276,897,299,891,321,879,339,864,355,832,378,829,373,861,351,875,336,886,319,892,299,886,278,865,236,837,197,802,164,764,134,723,109,681,88,603,56"/>
+<area shape="rect" id="Node000003" href="$d5/ddc/base__session__context_8hpp.html" title=" " alt="" coords="289,549,470,592"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="189,504,317,546,315,551,187,509"/>
+<area shape="rect" id="Node000004" href="$d0/d8e/base__game__action_8cpp.html" title=" " alt="" coords="312,640,471,683"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,607,391,639,386,640,382,608"/>
+<area shape="rect" id="Node000005" href="$db/db9/lib__base__game_2include_2mod_8hpp.html" title=" " alt="" coords="517,640,671,683"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="444,596,545,637,543,642,442,601"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="404,146,362,164,324,189,294,213,273,235,260,261,255,297,255,391,258,449,265,473,281,500,307,526,337,547,334,551,303,530,277,503,261,475,253,450,250,391,250,297,255,260,268,232,290,209,320,185,359,160,402,142"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="542,150,560,180,578,216,591,256,597,297,597,481,597,640,591,640,591,481,591,298,586,257,573,218,555,182,537,153"/>
+<area shape="rect" id="Node000007" href="$d1/dab/game__action_8hpp.html" title=" " alt="" coords="333,187,543,229"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="489,152,458,188,454,185,485,149"/>
+<area shape="rect" id="Node000011" href="$d7/d87/lib__sokoban__core_2include_2sokoban__core_2mod_8hpp.html" title=" " alt="" coords="632,187,799,229"/>
+<area shape="poly" id="edge16_Node000006_Node000011" title=" " alt="" coords="577,143,669,184,667,188,575,148"/>
+<area shape="rect" id="Node000008" href="$d9/dc0/base__game_8hpp.html" title=" " alt="" coords="291,459,444,501"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="387,240,366,258,348,279,330,312,322,342,323,372,331,410,341,435,354,457,350,460,336,437,326,411,318,373,317,341,325,310,344,276,362,254,384,236"/>
+<area shape="rect" id="Node000009" href="$dc/d77/base__game__action_8hpp.html" title=" " alt="" coords="358,277,518,320"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="441,245,441,277,435,277,435,245"/>
+<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="375,517,379,549,374,549,370,517"/>
+<area shape="poly" id="edge15_Node000009_Node000004" title=" " alt="" coords="488,328,506,346,520,367,524,389,521,411,516,506,507,547,484,593,460,621,432,642,429,637,457,617,480,591,502,545,511,506,515,410,519,389,516,369,502,349,485,332"/>
+<area shape="rect" id="Node000010" href="$db/d29/base__action__factory_8hpp.html" title=" " alt="" coords="340,368,506,411"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="435,336,429,368,424,367,430,335"/>
+<area shape="poly" id="edge14_Node000010_Node000003" title=" " alt="" coords="448,423,463,461,464,482,459,502,440,530,416,551,412,547,436,526,454,500,459,482,457,462,443,425"/>
+<area shape="poly" id="edge13_Node000010_Node000008" title=" " alt="" coords="404,425,383,460,378,457,400,423"/>
+<area shape="poly" id="edge17_Node000011_Node000005" title=" " alt="" coords="696,244,664,309,652,348,647,388,647,481,643,527,632,571,606,641,601,639,627,570,638,526,642,481,642,388,647,347,659,307,691,241"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="713,245,713,282,723,319,734,336,749,351,781,373,778,378,746,355,730,339,718,321,708,283,707,245"/>
+<area shape="rect" id="Node000013" href="$d5/d6f/mod__dynamic__library_8hpp.html" title=" " alt="" coords="733,277,876,320"/>
+<area shape="poly" id="edge19_Node000011_Node000013" title=" " alt="" coords="749,238,786,275,782,279,745,242"/>
+<area shape="poly" id="edge20_Node000013_Node000012" title=" " alt="" coords="807,336,807,376,802,376,802,336"/>
+</map>

@@ -1,0 +1,33 @@
+\doxysection{mod.\+hpp}
+\hypertarget{lib__base__game_2include_2mod_8hpp_source}{}\label{lib__base__game_2include_2mod_8hpp_source}\index{lib\_base\_game/include/mod.hpp@{lib\_base\_game/include/mod.hpp}}
+\mbox{\hyperlink{lib__base__game_2include_2mod_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base__session__context_8hpp}{base\_session\_context.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lib__sokoban__core_2include_2sokoban__core_2mod_8hpp}{sokoban\_core/mod.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{session__context_8hpp}{sokoban\_core/session\_context.hpp}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <boost/dll.hpp>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_base_mod}{BaseMod}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsokoban_1_1_mod}{sokoban::Mod}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{static}\ std::unique\_ptr<sokoban::Mod>\ \mbox{\hyperlink{class_base_mod_a95c3c5f87195b5d38f01bb7045fd34f5}{create}}()\ \{\ \textcolor{keywordflow}{return}\ std::make\_unique<BaseMod>();\ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_base_mod_a530c36de082202dd96feda5a1e6a4446}{name}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{class_base_mod_a530c36de082202dd96feda5a1e6a4446}{name}}\ =\ \textcolor{stringliteral}{"{}Base\ Game"{}};}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_mod_a530c36de082202dd96feda5a1e6a4446}{name}};}
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ std::unique\_ptr<sokoban::SessionContext>\ \mbox{\hyperlink{class_base_mod_a56946c9c8a73934035c7a9dceb87cb89}{createSessionContext}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::make\_unique<sokoban::sbg::BaseSessionContext>();}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ BOOST\_DLL\_ALIAS(\mbox{\hyperlink{class_base_mod_a95c3c5f87195b5d38f01bb7045fd34f5}{BaseMod::create}},\ createMod)}
+
+\end{DoxyCode}

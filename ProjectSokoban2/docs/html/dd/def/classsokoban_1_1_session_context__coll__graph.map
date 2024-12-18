@@ -1,0 +1,9 @@
+<map id="sokoban::SessionContext" name="sokoban::SessionContext">
+<area shape="rect" id="Node000001" title=" " alt="" coords="149,171,314,453"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,140,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,89,142,159,138,162,95,92"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="164,5,299,91"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,90,234,154,229,154,229,90"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="323,13,361,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="330,83,300,156,295,154,326,81"/>
+</map>

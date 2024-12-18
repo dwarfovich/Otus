@@ -1,0 +1,31 @@
+\doxysection{base\+\_\+game\+\_\+action.\+hpp}
+\hypertarget{base__game__action_8hpp_source}{}\label{base__game__action_8hpp_source}\index{lib\_base\_game/include/base\_game\_action.hpp@{lib\_base\_game/include/base\_game\_action.hpp}}
+\mbox{\hyperlink{base__game__action_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game__action_8hpp}{sokoban\_core/game\_action.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{key__definitions_8hpp}{sokoban\_core/key\_definitions.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesokoban}{sokoban}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }sbg\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }BaseSessionContext;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }BaseGame;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action}{BaseGameAction}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsokoban_1_1_game_action}{GameAction}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action_a57987a365612321dcab131bf9528e1c2}{BaseGameAction}}(\mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action_a7348b880bf68679cbbef6ab385e228c3}{key}})\ :\ key\_\ \{\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action_a7348b880bf68679cbbef6ab385e228c3}{key}}\ \}\ \{\}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action_a7348b880bf68679cbbef6ab385e228c3}{key}}()\textcolor{keyword}{\ const}\{\ \textcolor{keywordflow}{return}\ key\_;\ \}}
+\DoxyCodeLine{00018\ \ \ \ \ std::pair<bool,\ GameState>\ \mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game_action_aebc4a4799ebdae601de2bc312c9ade66}{perform}}(\mbox{\hyperlink{classsokoban_1_1sbg_1_1_base_game}{BaseGame}}\&\ context);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{namespacesokoban_a5a101adb0ea3f1598101e06e1f6ee598}{Key}}\ key\_;}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \}\ \textcolor{comment}{//\ namespace\ sbg}}
+\DoxyCodeLine{00025\ \}\ \textcolor{comment}{//\ namespace\ sokoban}}
+
+\end{DoxyCode}

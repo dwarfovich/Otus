@@ -1,0 +1,30 @@
+<map id="lib_sokoban_core/include/sokoban_core/session_context.hpp" name="lib_sokoban_core/include/sokoban_core/session_context.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="226,5,456,48"/>
+<area shape="rect" id="Node000002" href="$d5/ddc/base__session__context_8hpp.html" title=" " alt="" coords="111,459,291,501"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="336,64,324,130,318,207,318,300,316,359,308,384,292,412,268,439,241,460,237,456,265,435,288,409,303,382,311,358,313,300,313,207,319,129,330,63"/>
+<area shape="rect" id="Node000004" href="$db/db9/lib__base__game_2include_2mod_8hpp.html" title=" " alt="" coords="290,549,443,592"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="351,63,363,129,369,207,369,391,369,549,364,549,364,391,364,207,358,130,346,64"/>
+<area shape="rect" id="Node000005" href="$d1/dab/game__action_8hpp.html" title=" " alt="" coords="68,96,278,139"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="289,58,213,98,211,93,287,53"/>
+<area shape="rect" id="Node000009" href="$d7/d87/lib__sokoban__core_2include_2sokoban__core_2mod_8hpp.html" title=" " alt="" coords="452,96,619,139"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="401,52,491,93,489,98,399,57"/>
+<area shape="rect" id="Node000003" href="$d0/d8e/base__game__action_8cpp.html" title=" " alt="" coords="27,549,186,592"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,514,130,551,126,547,166,510"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="254,507,329,546,326,551,252,511"/>
+<area shape="rect" id="Node000006" href="$d9/dc0/base__game_8hpp.html" title=" " alt="" coords="124,368,278,411"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="196,152,210,186,218,237,218,288,208,368,203,367,213,287,212,237,205,187,191,154"/>
+<area shape="rect" id="Node000007" href="$dc/d77/base__game__action_8hpp.html" title=" " alt="" coords="36,187,195,229"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="154,153,131,188,127,185,149,150"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="204,426,204,458,198,458,198,426"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="59,240,39,257,23,279,11,315,9,353,14,392,26,429,60,498,92,547,88,550,55,500,21,431,9,393,3,353,6,314,19,276,35,254,56,236"/>
+<area shape="rect" id="Node000008" href="$db/d29/base__action__factory_8hpp.html" title=" " alt="" coords="32,277,199,320"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="118,245,118,277,113,277,113,245"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="109,335,106,372,108,392,114,409,134,436,161,456,157,460,130,440,109,412,103,393,100,373,103,335"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="148,330,183,366,179,370,144,333"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="569,149,592,178,614,214,631,254,638,297,638,391,633,424,619,454,598,479,571,501,540,519,508,534,444,555,443,550,506,529,538,514,568,496,594,475,614,451,628,423,633,390,633,298,626,256,610,216,588,181,564,152"/>
+<area shape="rect" id="Node000010" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="418,285,584,312"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="555,152,566,190,566,210,562,230,542,263,519,287,515,283,538,259,557,228,561,210,560,190,550,153"/>
+<area shape="rect" id="Node000011" href="$d5/d6f/mod__dynamic__library_8hpp.html" title=" " alt="" coords="404,187,547,229"/>
+<area shape="poly" id="edge16_Node000009_Node000011" title=" " alt="" coords="515,153,492,188,487,185,511,150"/>
+<area shape="poly" id="edge17_Node000011_Node000010" title=" " alt="" coords="488,244,500,284,495,286,483,245"/>
+</map>
