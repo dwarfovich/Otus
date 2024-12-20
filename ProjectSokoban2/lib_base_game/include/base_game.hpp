@@ -131,7 +131,6 @@ private:
     RectangleTileMap  map_;
     Coords            playerCoords_;
     GameState         gameState_ = GameState::InProgress;
-    BaseActionFactory actionFactory_;
 };
 
 inline std::pair<RectangleTileMap, Coords> loadLevelMap(const std::filesystem::path& path,
