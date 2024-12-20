@@ -68,11 +68,6 @@ int main(int argc, char* argv[])
         }
         switch (c) {
             case sokoban::Key::digit1: {
-                auto c= modLibrary.mod().createSessionContext();
-                //c->setModFolderPath("23");
-                std::filesystem::path p {"wd"};
-                c->setConsole(nullptr);
-                c->setModFolderPath(p);
                 startNewGame(modLibrary, players[0], console);
                 break;
             }
