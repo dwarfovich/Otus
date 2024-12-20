@@ -113,7 +113,6 @@ private:
     std::unique_ptr<BaseGame>                game_                = nullptr;
     std::unique_ptr<BaseMultimodalInterface> multimodalInterface_ = nullptr;
     std::unique_ptr<BaseGameObjectFactory>   gameObjectFactory_   = nullptr;
-    std::unique_ptr<ActionLogger>            actionLogger_        = nullptr;
     std::unique_ptr<Campaign>                campaign_            = nullptr;
     BaseActionFactory                        actionFactory_;
 };
