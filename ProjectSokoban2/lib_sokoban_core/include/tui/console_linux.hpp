@@ -21,7 +21,7 @@ class Console
 public:
     Console(System& system) : system_ { system } {}
 
-    void clear() const {}
+    void clear() const { std::system("clear"); }
     Key  waitForInput() const
     {
         static fd_set  fdSet;

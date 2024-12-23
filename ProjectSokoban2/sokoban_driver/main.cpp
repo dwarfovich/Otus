@@ -222,6 +222,9 @@ std::filesystem::path showLoadGameMenu(tui::Console& console)
     std::size_t                                   counter = 0;
     static constexpr std::size_t                  maxMods = 5;
     std::vector<std::filesystem::directory_entry> modFolders;
+    if (!std::filesystem::exists(sokoban::default_paths::saveGameFolder)){
+        return {};
+    }
     for (const auto& dirEntry : std::filesystem::directory_iterator { sokoban::default_paths::saveGameFolder }) {
         if (!dirEntry.is_directory()) {
             std::filesystem::path path { dirEntry };
